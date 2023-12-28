@@ -3,6 +3,20 @@
 
 </br>
 
+## 👩‍🚀 Developer
+<p>
+  <a href="https://github.com/antisdun">
+    <img src="https://avatars.githubusercontent.com/u/112616257?v=4" width="150">
+  </a>  
+  <a href="https://github.com/ekkk1126">
+    <img src="https://avatars.githubusercontent.com/u/115553490?v=4" width="150">
+  </a> 
+</p>
+
+---
+
+</br>
+
 ### 커밋 컨벤션
 ```
 커밋 메시지는 아래 규칙을 가급적 지켜주세요.
