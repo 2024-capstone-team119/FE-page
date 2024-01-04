@@ -1,7 +1,7 @@
 ---
 name: BUG Templete
 about: Describe this issue template's purpose here.
-title: "[BUG]"
+title: "[Bug]"
 labels: ''
 assignees: ''
 
