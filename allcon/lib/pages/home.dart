@@ -2,13 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 import '/widget/app_bar.dart';
 import '/widget/bottom_navigation_bar.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:allcon/pages/calendar.dart';
 
-void main() => runApp(MyHome());
+void main() async {
+  // 로케일 데이터 초기화
+  await initializeDateFormatting();
+
+  // 앱을 시작하는 나머지 코드
+  runApp(const MyHome());
+}
 
 class MyHome extends StatelessWidget {
+  const MyHome({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Home',
       home: Home(),
@@ -29,8 +39,27 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
-      body: SingleChildScrollView(
+      appBar: AppBar(
+        title: const Text(
+          'ALLCON',
+          style: TextStyle(
+              fontFamily: 'Cafe24Moyamoya', fontWeight: FontWeight.w500),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.redAccent,
+        elevation: 6.0,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.calendar_month),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const CalendarPage()));
+            },
+          ),
+        ],
+      ),
+      body: const SingleChildScrollView(
         child: HomePage(),
       ),
       bottomNavigationBar: MyBottomNavigationBar(
@@ -58,11 +87,11 @@ class HomePage extends StatelessWidget {
     return Column(
       children: <Widget>[
         _pageOfTop(),
-        SizedBox(height: 15.0),
+        const SizedBox(height: 15.0),
         _pageOfMiddle(),
-        SizedBox(height: 30.0),
+        const SizedBox(height: 30.0),
         _pageOfBottom(),
-        SizedBox(height: 20.0),
+        const SizedBox(height: 20.0),
         copyRightAllCon(),
       ],
     );
@@ -76,9 +105,9 @@ Widget _pageOfTop() {
       borderRadius: BorderRadius.circular(10.0),
     ),
     child: Padding(
-      padding: EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(15.0),
       child: Swiper(
-        pagination: SwiperPagination(),
+        pagination: const SwiperPagination(),
         itemCount: imgList.length,
         viewportFraction: 0.8,
         scale: 0.85,
@@ -101,8 +130,8 @@ Widget _pageOfMiddle() {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Container(
-        padding: EdgeInsets.all(15.0),
-        child: Text(
+        padding: const EdgeInsets.all(15.0),
+        child: const Text(
           '마감임박',
           style: TextStyle(
             fontWeight: FontWeight.w900,
@@ -111,7 +140,7 @@ Widget _pageOfMiddle() {
           ),
         ),
       ),
-      Container(
+      SizedBox(
         height: 180,
         child: Center(
           child: ListView(
@@ -133,7 +162,7 @@ Widget _pageOfMiddle() {
 
 Widget _buildImage(String imageUrl) {
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 5.0),
+    padding: const EdgeInsets.symmetric(horizontal: 5.0),
     child: Container(
       width: 120,
       decoration: BoxDecoration(
@@ -149,12 +178,12 @@ Widget _buildImage(String imageUrl) {
 
 Widget _pageOfBottom() {
   return Container(
-    padding: EdgeInsets.all(15.0),
+    padding: const EdgeInsets.all(15.0),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
+        const Text(
           '공연장',
           style: TextStyle(
             fontWeight: FontWeight.w900,
@@ -162,7 +191,7 @@ Widget _pageOfBottom() {
             color: Colors.black,
           ),
         ),
-        SizedBox(height: 16.0),
+        const SizedBox(height: 16.0),
         Table(
           border: TableBorder.all(),
           children: [
@@ -190,8 +219,8 @@ TableRow buildRow(List<String> cells) {
 
 Widget copyRightAllCon() {
   return Container(
-    padding: EdgeInsets.all(15.0),
-    child: Text(
+    padding: const EdgeInsets.all(15.0),
+    child: const Text(
       'ⓒ 2024. (ALLCON) all rights reserved.',
       style: TextStyle(
         fontSize: 10.0,
