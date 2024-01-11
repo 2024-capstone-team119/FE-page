@@ -17,10 +17,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: Icon(Icons.calendar_month),
           color: Colors.white,
           onPressed: () {
-            /*Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Calendar())
-            )*/
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CalendarPage()));
           },
         ),
         SizedBox(width: 5.0),
