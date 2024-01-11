@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
+import '/widget/app_bar.dart';
+import '/widget/bottom_navigation_bar.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:allcon/pages/calendar.dart';
 
-void main() => runApp(MyHome());
+void main() async {
+  // 로케일 데이터 초기화
+  await initializeDateFormatting();
+
+  // 앱을 시작하는 나머지 코드
+  runApp(const MyHome());
+}
 
 class MyHome extends StatelessWidget {
+  const MyHome({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Home',
       home: Home(),
@@ -15,7 +27,7 @@ class MyHome extends StatelessWidget {
 }
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -28,49 +40,35 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'ALLCON',
-          style: TextStyle(fontFamily: 'Cafe24Moyamoya'),
+          style: TextStyle(
+              fontFamily: 'Cafe24Moyamoya', fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
         backgroundColor: Colors.redAccent,
         elevation: 6.0,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.calendar_month),
+            icon: const Icon(Icons.calendar_month),
             color: Colors.white,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const CalendarPage()));
+            },
           ),
         ],
       ),
-      body: HomePage(),
-      bottomNavigationBar: BottomNavigationBar(
+      body: const SingleChildScrollView(
+        child: HomePage(),
+      ),
+      bottomNavigationBar: MyBottomNavigationBar(
+        currentIndex: _idx,
         onTap: (index) {
           setState(() {
             _idx = index;
           });
         },
-        currentIndex: _idx,
-        selectedItemColor: Colors.redAccent,
-        unselectedItemColor: Colors.black38,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
-            label: '마이페이지',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '홈',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search_outlined),
-            label: '검색',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.speaker_notes),
-            label: '커뮤니티',
-          ),
-        ],
       ),
     );
   }
@@ -82,15 +80,19 @@ final List<String> imgList = [
 ];
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         _pageOfTop(),
+        const SizedBox(height: 15.0),
         _pageOfMiddle(),
+        const SizedBox(height: 30.0),
         _pageOfBottom(),
+        const SizedBox(height: 20.0),
+        copyRightAllCon(),
       ],
     );
   }
@@ -103,12 +105,15 @@ Widget _pageOfTop() {
       borderRadius: BorderRadius.circular(10.0),
     ),
     child: Padding(
-      padding: EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(15.0),
       child: Swiper(
-        pagination: SwiperPagination(),
+        pagination: const SwiperPagination(),
         itemCount: imgList.length,
         viewportFraction: 0.8,
         scale: 0.85,
+        autoplay: true,
+        autoplayDelay: 5000,
+        autoplayDisableOnInteraction: true,
         itemBuilder: (BuildContext context, int index) {
           return Image.network(
             imgList[index],
@@ -121,9 +126,106 @@ Widget _pageOfTop() {
 }
 
 Widget _pageOfMiddle() {
-  return Text('_pageOfMiddle');
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Container(
+        padding: const EdgeInsets.all(15.0),
+        child: const Text(
+          '마감임박',
+          style: TextStyle(
+            fontWeight: FontWeight.w900,
+            fontSize: 18.0,
+            color: Colors.redAccent,
+          ),
+        ),
+      ),
+      SizedBox(
+        height: 180,
+        child: Center(
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              _buildImage(
+                  'https://ticketimage.interpark.com/Play/image/large/23/23016540_p.gif'),
+              _buildImage(
+                  'http://ticketimage.interpark.com/TCMS3.0/CO/HOT/2401/240104115350_23018731.gif'),
+              _buildImage(
+                  'https://ticketimage.interpark.com/Play/image/large/23/23015766_p.gif'),
+            ],
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _buildImage(String imageUrl) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+    child: Container(
+      width: 120,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        image: DecorationImage(
+          image: NetworkImage(imageUrl),
+          fit: BoxFit.cover,
+        ),
+      ),
+    ),
+  );
 }
 
 Widget _pageOfBottom() {
-  return Text('_pageOfBottom');
+  return Container(
+    padding: const EdgeInsets.all(15.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Text(
+          '공연장',
+          style: TextStyle(
+            fontWeight: FontWeight.w900,
+            fontSize: 18.0,
+            color: Colors.black,
+          ),
+        ),
+        const SizedBox(height: 16.0),
+        Table(
+          border: TableBorder.all(),
+          children: [
+            buildRow(['서울', '경기/인천', '강원도', '충청도']),
+            buildRow(['서울', '경기/인천', '강원도', '충청도']),
+          ],
+        ),
+      ],
+    ),
+  );
+}
+
+TableRow buildRow(List<String> cells) {
+  return TableRow(
+    children: cells
+        .map(
+          (cell) => Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Center(child: Text(cell)),
+          ),
+        )
+        .toList(),
+  );
+}
+
+Widget copyRightAllCon() {
+  return Container(
+    padding: const EdgeInsets.all(15.0),
+    child: const Text(
+      'ⓒ 2024. (ALLCON) all rights reserved.',
+      style: TextStyle(
+        fontSize: 10.0,
+        color: Colors.grey,
+      ),
+    ),
+  );
 }
