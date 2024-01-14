@@ -1,7 +1,6 @@
 import 'package:allcon/pages/home.dart';
 import 'package:flutter/material.dart';
 import '../pages/mypage.dart';
-import '../pages/home.dart';
 import '../pages/search.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
@@ -19,21 +18,21 @@ class MyBottomNavigationBar extends StatelessWidget {
           case 0:
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyPage()),
+              MaterialPageRoute(builder: (context) => const MyPage()),
             );
             break;
           case 1:
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyHome()),
+              MaterialPageRoute(builder: (context) => const MyHome()),
             );
             break;
-/*          case 2:
+          case 2:
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Search()),
+              MaterialPageRoute(builder: (context) => const Search()),
             );
-            break;
+/*             break;
           case 3:
             Navigator.push(
               context,

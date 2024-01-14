@@ -1,10 +1,8 @@
 import 'package:allcon/pages/home.dart';
 import 'package:flutter/material.dart';
 
-// 검색어
 String searchText = '';
 
-// 예시: 리스트뷰에 표시할 내용 -> 공연정보 리스트
 List<String> items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
 List<String> itemContents = [
   'Item 1 Contents',
@@ -13,20 +11,19 @@ List<String> itemContents = [
   'Item 4 Contents'
 ];
 
-class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+class Search extends StatefulWidget {
+  const Search({Key? key}) : super(key: key);
 
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  State<Search> createState() => _SearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
-  void cardClickEvent(BuildContext context, int index) {
-    String content; // 공연 정보
+class _SearchPageState extends State<Search> {
+  void cardClickEvent(BuildContext context, String content) {
+    // You can pass 'content' or any other relevant information to the next page.
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const HomePage() //공연 정보 페이지 이동
-          ),
+      MaterialPageRoute(builder: (context) => const HomePage()),
     );
   }
 
@@ -52,17 +49,23 @@ class _SearchPageState extends State<SearchPage> {
           ),
           Expanded(
             child: ListView.builder(
-              // items 변수에 저장되어 있는 모든 값 출력
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
-                // 검색 기능, 검색어가 있을 경우
-                if (searchText.isNotEmpty &&
-                    !items[index]
+                // 검색어가 비어 있거나 검색어와 일치하는 경우에만 아이템을 표시
+                if (searchText.isEmpty ||
+                    items[index]
                         .toLowerCase()
                         .contains(searchText.toLowerCase())) {
+                  return ListTile(
+                    title: Text(items[index]),
+                    subtitle: Text(itemContents[index]),
+                    onTap: () {
+                      cardClickEvent(context, itemContents[index]);
+                    },
+                  );
+                } else {
                   return const SizedBox.shrink();
                 }
-                return null;
               },
             ),
           ),

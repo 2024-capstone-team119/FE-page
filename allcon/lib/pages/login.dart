@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyLogIn());
+void main() => runApp(const MyLogIn());
 
 class MyLogIn extends StatelessWidget {
+  const MyLogIn({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: LogIn(),
     );
@@ -13,6 +15,8 @@ class MyLogIn extends StatelessWidget {
 }
 
 class LogIn extends StatelessWidget {
+  const LogIn({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +39,7 @@ class LogIn extends StatelessWidget {
               children: [
                 Positioned(
                   // ALLCON 아이콘
-                  child: Container(
+                  child: SizedBox(
                     width: 300,
                     height: 300,
                     child: Image.asset(
@@ -57,13 +61,13 @@ class LogIn extends StatelessWidget {
             child: Column(
               children: [
                 // 카카오 로그인 버튼
-                Container(
+                SizedBox(
                   width: 330,
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFFEE500),
+                      backgroundColor: const Color(0xFFFEE500),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
@@ -75,8 +79,8 @@ class LogIn extends StatelessWidget {
                           'assets/login/kakao_icon_cloud.png',
                           width: 25,
                         ),
-                        SizedBox(width: 10),
-                        Text(
+                        const SizedBox(width: 10),
+                        const Text(
                           '카카오로 시작하기',
                           style: TextStyle(
                             color: Colors.black,
@@ -87,15 +91,15 @@ class LogIn extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // 네이버 로그인 버튼
-                Container(
+                SizedBox(
                   width: 330,
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF03C75A),
+                      backgroundColor: const Color(0xFF03C75A),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
@@ -107,8 +111,8 @@ class LogIn extends StatelessWidget {
                           'assets/login/naver_icon_white.png',
                           width: 40,
                         ),
-                        SizedBox(width: 10),
-                        Text(
+                        const SizedBox(width: 10),
+                        const Text(
                           '네이버로 시작하기',
                           style: TextStyle(
                             color: Colors.white,
@@ -123,12 +127,12 @@ class LogIn extends StatelessWidget {
             ),
           ),
           // 올콘 Copyright 표시
-          Positioned(
+          const Positioned(
             bottom: 12.0,
             left: 0,
             right: 0,
             child: Padding(
-              padding: const EdgeInsets.all(5.0),
+              padding: EdgeInsets.all(5.0),
               child: Text(
                 'ⓒ 2024. (ALLCON) all rights reserved.',
                 textAlign: TextAlign.center,
