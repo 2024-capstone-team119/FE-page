@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import '../pages/calendar.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const MyAppBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(
+      title: const Text(
         'ALLCON',
         style: TextStyle(fontFamily: 'Cafe24Moyamoya'),
       ),
@@ -14,18 +16,18 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 6.0,
       actions: <Widget>[
         IconButton(
-          icon: Icon(Icons.calendar_month),
+          icon: const Icon(Icons.calendar_month),
           color: Colors.white,
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => CalendarPage()));
+                MaterialPageRoute(builder: (context) => const Calendar()));
           },
         ),
-        SizedBox(width: 5.0),
+        const SizedBox(width: 5.0),
       ],
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

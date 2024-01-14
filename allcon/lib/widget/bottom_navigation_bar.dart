@@ -1,13 +1,14 @@
+import 'package:allcon/pages/home.dart';
 import 'package:flutter/material.dart';
 import '../pages/mypage.dart';
-import '../pages/home.dart';
 import '../pages/search.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
 
-  MyBottomNavigationBar({required this.currentIndex, required this.onTap});
+  const MyBottomNavigationBar(
+      {super.key, required this.currentIndex, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -17,21 +18,21 @@ class MyBottomNavigationBar extends StatelessWidget {
           case 0:
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyPage()),
+              MaterialPageRoute(builder: (context) => const MyPage()),
             );
             break;
           case 1:
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyHome()),
+              MaterialPageRoute(builder: (context) => const MyHome()),
             );
             break;
-/*          case 2:
+          case 2:
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Search()),
+              MaterialPageRoute(builder: (context) => const Search()),
             );
-            break;
+/*             break;
           case 3:
             Navigator.push(
               context,
@@ -45,7 +46,7 @@ class MyBottomNavigationBar extends StatelessWidget {
       currentIndex: currentIndex,
       selectedItemColor: Colors.redAccent,
       unselectedItemColor: Colors.black38,
-      items: <BottomNavigationBarItem>[
+      items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.account_circle_outlined),
           label: '마이페이지',
