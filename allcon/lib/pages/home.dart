@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:card_swiper/card_swiper.dart';
+// import 'package:card_swiper/card_swiper.dart';
 import '/widget/app_bar.dart';
 import '/widget/bottom_navigation_bar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:allcon/pages/calendar.dart';
+import 'package:allcon/pages/search.dart';
 
 void main() async {
   // 로케일 데이터 초기화
@@ -35,6 +36,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   var _idx = 1;
+
+  final List<Widget> _navIndex = [
+    const HomePage(),
+    const HomePage(),
+    const SearchPage(),
+    const HomePage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -104,23 +112,23 @@ Widget _pageOfTop() {
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10.0),
     ),
-    child: Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Swiper(
-        pagination: const SwiperPagination(),
-        itemCount: imgList.length,
-        viewportFraction: 0.8,
-        scale: 0.85,
-        autoplay: true,
-        autoplayDelay: 5000,
-        autoplayDisableOnInteraction: true,
-        itemBuilder: (BuildContext context, int index) {
-          return Image.network(
-            imgList[index],
-            fit: BoxFit.fill,
-          );
-        },
-      ),
+    child: const Padding(
+      padding: EdgeInsets.all(15.0),
+      // child: Swiper(
+      //   pagination: const SwiperPagination(),
+      //   itemCount: imgList.length,
+      //   viewportFraction: 0.8,
+      //   scale: 0.85,
+      //   autoplay: true,
+      //   autoplayDelay: 5000,
+      //   autoplayDisableOnInteraction: true,
+      //   itemBuilder: (BuildContext context, int index) {
+      //     return Image.network(
+      //       imgList[index],
+      //       fit: BoxFit.fill,
+      //     );
+      //   },
+      // ),
     ),
   );
 }

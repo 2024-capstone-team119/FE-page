@@ -1,10 +1,12 @@
+import 'package:allcon/pages/home.dart';
 import 'package:flutter/material.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
 
-  MyBottomNavigationBar({required this.currentIndex, required this.onTap});
+  const MyBottomNavigationBar(
+      {super.key, required this.currentIndex, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class MyBottomNavigationBar extends StatelessWidget {
       currentIndex: currentIndex,
       selectedItemColor: Colors.redAccent,
       unselectedItemColor: Colors.black38,
-      items: <BottomNavigationBarItem>[
+      items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.account_circle_outlined),
           label: '마이페이지',
