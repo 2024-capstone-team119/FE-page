@@ -1,9 +1,9 @@
+import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 import '/widget/app_bar.dart';
 import '/widget/bottom_navigation_bar.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:allcon/pages/calendar.dart';
 
 void main() async {
   // 로케일 데이터 초기화
@@ -39,26 +39,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'ALLCON',
-          style: TextStyle(
-              fontFamily: 'Cafe24Moyamoya', fontWeight: FontWeight.w500),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.redAccent,
-        elevation: 6.0,
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.calendar_month),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const CalendarPage()));
-            },
-          ),
-        ],
-      ),
+      appBar: const MyAppBar(),
       body: const SingleChildScrollView(
         child: HomePage(),
       ),
@@ -104,10 +85,10 @@ Widget _pageOfTop() {
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10.0),
     ),
-    child: Padding(
-      padding: const EdgeInsets.all(15.0),
+    child: const Padding(
+      padding: EdgeInsets.all(15.0),
       child: Swiper(
-        pagination: const SwiperPagination(),
+        pagination: SwiperPagination(),
         itemCount: imgList.length,
         viewportFraction: 0.8,
         scale: 0.85,
