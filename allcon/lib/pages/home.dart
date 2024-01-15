@@ -70,9 +70,9 @@ class HomePage extends StatelessWidget {
         _pageOfTop(),
         const SizedBox(height: 15.0),
         _pageOfMiddle(),
-        const SizedBox(height: 30.0),
+        const SizedBox(height: 15.0),
         _pageOfBottom(),
-        const SizedBox(height: 20.0),
+        const SizedBox(height: 15.0),
         copyRightAllCon(),
       ],
     );
@@ -107,52 +107,53 @@ Widget _pageOfTop() {
 }
 
 Widget _pageOfMiddle() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Container(
-        padding: const EdgeInsets.all(15.0),
-        child: const Text(
+  List<String> imageUrls = [
+    'https://ticketimage.interpark.com/Play/image/large/23/23016540_p.gif',
+    'http://ticketimage.interpark.com/TCMS3.0/CO/HOT/2401/240104115350_23018731.gif',
+    'https://ticketimage.interpark.com/Play/image/large/23/23015766_p.gif',
+  ];
+
+  return Padding(
+    padding: const EdgeInsets.all(10.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
           '마감임박',
           style: TextStyle(
-            fontWeight: FontWeight.w900,
-            fontSize: 18.0,
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
             color: Colors.redAccent,
           ),
         ),
-      ),
-      SizedBox(
-        height: 180,
-        child: Center(
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              _buildImage(
-                  'https://ticketimage.interpark.com/Play/image/large/23/23016540_p.gif'),
-              _buildImage(
-                  'http://ticketimage.interpark.com/TCMS3.0/CO/HOT/2401/240104115350_23018731.gif'),
-              _buildImage(
-                  'https://ticketimage.interpark.com/Play/image/large/23/23015766_p.gif'),
-            ],
+        SizedBox(height: 10.0),
+        GridView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            childAspectRatio: 1 / 1.5,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
           ),
+          itemCount: imageUrls.length,
+          itemBuilder: (context, index) {
+            return InkWell(
+              onTap: () {
+                // 클릭 시 동작을 추가합니다. 예시로 콘솔에 메시지 출력
+                print('Clicked on image: $index');
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: Image.network(
+                  imageUrls[index],
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          },
         ),
-      ),
-    ],
-  );
-}
-
-Widget _buildImage(String imageUrl) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-    child: Container(
-      width: 120,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15.0),
-        image: DecorationImage(
-          image: NetworkImage(imageUrl),
-          fit: BoxFit.cover,
-        ),
-      ),
+      ],
     ),
   );
 }
@@ -168,7 +169,7 @@ Widget _pageOfBottom() {
           '공연장',
           style: TextStyle(
             fontWeight: FontWeight.w900,
-            fontSize: 18.0,
+            fontSize: 20.0,
             color: Colors.black,
           ),
         ),
@@ -176,8 +177,8 @@ Widget _pageOfBottom() {
         Table(
           border: TableBorder.all(),
           children: [
-            buildRow(['서울', '경기/인천', '강원도', '충청도']),
-            buildRow(['서울', '경기/인천', '강원도', '충청도']),
+            buildRow(['서울', '경기도/인천', '강원도']),
+            buildRow(['충청도', '경상도', '전라도']),
           ],
         ),
       ],
@@ -189,9 +190,22 @@ TableRow buildRow(List<String> cells) {
   return TableRow(
     children: cells
         .map(
-          (cell) => Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Center(child: Text(cell)),
+          (cell) => InkWell(
+            onTap: () {
+              // 클릭 시 동작을 추가합니다. 예시로 콘솔에 메시지 출력
+              print('Clicked on cell: $cell');
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15.0),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Center(
+                    child: Text(
+                  cell,
+                  textAlign: TextAlign.center,
+                )),
+              ),
+            ),
           ),
         )
         .toList(),
