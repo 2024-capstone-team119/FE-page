@@ -44,12 +44,14 @@ class MyBottomNavigationBar extends StatelessWidget {
         }
       },
       currentIndex: currentIndex,
+      showUnselectedLabels: true,
       selectedItemColor: Colors.redAccent,
       unselectedItemColor: Colors.black38,
+      type: BottomNavigationBarType.fixed,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.account_circle_outlined),
-          label: '마이페이지',
+          label: '마이',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
