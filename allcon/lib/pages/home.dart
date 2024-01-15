@@ -56,8 +56,8 @@ class _HomeState extends State<Home> {
 }
 
 final List<String> imgList = [
-  '이미지1',
-  '이미지2',
+  'https://example.com/image1.jpg',
+  'https://example.com/image2.jpg',
 ];
 
 class HomePage extends StatelessWidget {
@@ -85,8 +85,8 @@ Widget _pageOfTop() {
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10.0),
     ),
-    child: const Padding(
-      padding: EdgeInsets.all(15.0),
+    child: Padding(
+      padding: const EdgeInsets.all(15.0),
       child: Swiper(
         pagination: SwiperPagination(),
         itemCount: imgList.length,
