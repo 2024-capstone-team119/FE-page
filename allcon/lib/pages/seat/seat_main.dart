@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:allcon/pages/seat/seat_write.dart';
 
 class SeatMain extends StatefulWidget {
   const SeatMain({super.key});
@@ -10,6 +11,7 @@ class SeatMain extends StatefulWidget {
 class _SeatMainState extends State<SeatMain> {
   int goodCount = 0;
   int badCount = 0;
+  bool reviewWrite = true;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class _SeatMainState extends State<SeatMain> {
             ),
           ),
           const SizedBox(height: 20),
-          reviewTab(context)
+          reviewWrite ? reviewTab(context) : const SeatWirte(),
         ],
       ),
     );
@@ -39,19 +41,32 @@ class _SeatMainState extends State<SeatMain> {
 
     return Expanded(
       child: Container(
-        color: Colors.purple[50],
+        color: Colors.grey[200],
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  for (String item in filter)
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0.0, 2.0, 8.0, 10.0),
-                      child: Text(item),
-                    ),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        reviewWrite = !reviewWrite;
+                      });
+                    },
+                    child: const Text('리뷰 작성하기'),
+                  ),
+                  Row(
+                    children: [
+                      for (String item in filter)
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 0.0),
+                          child: Text(item),
+                        ),
+                    ],
+                  ),
                 ],
               ),
               Expanded(
