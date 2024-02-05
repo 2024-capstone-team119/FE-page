@@ -6,7 +6,9 @@ String searchText = '';
 List<String> items = ['고척스카이돔', '두산아트센터', '디뮤지엄', '롯데콘서트홀'];
 
 class ConcerthallSearch extends StatefulWidget {
-  const ConcerthallSearch({Key? key}) : super(key: key);
+  final String initialTitle;
+
+  const ConcerthallSearch({super.key, required this.initialTitle});
 
   @override
   State<ConcerthallSearch> createState() => _ConcerthallSearchPageState();
@@ -24,7 +26,26 @@ class _ConcerthallSearchPageState extends State<ConcerthallSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('검색')),
+      appBar: AppBar(
+        title: Row(
+          children: [
+            const Text(
+              '공연장',
+              style: TextStyle(fontSize: 20.0),
+            ),
+            const SizedBox(width: 8.0),
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 18.0,
+            ),
+            const SizedBox(width: 8.0),
+            Text(
+              widget.initialTitle,
+              style: const TextStyle(fontSize: 20.0),
+            ),
+          ],
+        ),
+      ),
       body: Column(
         children: <Widget>[
           Padding(

@@ -12,6 +12,7 @@ class _ConcertInfoState extends State<ConcertInfo> {
 
   @override
   Widget build(BuildContext context) {
+    Color? buttonColor = Colors.purple[50];
     return Scaffold(
       appBar: AppBar(
         title: const Text("공연"),
@@ -99,18 +100,34 @@ class _ConcertInfoState extends State<ConcertInfo> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          MouseRegion(
+            onEnter: (_) {
+              // hover 효과
+              setState(() {
+                buttonColor = Colors.purple[100];
+              });
+            },
+            onExit: (_) {
+              setState(() {
+                buttonColor = Colors.purple[50];
+              });
+            },
             child: ElevatedButton(
               onPressed: () {
                 // 예매처 이동
               },
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.purple[600],
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  fixedSize: const Size(50.0, 30.0)),
-              child: const Text('예매하기'),
+                elevation: 0,
+                backgroundColor: buttonColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                fixedSize: const Size(350.0, 30.0),
+              ),
+              child: const Text(
+                '예매하기',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ),
         ],
