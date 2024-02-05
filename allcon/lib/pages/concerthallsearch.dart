@@ -1,5 +1,6 @@
 import 'package:allcon/pages/home.dart';
 import 'package:flutter/material.dart';
+import 'package:allcon/pages/seat/seat_main.dart';
 
 String searchText = '';
 
@@ -16,10 +17,9 @@ class ConcerthallSearch extends StatefulWidget {
 
 class _ConcerthallSearchPageState extends State<ConcerthallSearch> {
   void cardClickEvent(BuildContext context, String content) {
-    // You can pass 'content' or any other relevant information to the next page.
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
+      MaterialPageRoute(builder: (context) => const SeatMain()),
     );
   }
 
@@ -45,6 +45,7 @@ class _ConcerthallSearchPageState extends State<ConcerthallSearch> {
             ),
           ],
         ),
+        centerTitle: true,
       ),
       body: Column(
         children: <Widget>[
