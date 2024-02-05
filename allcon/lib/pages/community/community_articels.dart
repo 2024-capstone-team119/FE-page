@@ -1,27 +1,42 @@
-// com_articles.dart
-import 'package:allcon/pages/community/community_articleDetail.dart';
+// community_articles.dart
+import 'package:allcon/pages/community/community_review.dart';
 import 'package:flutter/material.dart';
 
 class Article {
   final String title;
   final String author;
   final String date;
-  bool isLiked; // 추가된 부분
+  bool isLiked;
+  int likes;
 
-  Article(
-      {required this.title,
-      required this.author,
-      required this.date,
-      this.isLiked = false});
+  Article({
+    required this.title,
+    required this.author,
+    required this.date,
+    this.isLiked = false,
+    this.likes = 0,
+  });
+
+  void toggleLike() {
+    isLiked = !isLiked;
+    if (isLiked) {
+      likes++;
+    } else {
+      likes--;
+      if (likes < 0) likes = 0;
+    }
+  }
 }
 
 class CommuArticles extends StatefulWidget {
   final int tabIndex;
-  final String searchText; // searchText 추가
+  final String searchText;
 
-  const CommuArticles(
-      {Key? key, required this.tabIndex, required this.searchText})
-      : super(key: key);
+  const CommuArticles({
+    Key? key,
+    required this.tabIndex,
+    required this.searchText,
+  }) : super(key: key);
 
   @override
   State<CommuArticles> createState() => _CommuArticlesState();
@@ -33,7 +48,6 @@ class _CommuArticlesState extends State<CommuArticles> {
   @override
   void initState() {
     super.initState();
-    // Load articles based on the tabIndex
     loadArticles();
   }
 
@@ -62,15 +76,17 @@ class _CommuArticlesState extends State<CommuArticles> {
             ),
             onPressed: () {
               setState(() {
-                article.isLiked = !article.isLiked;
+                article.toggleLike();
               });
             },
           ),
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ArticleDetail(article: article)));
+              context,
+              MaterialPageRoute(
+                builder: (context) => ArticleDetail(article: article),
+              ),
+            );
           },
         ),
       );
@@ -121,6 +137,8 @@ class _CommuArticlesState extends State<CommuArticles> {
           Article(title: '토끼 2', author: '작성자 8', date: '2022-01-08'),
           Article(title: '강아지 1', author: '작성자 7', date: '2022-01-07'),
           Article(title: '냐옹 3', author: '작성자 8', date: '2022-01-08'),
+          Article(title: '왈왈', author: '작성자 8', date: '2022-01-08'),
+          Article(title: '축구잼따', author: '작성자 8', date: '2022-01-08'),
           // Add more articles as needed for 카풀/동행
         ];
         break;

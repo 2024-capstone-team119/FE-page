@@ -6,6 +6,7 @@ import 'package:card_swiper/card_swiper.dart';
 import '/widget/app_bar.dart';
 import '/widget/bottom_navigation_bar.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:allcon/pages/concerthallsearch.dart';
 
 void main() async {
   // 로케일 데이터 초기화
@@ -16,7 +17,7 @@ void main() async {
 }
 
 class MyHome extends StatelessWidget {
-  const MyHome({Key? key}) : super(key: key);
+  const MyHome({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class MyHome extends StatelessWidget {
 }
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -63,7 +64,7 @@ final List<String> imgList = [
 ];
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +199,14 @@ TableRow buildRow(BuildContext context, List<String> cells) {
         .map(
           (cell) => InkWell(
             onTap: () {
-              print('Clicked on cell: $cell');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ConcerthallSearch(
+                    initialTitle: cell,
+                  ),
+                ),
+              );
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
