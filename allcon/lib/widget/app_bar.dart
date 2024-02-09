@@ -13,7 +13,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       backgroundColor: Colors.redAccent,
-      elevation: 6.0,
       actions: <Widget>[
         IconButton(
           icon: const Icon(Icons.calendar_month),
