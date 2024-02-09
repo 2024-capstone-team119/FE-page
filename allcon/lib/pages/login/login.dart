@@ -57,8 +57,8 @@ class _LogInState extends State<LogIn> {
         children: [
           // 배경 컨테이너 (그라데이션) + 로고
           Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+            width: double.infinity,
+            height: double.infinity,
             clipBehavior: Clip.antiAlias,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -72,29 +72,21 @@ class _LogInState extends State<LogIn> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 16),
-                AnimatedOpacity(
-                  duration: const Duration(milliseconds: 1000),
-                  opacity: _textOpacity,
-                  child: Text(
-                    "올콘",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Cafe24Moyamoya',
-                      fontSize: 96,
-                      height: 1.0,
-                    ),
+                Text(
+                  "올콘",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Cafe24Moyamoya',
+                    fontSize: 96,
+                    height: 1.0,
                   ),
                 ),
-                AnimatedOpacity(
-                  duration: const Duration(milliseconds: 1000),
-                  opacity: _textOpacity,
-                  child: Text(
-                    "ALLCON",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Cafe24Moyamoya',
-                      fontSize: 25,
-                    ),
+                Text(
+                  "ALLCON",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Cafe24Moyamoya',
+                    fontSize: 25,
                   ),
                 ),
                 SizedBox(height: 20),
