@@ -47,7 +47,7 @@ class MyBottomNavigationBar extends StatelessWidget {
       },
       currentIndex: currentIndex,
       showUnselectedLabels: true,
-      selectedItemColor: Colors.redAccent,
+      selectedItemColor: Color(0xFF664FA4),
       unselectedItemColor: Colors.black38,
       type: BottomNavigationBarType.fixed,
       items: const <BottomNavigationBarItem>[
