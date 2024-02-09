@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 void main() => runApp(const MyLogIn());
 
 class MyLogIn extends StatelessWidget {
-  const MyLogIn({super.key});
+  const MyLogIn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +14,48 @@ class MyLogIn extends StatelessWidget {
   }
 }
 
-class LogIn extends StatelessWidget {
-  const LogIn({super.key});
+class LogIn extends StatefulWidget {
+  const LogIn({Key? key}) : super(key: key);
+
+  @override
+  State<LogIn> createState() => _LogInState();
+}
+
+class _LogInState extends State<LogIn> {
+  double _textOpacity = 0.0;
+  double _buttonOpacity = 0.0;
+  bool _isButtonVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _animateTextIn();
+  }
+
+  void _animateTextIn() {
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      setState(() {
+        _textOpacity = 1.0;
+      });
+      _animateButtonIn();
+    });
+  }
+
+  void _animateButtonIn() {
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      setState(() {
+        _buttonOpacity = 1.0;
+        _isButtonVisible = true;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
+          // 배경 컨테이너 (그라데이션) + 로고
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -37,108 +71,91 @@ class LogIn extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Positioned(
-                  // ALLCON 아이콘
-                  child: SizedBox(
-                    width: 300,
-                    height: 300,
+                SizedBox(height: 16),
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 1000),
+                  opacity: _textOpacity,
+                  child: Text(
+                    "올콘",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Cafe24Moyamoya',
+                      fontSize: 96,
+                      height: 1.0,
+                    ),
+                  ),
+                ),
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 1000),
+                  opacity: _textOpacity,
+                  child: Text(
+                    "ALLCON",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Cafe24Moyamoya',
+                      fontSize: 25,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 1000),
+                  opacity: _textOpacity,
+                  child: Text(
+                    "콘서트 정보부터 "
+                    "공연장 시야까지\n"
+                    "올콘하세요!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // 카카오톡 로그인
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 500),
+            bottom: _isButtonVisible
+                ? MediaQuery.of(context).size.height * 0.08
+                : MediaQuery.of(context).size.height * 0.08 - 40.0,
+            left: 0.0,
+            right: 0.0,
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 1000),
+              opacity: _buttonOpacity,
+              child: Align(
+                alignment: Alignment.center,
+                child: InkWell(
+                  onTap: () {
+                    print("카카오톡으로 로그인 버튼 클릭 성공");
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(40.0),
                     child: Image.asset(
-                      'assets/logo/allcon-text-white.png',
-                      width: 300,
-                      height: 300,
-                      fit: BoxFit.contain,
+                      'assets/login/kakao_login_large_wide.png',
+                      width: MediaQuery.of(context).size.width * 0.9,
                     ),
                   ),
                 ),
-              ],
+              ),
             ),
           ),
-          // 로그인 버튼s
-          Positioned(
-            bottom: 80.0,
-            left: 0,
-            right: 0,
-            child: Column(
-              children: [
-                // 카카오 로그인 버튼
-                SizedBox(
-                  width: 330,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFFEE500),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/login/kakao_icon_cloud.png',
-                          width: 25,
-                        ),
-                        const SizedBox(width: 10),
-                        const Text(
-                          '카카오로 시작하기',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                // 네이버 로그인 버튼
-                SizedBox(
-                  width: 330,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF03C75A),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/login/naver_icon_white.png',
-                          width: 40,
-                        ),
-                        const SizedBox(width: 10),
-                        const Text(
-                          '네이버로 시작하기',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+
           // 올콘 Copyright 표시
-          const Positioned(
-            bottom: 12.0,
-            left: 0,
-            right: 0,
+          Align(
+            alignment: Alignment(0.0, 0.95),
             child: Padding(
-              padding: EdgeInsets.all(5.0),
+              padding: EdgeInsets.all(8.0),
               child: Text(
                 'ⓒ 2024. (ALLCON) all rights reserved.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xB27A7A7A),
-                  fontSize: 10,
+                  color: Color(0xB27A7A7A).withOpacity(0.7),
+                  fontSize: 8,
                 ),
               ),
             ),
