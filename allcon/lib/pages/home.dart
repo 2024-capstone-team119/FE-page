@@ -1,23 +1,18 @@
-import 'package:allcon/pages/concertinfo.dart'
-    as concertinfo; // concertinfo로 변경
+import 'package:allcon/pages/concertinfo.dart' as concertinfo;
 import 'package:allcon/widget/app_bar.dart';
+import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
-import '/widget/app_bar.dart';
-import '/widget/bottom_navigation_bar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:allcon/pages/concerthallsearch.dart';
 
 void main() async {
-  // 로케일 데이터 초기화
   await initializeDateFormatting();
-
-  // 앱을 시작하는 나머지 코드
   runApp(const MyHome());
 }
 
 class MyHome extends StatelessWidget {
-  const MyHome({super.key});
+  const MyHome({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +25,7 @@ class MyHome extends StatelessWidget {
 }
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({Key? key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -59,24 +54,47 @@ class _HomeState extends State<Home> {
 }
 
 final List<String> imgList = [
-  'https://example.com/image1.jpg',
-  'https://example.com/image2.jpg',
+  "https://ticketimage.interpark.com/Play/image/large/24/24000486_p.gif",
+  'https://ticketimage.interpark.com/Play/image/large/24/24001522_p.gif',
+  "https://ticketimage.interpark.com/Play/image/large/24/24001932_p.gif",
+  "https://ticketimage.interpark.com/Play/image/large/24/24000706_p.gif",
 ];
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        const SizedBox(height: 15.0),
         _pageOfTop(),
+        const SizedBox(height: 20.0),
+        Container(
+          height: 0.5,
+          width: MediaQuery.of(context).size.width * 0.7,
+          color: Colors.grey.withOpacity(0.5),
+        ),
+        _ConcertHallCateogory(context),
         const SizedBox(height: 15.0),
-        _pageOfMiddle(context),
-        const SizedBox(height: 15.0),
-        _pageOfBottom(context),
-        const SizedBox(height: 15.0),
+        Container(
+          height: 8.0,
+          width: MediaQuery.of(context).size.width,
+          color: Colors.grey[100],
+        ),
+        const SizedBox(height: 25.0),
+        Text(
+          '마감임박!',
+          style: TextStyle(
+            color: Colors.redAccent,
+            fontWeight: FontWeight.w700,
+            fontSize: 20,
+          ),
+        ),
+        _DeadLineCon(context),
+        const SizedBox(height: 30.0),
         copyRightAllCon(),
+        const SizedBox(height: 10.0),
       ],
     );
   }
@@ -84,24 +102,24 @@ class HomePage extends StatelessWidget {
 
 Widget _pageOfTop() {
   return Container(
-    height: 250,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10.0),
-    ),
+    height: 450,
     child: Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(16.0),
       child: Swiper(
         pagination: const SwiperPagination(),
         itemCount: imgList.length,
         viewportFraction: 0.8,
-        scale: 0.85,
+        scale: 0.8,
         autoplay: true,
-        autoplayDelay: 5000,
+        autoplayDelay: 3000,
         autoplayDisableOnInteraction: true,
         itemBuilder: (BuildContext context, int index) {
-          return Image.network(
-            imgList[index],
-            fit: BoxFit.fill,
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(25.0),
+            child: Image.network(
+              imgList[index],
+              fit: BoxFit.cover,
+            ),
           );
         },
       ),
@@ -109,78 +127,144 @@ Widget _pageOfTop() {
   );
 }
 
-Widget _pageOfMiddle(BuildContext context) {
-  List<String> imageUrls = [
-    'https://ticketimage.interpark.com/Play/image/large/23/23016540_p.gif',
-    'http://ticketimage.interpark.com/TCMS3.0/CO/HOT/2401/240104115350_23018731.gif',
-    'https://ticketimage.interpark.com/Play/image/large/23/23015766_p.gif',
+Widget _DeadLineCon(BuildContext context) {
+  List<Concert> concerts = [
+    Concert(
+      imageUrl:
+          'https://ticketimage.interpark.com/Play/image/large/23/23016540_p.gif',
+      name: '콘서트 1',
+      time: '2024-02-20 19:00',
+      venue: '공연장 1',
+    ),
+    Concert(
+      imageUrl:
+          'http://ticketimage.interpark.com/TCMS3.0/CO/HOT/2401/240104115350_23018731.gif',
+      name: '콘서트 2',
+      time: '2024-02-21 18:30',
+      venue: '공연장 2',
+    ),
+    Concert(
+      imageUrl:
+          'https://ticketimage.interpark.com/Play/image/large/23/23015766_p.gif',
+      name: '콘서트 3',
+      time: '2024-02-22 20:00',
+      venue: '공연장 3',
+    ),
   ];
-
   return Padding(
-    padding: const EdgeInsets.all(10.0),
+    padding: const EdgeInsets.all(8.0),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          '마감임박',
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.redAccent,
-          ),
-        ),
-        const SizedBox(height: 10.0),
-        GridView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: 1 / 1.5,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-          ),
-          itemCount: imageUrls.length,
-          itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const concertinfo
-                          .ConcertInfo()), // 수정: concertinfo로 변경
-                );
-              },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15.0),
-                child: Image.network(
-                  imageUrls[index],
-                  fit: BoxFit.cover,
+      children: List.generate(concerts.length, (index) {
+        Concert concert = concerts[index];
+        return Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => concertinfo.ConcertInfo(),
                 ),
+              );
+            },
+            child: Card(
+              elevation: 3.5,
+              // color: Color(0xFFF1EFF7),
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
               ),
-            );
-          },
-        ),
-      ],
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15.0),
+                      bottomLeft: Radius.circular(15.0),
+                    ),
+                    child: Image.network(
+                      concert.imageUrl,
+                      height: 160.0,
+                      width: 120.0,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const SizedBox(width: 20.0),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 12.0),
+                        Text(
+                          concert.name,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          '시간: ${concert.time}',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        const SizedBox(height: 4.0),
+                        Text(
+                          '장소: ${concert.venue}',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }),
     ),
   );
 }
 
-Widget _pageOfBottom(BuildContext context) {
+class Concert {
+  final String imageUrl;
+  final String name;
+  final String time;
+  final String venue;
+
+  Concert({
+    required this.imageUrl,
+    required this.name,
+    required this.time,
+    required this.venue,
+  });
+}
+
+Widget _ConcertHallCateogory(BuildContext context) {
   return Container(
     padding: const EdgeInsets.all(15.0),
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text(
-          '공연장',
-          style: TextStyle(
-            fontWeight: FontWeight.w900,
-            fontSize: 20.0,
-            color: Colors.black,
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: const Text(
+            '공연장',
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 20.0,
+              color: Colors.black,
+            ),
           ),
         ),
-        const SizedBox(height: 16.0),
+        const SizedBox(height: 5.0),
         Table(
           border: TableBorder.all(),
           children: [
@@ -227,13 +311,16 @@ TableRow buildRow(BuildContext context, List<String> cells) {
 }
 
 Widget copyRightAllCon() {
-  return Container(
+  return Padding(
     padding: const EdgeInsets.all(15.0),
-    child: const Text(
-      'ⓒ 2024. (ALLCON) all rights reserved.',
-      style: TextStyle(
-        fontSize: 10.0,
-        color: Colors.grey,
+    child: Align(
+      alignment: Alignment.center,
+      child: const Text(
+        'ⓒ 2024. (ALLCON) all rights reserved.',
+        style: TextStyle(
+          fontSize: 10.0,
+          color: Colors.grey,
+        ),
       ),
     ),
   );
