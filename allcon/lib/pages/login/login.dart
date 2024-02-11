@@ -1,4 +1,6 @@
+import 'package:allcon/pages/home.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() => runApp(const MyLogIn());
 
@@ -123,7 +125,7 @@ class _LogInState extends State<LogIn> {
                 alignment: Alignment.center,
                 child: InkWell(
                   onTap: () {
-                    print("카카오톡으로 로그인 버튼 클릭 성공");
+                    Get.to(MyHome());
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(40.0),
