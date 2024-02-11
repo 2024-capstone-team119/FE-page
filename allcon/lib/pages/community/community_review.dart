@@ -1,9 +1,10 @@
+import 'package:allcon/pages/community/community_content.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import './community_articels.dart';
 
 class ArticleDetail extends StatefulWidget {
-  final Article article;
+  final Content article;
 
   const ArticleDetail({Key? key, required this.article}) : super(key: key);
 
@@ -49,7 +50,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                   SizedBox(height: 6.0),
                   Row(
                     children: [
-                      Text('${widget.article.author}'),
+                      Text('${widget.article.userName}'),
                       SizedBox(width: 15.0),
                       Text('${widget.article.date}'),
                     ],
@@ -75,13 +76,14 @@ class _ArticleDetailState extends State<ArticleDetail> {
                             IconButton(
                               icon: Icon(Icons.favorite),
                               onPressed: () {
-                                setState(() {
+/*                                setState(() {
                                   widget.article.toggleLike();
-                                });
+                                })*/
+                                ;
                               },
-                              color: widget.article.isLiked ? Colors.red : null,
+                              //color: widget.article.isLiked ? Colors.red : null,
                             ),
-                            Text('${widget.article.likes}'),
+                            Text('${widget.article.isLike}'),
                             SizedBox(width: 15),
                             Icon(Icons.comment),
                             SizedBox(width: 10),

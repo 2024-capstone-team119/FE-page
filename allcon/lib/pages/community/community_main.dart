@@ -77,7 +77,7 @@ class _CommunityState extends State<Community> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          SizedBox(
+          Container(
             child: Search(
               onSearchTextChanged: (value) {
                 setState(() {
@@ -85,28 +85,14 @@ class _CommunityState extends State<Community> {
                 });
               },
             ),
-            height: 50,
+            // color: Colors.redAccent,
           ),
-          SizedBox(
-            child: TabBarScreen(searchText: searchText), // 검색어 전달
-            height: MediaQuery.of(context).size.height,
+          Container(
+            child: TabBarScreen(searchText: searchText),
+            // color: Colors.yellow,
           ),
-          // copyRightAllCon(),
         ],
       ),
     );
   }
-}
-
-Widget copyRightAllCon() {
-  return Container(
-    padding: const EdgeInsets.all(15.0),
-    child: const Text(
-      'ⓒ 2024. (ALLCON) all rights reserved.',
-      style: TextStyle(
-        fontSize: 10.0,
-        color: Colors.grey,
-      ),
-    ),
-  );
 }
