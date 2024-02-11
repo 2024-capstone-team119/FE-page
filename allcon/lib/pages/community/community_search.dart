@@ -18,7 +18,7 @@ class _SearchPageState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 3.0),
+      padding: const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 4.0),
       child: TextField(
         decoration: InputDecoration(
           hintText: '검색어를 입력해주세요.',

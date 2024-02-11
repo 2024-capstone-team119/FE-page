@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../pages/calendar.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -35,10 +36,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               icon: const Icon(Icons.calendar_month),
               color: Colors.deepPurple.withOpacity(0.85),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Calendar()),
-                );
+                Get.to(Calendar());
               },
             ),
           ),
