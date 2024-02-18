@@ -74,17 +74,21 @@ class _ArticleDetailState extends State<ArticleDetail> {
                         Row(
                           children: [
                             IconButton(
-                              icon: Icon(Icons.favorite),
+                              icon: Icon(
+                                widget.article.isLike
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: widget.article.isLike
+                                    ? Colors.redAccent
+                                    : null,
+                              ),
                               onPressed: () {
-/*                                setState(() {
-                                  widget.article.toggleLike();
-                                })*/
-                                ;
+                                setState(() {
+                                  widget.article.isLike =
+                                      !widget.article.isLike;
+                                });
                               },
-                              //color: widget.article.isLiked ? Colors.red : null,
                             ),
-                            Text('${widget.article.isLike}'),
-                            SizedBox(width: 15),
                             Icon(Icons.comment),
                             SizedBox(width: 10),
                             Text('${commentsList.length}'),

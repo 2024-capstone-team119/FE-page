@@ -1,12 +1,17 @@
 class Content {
-  final String title;
-  final String userName;
-  final String date;
-  bool isLike;
+  String title;
+  String userName;
+  String date;
+  bool isLike = false;
 
-  Content(
-      {required this.title,
-      required this.userName,
-      required this.date,
-      this.isLike = false});
+  Content({
+    required this.title,
+    required this.userName,
+    required this.date,
+    this.isLike = false,
+  });
+
+  void likeContent() {
+    this.isLike = !this.isLike;
+  }
 }
