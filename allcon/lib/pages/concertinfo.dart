@@ -1,3 +1,4 @@
+import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class ConcertInfo extends StatefulWidget {
@@ -14,9 +15,7 @@ class _ConcertInfoState extends State<ConcertInfo> {
   Widget build(BuildContext context) {
     Color? buttonColor = Colors.purple[50];
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("공연"),
-      ),
+      appBar: MyAppBar(text: "공연"),
       body: Column(
         children: [
           SingleChildScrollView(

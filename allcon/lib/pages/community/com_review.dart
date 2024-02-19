@@ -1,5 +1,7 @@
 import 'package:allcon/pages/community/com_content.dart';
+import 'package:allcon/pages/community/com_home.dart';
 import 'package:allcon/pages/community/com_update.dart';
+import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,15 +23,7 @@ class _ContentDetailState extends State<MyContentDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '커뮤니티',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        centerTitle: true,
-      ),
+      appBar: MyAppBar(text: '커뮤니티'),
       bottomNavigationBar: MyBottomNavigationBar(
         currentIndex: 3,
       ),
@@ -62,7 +56,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                        Get.back();
+                        Get.to(MyCommunity());
                       },
                       child: Text('삭제')),
                   SizedBox(width: 8.0),

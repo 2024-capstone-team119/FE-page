@@ -1,3 +1,4 @@
+import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -15,10 +16,7 @@ class _MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text('마이페이지'),
-        centerTitle: true,
-      ),
+      appBar: MyAppBar(text: '마이페이지'),
       bottomNavigationBar: MyBottomNavigationBar(
         currentIndex: 0,
       ),

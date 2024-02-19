@@ -1,9 +1,11 @@
+import 'package:allcon/pages/calendar.dart';
 import 'package:allcon/pages/concertinfo.dart' as concertinfo;
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:allcon/pages/concerthallsearch.dart';
+import 'package:get/get.dart';
 
 class MyHome extends StatelessWidget {
   const MyHome({Key? key});
@@ -29,7 +31,14 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(),
+      appBar: MyAppBar(
+        text: 'ALLCON',
+        textFontFamily: 'Cafe24Moyamoya',
+        actions: Icon(Icons.calendar_month),
+        onActionPressed: () {
+          Get.to(Calendar());
+        },
+      ),
       body: const SingleChildScrollView(
         child: HomePage(),
       ),
