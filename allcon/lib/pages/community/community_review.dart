@@ -1,6 +1,9 @@
 import 'package:allcon/pages/community/community_content.dart';
+import 'package:allcon/pages/community/community_main.dart';
+import 'package:allcon/pages/community/community_update.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import './community_articels.dart';
 
 class ArticleDetail extends StatefulWidget {
@@ -33,81 +36,92 @@ class _ArticleDetailState extends State<ArticleDetail> {
         constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height,
         ),
-        child: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${widget.article.title}',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 25,
+                ),
+              ),
+              SizedBox(height: 6.0),
+              Row(
                 children: [
-                  Text(
-                    '${widget.article.title}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 25,
-                    ),
-                  ),
-                  SizedBox(height: 6.0),
-                  Row(
-                    children: [
-                      Text('${widget.article.userName}'),
-                      SizedBox(width: 15.0),
-                      Text('${widget.article.date}'),
-                    ],
-                  ),
-                  SizedBox(height: 10.0),
-                  Container(
-                    height: 1.0,
-                    width: 450.0,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(height: 16),
-                  Container(
-                    height: 600,
-                    color: Colors.blue,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10.5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                widget.article.isLike
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                color: widget.article.isLike
-                                    ? Colors.redAccent
-                                    : null,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  widget.article.isLike =
-                                      !widget.article.isLike;
-                                });
-                              },
-                            ),
-                            Icon(Icons.comment),
-                            SizedBox(width: 10),
-                            Text('${commentsList.length}'),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 1.0,
-                    width: 450.0,
-                    color: Colors.red,
-                  ),
-                  _buildCommentList(),
-                  SizedBox(height: 65),
+                  Text('${widget.article.userName}'),
+                  SizedBox(width: 8.0),
+                  Text('${widget.article.date}'),
                 ],
               ),
-            ),
-          ],
+              SizedBox(height: 6.0),
+              Row(
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: Text('삭제')),
+                  SizedBox(width: 8.0),
+                  ElevatedButton(
+                      onPressed: () {
+                        Get.off(MyContentUpdate());
+                      },
+                      child: Text('수정')),
+                ],
+              ),
+              SizedBox(height: 10.0),
+              Container(
+                height: 1.0,
+                width: 450.0,
+                color: Colors.grey,
+              ),
+              SizedBox(height: 16),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Text('글내용' * 500),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10.5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            widget.article.isLike
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color:
+                                widget.article.isLike ? Colors.redAccent : null,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              widget.article.isLike = !widget.article.isLike;
+                            });
+                          },
+                        ),
+                        Icon(Icons.comment),
+                        SizedBox(width: 10),
+                        Text('${commentsList.length}'),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 1.0,
+                width: 450.0,
+                color: Colors.red,
+              ),
+              _buildCommentList(),
+              SizedBox(height: 65),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: MyBottomNavigationBar(
