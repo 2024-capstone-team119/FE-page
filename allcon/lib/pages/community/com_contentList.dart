@@ -1,22 +1,22 @@
-import 'package:allcon/pages/community/community_content.dart';
-import 'package:allcon/pages/community/community_review.dart';
+import 'package:allcon/pages/community/com_content.dart';
+import 'package:allcon/pages/community/com_review.dart';
 import 'package:flutter/material.dart';
 
-class CommuArticles extends StatefulWidget {
+class MyContentList extends StatefulWidget {
   final int tabIndex;
   final String searchText;
 
-  const CommuArticles({
+  const MyContentList({
     Key? key,
     required this.tabIndex,
     required this.searchText,
   }) : super(key: key);
 
   @override
-  State<CommuArticles> createState() => _CommuArticlesState();
+  State<MyContentList> createState() => _ContentListState();
 }
 
-class _CommuArticlesState extends State<CommuArticles> {
+class _ContentListState extends State<MyContentList> {
   List<Content> contents = [];
 
   @override
@@ -62,7 +62,7 @@ class _CommuArticlesState extends State<CommuArticles> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ArticleDetail(article: content),
+                builder: (context) => MyContentDetail(article: content),
               ),
             );
           },

@@ -1,21 +1,19 @@
-import 'package:allcon/pages/community/community_content.dart';
-import 'package:allcon/pages/community/community_main.dart';
-import 'package:allcon/pages/community/community_update.dart';
+import 'package:allcon/pages/community/com_content.dart';
+import 'package:allcon/pages/community/com_update.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import './community_articels.dart';
 
-class ArticleDetail extends StatefulWidget {
+class MyContentDetail extends StatefulWidget {
   final Content article;
 
-  const ArticleDetail({Key? key, required this.article}) : super(key: key);
+  const MyContentDetail({Key? key, required this.article}) : super(key: key);
 
   @override
-  _ArticleDetailState createState() => _ArticleDetailState();
+  _ContentDetailState createState() => _ContentDetailState();
 }
 
-class _ArticleDetailState extends State<ArticleDetail> {
+class _ContentDetailState extends State<MyContentDetail> {
   int _currentIndex = 3;
   List<String> commentsList = [];
   TextEditingController _commentController = TextEditingController();

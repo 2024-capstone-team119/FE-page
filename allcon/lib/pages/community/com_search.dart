@@ -1,16 +1,16 @@
-import 'package:allcon/pages/community/community_likes.dart';
 import 'package:flutter/material.dart';
 
-class Search extends StatefulWidget {
+class MyContentSearch extends StatefulWidget {
   final void Function(String) onSearchTextChanged;
 
-  const Search({Key? key, required this.onSearchTextChanged}) : super(key: key);
+  const MyContentSearch({Key? key, required this.onSearchTextChanged})
+      : super(key: key);
 
   @override
-  State<Search> createState() => _SearchPageState();
+  State<MyContentSearch> createState() => _ContentSearchState();
 }
 
-class _SearchPageState extends State<Search> {
+class _ContentSearchState extends State<MyContentSearch> {
   void cardClickEvent(BuildContext context, String content) {
     // ...
   }

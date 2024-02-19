@@ -1,9 +1,9 @@
-import 'package:allcon/pages/community/community_main.dart';
+import 'package:allcon/pages/community/com_home.dart';
 import 'package:allcon/pages/home.dart';
 import 'package:flutter/material.dart';
 import '../pages/mypage.dart';
 import '../pages/search.dart';
-import '../pages/community/community_main.dart';
+import '../pages/community/com_home.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
