@@ -1,9 +1,9 @@
-import 'package:allcon/pages/community/community_likes.dart';
-import 'package:allcon/pages/community/community_write.dart';
+import 'package:allcon/pages/community/com_likes.dart';
+import 'package:allcon/pages/community/com_write.dart';
 import 'package:flutter/material.dart';
 import '../../widget/bottom_navigation_bar.dart';
-import '../community/community_search.dart';
-import '../community/community_category.dart';
+import '../community/com_search.dart';
+import '../community/com_category.dart';
 
 class MyCommunity extends StatefulWidget {
   const MyCommunity({Key? key}) : super(key: key);
@@ -34,7 +34,7 @@ class _MyCommunityState extends State<MyCommunity> {
           FloatingActionButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CommunityLikes()));
+                  MaterialPageRoute(builder: (context) => MyContentLikes()));
             },
             child: Icon(Icons.favorite),
           ),
@@ -42,7 +42,7 @@ class _MyCommunityState extends State<MyCommunity> {
           FloatingActionButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CommunityWrite()));
+                  MaterialPageRoute(builder: (context) => MyContentWrite()));
             },
             child: Icon(Icons.edit),
           ),
@@ -78,7 +78,7 @@ class _CommunityState extends State<Community> {
       child: Column(
         children: <Widget>[
           Container(
-            child: Search(
+            child: MyContentSearch(
               onSearchTextChanged: (value) {
                 setState(() {
                   searchText = value;
@@ -88,7 +88,7 @@ class _CommunityState extends State<Community> {
             // color: Colors.redAccent,
           ),
           Container(
-            child: TabBarScreen(searchText: searchText),
+            child: MyContentCategory(searchText: searchText),
             // color: Colors.yellow,
           ),
         ],

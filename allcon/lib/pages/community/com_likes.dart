@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CommunityLikes extends StatelessWidget {
+class MyContentLikes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

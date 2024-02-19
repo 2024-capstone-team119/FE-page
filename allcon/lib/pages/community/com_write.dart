@@ -1,4 +1,4 @@
-import 'package:allcon/pages/community/community_main.dart';
+import 'package:allcon/pages/community/com_home.dart';
 import 'package:allcon/util/validator_util.dart';
 import 'package:allcon/widget/custom_elevated_btn.dart';
 import 'package:allcon/widget/custom_text_area.dart';
@@ -7,12 +7,12 @@ import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CommunityWrite extends StatefulWidget {
+class MyContentWrite extends StatefulWidget {
   @override
-  _CommunityWriteState createState() => _CommunityWriteState();
+  _ContentWriteState createState() => _ContentWriteState();
 }
 
-class _CommunityWriteState extends State<CommunityWrite> {
+class _ContentWriteState extends State<MyContentWrite> {
   final _formKey = GlobalKey<FormState>();
   int _currentIndex = 3;
 
@@ -70,7 +70,7 @@ class _CommunityWriteState extends State<CommunityWrite> {
                 funPageRoute: () {
                   if (_formKey.currentState!.validate()) {
                     print('버튼 클릭 업로드');
-                    Get.to(MyCommunity());
+                    Get.off(MyCommunity());
                   }
                 },
               ),
