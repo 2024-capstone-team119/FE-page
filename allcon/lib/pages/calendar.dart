@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
@@ -48,7 +49,7 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: MyAppBar(text: "달력"),
       // 달력을 표시하는 TableCalendar 위젯을 body에 추가
       body: Padding(
         padding: const EdgeInsets.all(10.0),

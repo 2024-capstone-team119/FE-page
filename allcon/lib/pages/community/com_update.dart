@@ -2,6 +2,7 @@ import 'package:allcon/pages/community/com_home.dart';
 import 'package:allcon/pages/community/com_review.dart';
 import 'package:allcon/pages/community/com_write.dart';
 import 'package:allcon/util/validator_util.dart';
+import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/custom_elevated_btn.dart';
 import 'package:allcon/widget/custom_text_area.dart';
 import 'package:allcon/widget/custom_text_form_field.dart';
@@ -21,15 +22,7 @@ class _ContentUpdateState extends State<MyContentUpdate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '커뮤니티',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        centerTitle: true,
-      ),
+      appBar: MyAppBar(text: "커뮤니티"),
       bottomNavigationBar: MyBottomNavigationBar(
         currentIndex: 3,
       ),

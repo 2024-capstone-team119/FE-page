@@ -1,5 +1,6 @@
 import 'package:allcon/pages/community/com_likes.dart';
 import 'package:allcon/pages/community/com_write.dart';
+import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/material.dart';
 import '../../widget/bottom_navigation_bar.dart';
 import '../community/com_search.dart';
@@ -16,16 +17,7 @@ class _MyCommunityState extends State<MyCommunity> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '커뮤니티',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-      ),
+      appBar: MyAppBar(text: "커뮤니티"),
       bottomNavigationBar: MyBottomNavigationBar(
         currentIndex: 3,
       ),

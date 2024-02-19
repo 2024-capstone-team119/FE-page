@@ -1,4 +1,5 @@
 import 'package:allcon/pages/home.dart';
+import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/material.dart';
 
 String searchText = '';
@@ -30,7 +31,7 @@ class _SearchPageState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('검색')),
+      appBar: MyAppBar(text: "검색"),
       body: Column(
         children: <Widget>[
           Padding(
