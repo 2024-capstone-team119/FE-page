@@ -3,13 +3,7 @@ import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:allcon/pages/concerthallsearch.dart';
-
-void main() async {
-  await initializeDateFormatting();
-  runApp(const MyHome());
-}
 
 class MyHome extends StatelessWidget {
   const MyHome({Key? key});
@@ -32,8 +26,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var _idx = 1;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,12 +34,7 @@ class _HomeState extends State<Home> {
         child: HomePage(),
       ),
       bottomNavigationBar: MyBottomNavigationBar(
-        currentIndex: _idx,
-        onTap: (index) {
-          setState(() {
-            _idx = index;
-          });
-        },
+        currentIndex: 1,
       ),
     );
   }

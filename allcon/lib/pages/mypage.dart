@@ -1,3 +1,4 @@
+import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class MyPage extends StatefulWidget {
@@ -17,6 +18,9 @@ class _MyPageState extends State<MyPage> {
       appBar: AppBar(
         title: Text('마이페이지'),
         centerTitle: true,
+      ),
+      bottomNavigationBar: MyBottomNavigationBar(
+        currentIndex: 0,
       ),
       body: SingleChildScrollView(
         child: Container(

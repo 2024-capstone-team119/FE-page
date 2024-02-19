@@ -13,8 +13,6 @@ class MyCommunity extends StatefulWidget {
 }
 
 class _MyCommunityState extends State<MyCommunity> {
-  int _currentIndex = 3;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +25,9 @@ class _MyCommunityState extends State<MyCommunity> {
         ),
         centerTitle: true,
         automaticallyImplyLeading: false,
+      ),
+      bottomNavigationBar: MyBottomNavigationBar(
+        currentIndex: 3,
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -49,14 +50,6 @@ class _MyCommunityState extends State<MyCommunity> {
         ],
       ),
       body: Community(),
-      bottomNavigationBar: MyBottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-      ),
     );
   }
 }

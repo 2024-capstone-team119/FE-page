@@ -7,10 +7,8 @@ import '../pages/community/com_home.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
-  final Function(int) onTap;
 
-  const MyBottomNavigationBar(
-      {super.key, required this.currentIndex, required this.onTap});
+  const MyBottomNavigationBar({super.key, required this.currentIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +39,6 @@ class MyBottomNavigationBar extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const MyCommunity()),
             );
             break;
-          default:
-            onTap(index);
         }
       },
       currentIndex: currentIndex,

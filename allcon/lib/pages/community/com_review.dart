@@ -30,6 +30,9 @@ class _ContentDetailState extends State<MyContentDetail> {
         ),
         centerTitle: true,
       ),
+      bottomNavigationBar: MyBottomNavigationBar(
+        currentIndex: 3,
+      ),
       body: Container(
         constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height,
@@ -121,14 +124,6 @@ class _ContentDetailState extends State<MyContentDetail> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: MyBottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
       ),
       bottomSheet: _buildCommentInput(),
     );

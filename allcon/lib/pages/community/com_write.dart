@@ -28,14 +28,6 @@ class _ContentWriteState extends State<MyContentWrite> {
         ),
         centerTitle: true,
       ),
-      bottomNavigationBar: MyBottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-      ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Form(
