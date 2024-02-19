@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
-class MyPage extends StatelessWidget {
+class MyPage extends StatefulWidget {
   const MyPage({Key? key}) : super(key: key);
+
+  @override
+  _MyPageState createState() => _MyPageState();
+}
+
+class _MyPageState extends State<MyPage> {
+  String _nickname = '일일구';
 
   @override
   Widget build(BuildContext context) {
@@ -10,145 +17,119 @@ class MyPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('마이페이지'),
         centerTitle: true,
-        backgroundColor: Colors.redAccent,
       ),
-      body: SingleChildScrollView(child: MyPages()),
-    );
-  }
-}
-
-class MyPages extends StatefulWidget {
-  const MyPages({Key? key}) : super(key: key);
-
-  @override
-  _MyPagesState createState() => _MyPagesState();
-}
-
-class _MyPagesState extends State<MyPages> {
-  String _nickname = '일일구';
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.35,
-            color: Colors.redAccent,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage('assets/profile.png'),
-                    backgroundColor: Colors.white,
-                    radius: 45.0,
-                  ),
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                  Row(
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.56,
+                color: Colors.cyan,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.2),
-                      Text(
-                        '닉네임',
-                        style: TextStyle(fontSize: 15.0),
+                      CircleAvatar(
+                        backgroundImage: AssetImage('assets/profile.png'),
+                        backgroundColor: Colors.white,
+                        radius: 60.0,
                       ),
-                      SizedBox(width: 50.0),
-                      Flexible(
-                        child: Text(
-                          _nickname,
-                          style: TextStyle(fontSize: 15.0),
-                        ),
+                      SizedBox(
+                        height: 32.0,
                       ),
-                      TextButton(
-                        onPressed: () {
-                          _showNicknameInputDialog(context);
-                        },
-                        child: Text(
-                          '수정',
-                          style: TextStyle(fontSize: 15.0),
-                        ),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.2),
-                      Text(
-                        '이메일',
-                        style: TextStyle(fontSize: 15.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              _nickname,
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 50.0),
-                      Text(
-                        'allcon911@inu.ac.kr',
-                        style: TextStyle(fontSize: 15.0),
+                      SizedBox(height: 8.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'allcon911@inu.ac.kr',
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {},
+                            child: Text('닉네임 수정'),
+                          ),
+                          SizedBox(width: 16.0),
+                          ElevatedButton(
+                            onPressed: () {},
+                            child: Text('회원탈퇴'),
+                          )
+                        ],
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.17),
-                      TextButton(onPressed: () {}, child: Text('회원탈퇴'))
-                    ],
-                  ),
-                ],
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: Icon(
+                        Icons.favorite,
+                        color: Colors.grey[850],
+                      ),
+                      title: Text(
+                        '관심 공연 목록',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                      onTap: () {
+                        print('관심 공연 목록 is clicked');
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.help_outline_rounded,
+                        color: Colors.grey[850],
+                      ),
+                      title: Text(
+                        '문의사항',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                      onTap: () {
+                        print('문의사항 is clicked');
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.logout_outlined,
+                        color: Colors.grey[850],
+                      ),
+                      title: Text(
+                        '로그아웃',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                      onTap: () {
+                        print('로그아웃 is clicked');
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          SizedBox(
-            height: 15.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 0.5, 15.0, 0.5),
-            child: ListTile(
-              leading: Icon(
-                Icons.favorite,
-                color: Colors.grey[850],
-              ),
-              title: Text(
-                '관심 공연 목록',
-                style: TextStyle(fontSize: 18.0),
-              ),
-              onTap: () {
-                print('관심 공연 목록 is clicked');
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 0.5, 15.0, 0.5),
-            child: ListTile(
-              leading: Icon(
-                Icons.help_outline_rounded,
-                color: Colors.grey[850],
-              ),
-              title: Text(
-                '문의사항',
-                style: TextStyle(fontSize: 18.0),
-              ),
-              onTap: () {
-                print('문의사항 is clicked');
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 0.5, 15.0, 0.5),
-            child: ListTile(
-              leading: Icon(
-                Icons.logout_outlined,
-                color: Colors.grey[850],
-              ),
-              title: Text(
-                '로그아웃',
-                style: TextStyle(fontSize: 18.0),
-              ),
-              onTap: () {
-                print('로그아웃 is clicked');
-              },
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
