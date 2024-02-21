@@ -1,5 +1,5 @@
-import 'package:allcon/widget/app_bar.dart';
-import 'package:allcon/widget/bottom_navigation_bar.dart';
+import 'package:allcon/Widget/app_bar.dart';
+import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class MyPage extends StatefulWidget {
@@ -16,7 +16,10 @@ class _MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: MyAppBar(text: '마이페이지'),
+      appBar: MyAppBar(
+        text: '마이페이지',
+        automaticallyImplyLeading: false,
+      ),
       bottomNavigationBar: MyBottomNavigationBar(
         currentIndex: 0,
       ),

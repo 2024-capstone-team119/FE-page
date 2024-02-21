@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:allcon/pages/seat/seat_write.dart';
+import 'package:allcon/Pages/seat/seat_write.dart';
 
 class SeatMain extends StatefulWidget {
   const SeatMain({super.key});

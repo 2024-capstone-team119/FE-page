@@ -1,4 +1,4 @@
-import 'package:allcon/widget/app_bar.dart';
+import 'package:allcon/Widget/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class ConcertInfo extends StatefulWidget {

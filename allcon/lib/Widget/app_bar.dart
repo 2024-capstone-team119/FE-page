@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../pages/calendar.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String text;
   final Widget? actions;
   final Function()? onActionPressed;
   final String? textFontFamily;
+  final bool automaticallyImplyLeading;
 
   const MyAppBar({
     required this.text,
     this.actions,
     this.onActionPressed,
     this.textFontFamily,
+    this.automaticallyImplyLeading = true,
   });
 
   @override
@@ -27,7 +27,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       backgroundColor: Colors.white,
-      elevation: 5,
+      elevation: 3,
+      automaticallyImplyLeading: automaticallyImplyLeading,
       actions: <Widget>[
         if (actions != null)
           Padding(

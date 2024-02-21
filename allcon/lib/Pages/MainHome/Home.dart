@@ -1,10 +1,10 @@
-import 'package:allcon/pages/calendar.dart';
-import 'package:allcon/pages/concertinfo.dart' as concertinfo;
-import 'package:allcon/widget/app_bar.dart';
-import 'package:allcon/widget/bottom_navigation_bar.dart';
+import 'package:allcon/Pages/calendar.dart';
+import 'package:allcon/Pages/concertinfo.dart' as concertinfo;
+import 'package:allcon/Widget/app_bar.dart';
+import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
-import 'package:allcon/pages/concerthallsearch.dart';
+import 'package:allcon/Pages/concerthallsearch.dart';
 import 'package:get/get.dart';
 
 class MyHome extends StatelessWidget {
@@ -129,22 +129,22 @@ Widget _DeadLineCon(BuildContext context) {
       imageUrl:
           'https://ticketimage.interpark.com/Play/image/large/23/23016540_p.gif',
       name: '콘서트 1',
-      time: '2024-02-20 19:00',
-      venue: '공연장 1',
+      time: DateTime.parse('2024-02-20 19:00'),
+      place: '공연장 1',
     ),
     Concert(
       imageUrl:
           'http://ticketimage.interpark.com/TCMS3.0/CO/HOT/2401/240104115350_23018731.gif',
       name: '콘서트 2',
-      time: '2024-02-21 18:30',
-      venue: '공연장 2',
+      time: DateTime.parse('2024-02-21 18:30'),
+      place: '공연장 2',
     ),
     Concert(
       imageUrl:
           'https://ticketimage.interpark.com/Play/image/large/23/23015766_p.gif',
       name: '콘서트 3',
-      time: '2024-02-22 20:00',
-      venue: '공연장 3',
+      time: DateTime.parse('2024-02-22 20:00'),
+      place: '공연장 3',
     ),
   ];
   return Padding(
@@ -210,7 +210,7 @@ Widget _DeadLineCon(BuildContext context) {
                         ),
                         const SizedBox(height: 4.0),
                         Text(
-                          '장소: ${concert.venue}',
+                          '장소: ${concert.place}',
                           style: TextStyle(
                             fontSize: 14.0,
                           ),
@@ -231,14 +231,14 @@ Widget _DeadLineCon(BuildContext context) {
 class Concert {
   final String imageUrl;
   final String name;
-  final String time;
-  final String venue;
+  final DateTime time;
+  final String place;
 
   Concert({
     required this.imageUrl,
     required this.name,
     required this.time,
-    required this.venue,
+    required this.place,
   });
 }
 
