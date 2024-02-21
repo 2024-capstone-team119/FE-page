@@ -1,37 +1,52 @@
-import 'package:allcon/pages/home.dart';
-import 'package:allcon/widget/app_bar.dart';
+import 'package:allcon/Pages/MainHome/Home.dart';
 import 'package:flutter/material.dart';
+import 'package:allcon/Pages/seat/seat_main.dart';
 
 String searchText = '';
 
-List<String> items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
-List<String> itemContents = [
-  'Item 1 Contents',
-  'Item 2 Contents',
-  'Item 3 Contents',
-  'Item 4 Contents'
-];
+List<String> items = ['고척스카이돔', '두산아트센터', '디뮤지엄', '롯데콘서트홀'];
 
-class Search extends StatefulWidget {
-  const Search({Key? key}) : super(key: key);
+class ConcerthallSearch extends StatefulWidget {
+  final String initialTitle;
+
+  const ConcerthallSearch({super.key, required this.initialTitle});
 
   @override
-  State<Search> createState() => _SearchPageState();
+  State<ConcerthallSearch> createState() => _ConcerthallSearchPageState();
 }
 
-class _SearchPageState extends State<Search> {
+class _ConcerthallSearchPageState extends State<ConcerthallSearch> {
   void cardClickEvent(BuildContext context, String content) {
-    // You can pass 'content' or any other relevant information to the next page.
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
+      MaterialPageRoute(builder: (context) => const SeatMain()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(text: "검색"),
+      appBar: AppBar(
+        title: Row(
+          children: [
+            const Text(
+              '공연장',
+              style: TextStyle(fontSize: 20.0),
+            ),
+            const SizedBox(width: 8.0),
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 18.0,
+            ),
+            const SizedBox(width: 8.0),
+            Text(
+              widget.initialTitle,
+              style: const TextStyle(fontSize: 20.0),
+            ),
+          ],
+        ),
+        centerTitle: true,
+      ),
       body: Column(
         children: <Widget>[
           Padding(
@@ -59,9 +74,8 @@ class _SearchPageState extends State<Search> {
                         .contains(searchText.toLowerCase())) {
                   return ListTile(
                     title: Text(items[index]),
-                    subtitle: Text(itemContents[index]),
                     onTap: () {
-                      cardClickEvent(context, itemContents[index]);
+                      cardClickEvent(context, items[index]);
                     },
                   );
                 } else {

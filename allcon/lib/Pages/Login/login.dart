@@ -1,4 +1,4 @@
-import 'package:allcon/pages/home.dart';
+import 'package:allcon/Pages/MainHome/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
