@@ -7,7 +7,7 @@ import 'package:allcon/Widget/copyRight_ALLCON.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
-import 'package:allcon/Pages/ConcertHall/hallsearch.dart';
+import 'package:allcon/Pages/ConcertHall/hall_search.dart';
 import 'package:allcon/Data/Concert.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
