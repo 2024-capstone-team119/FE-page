@@ -1,8 +1,8 @@
-import 'package:allcon/pages/community/com_content.dart';
-import 'package:allcon/pages/community/com_home.dart';
-import 'package:allcon/pages/community/com_update.dart';
-import 'package:allcon/widget/app_bar.dart';
-import 'package:allcon/widget/bottom_navigation_bar.dart';
+/*
+import 'package:allcon/Data/Content.dart';
+import 'package:allcon/Pages/Community/Sub/Update.dart';
+import 'package:allcon/Widget/app_bar.dart';
+import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -185,3 +185,4 @@ class _ContentDetailState extends State<MyContentDetail> {
     );
   }
 }
+*/

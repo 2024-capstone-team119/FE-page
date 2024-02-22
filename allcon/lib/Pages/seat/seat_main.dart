@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:allcon/pages/seat/seat_write.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
