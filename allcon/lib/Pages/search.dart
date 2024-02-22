@@ -1,6 +1,7 @@
 import 'package:allcon/Pages/MainHome/Home.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:allcon/Widget/bottom_navigation_bar.dart';
 
 String searchText = '';
 
@@ -13,7 +14,7 @@ List<String> itemContents = [
 ];
 
 class Search extends StatefulWidget {
-  const Search({Key? key}) : super(key: key);
+  const Search({super.key});
 
   @override
   State<Search> createState() => _SearchPageState();
@@ -31,15 +32,33 @@ class _SearchPageState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(text: "검색"),
+      appBar: const MyAppBar(
+        text: "검색",
+        automaticallyImplyLeading: false,
+      ),
       body: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 15.0),
             child: TextField(
-              decoration: const InputDecoration(
-                hintText: '검색어를 입력해주세요.',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 10.0, horizontal: 15.0),
+                hintText: '검색어를 입력하세요.',
+                labelStyle: const TextStyle(color: Colors.black),
+                filled: true,
+                fillColor: Colors.white,
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(width: 1, color: Colors.black),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(width: 1, color: Colors.black),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
               ),
               onChanged: (value) {
                 setState(() {
@@ -71,6 +90,9 @@ class _SearchPageState extends State<Search> {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: const MyBottomNavigationBar(
+        currentIndex: 2,
       ),
     );
   }
