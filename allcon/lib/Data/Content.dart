@@ -1,4 +1,5 @@
 class Content {
+  final int postId;
   final String? boardName;
   final String? content;
   int? like;
@@ -9,6 +10,7 @@ class Content {
   DateTime? date;
 
   Content({
+    required this.postId,
     this.title,
     this.boardName,
     this.like,
