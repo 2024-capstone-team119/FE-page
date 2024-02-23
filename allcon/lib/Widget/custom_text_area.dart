@@ -14,19 +14,15 @@ class CustomTextArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      maxLines: 15,
+      maxLines: 18,
       initialValue: value ?? "",
       validator: funValidator,
       decoration: InputDecoration(
         hintText: "$hint을 작성하세요.",
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-        ),
+        border: InputBorder.none,
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: Colors.redAccent),
         ),
       ),
     );

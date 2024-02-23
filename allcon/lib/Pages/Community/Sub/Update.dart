@@ -6,14 +6,30 @@ import 'package:allcon/Widget/custom_text_form_field.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:math';
 
 class MyContentUpdate extends StatefulWidget {
+  final String title;
+  final String content;
+
+  MyContentUpdate({Key? key, required this.title, required this.content})
+      : super(key: key);
+
   @override
   _ContentUpdateState createState() => _ContentUpdateState();
 }
 
 class _ContentUpdateState extends State<MyContentUpdate> {
   final _formKey = GlobalKey<FormState>();
+  late TextEditingController _titleController;
+  late TextEditingController _contentController;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(text: widget.title);
+    _contentController = TextEditingController(text: widget.content);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,39 +47,53 @@ class _ContentUpdateState extends State<MyContentUpdate> {
               CustomTextFormField(
                 hint: "제목",
                 funValidator: validateTitle(),
-                value: "제목수정해줘1", // 서버에서 불러오기
+                value: widget.title ?? "", // 서버에서 불러오기
               ),
               const SizedBox(height: 16),
               CustomTextArea(
                 hint: "내용",
                 funValidator: validateContent(),
-                value: "내용수정해줘1 " * 30,
+                value: widget.content,
               ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                onPressed: () {
-                  print('사진 첨부 클릭 성공');
-                },
-                child: const Text('사진 첨부/교체'),
-              ),
-              const SizedBox(height: 12),
-              CustomElevatedBtn(
-                text: "수정완료",
-                funPageRoute: () {
-                  if (_formKey.currentState!.validate()) {
-                    print('버튼 클릭 업로드');
-                    Get.back();
-                  }
-                },
-              ),
-              const SizedBox(height: 18),
             ],
+          ),
+        ),
+      ),
+      bottomSheet: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 8.0,
+            right: 8.0,
+            bottom: max(MediaQuery.of(context).viewInsets.bottom * 0.05, 16.0),
+          ),
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // 주축을 최소한으로 사용하도록 지정
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onPressed: () {
+                    print('사진 첨부 클릭 성공');
+                  },
+                  child: const Text('사진 첨부/교체'),
+                ),
+                const SizedBox(height: 5.0),
+                CustomElevatedBtn(
+                  text: "수정완료",
+                  funPageRoute: () {
+                    if (_formKey.currentState!.validate()) {
+                      print('버튼 클릭 업로드');
+                      Get.back();
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
