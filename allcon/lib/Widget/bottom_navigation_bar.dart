@@ -2,7 +2,7 @@ import 'package:allcon/Pages/Community/Home.dart';
 import 'package:allcon/Pages/MainHome/Home.dart';
 import 'package:flutter/material.dart';
 import '../Pages/MyPage/MyPage.dart';
-import '../Pages/search.dart';
+import '../Pages/Search/search.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -35,7 +35,7 @@ class MyBottomNavigationBar extends StatelessWidget {
           case 3:
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyCommunity()),
+              MaterialPageRoute(builder: (context) => const MyCommunity()),
             );
             break;
         }

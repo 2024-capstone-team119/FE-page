@@ -70,25 +70,79 @@ class _HallSearchPageState extends State<HallSearch> {
       );
     }
 
+    List<Place> selectedList = [];
+
+    // 주어진 조건에 따라 적절한 리스트 선택
+    if (widget.initialTitle == '서울') {
+      selectedList = seoulList;
+    } else if (widget.initialTitle == '경상도') {
+      selectedList = gyeongSangList;
+    } else {
+      return const Expanded(
+        child: Center(
+          child: Text('공연장 준비 중입니다.'),
+        ),
+      );
+    }
+
+    // 리스트가 선택된 경우, 해당 리스트의 아이템을 표시
     return Expanded(
-      child: ListView.builder(
-        itemCount: seoulList.length,
-        itemBuilder: (BuildContext context, int index) {
-          if (searchText.isEmpty ||
-              seoulList[index]
-                  .title
-                  .toLowerCase()
-                  .contains(searchText.toLowerCase())) {
-            return ListTile(
-              title: Text(seoulList[index].title),
-              onTap: () {
-                cardClickEvent(context, seoulList[index].title);
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              '목록',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: selectedList.length,
+              itemBuilder: (BuildContext context, int index) {
+                if (searchText.isEmpty ||
+                    selectedList[index]
+                        .title
+                        .toLowerCase()
+                        .contains(searchText.toLowerCase())) {
+                  return Column(
+                    children: [
+                      ListTile(
+                        title: Text(selectedList[index].title),
+                        onTap: () {
+                          cardClickEvent(context, selectedList[index].title);
+                        },
+                        leading: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Colors.deepPurple,
+                            ),
+                            width: 5.0,
+                            height: 30.0,
+                          ),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
+                        child: Divider(),
+                      ), // Divider 추가
+                    ],
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
               },
-            );
-          } else {
-            return const SizedBox.shrink();
-          }
-        },
+            ),
+          ),
+        ],
       ),
     );
   }
