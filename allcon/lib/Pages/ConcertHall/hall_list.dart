@@ -1,10 +1,14 @@
-class Seoul {
+class Place {
   final String title;
 
-  const Seoul(this.title);
+  const Place(this.title);
 
   @override
   String toString() => title;
+}
+
+class Seoul extends Place {
+  const Seoul(super.title);
 }
 
 final seoulList = [
@@ -15,13 +19,8 @@ final seoulList = [
   const Seoul('서울 공연장 5'),
 ];
 
-class GyeongSang {
-  final String title;
-
-  const GyeongSang(this.title);
-
-  @override
-  String toString() => title;
+class GyeongSang extends Place {
+  const GyeongSang(super.title);
 }
 
 final gyeongSangList = [
