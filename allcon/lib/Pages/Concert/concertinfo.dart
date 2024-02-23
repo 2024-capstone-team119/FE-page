@@ -1,6 +1,9 @@
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/Widget/app_bar.dart';
+import 'package:intl/intl.dart';
+import 'package:get/get.dart';
+import 'package:allcon/Data/Concert.dart';
 
 class ConcertInfo extends StatefulWidget {
   const ConcertInfo({super.key});
@@ -12,13 +15,13 @@ class ConcertInfo extends StatefulWidget {
 class _ConcertInfoState extends State<ConcertInfo> {
   bool isFavorite = false;
   Color? buttonColor = Colors.purple[50];
+  var concert = Get.arguments as Concert;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(
-        text: "공연",
-        automaticallyImplyLeading: false,
+        text: "상세 정보",
       ),
       body: infoMain(context),
       floatingActionButton: SizedBox(
@@ -45,21 +48,22 @@ class _ConcertInfoState extends State<ConcertInfo> {
   }
 
   Widget infoMain(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-              child: Row(
+    return DefaultTabController(
+      length: 3,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(25.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      '2023 적재 콘서트 〈Farewell〉',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.0,
+                      concert.title ?? 'unknown',
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -70,64 +74,73 @@ class _ConcertInfoState extends State<ConcertInfo> {
                           : Icons.favorite_border_outlined,
                       color: isFavorite ? Colors.red : Colors.black,
                     ),
+                    visualDensity: VisualDensity.compact,
                     onPressed: () {
                       setState(() {
                         isFavorite = !isFavorite;
                       });
                     },
-                    visualDensity: VisualDensity.compact,
                   ),
                 ],
               ),
-            ),
-            const SizedBox(
-              child: Divider(color: Colors.grey, thickness: 0.5),
-            ),
-            Row(
-              children: [
-                Image.network(
-                  'https://ticketimage.interpark.com/Play/image/large/23/23016540_p.gif',
-                  width: 150,
-                  height: 150,
-                ),
-                const SizedBox(width: 10),
-                const Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '장소: 블루스퀘어 마스터카드홀',
-                        style: TextStyle(fontSize: 10.0),
-                      ),
-                      Text(
-                        '공연 기간: 2023.12.22 ~ 25',
-                        style: TextStyle(fontSize: 10.0),
-                      ),
-                      Text(
-                        '관람 연령: 만 8세 이상',
-                        style: TextStyle(fontSize: 10.0),
-                      ),
-                      Text(
-                        '관람 시간: 총 100분',
-                        style: TextStyle(fontSize: 10.0),
-                      ),
-                      Text(
-                        '예매처: 인터파크',
-                        style: TextStyle(fontSize: 10.0),
-                      ),
-                    ],
+              const Divider(color: Colors.grey, thickness: 0.5),
+              const SizedBox(
+                height: 10.0,
+              ),
+              Row(
+                children: [
+                  Image.network(
+                    concert.imgUrl ?? '',
+                    width: 150,
+                    height: 200,
+                    fit: BoxFit.cover,
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              child: Divider(color: Colors.grey, thickness: 0.5),
-            ),
-            SizedBox(
-              height: 200, // 적절한 높이 조정
-              child: infoTab(context),
-            ),
-          ],
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: SizedBox(
+                      height: 200,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            '장소: ${concert.place ?? 'unknown'}',
+                            style: const TextStyle(fontSize: 14.0),
+                          ),
+                          Text(
+                            '공연 기간: ${DateFormat('yyyy-MM-dd HH:mm').format(concert.date!)}',
+                            style: const TextStyle(fontSize: 14.0),
+                          ),
+                          const Text(
+                            '관람 연령: 만 8세 이상',
+                            style: TextStyle(fontSize: 14.0),
+                          ),
+                          const Text(
+                            '관람 시간: 총 100분',
+                            style: TextStyle(fontSize: 14.0),
+                          ),
+                          const Text(
+                            '예매처: 인터파크',
+                            style: TextStyle(fontSize: 14.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              const Divider(color: Colors.grey, thickness: 0.5),
+              SizedBox(
+                height: 200, // 적절한 높이 조정
+                child: infoTab(context),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -140,12 +153,12 @@ class _ConcertInfoState extends State<ConcertInfo> {
         body: Column(
           children: [
             TabBar(
-              indicatorColor: Colors.black,
+              indicatorColor: Colors.deepPurple,
               labelStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14.0, // 탭 텍스트 크기 변경
               ),
-              indicatorWeight: 3,
+              indicatorWeight: 4,
               tabs: [
                 Tab(
                   text: '공연 정보',
