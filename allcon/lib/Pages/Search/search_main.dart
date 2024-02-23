@@ -1,19 +1,21 @@
-import 'package:allcon/Pages/MainHome/Home.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:allcon/Widget/bottom_navigation_bar.dart';
+import 'package:allcon/widget/bottom_navigation_bar.dart';
+import 'package:allcon/pages/concert/concertinfo.dart' as concertinfo;
+import 'package:allcon/Data/Concert.dart';
 import 'package:allcon/Data/Sample/concert_sample.dart';
-import 'package:allcon/Pages/Concert/concertinfo.dart';
+import 'package:get/get.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
 
   @override
-  State<Search> createState() => _SearchPageState();
+  _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<Search> {
   String searchText = '';
+  List<Concert> deadConcert = deadConcertSample;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,20 @@ class _SearchPageState extends State<Search> {
       body: Column(
         children: <Widget>[
           searchTab(context),
+          const SizedBox(
+            height: 5.0,
+          ),
+          const Text(
+            '목록',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(
+            height: 5.0,
+          ),
           listTab(context),
         ],
       ),
@@ -67,81 +83,54 @@ class _SearchPageState extends State<Search> {
   }
 
   Widget listTab(BuildContext context) {
-    void cardClickEvent(BuildContext context, String content) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const ConcertInfo()),
-      );
-    }
-
     return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              '목록',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: deadConcertSample.length,
-              itemBuilder: (BuildContext context, int index) {
-                // 검색어가 비어 있거나 검색어와 일치하는 경우에만 아이템을 표시
-                if (searchText.isEmpty ||
-                    (deadConcertSample[index].title != null &&
-                        deadConcertSample[index]
-                            .title!
-                            .toLowerCase()
-                            .contains(searchText.toLowerCase())) ||
-                    (deadConcertSample[index].performer != null &&
-                        deadConcertSample[index]
-                            .performer!
-                            .toLowerCase()
-                            .contains(searchText.toLowerCase()))) {
-                  return Column(
-                    children: [
-                      ListTile(
-                        title:
-                            Text(deadConcertSample[index].title ?? 'unknown'),
-                        subtitle: Text(
-                            deadConcertSample[index].performer ?? 'unknown'),
-                        onTap: () {
-                          cardClickEvent(context,
-                              deadConcertSample[index].title ?? 'unknown');
-                        },
-                        leading: Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: Colors.deepPurple,
-                            ),
-                            width: 5.0,
-                            height: 30.0,
-                          ),
+      child: ListView.builder(
+        itemCount: deadConcert.length,
+        itemBuilder: (BuildContext context, int index) {
+          final concert = deadConcert[index];
+          // 검색어가 비어 있거나 검색어와 일치하는 경우에만 아이템을 표시
+          if (searchText.isEmpty ||
+              (concert.title != null &&
+                  concert.title!
+                      .toLowerCase()
+                      .contains(searchText.toLowerCase())) ||
+              (concert.performer != null &&
+                  concert.performer!
+                      .toLowerCase()
+                      .contains(searchText.toLowerCase()))) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GestureDetector(
+                onTap: () {
+                  Get.to(
+                    const concertinfo.ConcertInfo(),
+                    arguments: concert,
+                  );
+                },
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text(concert.title ?? 'unknown'),
+                      subtitle: Text(concert.performer ?? 'unknown'),
+                      leading: ClipRRect(
+                        borderRadius: BorderRadius.circular(2.0),
+                        child: Image.network(
+                          concert.imgUrl ?? '',
+                          width: 50,
+                          height: 80,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
-                        child: Divider(),
-                      ),
-                    ],
-                  );
-                } else {
-                  return const SizedBox.shrink();
-                }
-              },
-            ),
-          ),
-        ],
+                    ),
+                    const Divider(),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
       ),
     );
   }
