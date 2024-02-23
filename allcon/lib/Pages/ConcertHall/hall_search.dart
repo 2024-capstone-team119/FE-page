@@ -66,7 +66,7 @@ class _HallSearchPageState extends State<HallSearch> {
     void cardClickEvent(BuildContext context, String content) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const SeatMain()),
+        MaterialPageRoute(builder: (context) => SeatMain(title: content)),
       );
     }
 
@@ -74,7 +74,6 @@ class _HallSearchPageState extends State<HallSearch> {
       child: ListView.builder(
         itemCount: seoulList.length,
         itemBuilder: (BuildContext context, int index) {
-          // 검색어가 비어 있거나 검색어와 일치하는 경우에만 아이템을 표시
           if (searchText.isEmpty ||
               seoulList[index]
                   .title
