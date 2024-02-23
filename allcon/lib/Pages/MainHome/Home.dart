@@ -123,7 +123,10 @@ Widget deadConcertList(BuildContext context) {
           padding: const EdgeInsets.all(5.0),
           child: GestureDetector(
             onTap: () {
-              Get.to(const concertinfo.ConcertInfo());
+              Get.to(
+                const concertinfo.ConcertInfo(),
+                arguments: concert,
+              );
             },
             child: Card(
               elevation: 3.5,
