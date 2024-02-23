@@ -3,6 +3,7 @@ import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:allcon/Data/Sample/concert_sample.dart';
+import 'package:allcon/Pages/Concert/concertinfo.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -69,7 +70,7 @@ class _SearchPageState extends State<Search> {
     void cardClickEvent(BuildContext context, String content) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
+        MaterialPageRoute(builder: (context) => const ConcertInfo()),
       );
     }
 
