@@ -18,14 +18,10 @@ class CustomTextFormField extends StatelessWidget {
       validator: funValidator,
       decoration: InputDecoration(
         hintText: "$hint을 작성하세요.",
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
+        enabledBorder: UnderlineInputBorder(),
+        focusedBorder: UnderlineInputBorder(),
+        errorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.redAccent),
         ),
       ),
     );

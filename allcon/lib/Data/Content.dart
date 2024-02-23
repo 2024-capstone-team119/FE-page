@@ -3,19 +3,19 @@ class Content {
   final String? boardName;
   final String? content;
   int? like;
-  int? comments;
   String? title;
   String? userName;
   bool? isLike = false;
   DateTime? date;
+  List<String>? comment;
 
   Content({
     required this.postId,
     this.title,
     this.boardName,
     this.like,
-    this.comments,
     this.content,
     this.date,
+    this.comment,
   });
 }

@@ -4,6 +4,7 @@ import 'package:allcon/Widget/custom_elevated_btn.dart';
 import 'package:allcon/Widget/custom_text_area.dart';
 import 'package:allcon/Widget/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class MyContentWrite extends StatefulWidget {
   @override
@@ -32,31 +33,45 @@ class _ContentWriteState extends State<MyContentWrite> {
                 hint: "내용",
                 funValidator: validateContent(),
               ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                onPressed: () {
-                  print('사진 첨부 클릭 성공');
-                },
-                child: const Text('사진 첨부하기'),
-              ),
-              const SizedBox(height: 12),
-              CustomElevatedBtn(
-                text: "업로드",
-                funPageRoute: () {
-                  if (_formKey.currentState!.validate()) {
-                    print('버튼 클릭 업로드');
-                    //Get.off(MyCommunity());
-                  }
-                },
-              ),
-              const SizedBox(height: 18),
             ],
+          ),
+        ),
+      ),
+      bottomSheet: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 8.0,
+            right: 8.0,
+            bottom: max(MediaQuery.of(context).viewInsets.bottom * 0.05, 16.0),
+          ),
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // 주축을 최소한으로 사용하도록 지정
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onPressed: () {
+                    print('사진 첨부 클릭 성공');
+                  },
+                  child: const Text('사진 첨부하기'),
+                ),
+                const SizedBox(height: 8),
+                CustomElevatedBtn(
+                  text: "업로드",
+                  funPageRoute: () {
+                    if (_formKey.currentState!.validate()) {
+                      print('버튼 클릭 업로드');
+                      // Get.off(MyCommunity());
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

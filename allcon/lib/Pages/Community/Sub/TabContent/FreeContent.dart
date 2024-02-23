@@ -1,5 +1,7 @@
 import 'package:allcon/Data/Sample/content_sample.dart';
+import 'package:allcon/Pages/Community/Sub/GetPost.dart';
 import 'package:allcon/Pages/Community/Sub/Post.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../Data/Content.dart';
@@ -54,7 +56,7 @@ Widget createBox(Content content, int index) {
   DateTime dateTime = content.date ?? DateTime.now();
   return GestureDetector(
     onTap: () {
-      Get.to(() => MyContentWrite());
+      Get.to(() => MyContentDetail(content: content));
     },
     child: Expanded(
       child: Column(
@@ -73,7 +75,7 @@ Widget createBox(Content content, int index) {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          content.content ?? "",
+                          content.title ?? "",
                           style: const TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.bold),
                         ),
@@ -104,14 +106,25 @@ Widget createBox(Content content, int index) {
                               size: 16.0, // 원하는 크기로 설정
                             ),
                             const SizedBox(width: 4.0),
-                            Text("${content.like}"), // 좋아요 수 표시
+                            Text(
+                              "${content.like}",
+                              style: TextStyle(
+                                color: Colors.red[300],
+                              ),
+                            ), // 좋아요 수 표시
                             const SizedBox(width: 8.0),
                             Icon(
-                              Icons.comment,
+                              CupertinoIcons.chat_bubble,
+                              color: Colors.blueAccent,
                               size: 16.0,
                             ),
                             const SizedBox(width: 4.0),
-                            Text("${content.comments}"),
+                            Text(
+                              "${content.comment?.length ?? 0}",
+                              style: TextStyle(
+                                color: Colors.blueAccent,
+                              ),
+                            ),
                           ],
                         ),
                       ],
