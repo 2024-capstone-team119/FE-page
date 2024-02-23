@@ -1,19 +1,19 @@
 import 'package:allcon/Data/Sample/concert_sample.dart';
-import 'package:allcon/Pages/calendar.dart';
-import 'package:allcon/Pages/concertinfo.dart' as concertinfo;
+import 'package:allcon/Pages/Calendar/calendar_main.dart';
+import 'package:allcon/Pages/Concert/concertinfo.dart' as concertinfo;
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:allcon/Widget/copyRight_ALLCON.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
-import 'package:allcon/Pages/concerthallsearch.dart';
+import 'package:allcon/Pages/ConcertHall/hall_search.dart';
 import 'package:allcon/Data/Concert.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class MyHome extends StatefulWidget {
-  const MyHome({Key? key});
+  const MyHome({super.key});
 
   @override
   State<MyHome> createState() => _MyHomeState();
@@ -29,15 +29,15 @@ class _MyHomeState extends State<MyHome> {
       appBar: MyAppBar(
         text: 'ALLCON',
         textFontFamily: 'Cafe24Moyamoya',
-        actions: Icon(Icons.calendar_month),
+        actions: const Icon(Icons.calendar_month),
         onActionPressed: () {
-          Get.to(Calendar());
+          Get.to(const Calendar());
         },
       ),
       body: const SingleChildScrollView(
         child: HomePage(),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(
+      bottomNavigationBar: const MyBottomNavigationBar(
         currentIndex: 1,
       ),
     );
@@ -45,7 +45,7 @@ class _MyHomeState extends State<MyHome> {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key});
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class HomePage extends StatelessWidget {
           color: Colors.grey[100],
         ),
         const SizedBox(height: 32.0),
-        Text(
+        const Text(
           '마감임박!',
           style: TextStyle(
             color: Colors.redAccent,
@@ -86,7 +86,7 @@ class HomePage extends StatelessWidget {
 }
 
 Widget bannerConcertList() {
-  return Container(
+  return SizedBox(
     height: 450,
     child: Padding(
       padding: const EdgeInsets.all(16.0),
@@ -123,7 +123,7 @@ Widget deadConcertList(BuildContext context) {
           padding: const EdgeInsets.all(5.0),
           child: GestureDetector(
             onTap: () {
-              Get.to(concertinfo.ConcertInfo());
+              Get.to(const concertinfo.ConcertInfo());
             },
             child: Card(
               elevation: 3.5,
@@ -134,7 +134,7 @@ Widget deadConcertList(BuildContext context) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(15.0),
                       bottomLeft: Radius.circular(15.0),
                     ),
@@ -156,7 +156,7 @@ Widget deadConcertList(BuildContext context) {
                           const SizedBox(height: 12.0),
                           Text(
                             concert.title ?? "",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,
                             ),
@@ -166,14 +166,14 @@ Widget deadConcertList(BuildContext context) {
                           const SizedBox(height: 8.0),
                           Text(
                             '공연일 : ${DateFormat('yyyy-MM-dd').format(concert.date!)} ${DateFormat('HH:mm').format(concert.date!)}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14.0,
                             ),
                           ),
                           const SizedBox(height: 4.0),
                           Text(
                             '장소 : ${concert.place}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14.0,
                             ),
                           ),
@@ -198,9 +198,9 @@ Widget ConcertHallCateogory(BuildContext context) {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: const Text(
+        const Padding(
+          padding: EdgeInsets.all(5.0),
+          child: Text(
             '공연장',
             style: TextStyle(
               fontWeight: FontWeight.w700,
@@ -231,7 +231,7 @@ TableRow buildRow(BuildContext context, List<String> cells) {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ConcerthallSearch(
+                  builder: (context) => HallSearch(
                     initialTitle: cell,
                   ),
                 ),
