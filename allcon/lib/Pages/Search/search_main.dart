@@ -1,32 +1,35 @@
-import 'package:allcon/Pages/Seat/seat_main.dart';
-import 'package:allcon/Widget/app_bar.dart';
-import 'package:allcon/Widget/bottom_navigation_bar.dart';
+import 'package:allcon/Pages/MainHome/Home.dart';
+import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:allcon/Pages/ConcertHall/hall_list.dart';
+import 'package:allcon/Widget/bottom_navigation_bar.dart';
+import 'package:allcon/Data/Sample/concert_sample.dart';
 
-class HallSearch extends StatefulWidget {
-  final String initialTitle;
-
-  const HallSearch({super.key, required this.initialTitle});
+class Search extends StatefulWidget {
+  const Search({super.key});
 
   @override
-  State<HallSearch> createState() => _HallSearchPageState();
+  State<Search> createState() => _SearchPageState();
 }
 
-class _HallSearchPageState extends State<HallSearch> {
+class _SearchPageState extends State<Search> {
   String searchText = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(text: '${widget.initialTitle} 공연장'),
+      appBar: const MyAppBar(
+        text: "검색",
+        automaticallyImplyLeading: false,
+      ),
       body: Column(
         children: <Widget>[
           searchTab(context),
           listTab(context),
         ],
       ),
-      bottomNavigationBar: const MyBottomNavigationBar(currentIndex: 1),
+      bottomNavigationBar: const MyBottomNavigationBar(
+        currentIndex: 2,
+      ),
     );
   }
 
@@ -66,26 +69,10 @@ class _HallSearchPageState extends State<HallSearch> {
     void cardClickEvent(BuildContext context, String content) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SeatMain(title: content)),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       );
     }
 
-    List<Place> selectedList = [];
-
-    // 주어진 조건에 따라 적절한 리스트 선택
-    if (widget.initialTitle == '서울') {
-      selectedList = seoulList;
-    } else if (widget.initialTitle == '경상도') {
-      selectedList = gyeongSangList;
-    } else {
-      return const Expanded(
-        child: Center(
-          child: Text('공연장 준비 중입니다.'),
-        ),
-      );
-    }
-
-    // 리스트가 선택된 경우, 해당 리스트의 아이템을 표시
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -103,19 +90,30 @@ class _HallSearchPageState extends State<HallSearch> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: selectedList.length,
+              itemCount: deadConcertSample.length,
               itemBuilder: (BuildContext context, int index) {
+                // 검색어가 비어 있거나 검색어와 일치하는 경우에만 아이템을 표시
                 if (searchText.isEmpty ||
-                    selectedList[index]
-                        .title
-                        .toLowerCase()
-                        .contains(searchText.toLowerCase())) {
+                    (deadConcertSample[index].title != null &&
+                        deadConcertSample[index]
+                            .title!
+                            .toLowerCase()
+                            .contains(searchText.toLowerCase())) ||
+                    (deadConcertSample[index].performer != null &&
+                        deadConcertSample[index]
+                            .performer!
+                            .toLowerCase()
+                            .contains(searchText.toLowerCase()))) {
                   return Column(
                     children: [
                       ListTile(
-                        title: Text(selectedList[index].title),
+                        title:
+                            Text(deadConcertSample[index].title ?? 'unknown'),
+                        subtitle: Text(
+                            deadConcertSample[index].performer ?? 'unknown'),
                         onTap: () {
-                          cardClickEvent(context, selectedList[index].title);
+                          cardClickEvent(context,
+                              deadConcertSample[index].title ?? 'unknown');
                         },
                         leading: Padding(
                           padding:

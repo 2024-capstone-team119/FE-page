@@ -2,7 +2,7 @@ import 'package:allcon/Pages/Community/Home.dart';
 import 'package:allcon/Pages/MainHome/Home.dart';
 import 'package:flutter/material.dart';
 import '../Pages/MyPage/MyPage.dart';
-import '../Pages/Search/search.dart';
+import '../Pages/Search/search_main.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
