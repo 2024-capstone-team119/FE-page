@@ -27,7 +27,6 @@ class _CalendarState extends State<Calendar> {
     return Scaffold(
       appBar: const MyAppBar(
         text: "달력",
-        automaticallyImplyLeading: false,
       ),
       // 달력을 표시하는 TableCalendar 위젯을 body에 추가
       body: calendar(context),
