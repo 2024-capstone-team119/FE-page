@@ -1,15 +1,15 @@
 import 'dart:io';
 
 class User {
-  final userId;
-  String? userName;
-  final email;
+  int userId;
+  String userName;
+  String email;
   File? profileImg;
 
   User({
-    this.userId,
-    this.userName,
-    this.email,
+    required this.userId,
+    required this.userName,
+    required this.email,
     this.profileImg,
   });
 }
