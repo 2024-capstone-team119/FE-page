@@ -16,8 +16,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
-      // theme: ThemeData(fontFamily: 'Pretendard'),
-      // themeMode: ThemeMode.system,
+      theme: ThemeData(fontFamily: 'Pretendard'),
+      themeMode: ThemeMode.system,
     );
   }
 }
