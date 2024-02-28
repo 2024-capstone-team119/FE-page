@@ -1,5 +1,6 @@
 import 'package:allcon/Pages/Login/login.dart';
 import 'package:allcon/Pages/MyPage/edit_userName.dart';
+import 'package:allcon/Pages/MyPage/img_crop_controller.dart';
 import 'package:allcon/Pages/MyPage/profile_controller.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
@@ -7,11 +8,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class MyProfile extends StatelessWidget {
   MyProfile({Key? key}) : super(key: key);
 
   final ProfileController _pcon = Get.put(ProfileController());
+  final ImgController _icon = Get.put(ImgController());
 
   @override
   Widget build(BuildContext context) {
@@ -89,14 +92,14 @@ class MyProfile extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.5,
-      color: Colors.cyan,
+      color: Colors.deepPurple[50],
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Obx(
               () => _pcon.isEditMyProfile.value
-                  ? EditUserInfo(context, _pcon)
+                  ? EditUserInfo(context, _pcon, _icon)
                   : userInfo(context, _pcon),
             ),
             SizedBox(height: 16.0),
@@ -143,7 +146,7 @@ Widget userInfo(BuildContext context, ProfileController _pcon) {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(50),
           child: Image.network(
-            'https://avatars.githubusercontent.com/u/115553490?v=4',
+            'assets/logo/allcon_icon.png',
             fit: BoxFit.cover,
           ),
         ),
@@ -178,28 +181,56 @@ Widget userInfo(BuildContext context, ProfileController _pcon) {
   );
 }
 
-Widget EditUserInfo(BuildContext context, ProfileController _pcon) {
+Widget EditUserInfo(
+    BuildContext context, ProfileController _pcon, ImgController _icon) {
   return Column(
     children: [
-      Container(
-        width: 120,
-        height: 120,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(50),
+      GestureDetector(
+        onTap: () {
+          _pcon.pickImg();
+        },
+        child: Container(
+          width: 120,
+          height: 120,
           child: Stack(children: [
-            Image.network(
-              'https://avatars.githubusercontent.com/u/115553490?v=4',
-              fit: BoxFit.cover,
-            ),
-            Container(
-              color: Colors.black.withOpacity(0.5),
-              child: Center(
-                child: Icon(
-                  CupertinoIcons.camera,
-                  color: Colors.white,
+            Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(40),
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  child: _pcon.myProfile.value.profileImg == null
+                      ? Image.asset(
+                          'assets/logo/allcon_icon.png',
+                          fit: BoxFit.cover,
+                        )
+                      : Image.file(
+                          _pcon.myProfile.value.profileImg!,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
-            )
+            ),
+            _pcon.isEditMyProfile.value
+                ? Positioned(
+                    bottom: 8,
+                    right: 8,
+                    child: Container(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                        padding: EdgeInsets.all(8.0),
+                        child: Icon(
+                          CupertinoIcons.photo_camera_solid,
+                          size: 15,
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(),
           ]),
         ),
       ),

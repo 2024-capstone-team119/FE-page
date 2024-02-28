@@ -1,5 +1,7 @@
 import 'package:allcon/Data/User.dart';
+import 'package:allcon/Pages/MyPage/img_crop_controller.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class ProfileController extends GetxController {
   RxBool isEditMyProfile = false.obs;
@@ -22,6 +24,7 @@ class ProfileController extends GetxController {
   }
 
   void rollback() {
+    myProfile.value.initImgFile();
     myProfile(originMyProfile);
     toggleEditBtn();
   }
@@ -30,5 +33,12 @@ class ProfileController extends GetxController {
     myProfile.update((my) {
       my?.userName = updateName;
     });
+  }
+
+  void pickImg() async {
+    if (isEditMyProfile.value) {
+      File file = await ImgController.to.selectImg();
+      myProfile.update((my) => my?.profileImg = file);
+    }
   }
 }
