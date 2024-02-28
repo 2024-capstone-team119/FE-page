@@ -108,7 +108,7 @@ class MyProfile extends StatelessWidget {
                         ElevatedButton(
                           child: Text('취소'),
                           onPressed: () {
-                            _pcon.toggleEditBtn();
+                            _pcon.rollback();
                           },
                         ),
                         SizedBox(width: 10),
@@ -157,7 +157,7 @@ Widget userInfo(BuildContext context, ProfileController _pcon) {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: Text(
-                  "닉네임",
+                  _pcon.myProfile.value.userName ?? "",
                   style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.w600,
@@ -166,7 +166,7 @@ Widget userInfo(BuildContext context, ProfileController _pcon) {
               ),
             ),
             Text(
-              "이메일",
+              _pcon.myProfile.value.email ?? "",
               style: TextStyle(
                 fontSize: 18.0,
               ),
@@ -209,7 +209,7 @@ Widget EditUserInfo(BuildContext context, ProfileController _pcon) {
         child: Obx(
           () => Column(
             children: [
-              EditNameInfo(_pcon.myProfile.value.userName, () async {
+              EditNameInfo(_pcon.myProfile.value.userName ?? "", () async {
                 String value = await Get.dialog(EditUserName(
                   text: _pcon.myProfile.value.userName,
                 ));
@@ -219,7 +219,7 @@ Widget EditUserInfo(BuildContext context, ProfileController _pcon) {
               }),
               SizedBox(height: 5.0),
               Text(
-                "이메일",
+                _pcon.myProfile.value.email ?? "",
                 style: TextStyle(
                   fontSize: 18.0,
                 ),

@@ -3,20 +3,27 @@ import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
   RxBool isEditMyProfile = false.obs;
-  Rx<User> myProfile = User(
+  User originMyProfile = User(
     userId: 1,
     userName: "일일구",
     email: "allcon119@inu.ac.kr",
-  ).obs;
+  );
+  Rx<User> myProfile = User().obs;
 
   @override
   void onInit() {
+    myProfile(User.clone(originMyProfile));
     isEditMyProfile(false);
     super.onInit();
   }
 
   void toggleEditBtn() {
     isEditMyProfile(!isEditMyProfile.value);
+  }
+
+  void rollback() {
+    myProfile(originMyProfile);
+    toggleEditBtn();
   }
 
   void updateName(String updateName) {

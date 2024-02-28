@@ -67,7 +67,7 @@ class _EditUserNameState extends State<EditUserName> {
             SizedBox(width: 20),
             TextField(
               controller: _textEditingController,
-              maxLength: 16,
+              maxLength: 8,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 hintText: "닉네임",

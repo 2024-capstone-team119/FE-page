@@ -1,15 +1,22 @@
 import 'dart:io';
 
 class User {
-  int userId;
-  String userName;
-  String email;
+  final int? userId;
+  String? userName;
+  final String? email;
   File? profileImg;
 
   User({
-    required this.userId,
-    required this.userName,
-    required this.email,
+    this.userId,
+    this.userName,
+    this.email,
     this.profileImg,
   });
+
+  User.clone(User user)
+      : this(
+          userId: user.userId,
+          userName: user.userName,
+          email: user.email,
+        );
 }
