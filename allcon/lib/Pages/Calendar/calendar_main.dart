@@ -49,7 +49,7 @@ class _CalendarState extends State<Calendar> {
         firstDay: DateTime.utc(2021, 10, 16),
         lastDay: DateTime.utc(2030, 3, 14),
         focusedDay: DateTime.now(),
-        rowHeight: 80.0,
+        rowHeight: 65.0,
         daysOfWeekHeight: 25,
         headerStyle: HeaderStyle(
           titleCentered: true,
@@ -71,6 +71,7 @@ class _CalendarState extends State<Calendar> {
           ),
         ),
         calendarStyle: const CalendarStyle(
+          markersAnchor: 1.3,
           isTodayHighlighted: true,
           todayTextStyle: TextStyle(
             color: Colors.white,
@@ -79,6 +80,14 @@ class _CalendarState extends State<Calendar> {
           todayDecoration: BoxDecoration(
             color: Color(0xFF9FA8DA),
             shape: BoxShape.rectangle,
+          ),
+          selectedTextStyle: TextStyle(
+            color: Color(0xFFFAFAFA),
+            fontSize: 16.0,
+          ),
+          selectedDecoration: BoxDecoration(
+            color: Color(0xFF5C6BC0),
+            shape: BoxShape.circle,
           ),
           outsideDaysVisible: false,
           weekendTextStyle: TextStyle(color: Colors.grey),
@@ -188,7 +197,10 @@ class _CalendarState extends State<Calendar> {
                           ),
                         ),
                       ),
-                      const Divider(),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+                        child: Divider(),
+                      ),
                       Expanded(
                         child: Padding(
                           padding:
