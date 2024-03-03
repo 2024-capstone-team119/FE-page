@@ -135,7 +135,7 @@ Widget createBox(Content content, int index) {
                     icon: const Icon(
                       // isLikesList[index] ? Icons.favorite : Icons.favorite_border,
                       // color: isLikesList[index] ? Colors.red : null,
-                      Icons.favorite_outline,
+                      CupertinoIcons.heart,
                     ),
                     onPressed: () {
                       // setState(() {

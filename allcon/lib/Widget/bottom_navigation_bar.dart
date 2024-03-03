@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../Pages/MyPage/MyPage.dart';
 import '../Pages/Search/search_main.dart';
+import 'package:flutter/cupertino.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -16,7 +17,7 @@ class MyBottomNavigationBar extends StatelessWidget {
       onTap: (index) {
         switch (index) {
           case 0:
-            Get.off(MyPage());
+            Get.off(const MyPage());
             break;
           case 1:
             Get.off(const MyHome());
@@ -40,11 +41,11 @@ class MyBottomNavigationBar extends StatelessWidget {
           label: '마이',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
+          icon: Icon(CupertinoIcons.home),
           label: '홈',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.search_outlined),
+          icon: Icon(CupertinoIcons.search),
           label: '검색',
         ),
         BottomNavigationBarItem(
