@@ -49,7 +49,7 @@ class _MyCommunityState extends State<MyCommunity>
             onPressed: () {
               Get.to(MyContentLikes());
             },
-            child: const Icon(Icons.favorite),
+            child: Icon(Icons.favorite),
           ),
           const SizedBox(width: 12),
           FloatingActionButton(
