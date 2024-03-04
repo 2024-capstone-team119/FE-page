@@ -48,9 +48,7 @@ class _ContentDetailState extends State<MyContentDetail> {
     final int comment = (widget.content.comment ?? []).length;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('커뮤니티'),
-      ),
+      appBar: MyAppBar(text: '커뮤니티'),
       body: SafeArea(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,

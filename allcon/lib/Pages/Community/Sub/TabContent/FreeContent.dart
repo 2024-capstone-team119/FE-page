@@ -25,25 +25,28 @@ class _MyFreeContentState extends State<MyFreeContent> {
   @override
   void initState() {
     super.initState();
-    contentController = widget.contentController;
+    contentController = Get.put(ContentController(freeContentsSample));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: ListView.builder(
-          itemCount: widget.contentController.contents.length,
-          itemBuilder: (context, index) {
-            return _buildContentItem(widget.contentController.contents[index]);
+        backgroundColor: Colors.white,
+        body: GetBuilder<ContentController>(
+          builder: (controller) {
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: ListView.builder(
+                itemCount: controller.contents.length,
+                itemBuilder: (context, index) {
+                  return _buildContentItem(controller.contents[index]);
+                },
+                scrollDirection: Axis.vertical,
+              ),
+            );
           },
-          scrollDirection: Axis.vertical,
-        ),
-      ),
-    );
+        ));
   }
 
   Widget _buildContentItem(Content content) {
