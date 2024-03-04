@@ -68,7 +68,7 @@ class _ContentUpdateState extends State<MyContentUpdate> {
           ),
           child: Container(
             child: Column(
-              mainAxisSize: MainAxisSize.min, // 주축을 최소한으로 사용하도록 지정
+              mainAxisSize: MainAxisSize.min,
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
