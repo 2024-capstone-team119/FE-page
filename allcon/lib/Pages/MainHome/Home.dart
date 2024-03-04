@@ -29,6 +29,7 @@ class _MyHomeState extends State<MyHome> {
       appBar: MyAppBar(
         text: 'ALLCON',
         textFontFamily: 'Cafe24Moyamoya',
+        automaticallyImplyLeading: false,
         actions: const Icon(Icons.calendar_month),
         onActionPressed: () {
           Get.to(const Calendar());

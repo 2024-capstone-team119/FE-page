@@ -5,7 +5,7 @@ class Content {
   int? like;
   String? title;
   String? userName;
-  bool? isLike = false;
+  bool isLike;
   DateTime? date;
   List<String>? comment;
 
@@ -17,5 +17,6 @@ class Content {
     this.content,
     this.date,
     this.comment,
+    this.isLike = false,
   });
 }

@@ -1,42 +1,52 @@
+import 'package:allcon/Data/Content.dart';
 import 'package:allcon/Data/Sample/content_sample.dart';
 import 'package:allcon/Pages/Community/Sub/GetPost.dart';
-import 'package:allcon/Pages/Community/Sub/Post.dart';
+import 'package:allcon/Pages/Community/Sub/content_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../Data/Content.dart';
 import 'package:intl/intl.dart';
 
 class MyFreeContent extends StatefulWidget {
+  final ContentController contentController =
+      ContentController(freeContentsSample);
   final String? title;
   final String searchText;
-  const MyFreeContent({this.title, required this.searchText});
+
+  MyFreeContent({this.title, this.searchText = ''});
 
   @override
   State<MyFreeContent> createState() => _MyFreeContentState();
 }
 
 class _MyFreeContentState extends State<MyFreeContent> {
-  List<Content> freeContents = freeContentsSample;
-  List<bool> isLikesList =
-      List.generate(freeContentsSample.length, (index) => false);
+  late final ContentController contentController;
+
+  @override
+  void initState() {
+    super.initState();
+    contentController = Get.put(ContentController(freeContentsSample));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: ListView.builder(
-          itemCount: freeContents.length,
-          itemBuilder: (context, index) {
-            return _buildContentItem(freeContents[index]);
+        backgroundColor: Colors.white,
+        body: GetBuilder<ContentController>(
+          builder: (controller) {
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: ListView.builder(
+                itemCount: controller.contents.length,
+                itemBuilder: (context, index) {
+                  return _buildContentItem(controller.contents[index]);
+                },
+                scrollDirection: Axis.vertical,
+              ),
+            );
           },
-          scrollDirection: Axis.vertical,
-        ),
-      ),
-    );
+        ));
   }
 
   Widget _buildContentItem(Content content) {
@@ -47,18 +57,16 @@ class _MyFreeContentState extends State<MyFreeContent> {
         !lowercaseContent.contains(lowercaseSearchText)) {
       return Container();
     } else {
-      return createBox(content, freeContents.indexOf(content));
+      return createBox(content);
     }
   }
-}
 
-Widget createBox(Content content, int index) {
-  DateTime dateTime = content.date ?? DateTime.now();
-  return GestureDetector(
-    onTap: () {
-      Get.to(() => MyContentDetail(content: content));
-    },
-    child: Expanded(
+  Widget createBox(Content content) {
+    DateTime dateTime = content.date ?? DateTime.now();
+    return GestureDetector(
+      onTap: () {
+        Get.to(() => MyContentDetail(content: content));
+      },
       child: Column(
         children: [
           Padding(
@@ -102,8 +110,8 @@ Widget createBox(Content content, int index) {
                           children: [
                             Icon(
                               Icons.favorite,
-                              color: Colors.red[300], // 원하는 색상으로 설정
-                              size: 16.0, // 원하는 크기로 설정
+                              color: Colors.red[300],
+                              size: 16.0,
                             ),
                             const SizedBox(width: 4.0),
                             Text(
@@ -111,7 +119,7 @@ Widget createBox(Content content, int index) {
                               style: TextStyle(
                                 color: Colors.red[300],
                               ),
-                            ), // 좋아요 수 표시
+                            ),
                             const SizedBox(width: 8.0),
                             Icon(
                               CupertinoIcons.chat_bubble,
@@ -132,16 +140,16 @@ Widget createBox(Content content, int index) {
                   ),
                   IconButton(
                     iconSize: 30.0,
-                    icon: const Icon(
-                      // isLikesList[index] ? Icons.favorite : Icons.favorite_border,
-                      // color: isLikesList[index] ? Colors.red : null,
-                      Icons.favorite_outline,
+                    icon: Icon(
+                      content.isLike
+                          ? CupertinoIcons.heart_fill
+                          : CupertinoIcons.heart,
+                      color: content.isLike ? Colors.redAccent : Colors.grey,
                     ),
                     onPressed: () {
-                      // setState(() {
-                      //   isLikesList[index] = !isLikesList[index];
-                      // }
-                      // );
+                      setState(() {
+                        widget.contentController.toggleLike(content.postId);
+                      });
                     },
                   ),
                   const SizedBox(width: 16.0),
@@ -152,6 +160,6 @@ Widget createBox(Content content, int index) {
           Container(height: 1.0, color: Colors.grey[300]),
         ],
       ),
-    ),
-  );
+    );
+  }
 }

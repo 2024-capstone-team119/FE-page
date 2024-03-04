@@ -5,8 +5,9 @@ List<Content> freeContentsSample = [
       postId: 1,
       title: "자게 제목1",
       content: "자게 1 내용입니다.\n number1" * 10,
-      like: 0,
+      like: 3,
       date: DateTime.parse("2021-06-28"),
+      isLike: true,
       comment: [
         "뭐하는 어플이야?",
         "올콘이야😂",
@@ -18,7 +19,7 @@ List<Content> freeContentsSample = [
   Content(
       postId: 2,
       title: "자게 제목투투222?",
-      like: 0,
+      like: 5,
       date: DateTime.parse("2021-06-27"),
       comment: [
         "뭐하는 어플이야?",
@@ -32,7 +33,7 @@ List<Content> freeContentsSample = [
       postId: 3,
       title: "자게 제목1",
       content: "자게 제목일입니다.\n number1" * 10,
-      like: 0,
+      like: 1,
       date: DateTime.parse("2021-06-28")),
   Content(
       postId: 4,

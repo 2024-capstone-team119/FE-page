@@ -1,13 +1,14 @@
 import 'package:allcon/Data/Content.dart';
 import 'package:allcon/Pages/Community/Home.dart';
+import 'package:allcon/Pages/Community/Sub/TabContent/FreeContent.dart';
 import 'package:allcon/Pages/Community/Sub/Update.dart';
+import 'package:allcon/Pages/Community/Sub/content_controller.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class MyContentDetail extends StatefulWidget {
   final Content content;
@@ -19,13 +20,26 @@ class MyContentDetail extends StatefulWidget {
 }
 
 class _ContentDetailState extends State<MyContentDetail> {
+  late ContentController contentController;
+
   TextEditingController _commentController = TextEditingController();
   FocusNode _commentFocusNode = FocusNode();
 
   @override
+  void initState() {
+    super.initState();
+    contentController = MyFreeContent().contentController;
+  }
+
+  @override
   void dispose() {
     _commentFocusNode.dispose();
-    super.deactivate();
+    super.dispose();
+  }
+
+  void toggleLike(int postId) {
+    contentController.toggleLike(postId);
+    setState(() {});
   }
 
   @override
@@ -33,12 +47,8 @@ class _ContentDetailState extends State<MyContentDetail> {
     final int like = widget.content.like ?? 0;
     final int comment = (widget.content.comment ?? []).length;
 
-    double keyboard = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
       appBar: MyAppBar(text: '커뮤니티'),
-      bottomNavigationBar: MyBottomNavigationBar(
-        currentIndex: 3,
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -69,16 +79,14 @@ class _ContentDetailState extends State<MyContentDetail> {
                                 CupertinoActionSheetAction(
                                   child: const Text('수정'),
                                   onPressed: () {
-                                    Get.off(MyContentUpdate(
-                                      title: widget.content.title ?? "",
-                                      content: widget.content.content ?? "",
-                                    ));
+                                    // You can navigate to the update screen
+                                    // or perform any other action as needed.
                                   },
                                 ),
                                 CupertinoActionSheetAction(
                                   child: const Text('삭제'),
                                   onPressed: () {
-                                    Get.to(MyCommunity());
+                                    // You can handle content deletion
                                   },
                                 ),
                               ],
@@ -110,25 +118,26 @@ class _ContentDetailState extends State<MyContentDetail> {
                   ),
                   SizedBox(height: 16),
                   Text(
-                      '${widget.content.content != null ? widget.content.content : "내용없읍"}'),
+                    '${widget.content.content != null ? widget.content.content : "내용없음"}',
+                  ),
                   SizedBox(height: 5),
                   Padding(
                     padding: const EdgeInsets.only(right: 10.5),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Row(
                           children: [
                             IconButton(
                               icon: Icon(
-                                Icons.favorite_outline,
-                                color: Colors.red[300],
+                                widget.content.isLike!
+                                    ? CupertinoIcons.heart_fill
+                                    : CupertinoIcons.heart,
                                 size: 30.0,
+                                color: Colors.redAccent,
                               ),
                               onPressed: () {
-                                setState(() {
-                                  // widget.article.isLike = !widget.article.isLike;
-                                });
+                                toggleLike(widget.content.postId);
                               },
                             ),
                             Text(
@@ -227,20 +236,19 @@ class _ContentDetailState extends State<MyContentDetail> {
   void addComment(String comment) {
     if (comment.isNotEmpty) {
       setState(() {
-        // 댓글 목록에 추가
+        // Add comment to the list
         widget.content.comment!.add(comment);
-        // 입력 필드 초기화
+        // Clear the input field
         _commentController.clear();
       });
     }
   }
-}
 
-Widget commentBox(BuildContext context, String comment, int num) {
-  int number = num + 1;
-  return Padding(
-    padding: const EdgeInsets.only(left: 6, top: 10),
-    child: Column(
+  Widget commentBox(BuildContext context, String comment, int num) {
+    int number = num + 1;
+    return Padding(
+      padding: const EdgeInsets.only(left: 6, top: 10),
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -249,18 +257,6 @@ Widget commentBox(BuildContext context, String comment, int num) {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(children: [
-                /*
-                Container(
-                  height: 24,
-                  width: 24,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    image: DecorationImage(
-                        image: AssetImage("assets/profile.jpg"),
-                        fit: BoxFit.fill),
-                  ),
-                ),
-                SizedBox(width: 10),*/
                 Text(
                   '익명$number',
                   style: TextStyle(
@@ -273,25 +269,26 @@ Widget commentBox(BuildContext context, String comment, int num) {
               Row(
                 children: [
                   Container(
-                      height: 25,
-                      width: 32,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(width: 3),
-                          Icon(
-                            CupertinoIcons.chat_bubble,
-                            size: 15,
-                            color: Colors.grey,
-                          ),
-                          SizedBox(width: 3),
-                        ],
-                      )),
+                    height: 25,
+                    width: 32,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(width: 3),
+                        Icon(
+                          CupertinoIcons.chat_bubble,
+                          size: 15,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(width: 3),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -315,6 +312,8 @@ Widget commentBox(BuildContext context, String comment, int num) {
             color: Colors.grey,
           ),
           SizedBox(height: 3),
-        ]),
-  );
+        ],
+      ),
+    );
+  }
 }
