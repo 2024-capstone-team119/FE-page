@@ -29,7 +29,14 @@ class _CalendarState extends State<Calendar> {
         text: "달력",
       ),
       // 달력을 표시하는 TableCalendar 위젯을 body에 추가
-      body: calendar(context),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            calendar(context),
+            upcoming(context),
+          ],
+        ),
+      ),
       bottomNavigationBar: const MyBottomNavigationBar(currentIndex: 1),
     );
   }
@@ -37,106 +44,105 @@ class _CalendarState extends State<Calendar> {
   Widget calendar(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            TableCalendar(
-              locale: 'ko_KR',
-              firstDay: DateTime.utc(2021, 10, 16),
-              lastDay: DateTime.utc(2030, 3, 14),
-              focusedDay: DateTime.now(),
-              rowHeight: 80.0,
-              daysOfWeekHeight: 30,
-              headerStyle: HeaderStyle(
-                titleCentered: true,
-                titleTextFormatter: (date, locale) =>
-                    DateFormat.yMMMM(locale).format(date),
-                formatButtonVisible: false,
-                titleTextStyle: const TextStyle(
-                  fontSize: 15.0,
-                  color: Colors.black,
-                ),
-                headerPadding: const EdgeInsets.symmetric(vertical: 4.0),
-                leftChevronIcon: const Icon(
-                  Icons.keyboard_arrow_left,
-                  size: 30.0,
-                ),
-                rightChevronIcon: const Icon(
-                  Icons.keyboard_arrow_right,
-                  size: 30.0,
-                ),
-              ),
-              calendarStyle: const CalendarStyle(
-                isTodayHighlighted: true,
-                todayTextStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                ),
-                todayDecoration: BoxDecoration(
-                  color: Color(0xFF9FA8DA),
-                  shape: BoxShape.rectangle,
-                ),
-                outsideDaysVisible: false,
-                weekendTextStyle: TextStyle(color: Colors.grey),
-                cellAlignment: Alignment.topCenter,
-                tableBorder: TableBorder(
-                  horizontalInside: BorderSide(color: Colors.grey),
-                  borderRadius: BorderRadius.zero,
-                ),
-              ),
-              calendarBuilders: CalendarBuilders(
-                dowBuilder: (context, date) {
-                  switch (date.weekday) {
-                    case 1:
-                      return const Center(
-                        child: Text('Mon'),
-                      );
-                    case 2:
-                      return const Center(
-                        child: Text('Tue'),
-                      );
-                    case 3:
-                      return const Center(
-                        child: Text('Wed'),
-                      );
-                    case 4:
-                      return const Center(
-                        child: Text('Thu'),
-                      );
-                    case 5:
-                      return const Center(
-                        child: Text('Fri'),
-                      );
-                    case 6:
-                      return const Center(
-                        child: Text(
-                          'Sat',
-                          style: TextStyle(
-                            color: Colors.blue,
-                          ),
-                        ),
-                      );
-                    case 7:
-                      return const Center(
-                        child: Text(
-                          'Sun',
-                          style: TextStyle(
-                            color: Colors.red,
-                          ),
-                        ),
-                      );
-                  }
-                  return null;
-                },
-              ),
-              eventLoader: (day) => _getEventsForDay(day),
-            ),
-            const SizedBox(
-              height: 30.0,
-            ),
-            upcoming(context),
-          ],
+      child: TableCalendar(
+        locale: 'ko_KR',
+        firstDay: DateTime.utc(2021, 10, 16),
+        lastDay: DateTime.utc(2030, 3, 14),
+        focusedDay: DateTime.now(),
+        rowHeight: 65.0,
+        daysOfWeekHeight: 25,
+        headerStyle: HeaderStyle(
+          titleCentered: true,
+          titleTextFormatter: (date, locale) =>
+              DateFormat.yMMMM(locale).format(date),
+          formatButtonVisible: false,
+          titleTextStyle: const TextStyle(
+            fontSize: 15.0,
+            color: Colors.black,
+          ),
+          headerPadding: const EdgeInsets.symmetric(vertical: 4.0),
+          leftChevronIcon: const Icon(
+            Icons.keyboard_arrow_left,
+            size: 30.0,
+          ),
+          rightChevronIcon: const Icon(
+            Icons.keyboard_arrow_right,
+            size: 30.0,
+          ),
         ),
+        calendarStyle: const CalendarStyle(
+          markersAnchor: 1.3,
+          isTodayHighlighted: true,
+          todayTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 16.0,
+          ),
+          todayDecoration: BoxDecoration(
+            color: Color(0xFF9FA8DA),
+            shape: BoxShape.rectangle,
+          ),
+          selectedTextStyle: TextStyle(
+            color: Color(0xFFFAFAFA),
+            fontSize: 16.0,
+          ),
+          selectedDecoration: BoxDecoration(
+            color: Color(0xFF5C6BC0),
+            shape: BoxShape.circle,
+          ),
+          outsideDaysVisible: false,
+          weekendTextStyle: TextStyle(color: Colors.grey),
+          cellAlignment: Alignment.topCenter,
+          tableBorder: TableBorder(
+            horizontalInside: BorderSide(color: Colors.grey),
+            borderRadius: BorderRadius.zero,
+          ),
+        ),
+        calendarBuilders: CalendarBuilders(
+          dowBuilder: (context, date) {
+            switch (date.weekday) {
+              case 1:
+                return const Center(
+                  child: Text('Mon'),
+                );
+              case 2:
+                return const Center(
+                  child: Text('Tue'),
+                );
+              case 3:
+                return const Center(
+                  child: Text('Wed'),
+                );
+              case 4:
+                return const Center(
+                  child: Text('Thu'),
+                );
+              case 5:
+                return const Center(
+                  child: Text('Fri'),
+                );
+              case 6:
+                return const Center(
+                  child: Text(
+                    'Sat',
+                    style: TextStyle(
+                      color: Colors.blue,
+                    ),
+                  ),
+                );
+              case 7:
+                return const Center(
+                  child: Text(
+                    'Sun',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                );
+            }
+            return null;
+          },
+        ),
+        eventLoader: (day) => _getEventsForDay(day),
       ),
     );
   }
@@ -191,7 +197,10 @@ class _CalendarState extends State<Calendar> {
                           ),
                         ),
                       ),
-                      const Divider(),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+                        child: Divider(),
+                      ),
                       Expanded(
                         child: Padding(
                           padding:
