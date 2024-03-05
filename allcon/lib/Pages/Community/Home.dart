@@ -2,8 +2,6 @@ import 'package:allcon/Pages/Community/Sub/Likes.dart';
 import 'package:allcon/Pages/Community/Sub/Post.dart';
 import 'package:allcon/Pages/Community/Sub/Search.dart';
 import 'package:allcon/Pages/Community/Sub/TabContent/ContentListView.dart';
-import 'package:allcon/Pages/Community/Sub/TabContent/FreeContent.dart';
-import 'package:allcon/Pages/Community/Sub/TabContent/ReviewContent.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
