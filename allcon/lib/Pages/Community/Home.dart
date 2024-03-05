@@ -1,7 +1,9 @@
 import 'package:allcon/Pages/Community/Sub/Likes.dart';
 import 'package:allcon/Pages/Community/Sub/Post.dart';
 import 'package:allcon/Pages/Community/Sub/Search.dart';
+import 'package:allcon/Pages/Community/Sub/TabContent/ContentListView.dart';
 import 'package:allcon/Pages/Community/Sub/TabContent/FreeContent.dart';
+import 'package:allcon/Pages/Community/Sub/TabContent/ReviewContent.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,7 +49,7 @@ class _MyCommunityState extends State<MyCommunity>
         children: [
           FloatingActionButton(
             onPressed: () {
-              Get.to(MyContentLikes());
+              // Get.to(MyContentLikes());
             },
             child: Icon(Icons.favorite),
           ),
@@ -99,10 +101,10 @@ class _MyCommunityState extends State<MyCommunity>
             child: TabBarView(
               controller: tabController,
               children: [
-                MyFreeContent(searchText: searchText),
-                MyFreeContent(searchText: searchText),
-                MyFreeContent(searchText: searchText),
-                MyFreeContent(searchText: searchText),
+                MyContentListView(tabIdx: 0),
+                MyContentListView(tabIdx: 1),
+                MyContentListView(tabIdx: 2),
+                MyContentListView(tabIdx: 3),
               ],
             ),
           ),

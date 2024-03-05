@@ -1,34 +1,67 @@
 // import 'package:allcon/Data/Content.dart';
+// import 'package:allcon/Data/Sample/content_sample.dart';
 // import 'package:allcon/Pages/Community/Sub/GetPost.dart';
 // import 'package:allcon/Pages/Community/Sub/content_controller.dart';
-// import 'package:allcon/Widget/app_bar.dart';
+// import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
-// import 'package:flutter/cupertino.dart';
 // import 'package:intl/intl.dart';
 //
-// class MyContentLikes extends StatelessWidget {
-//   final ContentController contentController = Get.find();
+// class MyReviewContent extends StatefulWidget {
+//   final ContentController contentController =
+//       ContentController(reviewContentsSample);
+//   final String? title;
+//   final String searchText;
+//
+//   MyReviewContent({this.title, this.searchText = ''});
+//
+//   @override
+//   State<MyReviewContent> createState() => _MyReviewContentState();
+// }
+//
+// class _MyReviewContentState extends State<MyReviewContent> {
+//   late final ContentController contentController;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     contentController = Get.put(ContentController(reviewContentsSample));
+//   }
 //
 //   @override
 //   Widget build(BuildContext context) {
-//     List<Content> likedContents =
-//         contentController.contents.where((content) => content.isLike).toList();
-//
 //     return Scaffold(
-//       appBar: const MyAppBar(text: '커뮤니티'),
-//       backgroundColor: Colors.white,
-//       body: ListView.builder(
-//         itemCount: likedContents.length,
-//         itemBuilder: (context, index) {
-//           return _buildContentItem(likedContents[index]);
-//         },
-//         scrollDirection: Axis.vertical,
-//       ),
-//     );
+//         backgroundColor: Colors.white,
+//         body: GetBuilder<ContentController>(
+//           builder: (controller) {
+//             return Container(
+//               width: MediaQuery.of(context).size.width,
+//               height: MediaQuery.of(context).size.height,
+//               child: ListView.builder(
+//                 itemCount: controller.contents.length,
+//                 itemBuilder: (context, index) {
+//                   return _buildContentItem(controller.contents[index]);
+//                 },
+//                 scrollDirection: Axis.vertical,
+//               ),
+//             );
+//           },
+//         ));
 //   }
 //
 //   Widget _buildContentItem(Content content) {
+//     final lowercaseSearchText = widget.searchText.toLowerCase();
+//     final lowercaseContent = content.content?.toLowerCase() ?? '';
+//
+//     if (widget.searchText.isNotEmpty &&
+//         !lowercaseContent.contains(lowercaseSearchText)) {
+//       return Container();
+//     } else {
+//       return createBox(content);
+//     }
+//   }
+//
+//   Widget createBox(Content content) {
 //     DateTime dateTime = content.date ?? DateTime.now();
 //     return GestureDetector(
 //       onTap: () {
@@ -114,7 +147,9 @@
 //                       color: content.isLike ? Colors.redAccent : Colors.grey,
 //                     ),
 //                     onPressed: () {
-//                       contentController.toggleLike(content.postId);
+//                       setState(() {
+//                         widget.contentController.toggleLike(content.postId);
+//                       });
 //                     },
 //                   ),
 //                   const SizedBox(width: 16.0),
