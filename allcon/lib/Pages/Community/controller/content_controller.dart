@@ -1,36 +1,45 @@
 import 'package:allcon/Data/Content.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 
 class ContentController extends GetxController {
-  RxMap<int, Content> contents = <int, Content>{}.obs;
+  RxList<Content> contents = <Content>[].obs;
 
-  ContentController._internal(Map<int, Content> initialContents) {
-    contents.value = Map.from(initialContents);
+  ContentController._internal(List<Content> initialContents) {
+    contents.value = List.from(initialContents);
   }
 
-  factory ContentController(Map<int, Content> initialContents) {
+  factory ContentController(List<Content> initialContents) {
     return ContentController._internal(initialContents);
   }
 
   void toggleLike(int postId) {
-    if (contents.containsKey(postId)) {
-      final Content? content = contents[postId];
+    final int index =
+        contents.indexWhere((content) => content.postId == postId);
 
-      if (content != null) {
-        final int currentLike = content.like ?? 0;
-        content.isLike = !(content.isLike ?? false);
-        content.like = content.isLike ? currentLike + 1 : currentLike - 1;
+    if (index != -1) {
+      final Content content = contents[index];
 
-        contents[postId] = content;
-      }
+      final int currentLike = content.like ?? 0;
+      content.isLike = !(content.isLike ?? false);
+      content.like = content.isLike ? currentLike + 1 : currentLike - 1;
+
+      contents[index] = content;
     }
   }
 
   Content? getContent(int postId) {
-    return contents[postId];
+    return contents.firstWhere(
+      (content) => content.postId == postId,
+    );
   }
 
   void updateContent(Content updatedContent) {
-    contents[updatedContent.postId] = updatedContent;
+    final int index = contents
+        .indexWhere((content) => content.postId == updatedContent.postId);
+
+    if (index != -1) {
+      contents[index] = updatedContent;
+    }
   }
 }

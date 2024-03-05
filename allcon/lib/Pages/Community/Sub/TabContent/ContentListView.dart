@@ -1,5 +1,6 @@
 import 'package:allcon/Data/Content.dart';
 import 'package:allcon/Data/Sample/content_sample.dart';
+import 'package:allcon/Pages/Community/controller/content_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,9 +11,19 @@ class MyContentListView extends StatelessWidget {
   final String title;
   final String searchText;
 
-  MyContentListView(
-      {required this.tabIdx, this.title = '', this.searchText = ''});
+  late ContentController _contentController;
+  late List<Content> contentData;
 
+  MyContentListView({
+    required this.tabIdx,
+    this.title = '',
+    this.searchText = '',
+  }) {
+    contentData = getSampleData(tabIdx);
+    _contentController = ContentController(contentData);
+  }
+
+  // 탭바의 인덱스에 맞춰 데이터 리스트를 가져옴
   List<Content> getSampleData(int index) {
     switch (index) {
       case 0:
@@ -30,17 +41,17 @@ class MyContentListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Content> contentData = getSampleData(tabIdx);
-
+    _contentController = ContentController(contentData);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: ListView.builder(
-          itemCount: contentData.length,
+          itemCount: _contentController.contents.length,
           itemBuilder: (context, index) {
-            return _buildContentItem(context, contentData[index]);
+            return _buildContentItem(
+                context, _contentController.contents[index], index);
           },
           scrollDirection: Axis.vertical,
         ),
@@ -48,7 +59,7 @@ class MyContentListView extends StatelessWidget {
     );
   }
 
-  Widget _buildContentItem(BuildContext context, Content content) {
+  Widget _buildContentItem(BuildContext context, Content content, int index) {
     final lowercaseSearchText = searchText.toLowerCase();
     final lowercaseContent = content.content?.toLowerCase() ?? '';
 
@@ -56,11 +67,15 @@ class MyContentListView extends StatelessWidget {
         !lowercaseContent.contains(lowercaseSearchText)) {
       return Container();
     } else {
-      return createBox(context, content);
+      return createBox(context, content, index);
     }
   }
 
-  Widget createBox(BuildContext context, Content content) {
+  Widget createBox(
+    BuildContext context,
+    Content content,
+    int index,
+  ) {
     DateTime dateTime = content.date ?? DateTime.now();
     return GestureDetector(
       onTap: () {
@@ -81,11 +96,13 @@ class MyContentListView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          content.title ?? "",
-                          style: const TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
+                        Obx(
+                          () => Text(
+                            _contentController.contents[index].title,
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         SizedBox(height: 4.0),
@@ -115,10 +132,12 @@ class MyContentListView extends StatelessWidget {
                               size: 16.0,
                             ),
                             const SizedBox(width: 4.0),
-                            Text(
-                              "${content.like}",
-                              style: TextStyle(
-                                color: Colors.red[300],
+                            Obx(
+                              () => Text(
+                                "${_contentController.contents[index].like}",
+                                style: TextStyle(
+                                  color: Colors.red[300],
+                                ),
                               ),
                             ),
                             const SizedBox(width: 8.0),
@@ -128,26 +147,34 @@ class MyContentListView extends StatelessWidget {
                               size: 16.0,
                             ),
                             const SizedBox(width: 4.0),
-                            Text(
-                              "${content.comment?.length ?? 0}",
-                              style: TextStyle(
-                                color: Colors.blueAccent,
+                            Obx(
+                              () => Text(
+                                "${_contentController.contents[index].comment.length}",
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                ),
                               ),
-                            ),
+                            )
                           ],
                         ),
                       ],
                     ),
                   ),
-                  IconButton(
-                    iconSize: 30.0,
-                    icon: Icon(
-                      content.isLike
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      color: content.isLike ? Colors.redAccent : Colors.grey,
+                  Obx(
+                    () => IconButton(
+                      iconSize: 30.0,
+                      icon: Icon(
+                        _contentController.contents[index].isLike
+                            ? CupertinoIcons.heart_fill
+                            : CupertinoIcons.heart,
+                        color: _contentController.contents[index].isLike
+                            ? Colors.redAccent
+                            : Colors.grey,
+                      ),
+                      onPressed: () {
+                        _contentController.toggleLike(content.postId);
+                      },
                     ),
-                    onPressed: () {},
                   ),
                   const SizedBox(width: 16.0),
                 ],
