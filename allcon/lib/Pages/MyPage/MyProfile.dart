@@ -1,7 +1,7 @@
 import 'package:allcon/Pages/Login/login.dart';
 import 'package:allcon/Pages/MyPage/edit_userName.dart';
-import 'package:allcon/Pages/MyPage/img_crop_controller.dart';
-import 'package:allcon/Pages/MyPage/profile_controller.dart';
+import 'package:allcon/Pages/MyPage/controller/img_crop_controller.dart';
+import 'package:allcon/Pages/MyPage/controller/profile_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
