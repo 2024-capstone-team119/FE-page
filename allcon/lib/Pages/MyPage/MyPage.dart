@@ -1,6 +1,4 @@
-import 'package:allcon/Pages/Login/login.dart';
 import 'package:allcon/Pages/MyPage/MyProfile.dart';
-import 'package:allcon/Pages/MyPage/profile_controller.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';

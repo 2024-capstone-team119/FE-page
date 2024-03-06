@@ -1,10 +1,6 @@
 import 'package:allcon/Data/Content.dart';
-import 'package:allcon/Pages/Community/Home.dart';
-import 'package:allcon/Pages/Community/Sub/TabContent/FreeContent.dart';
-import 'package:allcon/Pages/Community/Sub/Update.dart';
-import 'package:allcon/Pages/Community/Sub/content_controller.dart';
+import 'package:allcon/Pages/Community/controller/content_controller.dart';
 import 'package:allcon/Widget/app_bar.dart';
-import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,15 +8,21 @@ import 'package:get/get.dart';
 
 class MyContentDetail extends StatefulWidget {
   final Content content;
+  final ContentController contentController;
 
-  const MyContentDetail({Key? key, required this.content}) : super(key: key);
+  const MyContentDetail({
+    Key? key,
+    required this.content,
+    required this.contentController,
+  }) : super(key: key);
 
   @override
-  _ContentDetailState createState() => _ContentDetailState();
+  _ContentDetailState createState() => _ContentDetailState(contentController);
 }
 
 class _ContentDetailState extends State<MyContentDetail> {
-  late ContentController contentController;
+  ContentController _contentController;
+  _ContentDetailState(this._contentController);
 
   TextEditingController _commentController = TextEditingController();
   FocusNode _commentFocusNode = FocusNode();
@@ -28,7 +30,6 @@ class _ContentDetailState extends State<MyContentDetail> {
   @override
   void initState() {
     super.initState();
-    contentController = MyFreeContent().contentController;
   }
 
   @override
@@ -37,16 +38,8 @@ class _ContentDetailState extends State<MyContentDetail> {
     super.dispose();
   }
 
-  void toggleLike(int postId) {
-    contentController.toggleLike(postId);
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
-    final int like = widget.content.like ?? 0;
-    final int comment = (widget.content.comment ?? []).length;
-
     return Scaffold(
       appBar: MyAppBar(text: '커뮤니티'),
       body: SafeArea(
@@ -61,11 +54,13 @@ class _ContentDetailState extends State<MyContentDetail> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        '${widget.content != null ? widget.content.title : "제목없음"}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 25,
+                      Obx(
+                        () => Text(
+                          '${_contentController.getContent(widget.content.postId)?.title ?? ''}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 25,
+                          ),
                         ),
                       ),
                       GestureDetector(
@@ -117,8 +112,10 @@ class _ContentDetailState extends State<MyContentDetail> {
                     color: Colors.grey[300],
                   ),
                   SizedBox(height: 16),
-                  Text(
-                    '${widget.content.content != null ? widget.content.content : "내용없음"}',
+                  Obx(
+                    () => Text(
+                      '${_contentController.getContent(widget.content.postId)?.content ?? ''}',
+                    ),
                   ),
                   SizedBox(height: 5),
                   Padding(
@@ -128,22 +125,30 @@ class _ContentDetailState extends State<MyContentDetail> {
                       children: [
                         Row(
                           children: [
-                            IconButton(
-                              icon: Icon(
-                                widget.content.isLike!
-                                    ? CupertinoIcons.heart_fill
-                                    : CupertinoIcons.heart,
-                                size: 30.0,
-                                color: Colors.redAccent,
+                            Obx(
+                              () => IconButton(
+                                iconSize: 30.0,
+                                icon: Icon(
+                                  _contentController
+                                              .getContent(widget.content.postId)
+                                              ?.isLike ??
+                                          false
+                                      ? CupertinoIcons.heart_fill
+                                      : CupertinoIcons.heart,
+                                  color: Colors.redAccent,
+                                ),
+                                onPressed: () {
+                                  _contentController
+                                      .toggleLike(widget.content.postId);
+                                },
                               ),
-                              onPressed: () {
-                                toggleLike(widget.content.postId);
-                              },
                             ),
-                            Text(
-                              '${like}',
-                              style: TextStyle(
-                                color: Colors.red[300],
+                            Obx(
+                              () => Text(
+                                '${_contentController.getContent(widget.content.postId)?.like ?? 0}',
+                                style: TextStyle(
+                                  color: Colors.red[300],
+                                ),
                               ),
                             ),
                             SizedBox(width: 8),
@@ -153,7 +158,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                             ),
                             SizedBox(width: 5),
                             Text(
-                              '${comment}',
+                              '${_contentController.getContent(widget.content.postId)?.comment.length ?? 0}',
                               style: TextStyle(
                                 color: Colors.blueAccent,
                               ),
@@ -163,15 +168,64 @@ class _ContentDetailState extends State<MyContentDetail> {
                       ],
                     ),
                   ),
+                  /*Padding(
+                    padding: const EdgeInsets.only(right: 10.5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Row(
+                          children: [
+                            Obx(
+                              () => IconButton(
+                                icon: Icon(
+                                  widget.content.isLike!
+                                      ? CupertinoIcons.heart_fill
+                                      : CupertinoIcons.heart,
+                                  size: 30.0,
+                                  color: Colors.redAccent,
+                                ),
+                                onPressed: () {
+                                  _contentController
+                                      .toggleLike(widget.content.postId);
+                                },
+                              ),
+                            ),
+                            Obx(
+                              () => Text(
+                                '${_contentController.getContent(widget.content.postId)?.like ?? 0}',
+                                style: TextStyle(
+                                  color: Colors.red[300],
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Icon(
+                              CupertinoIcons.chat_bubble,
+                              color: Colors.blueAccent,
+                            ),
+                            SizedBox(width: 5),
+                            Obx(
+                              () => Text(
+                                '${_contentController.getContent(widget.content.postId)?.comment.length ?? 0}',
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),*/
                   Container(
                     height: 1.0,
                     width: 450.0,
                     color: Colors.grey[300],
                   ),
-                  if (widget.content.content != null &&
+/*                  if (widget.content.content != null &&
                       widget.content.comment != null)
                     for (int i = 0; i < widget.content.comment!.length; i++)
-                      commentBox(context, widget.content.comment![i], i),
+                      commentBox(context, widget.content.comment![i], i),*/
                   SizedBox(height: 65),
                 ],
               ),
@@ -179,11 +233,11 @@ class _ContentDetailState extends State<MyContentDetail> {
           ),
         ),
       ),
-      bottomSheet: CommentInputField(),
+      // bottomSheet: CommentInputField(),
     );
   }
 
-  Widget CommentInputField() {
+/*  Widget CommentInputField() {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Container(
@@ -315,5 +369,5 @@ class _ContentDetailState extends State<MyContentDetail> {
         ],
       ),
     );
-  }
+  }*/
 }

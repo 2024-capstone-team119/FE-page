@@ -1,22 +1,19 @@
 class Content {
   final int postId;
-  final String? boardName;
-  final String? content;
-  int? like;
-  String? title;
-  String? userName;
+  String title;
+  String content;
+  final DateTime? date;
   bool isLike;
-  DateTime? date;
-  List<String>? comment;
+  int like;
+  List<String> comment;
 
   Content({
     required this.postId,
-    this.title,
-    this.boardName,
-    this.like,
-    this.content,
+    this.title = '제목없음',
+    this.like = 0,
+    this.content = '내용없음',
     this.date,
-    this.comment,
+    this.comment = const [],
     this.isLike = false,
   });
 }
