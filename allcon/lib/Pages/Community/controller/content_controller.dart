@@ -24,6 +24,9 @@ class ContentController extends GetxController {
       content.isLike = !(content.isLike ?? false);
       content.like = content.isLike ? currentLike + 1 : currentLike - 1;
 
+      print(
+          ' before Post ID: ${content.postId}, isLike: ${content.isLike}, like: ${content.like}');
+
       contents[index] = content;
     }
   }
@@ -40,6 +43,7 @@ class ContentController extends GetxController {
 
     if (index != -1) {
       contents[index] = updatedContent;
+      update();
     }
   }
 }

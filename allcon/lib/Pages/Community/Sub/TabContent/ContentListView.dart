@@ -1,5 +1,6 @@
 import 'package:allcon/Data/Content.dart';
 import 'package:allcon/Data/Sample/content_sample.dart';
+import 'package:allcon/Pages/Community/Sub/GetPost.dart';
 import 'package:allcon/Pages/Community/controller/content_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +80,10 @@ class MyContentListView extends StatelessWidget {
     DateTime dateTime = content.date ?? DateTime.now();
     return GestureDetector(
       onTap: () {
-        // Get.to(() => MyContentDetail(content: content));
+        Get.to(() => MyContentDetail(
+              content: content,
+              contentController: _contentController,
+            ));
       },
       child: Column(
         children: [
