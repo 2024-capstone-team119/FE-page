@@ -5,12 +5,18 @@ import 'package:get/get_rx/get_rx.dart';
 class ContentController extends GetxController {
   RxList<Content> contents = <Content>[].obs;
 
-  ContentController._internal(List<Content> initialContents) {
-    contents.value = List.from(initialContents);
+  ContentController._internal();
+
+  factory ContentController() {
+    return ContentController._internal();
   }
 
-  factory ContentController(List<Content> initialContents) {
-    return ContentController._internal(initialContents);
+  List<Content> get likedContents {
+    return contents.where((content) => content.isLike).toList();
+  }
+
+  void setContentList(List<Content> initialContents) {
+    contents.value = List.from(initialContents);
   }
 
   void toggleLike(int postId) {
@@ -23,9 +29,6 @@ class ContentController extends GetxController {
       final int currentLike = content.like ?? 0;
       content.isLike = !(content.isLike ?? false);
       content.like = content.isLike ? currentLike + 1 : currentLike - 1;
-
-      print(
-          ' before Post ID: ${content.postId}, isLike: ${content.isLike}, like: ${content.like}');
 
       contents[index] = content;
     }

@@ -48,11 +48,13 @@ class ContentSamples {
           title: "자게 제목1",
           content: "자게 제목일입니다.\n number1" * 10,
           like: 0,
+          isLike: true,
           date: DateTime.parse("2021-06-28")),
       Content(
           postId: 6,
           title: "자게 제목투투222?",
           like: 0,
+          isLike: true,
           date: DateTime.parse("2021-06-27")),
       Content(
           postId: 7,
@@ -95,6 +97,7 @@ class ContentSamples {
           title: "자게 마지막",
           content: "자게 리스트뷰 마지막 끝에 위치한 게시글임..." * 40,
           like: 0,
+          isLike: true,
           date: DateTime.parse("2021-06-27"),
           comment: [
             "뭐하는 어플이야?",
@@ -111,17 +114,20 @@ class ContentSamples {
         title: "브루노마스 3일 양일콘 후기",
         content: "[레전드 브루노마스]\n갈 수 있음 꼭 가!!!!!",
         like: 22,
+        isLike: true,
       ),
       Content(
         postId: 22,
         content: "테일러스위프트\n드디어 내한 n년 소취 후기",
         like: 34,
+        isLike: true,
       ),
       Content(
         postId: 23,
         title: "찰푸레전드 찍음",
         content: "비록 1시간 반콘이지만,, 올타임 레전드!!!!",
         like: 37,
+        isLike: true,
       ),
       Content(
         postId: 24,
@@ -142,6 +148,7 @@ class ContentSamples {
           title: "올콘 양도구함 제발ㅜ",
           content: "올콘 양도구함 제발ㅜ",
           like: 22,
+          isLike: true,
           date: DateTime.parse("2021-06-23")),
     ],
     3: [
