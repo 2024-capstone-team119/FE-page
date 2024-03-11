@@ -1,6 +1,7 @@
 import 'package:allcon/Data/Content.dart';
 import 'package:allcon/Pages/Community/Sub/GetPost.dart';
 import 'package:allcon/Pages/Community/controller/content_controller.dart';
+import 'package:allcon/Widget/Preparing.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,7 +31,16 @@ class _MyContentLikesState extends State<MyContentLikes> {
 
   @override
   Widget build(BuildContext context) {
-    List<Content> likedContents = _contentController.likedContents;
+    List<Content> likedContents = _contentController.getAllLikedContents();
+
+    if (likedContents.isEmpty) {
+      return Scaffold(
+        appBar: const MyAppBar(text: '커뮤니티'),
+        body: Preparing(
+          text: "좋아요 목록이 비었습니다.\n 채워주세요 :)",
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: const MyAppBar(text: '커뮤니티'),
@@ -134,7 +144,9 @@ class _MyContentLikesState extends State<MyContentLikes> {
                       color: content.isLike ? Colors.redAccent : Colors.grey,
                     ),
                     onPressed: () {
-                      _contentController.toggleLike(content.postId);
+                      setState(() {
+                        _contentController.toggleLike(content.postId);
+                      });
                     },
                   ),
                   const SizedBox(width: 16.0),

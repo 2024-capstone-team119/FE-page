@@ -1,3 +1,4 @@
+import 'package:allcon/Pages/Community/Home.dart';
 import 'package:allcon/Util/validator_util.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/custom_elevated_btn.dart';
@@ -5,6 +6,8 @@ import 'package:allcon/Widget/custom_text_area.dart';
 import 'package:allcon/Widget/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+
+import 'package:get/get.dart';
 
 class MyContentWrite extends StatefulWidget {
   @override
@@ -46,7 +49,7 @@ class _ContentWriteState extends State<MyContentWrite> {
           ),
           child: Container(
             child: Column(
-              mainAxisSize: MainAxisSize.min, // 주축을 최소한으로 사용하도록 지정
+              mainAxisSize: MainAxisSize.min,
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -65,8 +68,7 @@ class _ContentWriteState extends State<MyContentWrite> {
                   text: "업로드",
                   funPageRoute: () {
                     if (_formKey.currentState!.validate()) {
-                      print('버튼 클릭 업로드');
-                      // Get.off(MyCommunity());
+                      Get.to(() => MyCommunity());
                     }
                   },
                 ),
