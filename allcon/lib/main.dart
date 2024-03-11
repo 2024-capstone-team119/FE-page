@@ -1,3 +1,4 @@
+import 'package:allcon/Pages/Community/controller/content_controller.dart';
 import 'package:allcon/pages/login/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   await initializeDateFormatting('ko_KR', null);
+  Get.put(ContentController());
   runApp(const MyApp());
 }
 

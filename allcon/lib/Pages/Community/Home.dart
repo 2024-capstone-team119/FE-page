@@ -109,13 +109,25 @@ class _MyCommunityState extends State<MyCommunity>
               controller: tabController,
               children: [
                 MyContentListView(
-                    tabIdx: 0, contentController: _contentController),
+                  tabIdx: 0,
+                  contentController: _contentController,
+                  searchText: searchText,
+                ),
                 MyContentListView(
-                    tabIdx: 1, contentController: _contentController),
+                  tabIdx: 1,
+                  contentController: _contentController,
+                  searchText: searchText,
+                ),
                 MyContentListView(
-                    tabIdx: 2, contentController: _contentController),
+                  tabIdx: 2,
+                  contentController: _contentController,
+                  searchText: searchText,
+                ),
                 MyContentListView(
-                    tabIdx: 3, contentController: _contentController),
+                  tabIdx: 3,
+                  contentController: _contentController,
+                  searchText: searchText,
+                ),
               ],
             ),
           ),
