@@ -11,8 +11,8 @@ class ContentController extends GetxController {
     return ContentController._internal();
   }
 
-  List<Content> get likedContents {
-    return contents.where((content) => content.isLike).toList();
+  List<Content> getAllLikedContents() {
+    return contents.where((content) => content.isLike == true).toList();
   }
 
   void setContentList(List<Content> initialContents) {

@@ -6,7 +6,6 @@ import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   await initializeDateFormatting('ko_KR', null);
-  Get.put(ContentController());
   runApp(const MyApp());
 }
 

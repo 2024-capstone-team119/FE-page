@@ -30,8 +30,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
 
   @override
   Widget build(BuildContext context) {
-    List<Content> likedContents = _contentController.likedContents;
-
+    List<Content> likedContents = _contentController.getAllLikedContents();
     return Scaffold(
       appBar: const MyAppBar(text: '커뮤니티'),
       backgroundColor: Colors.white,

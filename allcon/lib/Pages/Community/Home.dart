@@ -24,13 +24,13 @@ class _MyCommunityState extends State<MyCommunity>
     with TickerProviderStateMixin {
   late final TabController _tabController;
   String searchText = '';
-  late final ContentController _contentController; // ContentController 추가
+  late final ContentController _contentController;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
-    _contentController = ContentController(); // ContentController 초기화
+    _contentController = ContentController();
   }
 
   @override

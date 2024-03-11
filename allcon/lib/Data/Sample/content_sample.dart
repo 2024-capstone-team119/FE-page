@@ -46,6 +46,7 @@ class ContentSamples {
           postId: 5,
           title: "자게 제목1",
           content: "자게 제목일입니다.\n number1" * 10,
+          like: 1,
           isLike: true,
           date: DateTime.parse("2021-06-28")),
       Content(
