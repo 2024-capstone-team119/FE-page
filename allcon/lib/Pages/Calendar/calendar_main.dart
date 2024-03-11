@@ -77,34 +77,53 @@ class _CalendarState extends State<Calendar> {
             size: 30.0,
           ),
         ),
-        calendarStyle: const CalendarStyle(
-          markersAnchor: 1.3,
+        calendarStyle: CalendarStyle(
           isTodayHighlighted: true,
-          todayTextStyle: TextStyle(
+          todayTextStyle: const TextStyle(
             color: Colors.white,
             fontSize: 16.0,
           ),
           todayDecoration: BoxDecoration(
-            color: Color(0xFF9FA8DA),
+            color: Colors.deepPurple[400],
             shape: BoxShape.rectangle,
           ),
-          selectedTextStyle: TextStyle(
+          selectedTextStyle: const TextStyle(
             color: Colors.black,
-            fontSize: 15.0,
+            fontSize: 14.0,
           ),
           selectedDecoration: BoxDecoration(
-            color: Color.fromARGB(255, 210, 208, 208),
+            color: Colors.grey[300],
             shape: BoxShape.rectangle,
           ),
           outsideDaysVisible: false,
-          weekendTextStyle: TextStyle(color: Colors.grey),
+          weekendTextStyle: const TextStyle(color: Colors.grey),
           cellAlignment: Alignment.topCenter,
-          tableBorder: TableBorder(
+          tableBorder: const TableBorder(
             horizontalInside: BorderSide(color: Colors.grey),
             borderRadius: BorderRadius.zero,
           ),
         ),
         calendarBuilders: CalendarBuilders(
+          markerBuilder: (context, day, events) => events.isNotEmpty
+              ? Positioned(
+                  top: 40,
+                  right: 5,
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.deepPurple[200],
+                    ),
+                    child: Text(
+                      '${events.length}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.0,
+                      ),
+                    ),
+                  ))
+              : null,
           dowBuilder: (context, date) {
             switch (date.weekday) {
               case 1:
