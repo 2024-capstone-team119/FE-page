@@ -14,6 +14,8 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
+  DateTime _selectedDay = DateTime.now();
+
   final LinkedHashMap<DateTime, List<Schedule>> schedules = LinkedHashMap(
     equals: isSameDay,
   )..addAll(scheduleList.cast<DateTime, List<Schedule>>());
@@ -28,7 +30,6 @@ class _CalendarState extends State<Calendar> {
       appBar: const MyAppBar(
         text: "달력",
       ),
-      // 달력을 표시하는 TableCalendar 위젯을 body에 추가
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -49,6 +50,12 @@ class _CalendarState extends State<Calendar> {
         firstDay: DateTime.utc(2021, 10, 16),
         lastDay: DateTime.utc(2030, 3, 14),
         focusedDay: DateTime.now(),
+        selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
+        onDaySelected: (selectedDay, focusedDay) {
+          setState(() {
+            _selectedDay = selectedDay;
+          });
+        },
         rowHeight: 65.0,
         daysOfWeekHeight: 25,
         headerStyle: HeaderStyle(
@@ -82,12 +89,12 @@ class _CalendarState extends State<Calendar> {
             shape: BoxShape.rectangle,
           ),
           selectedTextStyle: TextStyle(
-            color: Color(0xFFFAFAFA),
-            fontSize: 16.0,
+            color: Colors.black,
+            fontSize: 15.0,
           ),
           selectedDecoration: BoxDecoration(
-            color: Color(0xFF5C6BC0),
-            shape: BoxShape.circle,
+            color: Color.fromARGB(255, 210, 208, 208),
+            shape: BoxShape.rectangle,
           ),
           outsideDaysVisible: false,
           weekendTextStyle: TextStyle(color: Colors.grey),
