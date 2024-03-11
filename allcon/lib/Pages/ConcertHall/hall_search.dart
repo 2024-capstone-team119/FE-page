@@ -1,4 +1,5 @@
 import 'package:allcon/Pages/Seat/seat_main.dart';
+import 'package:allcon/Widget/Preparing.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -79,9 +80,7 @@ class _HallSearchPageState extends State<HallSearch> {
       selectedList = gyeongSangList;
     } else {
       return const Expanded(
-        child: Center(
-          child: Text('공연장 준비 중입니다.'),
-        ),
+        child: Preparing(text: "공연장 준비중입니다.\n 조금만 기다려주세요 :)"),
       );
     }
 

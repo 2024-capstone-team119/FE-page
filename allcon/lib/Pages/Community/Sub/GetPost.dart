@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class MyContentDetail extends StatefulWidget {
   final Content content;
@@ -168,76 +169,27 @@ class _ContentDetailState extends State<MyContentDetail> {
                       ],
                     ),
                   ),
-                  /*Padding(
-                    padding: const EdgeInsets.only(right: 10.5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Row(
-                          children: [
-                            Obx(
-                              () => IconButton(
-                                icon: Icon(
-                                  widget.content.isLike!
-                                      ? CupertinoIcons.heart_fill
-                                      : CupertinoIcons.heart,
-                                  size: 30.0,
-                                  color: Colors.redAccent,
-                                ),
-                                onPressed: () {
-                                  _contentController
-                                      .toggleLike(widget.content.postId);
-                                },
-                              ),
-                            ),
-                            Obx(
-                              () => Text(
-                                '${_contentController.getContent(widget.content.postId)?.like ?? 0}',
-                                style: TextStyle(
-                                  color: Colors.red[300],
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            Icon(
-                              CupertinoIcons.chat_bubble,
-                              color: Colors.blueAccent,
-                            ),
-                            SizedBox(width: 5),
-                            Obx(
-                              () => Text(
-                                '${_contentController.getContent(widget.content.postId)?.comment.length ?? 0}',
-                                style: TextStyle(
-                                  color: Colors.blueAccent,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),*/
                   Container(
                     height: 1.0,
                     width: 450.0,
                     color: Colors.grey[300],
                   ),
-/*                  if (widget.content.content != null &&
+                  if (widget.content.content != null &&
                       widget.content.comment != null)
                     for (int i = 0; i < widget.content.comment!.length; i++)
-                      commentBox(context, widget.content.comment![i], i),*/
-                  SizedBox(height: 65),
+                      commentBox(context, widget.content.comment![i], i),
+                  const SizedBox(height: 65),
                 ],
               ),
             ),
           ),
         ),
       ),
-      // bottomSheet: CommentInputField(),
+      bottomSheet: CommentInputField(),
     );
   }
 
-/*  Widget CommentInputField() {
+  Widget CommentInputField() {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Container(
@@ -300,6 +252,7 @@ class _ContentDetailState extends State<MyContentDetail> {
 
   Widget commentBox(BuildContext context, String comment, int num) {
     int number = num + 1;
+    DateTime now = DateTime.now();
     return Padding(
       padding: const EdgeInsets.only(left: 6, top: 10),
       child: Column(
@@ -353,7 +306,7 @@ class _ContentDetailState extends State<MyContentDetail> {
           ),
           SizedBox(height: 4),
           Text(
-            "11/17 02:30",
+            "${DateFormat('MM/dd HH:mm').format(now)}",
             style: TextStyle(
               fontSize: 14.0,
               color: Colors.grey,
@@ -369,5 +322,5 @@ class _ContentDetailState extends State<MyContentDetail> {
         ],
       ),
     );
-  }*/
+  }
 }
