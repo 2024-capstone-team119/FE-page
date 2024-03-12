@@ -174,12 +174,19 @@ Widget deadConcertList(BuildContext context) {
                               fontSize: 14.0,
                             ),
                           ),
-                          const SizedBox(height: 4.0),
                           Text(
                             '장소 : ${concert.place}',
                             style: const TextStyle(
                               fontSize: 14.0,
                             ),
+                          ),
+                          Text(
+                            '관람 연령 : 만 ${concert.age} 세 이상',
+                            style: TextStyle(fontSize: 14.0),
+                          ),
+                          Text(
+                            '관람 시간 : 총 ${concert.time} 분',
+                            style: TextStyle(fontSize: 14.0),
                           ),
                         ],
                       ),

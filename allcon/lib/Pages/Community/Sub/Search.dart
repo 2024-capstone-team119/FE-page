@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class MyContentSearch extends StatefulWidget {
   final void Function(String) onSearch;
@@ -22,7 +23,7 @@ class _ContentSearchState extends State<MyContentSearch> {
           ),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          suffixIcon: const Icon(Icons.search),
+          suffixIcon: const Icon(CupertinoIcons.search),
         ),
         onChanged: (value) {
           widget.onSearch(value);

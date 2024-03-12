@@ -5,6 +5,7 @@ import 'package:allcon/pages/concert/concertinfo.dart' as concertinfo;
 import 'package:allcon/Data/Concert.dart';
 import 'package:allcon/Data/Sample/concert_sample.dart';
 import 'package:get/get.dart';
+import 'package:flutter/cupertino.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -30,6 +31,7 @@ class _SearchPageState extends State<Search> {
           const SizedBox(
             height: 5.0,
           ),
+          /*
           const Text(
             '목록',
             textAlign: TextAlign.center,
@@ -40,7 +42,7 @@ class _SearchPageState extends State<Search> {
           ),
           const SizedBox(
             height: 5.0,
-          ),
+          ),*/
           listTab(context),
         ],
       ),
@@ -52,27 +54,23 @@ class _SearchPageState extends State<Search> {
 
   Widget searchTab(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 15.0),
+      padding: const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 4.0),
       child: TextField(
         decoration: InputDecoration(
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-          hintText: '검색어를 입력하세요.',
-          labelStyle: const TextStyle(color: Colors.black),
-          filled: true,
-          fillColor: Colors.white,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: const BorderSide(width: 1, color: Colors.black),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: const BorderSide(width: 1, color: Colors.black),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-        ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            hintText: '검색어를 입력해주세요.',
+            labelStyle: const TextStyle(color: Colors.black54),
+            filled: true,
+            fillColor: Colors.white,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(width: 1, color: Colors.black87),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+            suffixIcon: const Icon(CupertinoIcons.search)),
         onChanged: (value) {
           setState(() {
             searchText = value;
@@ -99,7 +97,7 @@ class _SearchPageState extends State<Search> {
                       .toLowerCase()
                       .contains(searchText.toLowerCase()))) {
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.fromLTRB(8, 3, 8, 3),
               child: GestureDetector(
                 onTap: () {
                   Get.to(
@@ -110,19 +108,26 @@ class _SearchPageState extends State<Search> {
                 child: Column(
                   children: [
                     ListTile(
-                      title: Text(concert.title ?? 'unknown'),
-                      subtitle: Text(concert.performer ?? 'unknown'),
+                      title: Text(
+                        concert.title ?? 'unknown',
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.w400),
+                      ),
+                      subtitle: Text(
+                        concert.performer ?? 'unknown',
+                        style: TextStyle(fontSize: 15.0),
+                      ),
                       leading: ClipRRect(
-                        borderRadius: BorderRadius.circular(2.0),
+                        borderRadius: BorderRadius.circular(5.0),
                         child: Image.network(
                           concert.imgUrl ?? '',
-                          width: 50,
-                          height: 80,
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
-                    const Divider(),
+                    Divider(
+                      color: Colors.grey[200],
+                    ),
                   ],
                 ),
               ),

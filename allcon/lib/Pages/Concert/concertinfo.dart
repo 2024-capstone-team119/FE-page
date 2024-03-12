@@ -4,6 +4,7 @@ import 'package:allcon/Widget/app_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:allcon/Data/Concert.dart';
+import 'package:flutter/cupertino.dart';
 
 class ConcertInfo extends StatefulWidget {
   const ConcertInfo({super.key});
@@ -63,16 +64,17 @@ class _ConcertInfoState extends State<ConcertInfo> {
                       concert.title ?? 'unknown',
                       style: const TextStyle(
                         fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
                   IconButton(
+                    iconSize: 28.0,
                     icon: Icon(
                       isFavorite
-                          ? Icons.favorite
-                          : Icons.favorite_border_outlined,
-                      color: isFavorite ? Colors.red : Colors.black,
+                          ? CupertinoIcons.heart_fill
+                          : CupertinoIcons.heart,
+                      color: isFavorite ? Colors.redAccent : Colors.black54,
                     ),
                     visualDensity: VisualDensity.compact,
                     onPressed: () {
@@ -105,24 +107,25 @@ class _ConcertInfoState extends State<ConcertInfo> {
                           const SizedBox(
                             height: 10.0,
                           ),
+                          Text('공연자 : ${concert.performer ?? 'unknown'}'),
                           Text(
-                            '장소: ${concert.place ?? 'unknown'}',
+                            '장소 : ${concert.place ?? 'unknown'}',
                             style: const TextStyle(fontSize: 14.0),
                           ),
                           Text(
-                            '공연 기간: ${DateFormat('yyyy-MM-dd HH:mm').format(concert.date!)}',
+                            '공연 기간\n${DateFormat('yyyy-MM-dd HH:mm').format(concert.date!)}',
                             style: const TextStyle(fontSize: 14.0),
                           ),
-                          const Text(
-                            '관람 연령: 만 8세 이상',
+                          Text(
+                            '관람 연령 : 만 ${concert.age} 세 이상',
+                            style: TextStyle(fontSize: 14.0),
+                          ),
+                          Text(
+                            '관람 시간 : 총 ${concert.time} 분',
                             style: TextStyle(fontSize: 14.0),
                           ),
                           const Text(
-                            '관람 시간: 총 100분',
-                            style: TextStyle(fontSize: 14.0),
-                          ),
-                          const Text(
-                            '예매처: 인터파크',
+                            '예매처 : 인터파크',
                             style: TextStyle(fontSize: 14.0),
                           ),
                         ],
