@@ -34,6 +34,9 @@ class _CalendarState extends State<Calendar> {
         child: Column(
           children: <Widget>[
             calendar(context),
+            const SizedBox(height: 10.0),
+            eventList(context),
+            const SizedBox(height: 10.0),
             upcoming(context),
           ],
         ),
@@ -43,133 +46,179 @@ class _CalendarState extends State<Calendar> {
   }
 
   Widget calendar(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: TableCalendar(
-        locale: 'ko_KR',
-        firstDay: DateTime.utc(2021, 10, 16),
-        lastDay: DateTime.utc(2030, 3, 14),
-        focusedDay: DateTime.now(),
-        selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
-        onDaySelected: (selectedDay, focusedDay) {
-          setState(() {
-            _selectedDay = selectedDay;
-          });
-        },
-        rowHeight: 65.0,
-        daysOfWeekHeight: 25,
-        headerStyle: HeaderStyle(
-          titleCentered: true,
-          titleTextFormatter: (date, locale) =>
-              DateFormat.yMMMM(locale).format(date),
-          formatButtonVisible: false,
-          titleTextStyle: const TextStyle(
-            fontSize: 15.0,
-            color: Colors.black,
-          ),
-          headerPadding: const EdgeInsets.symmetric(vertical: 4.0),
-          leftChevronIcon: const Icon(
-            Icons.keyboard_arrow_left,
-            size: 30.0,
-          ),
-          rightChevronIcon: const Icon(
-            Icons.keyboard_arrow_right,
-            size: 30.0,
-          ),
+    List<Schedule> selectedDayEvents = _getEventsForDay(_selectedDay);
+
+    return TableCalendar(
+      locale: 'ko_KR',
+      firstDay: DateTime.utc(2021, 10, 16),
+      lastDay: DateTime.utc(2030, 3, 14),
+      focusedDay: DateTime.now(),
+      selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
+      onDaySelected: (selectedDay, focusedDay) {
+        setState(() {
+          _selectedDay = selectedDay;
+        });
+      },
+      daysOfWeekHeight: 25,
+      headerStyle: HeaderStyle(
+        titleCentered: true,
+        titleTextFormatter: (date, locale) =>
+            DateFormat.yMMMM(locale).format(date),
+        formatButtonVisible: false,
+        titleTextStyle: const TextStyle(
+          fontSize: 15.0,
+          color: Colors.black,
         ),
-        calendarStyle: CalendarStyle(
-          isTodayHighlighted: true,
-          todayTextStyle: const TextStyle(
-            color: Colors.white,
-            fontSize: 16.0,
-          ),
-          todayDecoration: BoxDecoration(
-            color: Colors.deepPurple[400],
-            shape: BoxShape.rectangle,
-          ),
-          selectedTextStyle: const TextStyle(
-            color: Colors.black,
-            fontSize: 14.0,
-          ),
-          selectedDecoration: BoxDecoration(
-            color: Colors.grey[300],
-            shape: BoxShape.rectangle,
-          ),
-          outsideDaysVisible: false,
-          weekendTextStyle: const TextStyle(color: Colors.grey),
-          cellAlignment: Alignment.topCenter,
-          tableBorder: const TableBorder(
-            horizontalInside: BorderSide(color: Colors.grey),
-            borderRadius: BorderRadius.zero,
-          ),
+        headerPadding: const EdgeInsets.symmetric(vertical: 4.0),
+        leftChevronIcon: const Icon(
+          Icons.keyboard_arrow_left,
+          size: 30.0,
         ),
-        calendarBuilders: CalendarBuilders(
-          markerBuilder: (context, day, events) => events.isNotEmpty
-              ? Positioned(
-                  top: 40,
-                  right: 5,
-                  child: Container(
-                    width: 20,
-                    height: 20,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.deepPurple[200],
-                    ),
-                    child: Text(
-                      '${events.length}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12.0,
-                      ),
-                    ),
-                  ))
-              : null,
-          dowBuilder: (context, date) {
-            switch (date.weekday) {
-              case 1:
-                return const Center(
-                  child: Text('Mon'),
-                );
-              case 2:
-                return const Center(
-                  child: Text('Tue'),
-                );
-              case 3:
-                return const Center(
-                  child: Text('Wed'),
-                );
-              case 4:
-                return const Center(
-                  child: Text('Thu'),
-                );
-              case 5:
-                return const Center(
-                  child: Text('Fri'),
-                );
-              case 6:
-                return const Center(
-                  child: Text(
-                    'Sat',
-                    style: TextStyle(
-                      color: Colors.blue,
-                    ),
-                  ),
-                );
-              case 7:
-                return const Center(
-                  child: Text(
-                    'Sun',
-                    style: TextStyle(
-                      color: Colors.red,
-                    ),
-                  ),
-                );
-            }
-            return null;
-          },
+        rightChevronIcon: const Icon(
+          Icons.keyboard_arrow_right,
+          size: 30.0,
         ),
-        eventLoader: (day) => _getEventsForDay(day),
       ),
+      calendarStyle: CalendarStyle(
+        isTodayHighlighted: true,
+        todayTextStyle: const TextStyle(
+          color: Colors.white,
+          fontSize: 16.0,
+        ),
+        todayDecoration: BoxDecoration(
+          color: Colors.deepPurple[400],
+          shape: BoxShape.rectangle,
+        ),
+        selectedTextStyle: const TextStyle(
+          color: Colors.black,
+          fontSize: 14.0,
+        ),
+        selectedDecoration: BoxDecoration(
+          color: Colors.transparent,
+          border: Border.all(color: Colors.grey),
+          shape: BoxShape.rectangle,
+        ),
+        outsideDaysVisible: false,
+        weekendTextStyle: const TextStyle(color: Colors.grey),
+        cellAlignment: Alignment.topCenter,
+        tableBorder: const TableBorder(
+          horizontalInside: BorderSide(color: Colors.grey),
+          borderRadius: BorderRadius.zero,
+        ),
+      ),
+      calendarBuilders: CalendarBuilders(
+        markerBuilder: (context, day, events) => events.isNotEmpty
+            ? Positioned(
+                top: 28,
+                right: 6,
+                child: Container(
+                  width: 18,
+                  height: 18,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurple[200],
+                  ),
+                  child: Text(
+                    '${events.length}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ),
+              )
+            : null,
+        dowBuilder: (context, date) {
+          switch (date.weekday) {
+            case 1:
+              return const Center(
+                child: Text('Mon'),
+              );
+            case 2:
+              return const Center(
+                child: Text('Tue'),
+              );
+            case 3:
+              return const Center(
+                child: Text('Wed'),
+              );
+            case 4:
+              return const Center(
+                child: Text('Thu'),
+              );
+            case 5:
+              return const Center(
+                child: Text('Fri'),
+              );
+            case 6:
+              return const Center(
+                child: Text(
+                  'Sat',
+                  style: TextStyle(
+                    color: Colors.blue,
+                  ),
+                ),
+              );
+            case 7:
+              return const Center(
+                child: Text(
+                  'Sun',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              );
+          }
+          return null;
+        },
+      ),
+      eventLoader: (day) => _getEventsForDay(day),
+    );
+  }
+
+  Widget eventList(BuildContext context) {
+    List<Schedule> selectedDayEvents = _getEventsForDay(_selectedDay);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        selectedDayEvents.isEmpty
+            ? const Text(
+                '일정이 비어있습니다.',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              )
+            : Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: selectedDayEvents.map((event) {
+                    return Container(
+                      width: 500,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 12.0),
+                      margin: const EdgeInsets.only(bottom: 8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border.all(color: Colors.deepPurple),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            event.title,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+      ],
     );
   }
 
