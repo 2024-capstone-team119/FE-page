@@ -14,8 +14,8 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
-    myProfile(User.clone(originMyProfile));
     isEditMyProfile(false);
+    myProfile(User.clone(originMyProfile));
     super.onInit();
   }
 

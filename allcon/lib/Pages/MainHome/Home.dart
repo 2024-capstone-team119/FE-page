@@ -30,7 +30,7 @@ class _MyHomeState extends State<MyHome> {
         text: 'ALLCON',
         textFontFamily: 'Cafe24Moyamoya',
         automaticallyImplyLeading: false,
-        actions: const Icon(Icons.calendar_month),
+        actions: const Icon(CupertinoIcons.calendar_today),
         onActionPressed: () {
           Get.to(const Calendar());
         },
