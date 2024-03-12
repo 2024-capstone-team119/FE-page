@@ -2,6 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:allcon/pages/seat/seat_write.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:allcon/Pages/Seat/seat_review.dart';
+import 'package:get/get.dart';
+
+class ReviewController extends GetxController {
+  RxMap<int, int> goodCounts = <int, int>{}.obs;
+  RxMap<int, int> badCounts = <int, int>{}.obs;
+
+  void incrementGoodCount(int index) {
+    goodCounts[index] = (goodCounts[index] ?? 0) + 1;
+  }
+
+  void incrementBadCount(int index) {
+    badCounts[index] = (badCounts[index] ?? 0) + 1;
+  }
+}
 
 class SeatMain extends StatefulWidget {
   final String title;
@@ -13,41 +27,67 @@ class SeatMain extends StatefulWidget {
 }
 
 class _SeatMainState extends State<SeatMain> {
-  Map<int, int> goodCounts = {};
-  Map<int, int> badCounts = {};
-  bool recommend = true;
+  late final ReviewController _reviewController;
+
+  @override
+  void initState() {
+    super.initState();
+    _reviewController = Get.put(ReviewController());
+  }
+
+  bool recommend = false;
   bool reviewWrite = true;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        centerTitle: true,
-      ),
-      bottomNavigationBar: const MyBottomNavigationBar(
-        currentIndex: 1,
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height: 10),
-          Expanded(
-            child: Image.network(
-              'https://example.com/your_image.jpg',
-              fit: BoxFit.cover,
-            ),
+    return GetBuilder<ReviewController>(
+      init: ReviewController(),
+      builder: (controller) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(widget.title),
+            centerTitle: true,
           ),
-          const SizedBox(height: 10),
-          reviewWrite ? reviewTab(context) : const SizedBox(),
-        ],
-      ),
+          bottomNavigationBar: const MyBottomNavigationBar(
+            currentIndex: 1,
+          ),
+          body: Column(
+            children: [
+              const SizedBox(height: 10),
+              Expanded(
+                child: Image.network(
+                  'https://example.com/your_image.jpg',
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(height: 10),
+              reviewWrite ? reviewTab(context) : const SizedBox(),
+            ],
+          ),
+        );
+      },
     );
   }
 
   Widget reviewTab(BuildContext context) {
-    // 각 리뷰를 goodCounts를 기준으로 정렬
-    List<int> sortedIndexes = reviewList.asMap().keys.toList()
-      ..sort((a, b) => (goodCounts[b] ?? 0).compareTo(goodCounts[a] ?? 0));
+    // 추천순, 최신순 정렬
+    List<int> sortedIndexes;
+    if (recommend) {
+      sortedIndexes = reviewList
+          .asMap()
+          .entries
+          .toList()
+          .reversed
+          .map((entry) => entry.key)
+          .toList();
+      sortedIndexes.sort((a, b) => (_reviewController.goodCounts[b] ?? 0)
+          .compareTo(_reviewController.goodCounts[a] ?? 0));
+    } else {
+      sortedIndexes = List.generate(reviewList.length, (index) => index)
+          .toList()
+          .reversed
+          .toList();
+    }
 
     return Expanded(
       child: SingleChildScrollView(
@@ -135,13 +175,14 @@ class _SeatMainState extends State<SeatMain> {
       }
     }
 
-    int? goodCount = goodCounts[index];
-    int? badCount = badCounts[index];
+    int? goodCount = _reviewController.goodCounts[index];
+    int? badCount = _reviewController.badCounts[index];
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
       child: Container(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -168,7 +209,8 @@ class _SeatMainState extends State<SeatMain> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          goodCounts[index] = (goodCount ?? 0) + 1;
+                          _reviewController.goodCounts[index] =
+                              (goodCount ?? 0) + 1;
                         });
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.blue),
@@ -179,7 +221,8 @@ class _SeatMainState extends State<SeatMain> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          badCounts[index] = (badCount ?? 0) + 1;
+                          _reviewController.badCounts[index] =
+                              (badCount ?? 0) + 1;
                         });
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.red),

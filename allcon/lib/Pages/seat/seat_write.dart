@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:allcon/Pages/Seat/seat_review.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SeatWrite extends StatefulWidget {
   const SeatWrite({super.key});
@@ -9,14 +11,41 @@ class SeatWrite extends StatefulWidget {
 
 class _SeatWriteState extends State<SeatWrite> {
   int selectedStar = 0;
+  int reviewId = 0;
+  late String currentTime;
+  final TextEditingController _textController = TextEditingController();
+
+  void _submitReview(Review newReview) {
+    setState(() {
+      reviewList.add(newReview);
+    });
+    reviewId++;
+  }
+
+  @override
+  // 현재 날짜 가져오기
+  void initState() {
+    super.initState();
+    currentTime = _getCurrentDate();
+  }
+
+  String _getCurrentDate() {
+    DateTime now = DateTime.now();
+    return "${now.year}-${now.month}-${now.day}";
+  }
 
   @override
   Widget build(BuildContext context) {
+    bool isButtonEnabled =
+        selectedStar > 0 && _textController.text.length >= 10;
+
     return Container(
       decoration: const BoxDecoration(
         color: Color.fromARGB(255, 238, 225, 255),
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+          topLeft: Radius.circular(10.0),
+          topRight: Radius.circular(10.0),
+        ),
       ),
       child: Padding(
         padding: EdgeInsets.only(
@@ -61,10 +90,11 @@ class _SeatWriteState extends State<SeatWrite> {
                       ],
                     ),
                   ),
-                  const TextField(
+                  TextField(
+                    controller: _textController,
                     maxLines: 5,
-                    decoration: InputDecoration(
-                      hintText: '리뷰를 작성해주세요.',
+                    decoration: const InputDecoration(
+                      hintText: '10글자 이상의 리뷰를 작성해주세요.',
                       labelStyle: TextStyle(color: Colors.black),
                       filled: true,
                       fillColor: Colors.white,
@@ -80,17 +110,38 @@ class _SeatWriteState extends State<SeatWrite> {
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
                     ),
+                    onChanged: (_) {
+                      setState(() {}); // 텍스트 입력 시 상태 갱신
+                    },
                   ),
                   const SizedBox(
                     height: 4.0,
                   ),
-                  buildOutlinedButton(
+                  uploadButton(
                     onPressed: () {},
                     icon: Icons.camera_alt_rounded,
                     label: '사진 첨부하기',
                   ),
-                  buildOutlinedButton(
-                    onPressed: () {},
+                  uploadButton(
+                    onPressed: isButtonEnabled
+                        ? () {
+                            _submitReview(
+                              Review(
+                                id: reviewId,
+                                name: 'noname$reviewId',
+                                star: selectedStar,
+                                text: _textController.text,
+                                createTime: currentTime,
+                                good: 0,
+                                bad: 0,
+                              ),
+                            );
+                            Navigator.of(context).pop();
+                          }
+                        : () {
+                            FocusScope.of(context).unfocus(); // 키보드 숨기기
+                            uploadToast();
+                          }, // 버튼 비활성화
                     icon: Icons.edit,
                     label: '리뷰 등록하기',
                   ),
@@ -103,7 +154,7 @@ class _SeatWriteState extends State<SeatWrite> {
     );
   }
 
-  Widget buildOutlinedButton({
+  Widget uploadButton({
     required VoidCallback onPressed,
     required IconData icon,
     required String label,
@@ -126,4 +177,16 @@ class _SeatWriteState extends State<SeatWrite> {
       ),
     );
   }
+}
+
+void uploadToast() {
+  Fluttertoast.showToast(
+    msg: '별점을 남겨주세요',
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 1,
+    backgroundColor: Colors.black,
+    textColor: Colors.red,
+    fontSize: 15.0,
+  );
 }
