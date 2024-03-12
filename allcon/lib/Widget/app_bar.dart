@@ -23,7 +23,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: TextStyle(
           color: Colors.black87,
           fontFamily: textFontFamily,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w700,
         ),
       ),
       centerTitle: true,
@@ -33,8 +33,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: <Widget>[
         if (actions != null)
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: IconButton(
+              iconSize: 26.0,
               icon: actions!,
               color: Colors.deepPurple.withOpacity(0.85),
               onPressed: onActionPressed,

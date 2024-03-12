@@ -31,17 +31,17 @@ class MyBottomNavigationBar extends StatelessWidget {
         }
       },
       currentIndex: currentIndex,
-      showUnselectedLabels: true,
+      showUnselectedLabels: false,
       selectedItemColor: const Color(0xFF664FA4),
-      unselectedItemColor: Colors.black38,
+      unselectedItemColor: Colors.black54,
       type: BottomNavigationBarType.fixed,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.account_circle_outlined),
+          icon: Icon(CupertinoIcons.person_crop_circle),
           label: '마이',
         ),
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.home),
+          icon: Icon(CupertinoIcons.house_fill),
           label: '홈',
         ),
         BottomNavigationBarItem(
@@ -49,7 +49,7 @@ class MyBottomNavigationBar extends StatelessWidget {
           label: '검색',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.speaker_notes),
+          icon: Icon(CupertinoIcons.captions_bubble_fill),
           label: '커뮤니티',
         ),
       ],

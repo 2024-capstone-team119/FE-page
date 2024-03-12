@@ -142,7 +142,7 @@ Widget userInfo(BuildContext context, ProfileController _pcon) {
         height: 120,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(50),
-          child: Image.network(
+          child: Image.asset(
             'assets/logo/allcon_icon.png',
             fit: BoxFit.cover,
           ),
@@ -168,7 +168,7 @@ Widget userInfo(BuildContext context, ProfileController _pcon) {
             Text(
               _pcon.myProfile.value.email ?? "",
               style: TextStyle(
-                fontSize: 18.0,
+                fontSize: 15.0,
               ),
             ),
           ],
@@ -245,11 +245,11 @@ Widget EditUserInfo(
                   _pcon.updateName(value);
                 }
               }),
-              SizedBox(height: 5.0),
+              SizedBox(height: 2.0),
               Text(
                 _pcon.myProfile.value.email ?? "",
                 style: TextStyle(
-                  fontSize: 18.0,
+                  fontSize: 15.0,
                 ),
               ),
             ],
@@ -265,10 +265,10 @@ Widget EditNameInfo(String value, VoidCallback onTap) {
     onTap: onTap,
     child: Stack(children: [
       Container(
-        height: 55,
+        height: 50,
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(width: 0.8, color: Colors.white),
+            bottom: BorderSide(width: 0.6, color: Colors.white),
           ),
         ),
       ),
