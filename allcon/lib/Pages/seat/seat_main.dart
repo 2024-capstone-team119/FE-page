@@ -77,13 +77,16 @@ class _SeatMainState extends State<SeatMain> {
           .asMap()
           .entries
           .toList()
+          .reversed
           .map((entry) => entry.key)
           .toList();
       sortedIndexes.sort((a, b) => (_reviewController.goodCounts[b] ?? 0)
           .compareTo(_reviewController.goodCounts[a] ?? 0));
     } else {
-      sortedIndexes =
-          List.generate(reviewList.length, (index) => index).toList();
+      sortedIndexes = List.generate(reviewList.length, (index) => index)
+          .toList()
+          .reversed
+          .toList();
     }
 
     return Expanded(
@@ -179,6 +182,7 @@ class _SeatMainState extends State<SeatMain> {
       padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
       child: Container(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
