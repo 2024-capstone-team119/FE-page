@@ -22,11 +22,15 @@ class _SeatWriteState extends State<SeatWrite> {
     reviewId++;
   }
 
+  late FToast fToast;
+
   @override
-  // 현재 날짜 가져오기
+  // 초기화
   void initState() {
     super.initState();
     currentTime = _getCurrentDate();
+    fToast = FToast();
+    fToast.init(context);
   }
 
   String _getCurrentDate() {
@@ -140,7 +144,11 @@ class _SeatWriteState extends State<SeatWrite> {
                           }
                         : () {
                             FocusScope.of(context).unfocus(); // 키보드 숨기기
-                            uploadToast();
+                            if (selectedStar == 0) {
+                              _showToast('별점을 남겨주세요.');
+                            } else {
+                              _showToast('10글자 이상의 리뷰를 작성해주세요.');
+                            }
                           }, // 버튼 비활성화
                     icon: Icons.edit,
                     label: '리뷰 등록하기',
@@ -177,16 +185,39 @@ class _SeatWriteState extends State<SeatWrite> {
       ),
     );
   }
-}
 
-void uploadToast() {
-  Fluttertoast.showToast(
-    msg: '별점을 남겨주세요',
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    timeInSecForIosWeb: 1,
-    backgroundColor: Colors.black,
-    textColor: Colors.red,
-    fontSize: 15.0,
-  );
+  _showToast(String alert) {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: Colors.deepPurpleAccent,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.priority_high,
+            color: Colors.white,
+          ),
+          const SizedBox(
+            width: 10.0,
+          ),
+          Text(
+            alert,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 13.0,
+            ),
+          ),
+        ],
+      ),
+    );
+
+    fToast.showToast(
+      child: toast,
+      toastDuration: const Duration(seconds: 2),
+      gravity: ToastGravity.BOTTOM,
+    );
+  }
 }
