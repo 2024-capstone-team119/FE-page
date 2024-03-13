@@ -28,7 +28,7 @@
 	<string>LaunchScreen</string>
 
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>프로필 이미지를 제공할 목적으로 앨범에 접근을 합니다.</string>
+    <string>사진 라이브러리 사용에 필요합니다.</string>
 
     <key>NSCameraUsageDescription</key>
     <string>프로필 이미지를 제공할 목적으로 카메라 접근을 합니다.</string>

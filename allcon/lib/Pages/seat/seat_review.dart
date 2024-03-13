@@ -1,5 +1,3 @@
-import 'package:allcon/Pages/Seat/seat_main.dart';
-
 class Review {
   final int id;
   final String name;
