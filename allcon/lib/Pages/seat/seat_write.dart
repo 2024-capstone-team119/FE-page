@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:allcon/Pages/Seat/seat_review.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class SeatWrite extends StatefulWidget {
   const SeatWrite({super.key});
@@ -126,6 +127,7 @@ class _SeatWriteState extends State<SeatWrite> {
                   const SizedBox(
                     height: 4.0,
                   ),
+                  uploadPhoto(),
                   uploadButton(
                     onPressed: () async {
                       multiImage = await picker.pickMultiImage();
@@ -193,6 +195,60 @@ class _SeatWriteState extends State<SeatWrite> {
           const SizedBox(width: 8),
           Text(label),
         ],
+      ),
+    );
+  }
+
+  Widget uploadPhoto() {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: GridView.builder(
+        padding: const EdgeInsets.all(0),
+        shrinkWrap: true,
+        itemCount: images.length, // 보여줄 item 개수. images 리스트 변수에 담겨있는 사진 수 만큼.
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 5, // 한 행에 보여줄 사진 개수
+          childAspectRatio: 1 / 1, // 사진의 가로 세로 비율
+          mainAxisSpacing: 10, // 수평 Padding
+          crossAxisSpacing: 10, // 수직 Padding
+        ),
+        itemBuilder: (BuildContext context, int index) {
+          // 사진 삭제 버튼을 표시하기 위해 Stack을 사용함
+          return Stack(
+            alignment: Alignment.topRight,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: FileImage(
+                      File(images[index]!
+                              .path // images 리스트 변수 안에 있는 사진들을 순서대로 표시함
+                          ),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  icon: const Icon(Icons.close, color: Colors.white, size: 15),
+                  onPressed: () {
+                    setState(() {
+                      images.remove(images[index]);
+                    });
+                  },
+                ), //삭제 버튼
+              ),
+            ],
+          );
+        },
       ),
     );
   }
