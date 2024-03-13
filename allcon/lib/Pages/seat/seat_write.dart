@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:allcon/Pages/Seat/seat_review.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SeatWrite extends StatefulWidget {
   const SeatWrite({super.key});
@@ -23,6 +24,10 @@ class _SeatWriteState extends State<SeatWrite> {
   }
 
   late FToast fToast;
+
+  final picker = ImagePicker();
+  List<XFile?> multiImage = []; // 갤러리에서 여러 장의 사진을 선택해서 저장할 변수
+  List<XFile?> images = []; // 가져온 사진들을 보여주기 위한 변수
 
   @override
   // 초기화
@@ -122,8 +127,14 @@ class _SeatWriteState extends State<SeatWrite> {
                     height: 4.0,
                   ),
                   uploadButton(
-                    onPressed: () {},
-                    icon: Icons.camera_alt_rounded,
+                    onPressed: () async {
+                      multiImage = await picker.pickMultiImage();
+                      setState(() {
+                        //multiImage를 통해 갤러리에서 가지고 온 사진들은 리스트 변수에 저장되므로 addAll()을 사용해서 images와 multiImage 리스트를 합쳐줍니다.
+                        images.addAll(multiImage);
+                      });
+                    },
+                    icon: Icons.add_photo_alternate,
                     label: '사진 첨부하기',
                   ),
                   uploadButton(
