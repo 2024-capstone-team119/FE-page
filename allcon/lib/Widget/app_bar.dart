@@ -28,7 +28,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       backgroundColor: Colors.white,
-      elevation: 3,
+      elevation: 1,
       automaticallyImplyLeading: automaticallyImplyLeading,
       actions: <Widget>[
         if (actions != null)

@@ -6,8 +6,8 @@ class Concert {
   String? area;
   String? place;
   String? imgUrl;
-  double? age;
-  double? time;
+  int? age;
+  int? time;
 
   Concert({
     required this.concertId,

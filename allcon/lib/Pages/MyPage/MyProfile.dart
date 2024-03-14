@@ -89,7 +89,21 @@ class MyProfile extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.5,
-      color: Colors.deepPurple[50],
+      decoration: BoxDecoration(
+        color: Colors.deepPurple[50],
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(40.0),
+          bottomRight: Radius.circular(40.0),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
