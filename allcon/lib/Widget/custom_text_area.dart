@@ -1,0 +1,30 @@
+import 'package:flutter/material.dart';
+
+class CustomTextArea extends StatelessWidget {
+  final String hint;
+  final funValidator;
+  final String? value;
+
+  const CustomTextArea({
+    required this.hint,
+    required this.funValidator,
+    this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      maxLines: 18,
+      initialValue: value ?? "",
+      validator: funValidator,
+      decoration: InputDecoration(
+        hintText: "$hint을 작성하세요.",
+        border: InputBorder.none,
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: Colors.redAccent),
+        ),
+      ),
+    );
+  }
+}
