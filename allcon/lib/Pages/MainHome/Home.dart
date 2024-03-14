@@ -70,7 +70,7 @@ class HomePage extends StatelessWidget {
         ),
         const SizedBox(height: 32.0),
         const Text(
-          '마감임박!',
+          '마감임박',
           style: TextStyle(
             color: Colors.redAccent,
             fontWeight: FontWeight.w700,
