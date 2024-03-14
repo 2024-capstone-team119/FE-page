@@ -113,7 +113,7 @@ class _ConcertInfoState extends State<ConcertInfo> {
                             style: const TextStyle(fontSize: 14.0),
                           ),
                           Text(
-                            '공연 기간\n${DateFormat('yyyy-MM-dd HH:mm').format(concert.date!)}',
+                            '기간 : ${DateFormat('yyyy-MM-dd HH:mm').format(concert.date!)}',
                             style: const TextStyle(fontSize: 14.0),
                           ),
                           Text(
