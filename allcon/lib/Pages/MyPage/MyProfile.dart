@@ -2,6 +2,7 @@ import 'package:allcon/Pages/Login/login.dart';
 import 'package:allcon/Pages/MyPage/edit_userName.dart';
 import 'package:allcon/Pages/MyPage/controller/img_crop_controller.dart';
 import 'package:allcon/Pages/MyPage/controller/profile_controller.dart';
+import 'package:allcon/Util/Theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,6 +18,9 @@ class MyProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
+        decoration: BoxDecoration(
+          color: lavenderColor,
+        ),
         child: Column(
           children: [
             userProfile(context),
@@ -88,9 +92,9 @@ class MyProfile extends StatelessWidget {
   Widget userProfile(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.5,
+      height: MediaQuery.of(context).size.height * 0.52,
       decoration: BoxDecoration(
-        color: Colors.deepPurple[50],
+        color: lightlavenderColor,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(40.0),
           bottomRight: Radius.circular(40.0),
@@ -99,8 +103,8 @@ class MyProfile extends StatelessWidget {
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),
             spreadRadius: 1,
-            blurRadius: 5,
-            offset: Offset(0, 3), // changes position of shadow
+            blurRadius: 3,
+            offset: Offset(0, 5),
           ),
         ],
       ),
@@ -121,6 +125,7 @@ class MyProfile extends StatelessWidget {
                       children: [
                         ElevatedButton(
                           child: Text('취소'),
+                          style: ButtonStyle(),
                           onPressed: () {
                             _pcon.rollback();
                           },

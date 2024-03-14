@@ -195,7 +195,7 @@ class _SeatWriteState extends State<SeatWrite> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25.0),
         ),
-        backgroundColor: lavenderColor,
+        backgroundColor: lightlavenderColor,
         elevation: 0.5,
       ),
       child: Row(

@@ -1,6 +1,7 @@
 import 'package:allcon/Data/Sample/concert_sample.dart';
 import 'package:allcon/Pages/Calendar/calendar_main.dart';
 import 'package:allcon/Pages/Concert/concertinfo.dart' as concertinfo;
+import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:allcon/Widget/copyRight_ALLCON.dart';
@@ -130,10 +131,12 @@ Widget deadConcertList(BuildContext context) {
               );
             },
             child: Card(
-              elevation: 3.5,
+              color: lavenderColor,
+              elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
               ),
+              shadowColor: Colors.grey.withOpacity(0.5),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

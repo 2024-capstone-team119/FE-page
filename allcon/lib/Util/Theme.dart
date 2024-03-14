@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 // 보라색 계열
-const lavenderColor = Color(0xFFF7F6FA);
+const lightlavenderColor = Color(0xFFF7F6FA);
+const lavenderColor = Color(0xFFF5F2FF);
 const lightPurple = Color(0xFFCCABDB);
 const darkPurple = Color(0xFF8474A1);
 
