@@ -165,9 +165,9 @@ class _SeatWriteState extends State<SeatWrite> {
                             : () {
                                 FocusScope.of(context).unfocus(); // 키보드 숨기기
                                 if (selectedStar == 0) {
-                                  _showToast('별점을 남겨주세요.');
+                                  _showToast('별점을 남겨주세요 ');
                                 } else {
-                                  _showToast('10글자 이상의 리뷰를 작성해주세요.');
+                                  _showToast('10글자 이상의 리뷰를 작성해주세요');
                                 }
                               }, // 버튼 비활성화
                         icon: CupertinoIcons.pen,
@@ -277,17 +277,15 @@ class _SeatWriteState extends State<SeatWrite> {
         mainAxisSize: MainAxisSize.min,
         children: [
           const Icon(
-            Icons.priority_high,
+            size: 20.0,
+            CupertinoIcons.exclamationmark,
             color: Colors.white,
-          ),
-          const SizedBox(
-            width: 10.0,
           ),
           Text(
             alert,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 13.0,
+              fontSize: 16.0,
             ),
           ),
         ],

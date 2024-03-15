@@ -29,7 +29,7 @@ class _SearchPageState extends State<Search> {
         children: <Widget>[
           searchTab(context),
           const SizedBox(
-            height: 5.0,
+            height: 16.0,
           ),
           /*
           const Text(
