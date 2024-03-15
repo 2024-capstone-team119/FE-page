@@ -1,10 +1,12 @@
 import 'dart:collection';
+import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:allcon/Pages/Calendar/calendar_schedule.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({super.key});
@@ -34,9 +36,9 @@ class _CalendarState extends State<Calendar> {
         child: Column(
           children: <Widget>[
             calendar(context),
-            const SizedBox(height: 10.0),
+            const SizedBox(height: 16.0),
             eventList(context),
-            const SizedBox(height: 10.0),
+            const SizedBox(height: 28.0),
             upcoming(context),
           ],
         ),
@@ -66,27 +68,26 @@ class _CalendarState extends State<Calendar> {
             DateFormat.yMMMM(locale).format(date),
         formatButtonVisible: false,
         titleTextStyle: const TextStyle(
-          fontSize: 15.0,
-          color: Colors.black,
-        ),
+            fontSize: 18.0, color: Colors.black87, fontWeight: FontWeight.w500),
         headerPadding: const EdgeInsets.symmetric(vertical: 4.0),
         leftChevronIcon: const Icon(
-          Icons.keyboard_arrow_left,
-          size: 30.0,
+          CupertinoIcons.chevron_left,
+          size: 20.0,
         ),
         rightChevronIcon: const Icon(
-          Icons.keyboard_arrow_right,
-          size: 30.0,
+          CupertinoIcons.chevron_right,
+          size: 20.0,
         ),
       ),
       calendarStyle: CalendarStyle(
         isTodayHighlighted: true,
         todayTextStyle: const TextStyle(
-          color: Colors.white,
+          color: Colors.deepPurple,
           fontSize: 16.0,
+          fontWeight: FontWeight.w600,
         ),
         todayDecoration: BoxDecoration(
-          color: Colors.deepPurple[400],
+          color: Colors.deepPurpleAccent.withOpacity(0.3),
           shape: BoxShape.rectangle,
         ),
         selectedTextStyle: const TextStyle(
@@ -94,29 +95,30 @@ class _CalendarState extends State<Calendar> {
           fontSize: 14.0,
         ),
         selectedDecoration: BoxDecoration(
-          color: Colors.transparent,
-          border: Border.all(color: Colors.grey),
+          color: lavenderColor,
+          border: Border.all(color: Colors.deepPurple.withOpacity(0.2)),
           shape: BoxShape.rectangle,
         ),
         outsideDaysVisible: false,
         weekendTextStyle: const TextStyle(color: Colors.grey),
         cellAlignment: Alignment.topCenter,
         tableBorder: const TableBorder(
-          horizontalInside: BorderSide(color: Colors.grey),
+          horizontalInside: BorderSide(color: Colors.black12),
           borderRadius: BorderRadius.zero,
         ),
       ),
       calendarBuilders: CalendarBuilders(
         markerBuilder: (context, day, events) => events.isNotEmpty
             ? Positioned(
-                top: 28,
-                right: 6,
+                bottom: 3,
+                right: 3,
                 child: Container(
                   width: 18,
                   height: 18,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: Colors.deepPurple[200],
+                    color: Colors.deepPurple,
+                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
                   ),
                   child: Text(
                     '${events.length}',
@@ -132,39 +134,36 @@ class _CalendarState extends State<Calendar> {
           switch (date.weekday) {
             case 1:
               return const Center(
-                child: Text('Mon'),
+                child: Text('MON'),
               );
             case 2:
               return const Center(
-                child: Text('Tue'),
+                child: Text('TUE'),
               );
             case 3:
               return const Center(
-                child: Text('Wed'),
+                child: Text('WED'),
               );
             case 4:
               return const Center(
-                child: Text('Thu'),
+                child: Text('THU'),
               );
             case 5:
               return const Center(
-                child: Text('Fri'),
+                child: Text('FRI'),
               );
             case 6:
               return const Center(
                 child: Text(
-                  'Sat',
-                  style: TextStyle(
-                    color: Colors.blue,
-                  ),
+                  'SAT',
                 ),
               );
             case 7:
               return const Center(
                 child: Text(
-                  'Sun',
+                  'SUN',
                   style: TextStyle(
-                    color: Colors.red,
+                    color: Colors.redAccent,
                   ),
                 ),
               );
@@ -182,26 +181,22 @@ class _CalendarState extends State<Calendar> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         selectedDayEvents.isEmpty
-            ? const Text(
-                '일정이 비어있습니다.',
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              )
+            ? Container()
             : Padding(
                 padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: selectedDayEvents.map((event) {
                     return Container(
-                      width: 500,
+                      width: MediaQuery.of(context).size.width * 0.95,
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 12.0),
                       margin: const EdgeInsets.only(bottom: 8.0),
                       decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        border: Border.all(color: Colors.deepPurple),
-                        borderRadius: BorderRadius.circular(5.0),
+                        color: lavenderColor,
+                        border: Border.all(
+                            color: Colors.deepPurple.withOpacity(0.05)),
+                        borderRadius: BorderRadius.circular(25.0),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,20 +227,33 @@ class _CalendarState extends State<Calendar> {
         const Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            SizedBox(width: 12.0),
             Padding(
-              padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
-              child: Text(
-                "Upcoming",
-                style: TextStyle(
-                  color: Colors.deepPurple,
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.w500,
-                ),
+              padding: EdgeInsets.all(6.0),
+              child: Row(
+                children: [
+                  Text(
+                    "UPCOMING",
+                    style: TextStyle(
+                      color: Colors.deepPurple,
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(width: 3.0),
+                  Text(
+                    'O',
+                    style: TextStyle(
+                      color: Colors.deepPurple,
+                      fontSize: 30.0,
+                      fontFamily: 'Cafe24Moyamoya',
+                    ),
+                  )
+                ],
               ),
             ),
           ],
         ),
-        const SizedBox(height: 8.0),
         SizedBox(
           height: 200,
           child: ListView.builder(
@@ -256,8 +264,10 @@ class _CalendarState extends State<Calendar> {
               final eventDate = filteredSchedules.elementAt(index).key;
               final eventList = filteredSchedules.elementAt(index).value;
               return SizedBox(
-                width: 300,
+                width: MediaQuery.of(context).size.width * 0.95,
                 child: Card(
+                  color: lavenderColor,
+                  elevation: 0.1,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -332,6 +342,7 @@ class _CalendarState extends State<Calendar> {
             },
           ),
         ),
+        SizedBox(height: 36.0),
       ],
     );
   }
