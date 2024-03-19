@@ -14,7 +14,8 @@ class MyContentListView extends StatefulWidget {
   final String searchText;
   final ContentController contentController;
 
-  const MyContentListView({super.key, 
+  const MyContentListView({
+    super.key,
     required this.tabIdx,
     required this.contentController,
     this.title = '',

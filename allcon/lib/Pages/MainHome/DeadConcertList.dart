@@ -1,5 +1,6 @@
 import 'package:allcon/Data/Concert.dart';
 import 'package:allcon/Data/Sample/concert_sample.dart';
+import 'package:allcon/Pages/Concert/WatchAllConcert.dart';
 import 'package:allcon/Pages/Concert/concertinfo.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
@@ -95,7 +96,7 @@ class _DeadConcertListState extends State<DeadConcertList> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                     maxLines: 1,
-                                    overflow: TextOverflow.fade,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                   const SizedBox(height: 3.0),
                                   Text(
@@ -139,12 +140,16 @@ class _DeadConcertListState extends State<DeadConcertList> {
             child: OutlinedButton(
               onPressed: () {
                 print('마감공연 버튼 클릭 성공');
+                Get.to(WatchAllConcert());
               },
               style: ButtonStyle(
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),
+                ),
+                side: MaterialStateProperty.all<BorderSide>(
+                  BorderSide(width: 0.25),
                 ),
               ),
               child: const Row(
