@@ -1,6 +1,7 @@
 import 'package:allcon/Data/Concert.dart';
 import 'package:allcon/Data/Sample/concert_sample.dart';
 import 'package:allcon/Pages/Concert/WatchAllConcert.dart';
+import 'package:allcon/Pages/Concert/WatchDeadConcert.dart';
 import 'package:allcon/Pages/Concert/concertinfo.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
@@ -137,36 +138,71 @@ class _DeadConcertListState extends State<DeadConcertList> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
-            child: OutlinedButton(
-              onPressed: () {
-                print('마감공연 버튼 클릭 성공');
-                Get.to(WatchAllConcert());
-              },
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
+            child: Column(
+              children: [
+                OutlinedButton(
+                  onPressed: () {
+                    print('마감공연 버튼 클릭 성공');
+                    Get.to(WatchDeadConcert());
+                  },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                    ),
+                    side: MaterialStateProperty.all<BorderSide>(
+                      BorderSide(width: 0.25),
+                    ),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        '마감공연 보기',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                      SizedBox(width: 5.0),
+                      Icon(
+                        CupertinoIcons.chevron_right,
+                        size: 13.0,
+                      ),
+                    ],
                   ),
                 ),
-                side: MaterialStateProperty.all<BorderSide>(
-                  BorderSide(width: 0.25),
+                OutlinedButton(
+                  onPressed: () {
+                    print('전체공연 버튼 클릭 성공');
+                    Get.to(WatchAllConcert());
+                  },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                    ),
+                    side: MaterialStateProperty.all<BorderSide>(
+                      BorderSide(width: 0.25),
+                    ),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        '공연 전체보기',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                      SizedBox(width: 5.0),
+                      Icon(
+                        CupertinoIcons.chevron_right,
+                        size: 13.0,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '공연 전체보기',
-                    style: TextStyle(fontSize: 16.0),
-                  ),
-                  SizedBox(width: 5.0),
-                  Icon(
-                    CupertinoIcons.chevron_right,
-                    size: 13.0,
-                  ),
-                ],
-              ),
+              ],
             ),
           ),
         ],
