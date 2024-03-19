@@ -46,8 +46,8 @@ class _SplashScreenState extends State<SplashScreen>
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 16),
-                Text(
+                const SizedBox(height: 16),
+                const Text(
                   "올콘",
                   style: TextStyle(
                     color: Colors.white,
@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen>
                     height: 1.0,
                   ),
                 ),
-                Text(
+                const Text(
                   "ALLCON",
                   style: TextStyle(
                     color: Colors.white,
@@ -64,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen>
                     fontSize: 25,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   "콘서트 정보부터 "
                   "공연장 시야까지\n"

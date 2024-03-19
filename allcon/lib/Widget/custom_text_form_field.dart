@@ -5,7 +5,7 @@ class CustomTextFormField extends StatelessWidget {
   final funValidator;
   final String? value;
 
-  const CustomTextFormField({
+  const CustomTextFormField({super.key, 
     required this.hint,
     required this.funValidator,
     this.value,
@@ -18,9 +18,9 @@ class CustomTextFormField extends StatelessWidget {
       validator: funValidator,
       decoration: InputDecoration(
         hintText: "$hint을 작성하세요.",
-        enabledBorder: UnderlineInputBorder(),
-        focusedBorder: UnderlineInputBorder(),
-        errorBorder: UnderlineInputBorder(
+        enabledBorder: const UnderlineInputBorder(),
+        focusedBorder: const UnderlineInputBorder(),
+        errorBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.redAccent),
         ),
       ),

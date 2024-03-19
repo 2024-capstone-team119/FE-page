@@ -1,6 +1,7 @@
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/Widget/app_bar.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:allcon/Data/Concert.dart';
@@ -26,8 +27,8 @@ class _ConcertInfoState extends State<ConcertInfo> {
       ),
       body: infoMain(context),
       floatingActionButton: SizedBox(
-        width: 370,
-        height: 40,
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: 42,
         child: FloatingActionButton(
           onPressed: () {
             // 예매처 이동
@@ -36,7 +37,13 @@ class _ConcertInfoState extends State<ConcertInfo> {
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text('예매하기'),
+              Text(
+                '예매하기',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ],
           ),
         ),
@@ -62,6 +69,8 @@ class _ConcertInfoState extends State<ConcertInfo> {
                   Expanded(
                     child: Text(
                       concert.title ?? 'unknown',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.w600,
@@ -91,11 +100,13 @@ class _ConcertInfoState extends State<ConcertInfo> {
               ),
               Row(
                 children: [
-                  Image.network(
-                    concert.imgUrl ?? '',
-                    width: 150,
-                    height: 200,
-                    fit: BoxFit.cover,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Image.network(
+                      concert.imgUrl ?? '',
+                      height: 220,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   const SizedBox(width: 20),
                   Expanded(
@@ -118,11 +129,11 @@ class _ConcertInfoState extends State<ConcertInfo> {
                           ),
                           Text(
                             '관람 연령 : 만 ${concert.age} 세 이상',
-                            style: TextStyle(fontSize: 14.0),
+                            style: const TextStyle(fontSize: 14.0),
                           ),
                           Text(
                             '관람 시간 : 총 ${concert.time} 분',
-                            style: TextStyle(fontSize: 14.0),
+                            style: const TextStyle(fontSize: 14.0),
                           ),
                           const Text(
                             '예매처 : 인터파크',
