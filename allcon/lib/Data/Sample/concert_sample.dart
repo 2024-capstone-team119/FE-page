@@ -3,21 +3,45 @@ import '../Concert.dart';
 List<Concert> allConcertSample = [
   Concert(
     concertId: 1,
+    performer: "김종구, 조성윤, 안재영 등",
+    title: "뮤지컬 〈디아길레프〉",
+    place: "예스24아트원 1관(구 아트원씨어터)",
+    date: DateTime.parse('2024-04-09 20:00'),
+    age: 14,
+    time: 100,
     imgUrl:
         "https://ticketimage.interpark.com/Play/image/large/24/24000486_p.gif",
   ),
   Concert(
     concertId: 2,
+    performer: "우미",
+    title: "우미 (UMI) 내한공연",
+    place: "명화 라이브 홀",
+    date: DateTime.parse('2024-04-09 20:00'),
+    age: 12,
+    time: 80,
     imgUrl:
         "https://ticketimage.interpark.com/Play/image/large/24/24001522_p.gif",
   ),
   Concert(
     concertId: 3,
+    performer: "케니 지",
+    title: "2024 케니 지(Kenny G) 월드투어 내한공연 - 서울",
+    place: "경희대학교 평화의전당",
+    date: DateTime.parse('2024-04-13 18:00'),
+    age: 8,
+    time: 90,
     imgUrl:
         "https://ticketimage.interpark.com/Play/image/large/24/24001932_p.gif",
   ),
   Concert(
     concertId: 4,
+    performer: "슬로우다이브",
+    title: "슬로우다이브 내한공연",
+    place: "명화 라이브 홀",
+    date: DateTime.parse('2024-03-09 19:00'),
+    age: 12,
+    time: 90,
     imgUrl:
         "https://ticketimage.interpark.com/Play/image/large/24/24000706_p.gif",
   ),
@@ -93,21 +117,45 @@ List<Concert> allConcertSample = [
 List<Concert> bannerConcertSample = [
   Concert(
     concertId: 1,
+    performer: "김종구, 조성윤, 안재영 등",
+    title: "뮤지컬 〈디아길레프〉",
+    place: "예스24아트원 1관(구 아트원씨어터)",
+    date: DateTime.parse('2024-04-09 20:00'),
+    age: 14,
+    time: 100,
     imgUrl:
         "https://ticketimage.interpark.com/Play/image/large/24/24000486_p.gif",
   ),
   Concert(
     concertId: 2,
+    performer: "우미",
+    title: "우미 (UMI) 내한공연",
+    place: "명화 라이브 홀",
+    date: DateTime.parse('2024-04-09 20:00'),
+    age: 12,
+    time: 80,
     imgUrl:
         "https://ticketimage.interpark.com/Play/image/large/24/24001522_p.gif",
   ),
   Concert(
     concertId: 3,
+    performer: "케니 지",
+    title: "2024 케니 지(Kenny G) 월드투어 내한공연 - 서울",
+    place: "경희대학교 평화의전당",
+    date: DateTime.parse('2024-04-13 18:00'),
+    age: 8,
+    time: 90,
     imgUrl:
         "https://ticketimage.interpark.com/Play/image/large/24/24001932_p.gif",
   ),
   Concert(
     concertId: 4,
+    performer: "슬로우다이브",
+    title: "슬로우다이브 내한공연",
+    place: "명화 라이브 홀",
+    date: DateTime.parse('2024-03-09 19:00'),
+    age: 12,
+    time: 90,
     imgUrl:
         "https://ticketimage.interpark.com/Play/image/large/24/24000706_p.gif",
   ),
