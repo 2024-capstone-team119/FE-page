@@ -23,12 +23,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: TextStyle(
           color: Colors.black87,
           fontFamily: textFontFamily,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
         ),
       ),
       centerTitle: true,
       backgroundColor: Colors.white,
-      elevation: 1,
+      elevation: 0,
       automaticallyImplyLeading: automaticallyImplyLeading,
       actions: <Widget>[
         if (actions != null)

@@ -1,6 +1,8 @@
 import 'package:allcon/Data/Sample/concert_sample.dart';
 import 'package:allcon/Pages/Calendar/calendar_main.dart';
 import 'package:allcon/Pages/Concert/concertinfo.dart' as concertinfo;
+import 'package:allcon/Pages/MainHome/BannerConcerList.dart';
+import 'package:allcon/Pages/MainHome/DeadConcertList.dart';
 import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
@@ -14,16 +16,13 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class MyHome extends StatefulWidget {
-  const MyHome({super.key});
+  const MyHome({Key? key}) : super(key: key);
 
   @override
-  State<MyHome> createState() => _MyHomeState();
+  _MyHomeState createState() => _MyHomeState();
 }
 
 class _MyHomeState extends State<MyHome> {
-  List<Concert> bannerConcert = bannerConcertSample;
-  List<Concert> deadConcert = deadConcertSample;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +35,10 @@ class _MyHomeState extends State<MyHome> {
           Get.to(const Calendar());
         },
       ),
-      body: const SingleChildScrollView(
-        child: HomePage(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: HomePage(),
+        ),
       ),
       bottomNavigationBar: const MyBottomNavigationBar(
         currentIndex: 1,
@@ -47,162 +48,35 @@ class _MyHomeState extends State<MyHome> {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        const SizedBox(height: 15.0),
-        bannerConcertList(),
-        const SizedBox(height: 20.0),
-        Container(
-          height: 0.5,
-          width: MediaQuery.of(context).size.width * 0.7,
-          color: Colors.grey.withOpacity(0.5),
-        ),
-        const SizedBox(height: 15.0),
-        ConcertHallCateogory(context),
-        const SizedBox(height: 25.0),
-        Container(
-          height: 8.0,
-          width: MediaQuery.of(context).size.width,
-          color: Colors.grey[100],
-        ),
-        const SizedBox(height: 32.0),
-        const Text(
-          '마감임박',
-          style: TextStyle(
-            color: Colors.redAccent,
-            fontWeight: FontWeight.w700,
-            fontSize: 24.0,
+    return Stack(children: [
+      /*Container(
+        width: MediaQuery.of(context).size.width,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.redAccent,
+              Colors.lime,
+            ],
           ),
         ),
-        deadConcertList(context),
-        const SizedBox(height: 30.0),
-        copyRightAllCon(),
-        const SizedBox(height: 10.0),
-      ],
-    );
-  }
-}
-
-Widget bannerConcertList() {
-  return SizedBox(
-    height: 450,
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Swiper(
-        pagination: const SwiperPagination(),
-        itemCount: bannerConcertSample.length,
-        viewportFraction: 0.8,
-        scale: 0.8,
-        autoplay: true,
-        autoplayDelay: 3000,
-        autoplayDisableOnInteraction: true,
-        itemBuilder: (BuildContext context, int index) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(25.0),
-            child: Image.network(
-              bannerConcertSample[index].imgUrl ?? "",
-              fit: BoxFit.cover,
-            ),
-          );
-        },
+      ),*/
+      Column(
+        children: <Widget>[
+          BannerConcerList(),
+          ConcertHallCateogory(context),
+          DeadConcertList(),
+          copyRightAllCon(),
+        ],
       ),
-    ),
-  );
-}
-
-Widget deadConcertList(BuildContext context) {
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: List.generate(deadConcertSample.length, (index) {
-        Concert concert = deadConcertSample[index];
-        return Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: GestureDetector(
-            onTap: () {
-              Get.to(
-                const concertinfo.ConcertInfo(),
-                arguments: concert,
-              );
-            },
-            child: Card(
-              color: lavenderColor,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              shadowColor: Colors.grey.withOpacity(0.5),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(15.0),
-                      bottomLeft: Radius.circular(15.0),
-                    ),
-                    child: Image.network(
-                      concert.imgUrl ?? "",
-                      height: 160.0,
-                      width: 120.0,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const SizedBox(width: 20.0),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(height: 12.0),
-                          Text(
-                            concert.title ?? "",
-                            style: const TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 8.0),
-                          Text(
-                            '공연일 : ${DateFormat('yyyy-MM-dd').format(concert.date!)} ${DateFormat('HH:mm').format(concert.date!)}',
-                            style: const TextStyle(
-                              fontSize: 14.0,
-                            ),
-                          ),
-                          Text(
-                            '장소 : ${concert.place}',
-                            style: const TextStyle(
-                              fontSize: 14.0,
-                            ),
-                          ),
-                          Text(
-                            '관람 연령 : 만 ${concert.age} 세 이상',
-                            style: TextStyle(fontSize: 14.0),
-                          ),
-                          Text(
-                            '관람 시간 : 총 ${concert.time} 분',
-                            style: TextStyle(fontSize: 14.0),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      }),
-    ),
-  );
+    ]);
+  }
 }
 
 Widget ConcertHallCateogory(BuildContext context) {
@@ -238,6 +112,7 @@ Widget ConcertHallCateogory(BuildContext context) {
 
 TableRow buildRow(BuildContext context, List<String> cells) {
   return TableRow(
+    decoration: BoxDecoration(color: Colors.white),
     children: cells
         .map(
           (cell) => InkWell(
