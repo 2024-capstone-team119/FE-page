@@ -16,7 +16,7 @@ class _BannerConcerListState extends State<BannerConcerList> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 550,
       // color: Colors.lime,
       child: Swiper(

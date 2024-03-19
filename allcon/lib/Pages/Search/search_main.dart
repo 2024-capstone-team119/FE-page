@@ -16,7 +16,7 @@ class Search extends StatefulWidget {
 
 class _SearchPageState extends State<Search> {
   String searchText = '';
-  List<Concert> deadConcert = deadConcertSample;
+  List<Concert> allConcert = allConcertSample;
 
   @override
   Widget build(BuildContext context) {
@@ -57,20 +57,16 @@ class _SearchPageState extends State<Search> {
       padding: const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 4.0),
       child: TextField(
         decoration: InputDecoration(
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            hintText: '검색어를 입력해주세요.',
-            labelStyle: const TextStyle(color: Colors.black54),
-            filled: true,
-            fillColor: Colors.white,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              borderSide: const BorderSide(width: 1, color: Colors.black87),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25.0),
-            ),
-            suffixIcon: const Icon(CupertinoIcons.search)),
+          hintText: '검색어를 입력해주세요.',
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          suffixIcon: const Icon(CupertinoIcons.search),
+        ),
         onChanged: (value) {
           setState(() {
             searchText = value;
@@ -83,9 +79,9 @@ class _SearchPageState extends State<Search> {
   Widget listTab(BuildContext context) {
     return Expanded(
       child: ListView.builder(
-        itemCount: deadConcert.length,
+        itemCount: allConcert.length,
         itemBuilder: (BuildContext context, int index) {
-          final concert = deadConcert[index];
+          final concert = allConcert[index];
           // 검색어가 비어 있거나 검색어와 일치하는 경우에만 아이템을 표시
           if (searchText.isEmpty ||
               (concert.title != null &&
@@ -97,7 +93,7 @@ class _SearchPageState extends State<Search> {
                       .toLowerCase()
                       .contains(searchText.toLowerCase()))) {
             return Padding(
-              padding: const EdgeInsets.fromLTRB(8, 3, 8, 3),
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
               child: GestureDetector(
                 onTap: () {
                   Get.to(
@@ -109,6 +105,8 @@ class _SearchPageState extends State<Search> {
                   children: [
                     ListTile(
                       title: Text(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         concert.title ?? 'unknown',
                         style: const TextStyle(
                             fontSize: 18.0, fontWeight: FontWeight.w400),

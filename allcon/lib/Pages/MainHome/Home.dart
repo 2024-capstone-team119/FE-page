@@ -8,11 +8,10 @@ import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:allcon/Widget/copyRight_ALLCON.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:allcon/Pages/ConcertHall/hall_search.dart';
 import 'package:get/get.dart';
 
 class MyHome extends StatefulWidget {
-  const MyHome({Key? key});
+  const MyHome({super.key, Key? key});
 
   @override
   _MyHomeState createState() => _MyHomeState();
@@ -44,14 +43,14 @@ class _MyHomeState extends State<MyHome> {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key});
+  const HomePage({super.key, Key? key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -65,11 +64,11 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             const BannerConcerList(),
-            SizedBox(height: 30),
-            ConcertHallTable(),
-            SizedBox(height: 45),
+            const ConcertHallTable(),
+            Divider(thickness: 10, color: const Color(0xFFE6E6E6).withOpacity(0.4)),
+            const SizedBox(height: 15.0),
             const DeadConcertList(),
-            SizedBox(height: 100),
+            const SizedBox(height: 50),
             copyRightAllCon(),
           ],
         ),

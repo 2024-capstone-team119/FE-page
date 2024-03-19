@@ -18,6 +18,8 @@ class _ContentSearchState extends State<MyContentSearch> {
       child: TextField(
         decoration: InputDecoration(
           hintText: '검색어를 입력해주세요.',
+          filled: true,
+          fillColor: Colors.white,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
           ),

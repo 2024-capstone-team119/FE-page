@@ -1,7 +1,6 @@
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/Widget/app_bar.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:allcon/Data/Concert.dart';

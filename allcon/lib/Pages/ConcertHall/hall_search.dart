@@ -2,6 +2,7 @@ import 'package:allcon/Pages/Seat/seat_main.dart';
 import 'package:allcon/Widget/Preparing.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/Pages/ConcertHall/hall_list.dart';
 
@@ -24,6 +25,7 @@ class _HallSearchPageState extends State<HallSearch> {
       body: Column(
         children: <Widget>[
           searchTab(context),
+          const SizedBox(height: 16.0),
           listTab(context),
         ],
       ),
@@ -33,26 +35,18 @@ class _HallSearchPageState extends State<HallSearch> {
 
   Widget searchTab(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 15.0),
+      padding: const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 4.0),
       child: TextField(
         decoration: InputDecoration(
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-          hintText: '검색어를 입력하세요.',
-          labelStyle: const TextStyle(color: Colors.black),
+          hintText: '검색어를 입력해주세요.',
           filled: true,
           fillColor: Colors.white,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: const BorderSide(width: 1, color: Colors.black),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: const BorderSide(width: 1, color: Colors.black),
-          ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(25.0),
           ),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          suffixIcon: const Icon(CupertinoIcons.search),
         ),
         onChanged: (value) {
           setState(() {
@@ -89,17 +83,17 @@ class _HallSearchPageState extends State<HallSearch> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              '목록',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+          // const Padding(
+          //   padding: EdgeInsets.all(8.0),
+          //   child: Text(
+          //     '목록',
+          //     textAlign: TextAlign.center,
+          //     style: TextStyle(
+          //       fontSize: 18,
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          // ),
           Expanded(
             child: ListView.builder(
               itemCount: selectedList.length,
