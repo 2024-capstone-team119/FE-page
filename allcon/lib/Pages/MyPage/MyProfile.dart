@@ -1,5 +1,3 @@
-import 'package:allcon/Pages/Login/login.dart';
-import 'package:allcon/Pages/MyPage/MyCategory.dart';
 import 'package:allcon/Pages/MyPage/edit_userName.dart';
 import 'package:allcon/Pages/MyPage/controller/img_crop_controller.dart';
 import 'package:allcon/Pages/MyPage/controller/profile_controller.dart';
@@ -20,7 +18,7 @@ class MyProfile extends StatelessWidget {
   }
 
   Widget userProfile(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.51,
       child: Center(

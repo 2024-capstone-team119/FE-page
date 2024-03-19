@@ -2,7 +2,7 @@ import 'package:allcon/Pages/ConcertHall/hall_search.dart';
 import 'package:flutter/material.dart';
 
 class ConcertHallTable extends StatelessWidget {
-  const ConcertHallTable({Key? key});
+  const ConcertHallTable({super.key, Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class ConcertHallTable extends StatelessWidget {
 
   TableRow buildRow(BuildContext context, List<String> cells) {
     return TableRow(
-      decoration: BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(color: Colors.white),
       children: cells
           .map(
             (cell) => InkWell(

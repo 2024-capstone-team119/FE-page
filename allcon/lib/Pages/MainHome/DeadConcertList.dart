@@ -3,7 +3,6 @@ import 'package:allcon/Data/Sample/concert_sample.dart';
 import 'package:allcon/Pages/Concert/WatchAllConcert.dart';
 import 'package:allcon/Pages/Concert/WatchDeadConcert.dart';
 import 'package:allcon/Pages/Concert/concertinfo.dart';
-import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -143,7 +142,7 @@ class _DeadConcertListState extends State<DeadConcertList> {
                 OutlinedButton(
                   onPressed: () {
                     print('마감공연 버튼 클릭 성공');
-                    Get.to(WatchDeadConcert());
+                    Get.to(const WatchDeadConcert());
                   },
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -152,7 +151,7 @@ class _DeadConcertListState extends State<DeadConcertList> {
                       ),
                     ),
                     side: MaterialStateProperty.all<BorderSide>(
-                      BorderSide(width: 0.25),
+                      const BorderSide(width: 0.25),
                     ),
                   ),
                   child: const Row(
@@ -174,7 +173,7 @@ class _DeadConcertListState extends State<DeadConcertList> {
                 OutlinedButton(
                   onPressed: () {
                     print('전체공연 버튼 클릭 성공');
-                    Get.to(WatchAllConcert());
+                    Get.to(const WatchAllConcert());
                   },
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -183,7 +182,7 @@ class _DeadConcertListState extends State<DeadConcertList> {
                       ),
                     ),
                     side: MaterialStateProperty.all<BorderSide>(
-                      BorderSide(width: 0.25),
+                      const BorderSide(width: 0.25),
                     ),
                   ),
                   child: const Row(

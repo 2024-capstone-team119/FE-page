@@ -28,7 +28,7 @@ class _MyPageState extends State<MyPage> {
           child: Column(
             children: [
               MyProfile(),
-              MyCategory(),
+              const MyCategory(),
             ],
           ),
         ),
