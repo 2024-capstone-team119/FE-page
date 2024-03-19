@@ -18,7 +18,7 @@ class _BannerConcerListState extends State<BannerConcerList> {
   Widget build(BuildContext context) {
     return Container(
       height: 550,
-      color: Colors.lime,
+      // color: Colors.lime,
       child: Swiper(
         itemCount: bannerConcert.length,
         itemWidth: MediaQuery.of(context).size.width,
@@ -28,10 +28,10 @@ class _BannerConcerListState extends State<BannerConcerList> {
         autoplay: true,
         autoplayDelay: 6000,
         autoplayDisableOnInteraction: true,
-        pagination: SwiperPagination(
+        pagination: const SwiperPagination(
           builder: DotSwiperPaginationBuilder(
             color: lightGray,
-            activeColor: Colors.lightBlueAccent,
+            // activeColor: Colors.lightBlueAccent,
             activeSize: 12,
             space: 4,
           ),

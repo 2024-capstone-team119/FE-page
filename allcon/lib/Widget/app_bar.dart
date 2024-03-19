@@ -7,7 +7,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? textFontFamily;
   final bool automaticallyImplyLeading;
 
-  const MyAppBar({
+  const MyAppBar({super.key, 
     required this.text,
     this.actions,
     this.onActionPressed,
@@ -19,7 +19,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(
-        '$text',
+        text,
         style: TextStyle(
           color: Colors.black87,
           fontFamily: textFontFamily,

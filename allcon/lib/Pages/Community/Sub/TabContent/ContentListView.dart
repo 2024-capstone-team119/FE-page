@@ -14,7 +14,7 @@ class MyContentListView extends StatefulWidget {
   final String searchText;
   final ContentController contentController;
 
-  MyContentListView({
+  const MyContentListView({super.key, 
     required this.tabIdx,
     required this.contentController,
     this.title = '',
@@ -43,14 +43,14 @@ class _MyContentListViewState extends State<MyContentListView> {
 
   @override
   Widget build(BuildContext context) {
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       // initState 대신 build 메서드 외부에서 초기화
       widget.contentController.setContentList(getSampleData(widget.tabIdx));
     });
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Obx(() => ListView.builder(
@@ -67,7 +67,7 @@ class _MyContentListViewState extends State<MyContentListView> {
 
   Widget _buildContentItem(BuildContext context, Content content, int index) {
     final lowercaseSearchText = widget.searchText.toLowerCase();
-    final lowercaseContent = content.content?.toLowerCase() ?? '';
+    final lowercaseContent = content.content.toLowerCase() ?? '';
 
     if (widget.searchText.isNotEmpty &&
         !lowercaseContent.contains(lowercaseSearchText)) {
@@ -114,25 +114,25 @@ class _MyContentListViewState extends State<MyContentListView> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 4.0),
+                        const SizedBox(height: 4.0),
                         Row(
                           children: [
                             Text(
-                              "${DateFormat('yyyy-MM-dd').format(dateTime)}",
-                              style: TextStyle(
+                              DateFormat('yyyy-MM-dd').format(dateTime),
+                              style: const TextStyle(
                                 fontSize: 12.0,
                               ),
                             ),
-                            SizedBox(width: 8.0),
+                            const SizedBox(width: 8.0),
                             Text(
-                              "${DateFormat('HH:mm').format(dateTime)}",
-                              style: TextStyle(
+                              DateFormat('HH:mm').format(dateTime),
+                              style: const TextStyle(
                                 fontSize: 12.0,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 4.0),
+                        const SizedBox(height: 4.0),
                         Row(
                           children: [
                             Icon(
@@ -150,7 +150,7 @@ class _MyContentListViewState extends State<MyContentListView> {
                               ),
                             ),
                             const SizedBox(width: 8.0),
-                            Icon(
+                            const Icon(
                               CupertinoIcons.chat_bubble,
                               color: Colors.blueAccent,
                               size: 16.0,
@@ -159,7 +159,7 @@ class _MyContentListViewState extends State<MyContentListView> {
                             Obx(
                               () => Text(
                                 "${widget.contentController.contents[index].comment.length}",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.blueAccent,
                                 ),
                               ),

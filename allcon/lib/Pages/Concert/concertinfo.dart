@@ -118,11 +118,11 @@ class _ConcertInfoState extends State<ConcertInfo> {
                           ),
                           Text(
                             '관람 연령 : 만 ${concert.age} 세 이상',
-                            style: TextStyle(fontSize: 14.0),
+                            style: const TextStyle(fontSize: 14.0),
                           ),
                           Text(
                             '관람 시간 : 총 ${concert.time} 분',
-                            style: TextStyle(fontSize: 14.0),
+                            style: const TextStyle(fontSize: 14.0),
                           ),
                           const Text(
                             '예매처 : 인터파크',

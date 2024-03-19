@@ -5,11 +5,10 @@ import 'package:allcon/Pages/MyPage/controller/profile_controller.dart';
 import 'package:allcon/Util/Theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class MyProfile extends StatelessWidget {
-  MyProfile({Key? key}) : super(key: key);
+  MyProfile({super.key});
 
   final ProfileController _pcon = Get.put(ProfileController());
   final ImgController _icon = Get.put(ImgController());
@@ -18,7 +17,7 @@ class MyProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: lavenderColor,
         ),
         child: Column(
@@ -33,7 +32,7 @@ class MyProfile extends StatelessWidget {
                       CupertinoIcons.heart_fill,
                       color: Colors.grey[850],
                     ),
-                    title: Text(
+                    title: const Text(
                       '관심 공연 목록',
                       style: TextStyle(fontSize: 20.0),
                     ),
@@ -46,7 +45,7 @@ class MyProfile extends StatelessWidget {
                       CupertinoIcons.info_circle,
                       color: Colors.grey[850],
                     ),
-                    title: Text(
+                    title: const Text(
                       '문의사항',
                       style: TextStyle(fontSize: 20.0),
                     ),
@@ -59,7 +58,7 @@ class MyProfile extends StatelessWidget {
                       CupertinoIcons.escape,
                       color: Colors.grey[850],
                     ),
-                    title: Text(
+                    title: const Text(
                       '로그아웃',
                       style: TextStyle(fontSize: 20.0),
                     ),
@@ -72,12 +71,12 @@ class MyProfile extends StatelessWidget {
                       CupertinoIcons.delete_simple,
                       color: Colors.grey[850],
                     ),
-                    title: Text(
+                    title: const Text(
                       '회원탈퇴',
                       style: TextStyle(fontSize: 20.0),
                     ),
                     onTap: () {
-                      Get.to(MyLogIn());
+                      Get.to(const MyLogIn());
                     },
                   ),
                 ],
@@ -95,7 +94,7 @@ class MyProfile extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.52,
       decoration: BoxDecoration(
         color: lightlavenderColor,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(40.0),
           bottomRight: Radius.circular(40.0),
         ),
@@ -104,7 +103,7 @@ class MyProfile extends StatelessWidget {
             color: Colors.grey.withOpacity(0.3),
             spreadRadius: 1,
             blurRadius: 3,
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -117,22 +116,22 @@ class MyProfile extends StatelessWidget {
                   ? EditUserInfo(context, _pcon, _icon)
                   : userInfo(context, _pcon),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Obx(
               () => _pcon.isEditMyProfile.value
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          child: Text('취소'),
-                          style: ButtonStyle(),
+                          style: const ButtonStyle(),
                           onPressed: () {
                             _pcon.rollback();
                           },
+                          child: const Text('취소'),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         ElevatedButton(
-                          child: Text('완료'),
+                          child: const Text('완료'),
                           onPressed: () {
                             _pcon.toggleEditBtn();
                           },
@@ -140,7 +139,7 @@ class MyProfile extends StatelessWidget {
                       ],
                     )
                   : ElevatedButton(
-                      child: Text('프로필 수정'),
+                      child: const Text('프로필 수정'),
                       onPressed: () {
                         _pcon.toggleEditBtn();
                       },
@@ -153,10 +152,10 @@ class MyProfile extends StatelessWidget {
   }
 }
 
-Widget userInfo(BuildContext context, ProfileController _pcon) {
+Widget userInfo(BuildContext context, ProfileController pcon) {
   return Column(
     children: [
-      Container(
+      SizedBox(
         width: 120,
         height: 120,
         child: ClipRRect(
@@ -167,7 +166,7 @@ Widget userInfo(BuildContext context, ProfileController _pcon) {
           ),
         ),
       ),
-      SizedBox(height: 8.0),
+      const SizedBox(height: 8.0),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 60.0),
         child: Column(
@@ -176,8 +175,8 @@ Widget userInfo(BuildContext context, ProfileController _pcon) {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: Text(
-                  _pcon.myProfile.value.userName ?? "",
-                  style: TextStyle(
+                  pcon.myProfile.value.userName ?? "",
+                  style: const TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.w600,
                   ),
@@ -185,8 +184,8 @@ Widget userInfo(BuildContext context, ProfileController _pcon) {
               ),
             ),
             Text(
-              _pcon.myProfile.value.email ?? "",
-              style: TextStyle(
+              pcon.myProfile.value.email ?? "",
+              style: const TextStyle(
                 fontSize: 15.0,
               ),
             ),
@@ -198,48 +197,48 @@ Widget userInfo(BuildContext context, ProfileController _pcon) {
 }
 
 Widget EditUserInfo(
-    BuildContext context, ProfileController _pcon, ImgController _icon) {
+    BuildContext context, ProfileController pcon, ImgController icon) {
   return Column(
     children: [
       GestureDetector(
         onTap: () {
-          _pcon.pickImg();
+          pcon.pickImg();
         },
-        child: Container(
+        child: SizedBox(
           width: 120,
           height: 120,
           child: Stack(children: [
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(40),
-                child: Container(
+                child: SizedBox(
                   width: 100,
                   height: 100,
-                  child: _pcon.myProfile.value.profileImg == null
+                  child: pcon.myProfile.value.profileImg == null
                       ? Image.asset(
                           'assets/logo/allcon_icon.png',
                           fit: BoxFit.cover,
                         )
                       : Image.file(
-                          _pcon.myProfile.value.profileImg!,
+                          pcon.myProfile.value.profileImg!,
                           fit: BoxFit.cover,
                         ),
                 ),
               ),
             ),
-            _pcon.isEditMyProfile.value
+            pcon.isEditMyProfile.value
                 ? Positioned(
                     bottom: 8,
                     right: 8,
                     child: Container(
                       alignment: Alignment.bottomRight,
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white,
                         ),
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(
+                        padding: const EdgeInsets.all(8.0),
+                        child: const Icon(
                           CupertinoIcons.photo_camera_solid,
                           size: 15,
                         ),
@@ -250,24 +249,22 @@ Widget EditUserInfo(
           ]),
         ),
       ),
-      SizedBox(height: 8.0),
+      const SizedBox(height: 8.0),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 60.0),
         child: Obx(
           () => Column(
             children: [
-              EditNameInfo(_pcon.myProfile.value.userName ?? "", () async {
+              EditNameInfo(pcon.myProfile.value.userName ?? "", () async {
                 String value = await Get.dialog(EditUserName(
-                  text: _pcon.myProfile.value.userName,
+                  text: pcon.myProfile.value.userName,
                 ));
-                if (value != null) {
-                  _pcon.updateName(value);
-                }
-              }),
-              SizedBox(height: 2.0),
+                pcon.updateName(value);
+                            }),
+              const SizedBox(height: 2.0),
               Text(
-                _pcon.myProfile.value.email ?? "",
-                style: TextStyle(
+                pcon.myProfile.value.email ?? "",
+                style: const TextStyle(
                   fontSize: 15.0,
                 ),
               ),
@@ -285,7 +282,7 @@ Widget EditNameInfo(String value, VoidCallback onTap) {
     child: Stack(children: [
       Container(
         height: 50,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(width: 0.6, color: Colors.white),
           ),
@@ -296,14 +293,14 @@ Widget EditNameInfo(String value, VoidCallback onTap) {
           padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Text(
             value,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
       ),
-      Positioned(
+      const Positioned(
         right: 2,
         bottom: 16,
         child: Icon(

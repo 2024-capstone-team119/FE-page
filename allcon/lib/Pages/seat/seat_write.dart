@@ -52,7 +52,7 @@ class _SeatWriteState extends State<SeatWrite> {
         selectedStar > 0 && _textController.text.length >= 10;
 
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(25.0),
@@ -205,7 +205,7 @@ class _SeatWriteState extends State<SeatWrite> {
           const SizedBox(width: 8),
           Text(
             label,
-            style: TextStyle(fontSize: 16.0),
+            style: const TextStyle(fontSize: 16.0),
           ),
         ],
       ),

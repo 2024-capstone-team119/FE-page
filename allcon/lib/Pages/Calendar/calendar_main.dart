@@ -116,7 +116,7 @@ class _CalendarState extends State<Calendar> {
                   width: 18,
                   height: 18,
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.deepPurple,
                     borderRadius: BorderRadius.all(Radius.circular(50.0)),
                   ),
@@ -342,7 +342,7 @@ class _CalendarState extends State<Calendar> {
             },
           ),
         ),
-        SizedBox(height: 36.0),
+        const SizedBox(height: 36.0),
       ],
     );
   }

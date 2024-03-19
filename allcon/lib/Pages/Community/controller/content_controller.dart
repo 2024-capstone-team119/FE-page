@@ -1,6 +1,5 @@
 import 'package:allcon/Data/Content.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 
 class ContentController extends GetxController {
   RxList<Content> contents = <Content>[].obs;

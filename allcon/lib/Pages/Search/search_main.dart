@@ -110,12 +110,12 @@ class _SearchPageState extends State<Search> {
                     ListTile(
                       title: Text(
                         concert.title ?? 'unknown',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18.0, fontWeight: FontWeight.w400),
                       ),
                       subtitle: Text(
                         concert.performer ?? 'unknown',
-                        style: TextStyle(fontSize: 15.0),
+                        style: const TextStyle(fontSize: 15.0),
                       ),
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(5.0),
