@@ -95,7 +95,7 @@ class _DeadConcertListState extends State<DeadConcertList> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                     maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
+                                    overflow: TextOverflow.fade,
                                   ),
                                   const SizedBox(height: 3.0),
                                   Text(
