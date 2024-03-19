@@ -65,9 +65,9 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             const BannerConcerList(),
-            SizedBox(height: 30),
             ConcertHallTable(),
-            SizedBox(height: 45),
+            Divider(thickness: 10, color: Color(0xFFE6E6E6).withOpacity(0.4)),
+            SizedBox(height: 15.0),
             const DeadConcertList(),
             SizedBox(height: 100),
             copyRightAllCon(),

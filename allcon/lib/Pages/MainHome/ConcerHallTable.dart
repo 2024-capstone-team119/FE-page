@@ -13,24 +13,35 @@ class ConcertHallTable extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(5.0),
-            child: Text(
-              '공연장',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 24.0,
-                color: Colors.black,
-              ),
+          // const Padding(
+          //   padding: EdgeInsets.only(
+          //     right: 20.0,
+          //     left: 20.0,
+          //   ),
+          //   // child: Text(
+          //   //   '공연장',
+          //   //   style: TextStyle(
+          //   //     fontWeight: FontWeight.w600,
+          //   //     fontSize: 24.0,
+          //   //     color: Colors.black,
+          //   //   ),
+          //   // ),
+          // ),
+          // const SizedBox(height: 10.0),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 10.0,
+              right: 10.0,
+              bottom: 10.0,
+              top: 5.0,
             ),
-          ),
-          const SizedBox(height: 10.0),
-          Table(
-            border: TableBorder.all(),
-            children: [
-              buildRow(context, ['서울', '경기도/인천', '강원도']),
-              buildRow(context, ['충청도', '경상도', '전라도']),
-            ],
+            child: Table(
+              border: TableBorder.all(),
+              children: [
+                buildRow(context, ['서울', '경기도/인천', '강원도']),
+                buildRow(context, ['충청도', '경상도', '전라도']),
+              ],
+            ),
           ),
         ],
       ),

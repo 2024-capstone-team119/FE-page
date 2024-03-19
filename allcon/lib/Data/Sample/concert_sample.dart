@@ -21,29 +21,6 @@ List<Concert> allConcertSample = [
     imgUrl:
         "https://ticketimage.interpark.com/Play/image/large/24/24000706_p.gif",
   ),
-];
-
-List<Concert> bannerConcertSample = [
-  Concert(
-    concertId: 1,
-    imgUrl:
-        "https://ticketimage.interpark.com/Play/image/large/24/24000486_p.gif",
-  ),
-  Concert(
-    concertId: 2,
-    imgUrl:
-        "https://ticketimage.interpark.com/Play/image/large/24/24001522_p.gif",
-  ),
-  Concert(
-    concertId: 3,
-    imgUrl:
-        "https://ticketimage.interpark.com/Play/image/large/24/24001932_p.gif",
-  ),
-  Concert(
-    concertId: 4,
-    imgUrl:
-        "https://ticketimage.interpark.com/Play/image/large/24/24000706_p.gif",
-  ),
   Concert(
     concertId: 5,
     performer: "적재",
@@ -110,6 +87,29 @@ List<Concert> bannerConcertSample = [
         "https://ticketimage.interpark.com/Play/image/large/24/24003561_p.gif",
     age: 12,
     time: 100,
+  ),
+];
+
+List<Concert> bannerConcertSample = [
+  Concert(
+    concertId: 1,
+    imgUrl:
+        "https://ticketimage.interpark.com/Play/image/large/24/24000486_p.gif",
+  ),
+  Concert(
+    concertId: 2,
+    imgUrl:
+        "https://ticketimage.interpark.com/Play/image/large/24/24001522_p.gif",
+  ),
+  Concert(
+    concertId: 3,
+    imgUrl:
+        "https://ticketimage.interpark.com/Play/image/large/24/24001932_p.gif",
+  ),
+  Concert(
+    concertId: 4,
+    imgUrl:
+        "https://ticketimage.interpark.com/Play/image/large/24/24000706_p.gif",
   ),
 ];
 

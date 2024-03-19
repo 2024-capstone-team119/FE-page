@@ -42,7 +42,7 @@ class _DeadConcertListState extends State<DeadConcertList> {
             scale: 0.9,
           ),*/
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: List.generate(deadConcertSample.length, (index) {
