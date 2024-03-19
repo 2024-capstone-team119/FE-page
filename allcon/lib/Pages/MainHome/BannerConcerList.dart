@@ -25,7 +25,8 @@ class _BannerConcerListState extends State<BannerConcerList> {
         itemHeight: MediaQuery.of(context).size.height,
         layout: SwiperLayout.TINDER,
         loop: true,
-        autoplayDelay: 3000,
+        autoplay: true,
+        autoplayDelay: 6000,
         autoplayDisableOnInteraction: true,
         pagination: SwiperPagination(
           builder: DotSwiperPaginationBuilder(
