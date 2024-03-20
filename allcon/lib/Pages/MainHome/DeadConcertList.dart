@@ -1,14 +1,9 @@
-import 'package:allcon/Data/Concert.dart';
-import 'package:allcon/Data/Sample/concert_sample.dart';
 import 'package:allcon/Pages/Concert/WatchAllConcert.dart';
 import 'package:allcon/Pages/Concert/WatchDeadConcert.dart';
-import 'package:allcon/Pages/Concert/concertinfo.dart';
 import 'package:allcon/Pages/MainHome/DeadConcertCard.dart';
-import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class DeadConcertList extends StatefulWidget {
   const DeadConcertList({super.key});
@@ -33,7 +28,7 @@ class _DeadConcertListState extends State<DeadConcertList> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          DeadConcertCard(),
+          const DeadConcertCard(),
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
             child: Column(

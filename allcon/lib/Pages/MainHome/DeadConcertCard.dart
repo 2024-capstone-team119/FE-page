@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class DeadConcertCard extends StatelessWidget {
-  const DeadConcertCard({Key? key}) : super(key: key);
+  const DeadConcertCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +23,10 @@ class DeadConcertCard extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          SizedBox(width: 10.0),
+          const SizedBox(width: 10.0),
           _buildConcertList(context, firstList),
           _buildConcertList(context, secondList),
-          SizedBox(width: 15.0),
+          const SizedBox(width: 15.0),
         ],
       ),
     );
@@ -53,7 +53,7 @@ class DeadConcertCard extends StatelessWidget {
                   color: Colors.white,
                   elevation: 2,
                   shadowColor: Colors.grey.withOpacity(0.5),
-                  child: Container(
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.78,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
