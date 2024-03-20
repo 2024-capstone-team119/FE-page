@@ -25,6 +25,7 @@ class _MyPageState extends State<MyPage> {
         currentIndex: 0,
       ),
       body: Container(
+        height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -33,7 +34,7 @@ class _MyPageState extends State<MyPage> {
               Colors.white,
               lightGray,
             ],
-            stops: [0.0, 0.65],
+            stops: [0.0, 0.75],
           ),
         ),
         child: SafeArea(
