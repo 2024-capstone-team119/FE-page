@@ -1,8 +1,10 @@
 import 'package:allcon/Data/Concert.dart';
 import 'package:allcon/Data/Sample/concert_sample.dart';
+import 'package:allcon/pages/concert/concertinfo.dart' as concertinfo;
 import 'package:allcon/Util/Theme.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BannerConcerList extends StatefulWidget {
   const BannerConcerList({super.key});
@@ -37,30 +39,38 @@ class _BannerConcerListState extends State<BannerConcerList> {
           ),
         ),
         itemBuilder: (context, index) {
-          return Stack(
-            children: [
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 380,
-                      child: Card(
-                        elevation: 8,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32),
+          return GestureDetector(
+            onTap: () {
+              print('배너 클릭 성공');
+              /* Get.to(
+                 
+              );*/
+            },
+            child: Stack(
+              children: [
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 380,
+                        child: Card(
+                          elevation: 8,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(32),
+                          ),
+                          color: Colors.white,
+                          child: Image.network(
+                            bannerConcertSample[index].imgUrl ?? "",
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                        color: Colors.white,
-                        child: Image.network(
-                          bannerConcertSample[index].imgUrl ?? "",
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           );
         },
       ),
