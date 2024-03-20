@@ -13,6 +13,12 @@ class MyCategory extends StatelessWidget {
       child: Column(
         children: [
           Card(
+            color: Colors.white,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: Colors.black12, width: 0.5),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: ListTile(
               leading: Icon(
                 CupertinoIcons.heart_fill,
@@ -28,6 +34,12 @@ class MyCategory extends StatelessWidget {
             ),
           ),
           Card(
+            color: Colors.white,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: Colors.black12, width: 0.5),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: ListTile(
               leading: Icon(
                 CupertinoIcons.info_circle,
@@ -43,6 +55,12 @@ class MyCategory extends StatelessWidget {
             ),
           ),
           Card(
+            color: Colors.white,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: Colors.black12, width: 0.5),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: ListTile(
               leading: Icon(
                 CupertinoIcons.escape,
@@ -58,6 +76,12 @@ class MyCategory extends StatelessWidget {
             ),
           ),
           Card(
+            color: Colors.white,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: Colors.black12, width: 0.5),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: ListTile(
               leading: Icon(
                 CupertinoIcons.delete_simple,

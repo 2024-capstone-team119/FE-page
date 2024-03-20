@@ -2,32 +2,16 @@ import 'package:allcon/Pages/ConcertHall/hall_search.dart';
 import 'package:flutter/material.dart';
 
 class ConcertHallTable extends StatelessWidget {
-  const ConcertHallTable({Key? key}) : super(key: key);
+  const ConcertHallTable({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.orangeAccent,
       padding: const EdgeInsets.all(15.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // const Padding(
-          //   padding: EdgeInsets.only(
-          //     right: 20.0,
-          //     left: 20.0,
-          //   ),
-          //   // child: Text(
-          //   //   '공연장',
-          //   //   style: TextStyle(
-          //   //     fontWeight: FontWeight.w600,
-          //   //     fontSize: 24.0,
-          //   //     color: Colors.black,
-          //   //   ),
-          //   // ),
-          // ),
-          // const SizedBox(height: 10.0),
           Padding(
             padding: const EdgeInsets.only(
               left: 10.0,

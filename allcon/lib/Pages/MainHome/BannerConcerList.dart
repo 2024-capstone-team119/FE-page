@@ -1,10 +1,8 @@
 import 'package:allcon/Data/Concert.dart';
 import 'package:allcon/Data/Sample/concert_sample.dart';
-import 'package:allcon/pages/concert/concertinfo.dart' as concertinfo;
 import 'package:allcon/Util/Theme.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class BannerConcerList extends StatefulWidget {
   const BannerConcerList({super.key});
@@ -32,7 +30,7 @@ class _BannerConcerListState extends State<BannerConcerList> {
         autoplayDisableOnInteraction: true,
         pagination: const SwiperPagination(
           builder: DotSwiperPaginationBuilder(
-            color: Color(0xFFEDEBEB),
+            color: midGray,
             // activeColor: Colors.lightBlueAccent,
             activeSize: 10,
             space: 4,

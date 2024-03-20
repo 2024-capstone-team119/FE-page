@@ -6,7 +6,7 @@ import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class MyPage extends StatefulWidget {
-  const MyPage({Key? key}) : super(key: key);
+  const MyPage({super.key});
 
   @override
   State<MyPage> createState() => _MyPageState();
@@ -25,7 +25,8 @@ class _MyPageState extends State<MyPage> {
         currentIndex: 0,
       ),
       body: Container(
-        decoration: BoxDecoration(
+        height: double.infinity,
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -33,7 +34,7 @@ class _MyPageState extends State<MyPage> {
               Colors.white,
               lightGray,
             ],
-            stops: [0.0, 0.65],
+            stops: [0.0, 0.75],
           ),
         ),
         child: SafeArea(
