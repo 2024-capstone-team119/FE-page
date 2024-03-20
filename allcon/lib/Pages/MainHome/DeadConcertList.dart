@@ -54,7 +54,7 @@ class _DeadConcertListState extends State<DeadConcertList> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        '마감공연 보기',
+                        '마감임박 공연',
                         style: TextStyle(fontSize: 16.0),
                       ),
                       SizedBox(width: 5.0),
