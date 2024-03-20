@@ -32,9 +32,9 @@ class _BannerConcerListState extends State<BannerConcerList> {
         autoplayDisableOnInteraction: true,
         pagination: const SwiperPagination(
           builder: DotSwiperPaginationBuilder(
-            color: lightGray,
+            color: Color(0xFFEDEBEB),
             // activeColor: Colors.lightBlueAccent,
-            activeSize: 12,
+            activeSize: 10,
             space: 4,
           ),
         ),
