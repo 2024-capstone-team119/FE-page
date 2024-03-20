@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyHome extends StatefulWidget {
-  const MyHome({super.key, Key? key});
+  const MyHome({Key? key}) : super(key: key);
 
   @override
   _MyHomeState createState() => _MyHomeState();
@@ -43,7 +43,7 @@ class _MyHomeState extends State<MyHome> {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key, Key? key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,8 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             const BannerConcerList(),
             const ConcertHallTable(),
-            Divider(thickness: 10, color: const Color(0xFFE6E6E6).withOpacity(0.4)),
+            Divider(
+                thickness: 10, color: const Color(0xFFE6E6E6).withOpacity(0.4)),
             const SizedBox(height: 15.0),
             const DeadConcertList(),
             const SizedBox(height: 50),
