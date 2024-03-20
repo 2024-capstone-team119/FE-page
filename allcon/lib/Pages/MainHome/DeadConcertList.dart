@@ -1,7 +1,6 @@
 import 'package:allcon/Pages/Concert/WatchAllConcert.dart';
 import 'package:allcon/Pages/Concert/WatchDeadConcert.dart';
 import 'package:allcon/Pages/MainHome/DeadConcertCard.dart';
-import 'package:allcon/Util/Theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,7 +27,7 @@ class _DeadConcertListState extends State<DeadConcertList> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           const DeadConcertCard(),
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
@@ -54,7 +53,7 @@ class _DeadConcertListState extends State<DeadConcertList> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        '마감공연 보기',
+                        '마감임박 공연',
                         style: TextStyle(fontSize: 16.0),
                       ),
                       SizedBox(width: 5.0),

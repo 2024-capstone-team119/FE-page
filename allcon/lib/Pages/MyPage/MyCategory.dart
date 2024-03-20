@@ -16,7 +16,7 @@ class MyCategory extends StatelessWidget {
             color: Colors.white,
             elevation: 0,
             shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black12, width: 0.5),
+              side: const BorderSide(color: Colors.black12, width: 0.5),
               borderRadius: BorderRadius.circular(20),
             ),
             child: ListTile(
@@ -37,7 +37,7 @@ class MyCategory extends StatelessWidget {
             color: Colors.white,
             elevation: 0,
             shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black12, width: 0.5),
+              side: const BorderSide(color: Colors.black12, width: 0.5),
               borderRadius: BorderRadius.circular(20),
             ),
             child: ListTile(
@@ -58,7 +58,7 @@ class MyCategory extends StatelessWidget {
             color: Colors.white,
             elevation: 0,
             shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black12, width: 0.5),
+              side: const BorderSide(color: Colors.black12, width: 0.5),
               borderRadius: BorderRadius.circular(20),
             ),
             child: ListTile(
@@ -79,7 +79,7 @@ class MyCategory extends StatelessWidget {
             color: Colors.white,
             elevation: 0,
             shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black12, width: 0.5),
+              side: const BorderSide(color: Colors.black12, width: 0.5),
               borderRadius: BorderRadius.circular(20),
             ),
             child: ListTile(

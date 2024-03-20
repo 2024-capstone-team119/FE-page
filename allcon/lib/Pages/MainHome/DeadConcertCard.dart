@@ -1,7 +1,6 @@
 import 'package:allcon/Data/Concert.dart';
 import 'package:allcon/Data/Sample/concert_sample.dart';
 import 'package:allcon/Pages/Concert/concertinfo.dart';
-import 'package:allcon/Util/Theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -53,10 +52,10 @@ class DeadConcertCard extends StatelessWidget {
                 color: Colors.white,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.black26, width: 0.5),
+                  side: const BorderSide(color: Colors.black26, width: 0.5),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.78,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
