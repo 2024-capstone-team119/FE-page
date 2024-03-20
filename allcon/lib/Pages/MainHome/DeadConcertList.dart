@@ -1,6 +1,7 @@
 import 'package:allcon/Pages/Concert/WatchAllConcert.dart';
 import 'package:allcon/Pages/Concert/WatchDeadConcert.dart';
 import 'package:allcon/Pages/MainHome/DeadConcertCard.dart';
+import 'package:allcon/Util/Theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,6 @@ class _DeadConcertListState extends State<DeadConcertList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.lightBlueAccent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -28,6 +28,7 @@ class _DeadConcertListState extends State<DeadConcertList> {
               fontWeight: FontWeight.w600,
             ),
           ),
+          SizedBox(height: 10.0),
           const DeadConcertCard(),
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
@@ -45,7 +46,7 @@ class _DeadConcertListState extends State<DeadConcertList> {
                       ),
                     ),
                     side: MaterialStateProperty.all<BorderSide>(
-                      const BorderSide(width: 0.25),
+                      const BorderSide(color: Colors.black26, width: 0.5),
                     ),
                   ),
                   child: const Row(
@@ -76,7 +77,7 @@ class _DeadConcertListState extends State<DeadConcertList> {
                       ),
                     ),
                     side: MaterialStateProperty.all<BorderSide>(
-                      const BorderSide(width: 0.25),
+                      const BorderSide(color: Colors.black26, width: 0.5),
                     ),
                   ),
                   child: const Row(
