@@ -36,7 +36,7 @@ class _EditUserNameState extends State<EditUserName> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      elevation: 1,
+      elevation: 0,
       backgroundColor: Colors.white,
       child: SizedBox(
         height: 250,
