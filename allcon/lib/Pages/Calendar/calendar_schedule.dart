@@ -7,7 +7,7 @@ class Schedule {
 }
 
 Map<DateTime, dynamic> scheduleList = {
-  DateTime(2024, 3, 21): [
+  DateTime(2024, 3, 22): [
     Schedule('2024 IU HER WORLD TOUR CONCERT IN SEOUL'),
     Schedule('2024 박지윤 콘서트 Love is my song'),
     Schedule('2024 TXT FANLIVE PRESENT X TOGETHER'),
