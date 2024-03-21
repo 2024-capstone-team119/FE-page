@@ -5,18 +5,20 @@ import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:allcon/Data/Concert.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:allcon/model/performance_model.dart';
 
-class ConcertInfo extends StatefulWidget {
-  const ConcertInfo({super.key});
+class PerformanceDetail extends StatefulWidget {
+  final Performance performance;
+
+  const PerformanceDetail({Key? key, required this.performance})
+      : super(key: key);
 
   @override
-  _ConcertInfoState createState() => _ConcertInfoState();
+  State<PerformanceDetail> createState() => _PerformanceDetailState();
 }
 
-class _ConcertInfoState extends State<ConcertInfo> {
+class _PerformanceDetailState extends State<PerformanceDetail> {
   bool isFavorite = false;
-  Color? buttonColor = Colors.purple[50];
-  var concert = Get.arguments as Concert;
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +26,15 @@ class _ConcertInfoState extends State<ConcertInfo> {
       appBar: const MyAppBar(
         text: "상세 정보",
       ),
-      body: infoMain(context),
+      body: InfoMain(context),
       floatingActionButton: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
-        height: 42,
+        height: 45,
         child: FloatingActionButton(
           onPressed: () {
             // 예매처 이동
           },
-          backgroundColor: buttonColor,
+          backgroundColor: Colors.purple[50],
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -54,24 +56,40 @@ class _ConcertInfoState extends State<ConcertInfo> {
     );
   }
 
-  Widget infoMain(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+  Widget InfoMain(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(25.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 200,
+              child: Stack(
+                children: [
+                  // 이미지 표시
+                  Image.network(
+                    widget.performance.poster ?? "",
+                    fit: BoxFit.cover,
+                  ),
+                  // 불투명한 색상
+                  Container(
+                    color: Colors.black.withOpacity(0.5), // 투명도 조절 (0.0 - 1.0)
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: double.infinity,
+              child: Row(
                 children: [
                   Expanded(
                     child: Text(
-                      concert.title ?? 'unknown',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                      widget.performance.name ?? 'Unknown',
                       style: const TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 28.0,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -93,73 +111,24 @@ class _ConcertInfoState extends State<ConcertInfo> {
                   ),
                 ],
               ),
-              const Divider(color: Colors.grey, thickness: 0.5),
-              const SizedBox(
-                height: 10.0,
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Image.network(
+                widget.performance.poster ?? "",
+                height: 220,
+                fit: BoxFit.cover,
               ),
-              Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Image.network(
-                      concert.imgUrl ?? '',
-                      height: 220,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: SizedBox(
-                      height: 200,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                          Text('공연자 : ${concert.performer ?? 'unknown'}'),
-                          Text(
-                            '장소 : ${concert.place ?? 'unknown'}',
-                            style: const TextStyle(fontSize: 14.0),
-                          ),
-                          Text(
-                            '기간 : ${DateFormat('yyyy-MM-dd HH:mm').format(concert.date!)}',
-                            style: const TextStyle(fontSize: 14.0),
-                          ),
-                          Text(
-                            '관람 연령 : 만 ${concert.age} 세 이상',
-                            style: const TextStyle(fontSize: 14.0),
-                          ),
-                          Text(
-                            '관람 시간 : 총 ${concert.time} 분',
-                            style: const TextStyle(fontSize: 14.0),
-                          ),
-                          const Text(
-                            '예매처 : 인터파크',
-                            style: TextStyle(fontSize: 14.0),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              const Divider(color: Colors.grey, thickness: 0.5),
-              SizedBox(
-                height: 200, // 적절한 높이 조정
-                child: infoTab(context),
-              ),
-            ],
-          ),
+            ),
+            const Divider(color: Colors.grey, thickness: 0.5),
+          ],
         ),
       ),
     );
   }
 
-  Widget infoTab(BuildContext context) {
+  // 공연정보 + 티켓 정보 합쳐지고 , 셋리스트를 구현 안한다면 굳이 탭바가 있어야 할까요?
+  /*Widget InfoTab(BuildContext context) {
     return const DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -200,10 +169,10 @@ class _ConcertInfoState extends State<ConcertInfo> {
         ),
       ),
     );
-  }
+  }*/
 }
 
-class ConcertInfoPage extends StatelessWidget {
+/*class ConcertInfoPage extends StatelessWidget {
   final String content;
 
   const ConcertInfoPage(this.content, {super.key});
@@ -217,4 +186,4 @@ class ConcertInfoPage extends StatelessWidget {
       ),
     );
   }
-}
+}*/

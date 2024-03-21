@@ -5,7 +5,8 @@ class CustomTextArea extends StatelessWidget {
   final funValidator;
   final String? value;
 
-  const CustomTextArea({super.key, 
+  const CustomTextArea({
+    super.key,
     required this.hint,
     required this.funValidator,
     this.value,

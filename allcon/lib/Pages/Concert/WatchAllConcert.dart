@@ -3,7 +3,7 @@ import 'package:allcon/Data/Sample/concert_sample.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:allcon/pages/concert/concertinfo.dart' as concertinfo;
+import 'package:allcon/pages/concert/PerformaceDetail.dart' as concertinfo;
 
 class WatchAllConcert extends StatefulWidget {
   const WatchAllConcert({super.key});
@@ -33,10 +33,10 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
       child: GestureDetector(
         onTap: () {
           print('항목이 클릭되었습니다: ${concert.title}');
-          Get.to(
-            const concertinfo.ConcertInfo(),
-            arguments: concert,
-          );
+          /* Get.to(
+            */ /*const concertinfo.ConcertInfo(),
+            arguments: concert,*/ /*
+          );*/
         },
         child: Row(
           children: [

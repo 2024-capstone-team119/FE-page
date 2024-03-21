@@ -1,7 +1,7 @@
 import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
-import 'package:allcon/pages/concert/concertinfo.dart' as concertinfo;
+import 'package:allcon/pages/concert/PerformaceDetail.dart' as concertinfo;
 import 'package:allcon/Data/Concert.dart';
 import 'package:allcon/Data/Sample/concert_sample.dart';
 import 'package:get/get.dart';
@@ -96,10 +96,10 @@ class _SearchPageState extends State<Search> {
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
               child: GestureDetector(
                 onTap: () {
-                  Get.to(
+                  /*Get.to(
                     const concertinfo.ConcertInfo(),
                     arguments: concert,
-                  );
+                  );*/
                 },
                 child: Column(
                   children: [
