@@ -1,95 +1,26 @@
-import 'package:allcon/Pages/Login/login.dart';
 import 'package:allcon/Pages/MyPage/edit_userName.dart';
 import 'package:allcon/Pages/MyPage/controller/img_crop_controller.dart';
 import 'package:allcon/Pages/MyPage/controller/profile_controller.dart';
+import 'package:allcon/Util/Theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class MyProfile extends StatelessWidget {
-  MyProfile({Key? key}) : super(key: key);
+  MyProfile({super.key});
 
   final ProfileController _pcon = Get.put(ProfileController());
   final ImgController _icon = Get.put(ImgController());
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        child: Column(
-          children: [
-            userProfile(context),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: Icon(
-                      CupertinoIcons.heart_fill,
-                      color: Colors.grey[850],
-                    ),
-                    title: Text(
-                      '관심 공연 목록',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    onTap: () {
-                      print('관심 공연 목록 is clicked');
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      CupertinoIcons.info_circle,
-                      color: Colors.grey[850],
-                    ),
-                    title: Text(
-                      '문의사항',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    onTap: () {
-                      print('문의사항 is clicked');
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      CupertinoIcons.escape,
-                      color: Colors.grey[850],
-                    ),
-                    title: Text(
-                      '로그아웃',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    onTap: () {
-                      print('로그아웃 is clicked');
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      CupertinoIcons.delete_simple,
-                      color: Colors.grey[850],
-                    ),
-                    title: Text(
-                      '회원탈퇴',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    onTap: () {
-                      Get.to(MyLogIn());
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    return userProfile(context);
   }
 
   Widget userProfile(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.5,
-      color: Colors.deepPurple[50],
+      height: MediaQuery.of(context).size.height * 0.51,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -99,21 +30,32 @@ class MyProfile extends StatelessWidget {
                   ? EditUserInfo(context, _pcon, _icon)
                   : userInfo(context, _pcon),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Obx(
               () => _pcon.isEditMyProfile.value
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          child: Text('취소'),
+                          style: const ButtonStyle(),
                           onPressed: () {
                             _pcon.rollback();
                           },
+                          child: const Text(
+                            '취소',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                            ),
+                          ),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 20),
                         ElevatedButton(
-                          child: Text('완료'),
+                          child: const Text(
+                            '완료',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                            ),
+                          ),
                           onPressed: () {
                             _pcon.toggleEditBtn();
                           },
@@ -121,7 +63,12 @@ class MyProfile extends StatelessWidget {
                       ],
                     )
                   : ElevatedButton(
-                      child: Text('프로필 수정'),
+                      child: const Text(
+                        '프로필 수정',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
                       onPressed: () {
                         _pcon.toggleEditBtn();
                       },
@@ -134,10 +81,10 @@ class MyProfile extends StatelessWidget {
   }
 }
 
-Widget userInfo(BuildContext context, ProfileController _pcon) {
+Widget userInfo(BuildContext context, ProfileController pcon) {
   return Column(
     children: [
-      Container(
+      SizedBox(
         width: 120,
         height: 120,
         child: ClipRRect(
@@ -148,7 +95,7 @@ Widget userInfo(BuildContext context, ProfileController _pcon) {
           ),
         ),
       ),
-      SizedBox(height: 8.0),
+      const SizedBox(height: 8.0),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 60.0),
         child: Column(
@@ -157,18 +104,18 @@ Widget userInfo(BuildContext context, ProfileController _pcon) {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: Text(
-                  _pcon.myProfile.value.userName ?? "",
-                  style: TextStyle(
-                    fontSize: 24.0,
+                  pcon.myProfile.value.userName ?? "",
+                  style: const TextStyle(
+                    fontSize: 30.0,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
             ),
             Text(
-              _pcon.myProfile.value.email ?? "",
-              style: TextStyle(
-                fontSize: 15.0,
+              pcon.myProfile.value.email ?? "",
+              style: const TextStyle(
+                fontSize: 20.0,
               ),
             ),
           ],
@@ -179,48 +126,48 @@ Widget userInfo(BuildContext context, ProfileController _pcon) {
 }
 
 Widget EditUserInfo(
-    BuildContext context, ProfileController _pcon, ImgController _icon) {
+    BuildContext context, ProfileController pcon, ImgController icon) {
   return Column(
     children: [
       GestureDetector(
         onTap: () {
-          _pcon.pickImg();
+          pcon.pickImg();
         },
-        child: Container(
+        child: SizedBox(
           width: 120,
           height: 120,
           child: Stack(children: [
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(40),
-                child: Container(
+                child: SizedBox(
                   width: 100,
                   height: 100,
-                  child: _pcon.myProfile.value.profileImg == null
+                  child: pcon.myProfile.value.profileImg == null
                       ? Image.asset(
                           'assets/logo/allcon_icon.png',
                           fit: BoxFit.cover,
                         )
                       : Image.file(
-                          _pcon.myProfile.value.profileImg!,
+                          pcon.myProfile.value.profileImg!,
                           fit: BoxFit.cover,
                         ),
                 ),
               ),
             ),
-            _pcon.isEditMyProfile.value
+            pcon.isEditMyProfile.value
                 ? Positioned(
                     bottom: 8,
                     right: 8,
                     child: Container(
                       alignment: Alignment.bottomRight,
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white,
+                          color: lavenderColor,
                         ),
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(
+                        padding: const EdgeInsets.all(8.0),
+                        child: const Icon(
                           CupertinoIcons.photo_camera_solid,
                           size: 15,
                         ),
@@ -231,25 +178,23 @@ Widget EditUserInfo(
           ]),
         ),
       ),
-      SizedBox(height: 8.0),
+      const SizedBox(height: 8.0),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 60.0),
         child: Obx(
           () => Column(
             children: [
-              EditNameInfo(_pcon.myProfile.value.userName ?? "", () async {
+              EditNameInfo(pcon.myProfile.value.userName ?? "", () async {
                 String value = await Get.dialog(EditUserName(
-                  text: _pcon.myProfile.value.userName,
+                  text: pcon.myProfile.value.userName,
                 ));
-                if (value != null) {
-                  _pcon.updateName(value);
-                }
+                pcon.updateName(value);
               }),
-              SizedBox(height: 2.0),
+              const SizedBox(height: 2.0),
               Text(
-                _pcon.myProfile.value.email ?? "",
-                style: TextStyle(
-                  fontSize: 15.0,
+                pcon.myProfile.value.email ?? "",
+                style: const TextStyle(
+                  fontSize: 20.0,
                 ),
               ),
             ],
@@ -265,10 +210,10 @@ Widget EditNameInfo(String value, VoidCallback onTap) {
     onTap: onTap,
     child: Stack(children: [
       Container(
-        height: 50,
-        decoration: BoxDecoration(
+        height: 56,
+        decoration: const BoxDecoration(
           border: Border(
-            bottom: BorderSide(width: 0.6, color: Colors.white),
+            bottom: BorderSide(width: 1, color: Colors.black12),
           ),
         ),
       ),
@@ -277,14 +222,14 @@ Widget EditNameInfo(String value, VoidCallback onTap) {
           padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Text(
             value,
-            style: TextStyle(
-              fontSize: 24.0,
+            style: const TextStyle(
+              fontSize: 30.0,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
       ),
-      Positioned(
+      const Positioned(
         right: 2,
         bottom: 16,
         child: Icon(

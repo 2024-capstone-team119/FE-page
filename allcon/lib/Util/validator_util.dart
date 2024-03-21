@@ -1,4 +1,3 @@
-import 'package:flutter_validator/flutter_validator.dart';
 
 Function validateTitle() {
   return (String? value) {

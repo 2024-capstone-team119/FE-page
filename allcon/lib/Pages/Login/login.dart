@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 void main() => runApp(const MyLogIn());
 
 class MyLogIn extends StatelessWidget {
-  const MyLogIn({Key? key}) : super(key: key);
+  const MyLogIn({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class MyLogIn extends StatelessWidget {
 }
 
 class LogIn extends StatefulWidget {
-  const LogIn({Key? key}) : super(key: key);
+  const LogIn({super.key});
 
   @override
   State<LogIn> createState() => _LogInState();
@@ -73,8 +73,8 @@ class _LogInState extends State<LogIn> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 16),
-                Text(
+                const SizedBox(height: 16),
+                const Text(
                   "올콘",
                   style: TextStyle(
                     color: Colors.white,
@@ -83,7 +83,7 @@ class _LogInState extends State<LogIn> {
                     height: 1.0,
                   ),
                 ),
-                Text(
+                const Text(
                   "ALLCON",
                   style: TextStyle(
                     color: Colors.white,
@@ -91,11 +91,11 @@ class _LogInState extends State<LogIn> {
                     fontSize: 25,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 AnimatedOpacity(
                   duration: const Duration(milliseconds: 1000),
                   opacity: _textOpacity,
-                  child: Text(
+                  child: const Text(
                     "콘서트 정보부터 "
                     "공연장 시야까지\n"
                     "올콘하세요!",
@@ -125,7 +125,7 @@ class _LogInState extends State<LogIn> {
                 alignment: Alignment.center,
                 child: InkWell(
                   onTap: () {
-                    Get.to(MyHome());
+                    Get.to(const MyHome());
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(40.0),
@@ -141,14 +141,14 @@ class _LogInState extends State<LogIn> {
 
           // 올콘 Copyright 표시
           Align(
-            alignment: Alignment(0.0, 0.95),
+            alignment: const Alignment(0.0, 0.95),
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Text(
                 'ⓒ 2024. (ALLCON) all rights reserved.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xB27A7A7A).withOpacity(0.7),
+                  color: const Color(0xB27A7A7A).withOpacity(0.7),
                   fontSize: 8,
                 ),
               ),

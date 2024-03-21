@@ -1,6 +1,3 @@
-import 'package:allcon/Data/Content.dart';
-import 'package:allcon/Data/Sample/content_sample.dart';
-import 'package:allcon/Pages/Community/Sub/GetPost.dart';
 import 'package:allcon/Pages/Community/Sub/Likes.dart';
 import 'package:allcon/Pages/Community/Sub/Post.dart';
 import 'package:allcon/Pages/Community/Sub/Search.dart';
@@ -8,13 +5,11 @@ import 'package:allcon/Pages/Community/Sub/TabContent/ContentListView.dart';
 import 'package:allcon/Pages/Community/controller/content_controller.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class MyCommunity extends StatefulWidget {
-  const MyCommunity({Key? key}) : super(key: key);
+  const MyCommunity({super.key});
 
   @override
   State<MyCommunity> createState() => _MyCommunityState();
@@ -57,12 +52,12 @@ class _MyCommunityState extends State<MyCommunity>
             onPressed: () {
               Get.to(MyContentLikes(contentController: _contentController));
             },
-            child: Icon(Icons.favorite),
+            child: const Icon(Icons.favorite),
           ),
           const SizedBox(width: 12),
           FloatingActionButton(
             onPressed: () {
-              Get.to(MyContentWrite());
+              Get.to(const MyContentWrite());
             },
             child: const Icon(Icons.edit),
           ),

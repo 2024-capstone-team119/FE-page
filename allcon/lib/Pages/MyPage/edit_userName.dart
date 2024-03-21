@@ -36,9 +36,9 @@ class _EditUserNameState extends State<EditUserName> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      elevation: 1,
+      elevation: 0,
       backgroundColor: Colors.white,
-      child: Container(
+      child: SizedBox(
         height: 250,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -57,19 +57,19 @@ class _EditUserNameState extends State<EditUserName> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
           children: [
-            Text(
+            const Text(
               '수정할 닉네임을 입력해주세요.',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             TextField(
               controller: _textEditingController,
               maxLength: 8,
               textAlign: TextAlign.center,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "닉네임",
                 hintStyle: TextStyle(
                   fontSize: 18,
@@ -99,13 +99,13 @@ class _EditUserNameState extends State<EditUserName> {
               onPressed: () {
                 Get.back();
               },
-              child: Text('취소')),
-          SizedBox(width: 8),
+              child: const Text('취소')),
+          const SizedBox(width: 8),
           ElevatedButton(
               onPressed: () {
                 Get.back(result: _textEditingController.text);
               },
-              child: Text('완료')),
+              child: const Text('완료')),
         ],
       ),
     );

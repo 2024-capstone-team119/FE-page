@@ -3,6 +3,7 @@ import 'package:allcon/pages/seat/seat_write.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:allcon/Pages/Seat/seat_review.dart';
 import 'package:get/get.dart';
+import 'package:flutter/cupertino.dart';
 
 class ReviewController extends GetxController {
   RxMap<int, int> goodCounts = <int, int>{}.obs;
@@ -169,9 +170,10 @@ class _SeatMainState extends State<SeatMain> {
     List<Widget> starIcons = [];
     for (int i = 0; i < 5; i++) {
       if (i < reviewList[index].star) {
-        starIcons.add(const Icon(Icons.star, color: Colors.yellow));
+        starIcons
+            .add(const Icon(CupertinoIcons.star_fill, color: Colors.yellow));
       } else {
-        starIcons.add(const Icon(Icons.star_border, color: Colors.grey));
+        starIcons.add(const Icon(CupertinoIcons.star, color: Colors.black12));
       }
     }
 

@@ -10,6 +10,8 @@ import 'dart:math';
 import 'package:get/get.dart';
 
 class MyContentWrite extends StatefulWidget {
+  const MyContentWrite({super.key});
+
   @override
   _ContentWriteState createState() => _ContentWriteState();
 }
@@ -68,7 +70,7 @@ class _ContentWriteState extends State<MyContentWrite> {
                   text: "업로드",
                   funPageRoute: () {
                     if (_formKey.currentState!.validate()) {
-                      Get.to(() => MyCommunity());
+                      Get.to(() => const MyCommunity());
                     }
                   },
                 ),
