@@ -1,6 +1,9 @@
 import 'package:allcon/Data/Concert.dart';
 import 'package:allcon/Data/Sample/concert_sample.dart';
+import 'package:allcon/Pages/Concert/PerformaceDetail.dart';
 import 'package:allcon/Widget/app_bar.dart';
+import 'package:allcon/model/performance_model.dart';
+import 'package:allcon/service/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:allcon/pages/concert/PerformaceDetail.dart' as concertinfo;
@@ -18,61 +21,74 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
     return Scaffold(
       appBar: const MyAppBar(text: '전체공연'),
       backgroundColor: Colors.white,
-      body: ListView.builder(
-        itemCount: allConcertSample.length,
-        itemBuilder: (context, index) {
-          return _buildContentItem(context, allConcertSample[index]);
-        },
-      ),
-    );
-  }
-
-  Widget _buildContentItem(BuildContext context, Concert concert) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 5.0),
-      child: GestureDetector(
-        onTap: () {
-          print('항목이 클릭되었습니다: ${concert.title}');
-          /* Get.to(
-            */ /*const concertinfo.ConcertInfo(),
-            arguments: concert,*/ /*
-          );*/
-        },
-        child: Row(
-          children: [
-            SizedBox(
-              width: 80,
-              child: Image.network(
-                concert.imgUrl ?? '',
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    concert.title ?? 'Unknown Title',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+      body: FutureBuilder<List<Performance>>(
+        future: Api.getPerformance(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('에러: ${snapshot.error}');
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Text('데이터 없음');
+          } else {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, imgIndex) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 5.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      print('항목이 클릭되었습니다: ${snapshot.data}');
+                      Get.to(() => PerformanceDetail(
+                            performance: snapshot.data![imgIndex],
+                          ));
+                    },
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 80,
+                          child: Image.network(
+                            snapshot.data![imgIndex].poster ?? '',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                snapshot.data![imgIndex].name.toString(),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                snapshot.data![imgIndex].name.toString() ??
+                                    'Unknown Performer',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                              Text(
+                                '${snapshot.data![imgIndex].startDate} ~ ${snapshot.data![imgIndex].endDate}'
+                                    .toString(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    concert.performer ?? 'Unknown Performer',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }
