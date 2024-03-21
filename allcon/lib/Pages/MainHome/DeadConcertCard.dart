@@ -1,53 +1,60 @@
-import 'package:allcon/Data/Concert.dart';
-import 'package:allcon/Data/Sample/concert_sample.dart';
-import 'package:allcon/Pages/Concert/concertinfo.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:allcon/model/performance_model.dart';
+import 'package:allcon/service/api.dart';
 
-class DeadConcertCard extends StatelessWidget {
-  const DeadConcertCard({super.key});
+class DeadConcertCard extends StatefulWidget {
+  const DeadConcertCard({Key? key}) : super(key: key);
 
   @override
+  State<DeadConcertCard> createState() => _DeadConcertCardState();
+}
+
+class _DeadConcertCardState extends State<DeadConcertCard> {
+  @override
   Widget build(BuildContext context) {
-    // 공연 정보 리스트
-    List<Concert> deadConcerts = deadConcertSample;
+    return FutureBuilder<List<Performance>>(
+      future: Api.getPerformanceApproaching(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('에러: ${snapshot.error}');
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Text('데이터 없음');
+        } else {
+          List<Performance> performances = snapshot.data!;
+          List<Performance> firstList = performances.sublist(0, 3);
+          List<Performance> secondList = performances.sublist(3, 6);
 
-    // 첫 번째 리스트의 공연 정보
-    List<Concert> firstList = deadConcerts.sublist(0, 3);
-
-    // 두 번째 리스트의 공연 정보
-    List<Concert> secondList = deadConcerts.sublist(3, 6);
-
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          const SizedBox(width: 10.0),
-          _buildConcertList(context, firstList),
-          const SizedBox(width: 5.0),
-          _buildConcertList(context, secondList),
-          const SizedBox(width: 15.0),
-        ],
-      ),
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                const SizedBox(width: 10.0),
+                _buildPerformanceList(context, firstList),
+                const SizedBox(width: 5.0),
+                _buildPerformanceList(context, secondList),
+                const SizedBox(width: 15.0),
+              ],
+            ),
+          );
+        }
+      },
     );
   }
 
-  Widget _buildConcertList(BuildContext context, List<Concert> concerts) {
+  Widget _buildPerformanceList(
+      BuildContext context, List<Performance> performances) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: List.generate(concerts.length, (index) {
-          Concert concert = concerts[index];
+        children: List.generate(performances.length, (index) {
+          Performance performance = performances[index];
           return Padding(
             padding: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 5.0),
             child: GestureDetector(
-              onTap: () {
-                Get.to(
-                  const ConcertInfo(),
-                  arguments: concert,
-                );
-              },
+              onTap: () {},
               child: Card(
                 color: Colors.white,
                 elevation: 0,
@@ -66,7 +73,7 @@ class DeadConcertCard extends StatelessWidget {
                           bottomLeft: Radius.circular(10.0),
                         ),
                         child: Image.network(
-                          concert.imgUrl ?? "",
+                          performance.poster ?? '',
                           width: 90,
                           fit: BoxFit.cover,
                         ),
@@ -81,7 +88,7 @@ class DeadConcertCard extends StatelessWidget {
                             children: [
                               const SizedBox(height: 12.0),
                               Text(
-                                concert.title ?? "",
+                                performance.name ?? '',
                                 style: const TextStyle(
                                   fontSize: 16.5,
                                   fontWeight: FontWeight.bold,
@@ -91,25 +98,29 @@ class DeadConcertCard extends StatelessWidget {
                               ),
                               const SizedBox(height: 3.0),
                               Text(
-                                '공연일 : ${DateFormat('yyyy-MM-dd').format(concert.date!)} ${DateFormat('HH:mm').format(concert.date!)}',
+                                '${performance.startDate} ~ ${performance.endDate}',
                                 style: const TextStyle(
                                   fontSize: 12.0,
                                 ),
                               ),
                               Text(
-                                '장소 : ${concert.place}',
+                                '${performance.time}',
+                                style: const TextStyle(
+                                  fontSize: 12.0,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                '${performance.place}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                   fontSize: 12.0,
                                 ),
                               ),
                               Text(
-                                '관람 연령 : 만 ${concert.age} 세 이상',
-                                style: const TextStyle(
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                              Text(
-                                '관람 시간 : 총 ${concert.time} 분',
+                                '${performance.age}',
                                 style: const TextStyle(
                                   fontSize: 12.0,
                                 ),
