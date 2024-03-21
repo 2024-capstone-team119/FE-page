@@ -1,3 +1,4 @@
+import 'package:allcon/Pages/Concert/PerformaceDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:allcon/model/performance_model.dart';
@@ -54,7 +55,9 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
           return Padding(
             padding: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 5.0),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                PerformanceDetail(performance: performance);
+              },
               child: Card(
                 color: Colors.white,
                 elevation: 0,
