@@ -35,7 +35,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
             children: [
               InfoHeader(context),
               InfoDetailImg(),
-              SizedBox(height: 65), // 수정된 부분
+              SizedBox(height: 70), // 수정된 부분
             ],
           ),
         ),
@@ -47,13 +47,14 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
           onPressed: () {
             // 예매처 이동
           },
-          backgroundColor: Colors.purple[50],
+          backgroundColor: Mint,
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
                 '예매하기',
                 style: TextStyle(
+                  color: Colors.white,
                   fontSize: 18.0,
                   fontWeight: FontWeight.w500,
                 ),
@@ -70,93 +71,163 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
   }
 
   Widget InfoHeader(BuildContext context) {
-    return Stack(
+    return Column(
       children: [
-        Container(
-            child: Stack(
+        Stack(
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 235,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(widget.performance.poster ?? ""),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-                  child: Container(
-                    color: Colors.black.withOpacity(0),
-                  )),
+            Column(
+              children: [
+                Container(
+                    child: Stack(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 180,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(widget.performance.poster ?? ""),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+                          child: Container(
+                            color: Colors.black.withOpacity(0),
+                          )),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 180,
+                      color: Colors.black.withOpacity(0.2),
+                    ),
+                  ],
+                )),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 50,
+                )
+              ],
             ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 240,
-              color: Colors.black.withOpacity(0.2),
-            ),
-          ],
-        )),
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
+            Positioned(
+              bottom: 10,
+              left: 25,
+              child: Expanded(
                 child: Image.network(
                   widget.performance.poster ?? "",
                   height: 200,
                   fit: BoxFit.contain,
                 ),
               ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.performance.name ?? 'Unknown',
-                      style: const TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                      softWrap: true,
-                    ),
-                    SizedBox(height: 5.0),
-                    Text(
+            ),
+            Positioned(
+              top: 186,
+              right: 15,
+              child: IconButton(
+                icon: Icon(
+                  isFavorite ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
+                  color: isFavorite ? Colors.redAccent : Colors.black26,
+                  size: 30.0,
+                ),
+                color: Colors.redAccent,
+                onPressed: () {
+                  // 버튼 클릭 시 수행할 작업
+                  setState(() {
+                    isFavorite = !isFavorite;
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 0.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                widget.performance.name ?? 'Unknown',
+                style: const TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+                softWrap: true,
+              ),
+              SizedBox(height: 3),
+              Row(
+                children: [
+                  Text(
+                    widget.performance.genre ?? "",
+                    style: TextStyle(color: Colors.black54, fontSize: 12),
+                  ),
+                  SizedBox(width: 5),
+                  Text(
+                    widget.performance.area ?? "",
+                    style: TextStyle(color: Colors.black54, fontSize: 12),
+                  ),
+                  SizedBox(width: 5),
+                  Text(
+                    widget.performance.age ?? "",
+                    style: TextStyle(color: Colors.black54, fontSize: 12),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10.0),
+              Row(
+                children: [
+                  Icon(CupertinoIcons.music_mic, size: 18),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
                       widget.performance.cast ?? 'Unknown',
                       style: const TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        fontSize: 15.0,
+                        color: Colors.black,
                       ),
                       softWrap: true,
                     ),
-                  ],
-                ),
-              )
+                  ),
+                ],
+              ),
+              SizedBox(height: 3),
+              Row(
+                children: [
+                  Icon(CupertinoIcons.placemark, size: 18),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      widget.performance.place ?? 'Unknown',
+                      style: const TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.black,
+                      ),
+                      softWrap: true,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 3),
+              Row(
+                children: [
+                  Icon(CupertinoIcons.calendar, size: 18),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      '${widget.performance.startDate} ~ ${widget.performance.endDate}' ??
+                          'Unknown',
+                      style: const TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.black,
+                      ),
+                      softWrap: true,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
-        ),
-        Positioned(
-          bottom: 10,
-          right: 15,
-          child: IconButton(
-            icon: Icon(
-              isFavorite ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
-              color: isFavorite ? Colors.redAccent : lightGray,
-              size: 30.0,
-            ),
-            color: Colors.redAccent,
-            onPressed: () {
-              // 버튼 클릭 시 수행할 작업
-              setState(() {
-                isFavorite = !isFavorite;
-              });
-            },
-          ),
-        ),
+        )
       ],
     );
   }
@@ -165,14 +236,35 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
     String imageUrl = widget.performance.imgs.toString() ?? "";
     imageUrl = imageUrl.replaceAll(RegExp(r'[\[\]]'), '');
 
-    return Padding(
-      padding: const EdgeInsets.all(15),
-      child: imageUrl.isNotEmpty
-          ? Image.network(
-              imageUrl,
-              fit: BoxFit.contain,
-            )
-          : SizedBox.shrink(),
-    );
+    return imageUrl.isEmpty || imageUrl == "null"
+        ? Container()
+        : Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15.0, 25.0, 15.0, 0.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 35,
+                  decoration: BoxDecoration(
+                    color: lightGray,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '공연정보',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Image.network(
+                  imageUrl,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ],
+          );
   }
 }
