@@ -5,7 +5,8 @@ class CustomTextFormField extends StatelessWidget {
   final funValidator;
   final String? value;
 
-  const CustomTextFormField({super.key, 
+  const CustomTextFormField({
+    super.key,
     required this.hint,
     required this.funValidator,
     this.value,

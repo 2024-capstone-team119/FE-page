@@ -222,128 +222,141 @@ class _CalendarState extends State<Calendar> {
     final DateTime endOfWeek = now.add(const Duration(days: 7));
     final filteredSchedules = schedules.entries.where(
         (entry) => entry.key.isAfter(now) && entry.key.isBefore(endOfWeek));
-    return Column(
-      children: [
-        const Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(width: 12.0),
-            Padding(
-              padding: EdgeInsets.all(6.0),
-              child: Row(
-                children: [
-                  Text(
-                    "UPCOMING",
-                    style: TextStyle(
-                      color: Colors.deepPurple,
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(width: 3.0),
-                  Text(
-                    'O',
-                    style: TextStyle(
-                      color: Colors.deepPurple,
-                      fontSize: 30.0,
-                      fontFamily: 'Cafe24Moyamoya',
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 200,
-          child: ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: filteredSchedules.length,
-            itemBuilder: (context, index) {
-              final eventDate = filteredSchedules.elementAt(index).key;
-              final eventList = filteredSchedules.elementAt(index).value;
-              return SizedBox(
-                width: MediaQuery.of(context).size.width * 0.95,
-                child: Card(
-                  color: lavenderColor,
-                  elevation: 0.1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
-                        child: Text(
-                          DateFormat.MMMd().format(eventDate),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20.0,
+    return filteredSchedules.isEmpty
+        ? Container()
+        : Padding(
+            padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+            child: Column(
+              children: [
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 12.0),
+                    Padding(
+                      padding: EdgeInsets.all(5.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            "UPCOMING",
+                            style: TextStyle(
+                              color: Colors.deepPurple,
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
+                          SizedBox(width: 3.0),
+                          Text(
+                            'O',
+                            style: TextStyle(
+                              color: Colors.deepPurple,
+                              fontSize: 30.0,
+                              fontFamily: 'Cafe24Moyamoya',
+                            ),
+                          )
+                        ],
                       ),
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
-                        child: Divider(),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(15.0, 4.0, 15.0, 4.0),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: eventList.length,
-                            itemBuilder: (context, index) {
-                              final event = eventList[index];
-                              return InkWell(
-                                onTap: () {
-                                  print('Button tapped: ${event.title}');
-                                },
-                                child: Row(
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 200,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: filteredSchedules.length,
+                    itemBuilder: (context, index) {
+                      final eventDate = filteredSchedules.elementAt(index).key;
+                      final eventList =
+                          filteredSchedules.elementAt(index).value;
+                      return Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.84,
+                              child: Card(
+                                color: lavenderColor,
+                                elevation: 0.1,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(
-                                          0.0, 8.0, 15.0, 8.0),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          color: Colors.deepPurple,
+                                          15.0, 15.0, 15.0, 0.0),
+                                      child: Text(
+                                        DateFormat.MMMd().format(eventDate),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 20.0,
                                         ),
-                                        width: 5.0,
-                                        height: 40.0,
                                       ),
                                     ),
+                                    const Padding(
+                                      padding: EdgeInsets.fromLTRB(
+                                          8.0, 0.0, 8.0, 0.0),
+                                      child: Divider(),
+                                    ),
                                     Expanded(
-                                      child: SizedBox(
-                                        width: double.infinity,
-                                        child: Text(
-                                          event.title,
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15.0,
-                                          ),
-                                          overflow: TextOverflow
-                                              .ellipsis, // 텍스트가 너무 길 경우 자동으로 줄바꿈되도록 설정
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            15.0, 4.0, 15.0, 4.0),
+                                        child: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: eventList.length,
+                                          itemBuilder: (context, index) {
+                                            final event = eventList[index];
+                                            return InkWell(
+                                              onTap: () {
+                                                print(
+                                                    'Button tapped: ${event.title}');
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(
+                                                        0.0, 8.0, 12.0, 8.0),
+                                                    child: Icon(
+                                                      CupertinoIcons.music_mic,
+                                                      size: 20.0,
+                                                      color: Colors.deepPurple,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: SizedBox(
+                                                      width: double.infinity,
+                                                      child: Text(
+                                                        event.title,
+                                                        style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 15.0,
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis, // 텍스트가 너무 길 경우 자동으로 줄바꿈되도록 설정
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
-                              );
-                            },
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
+                          SizedBox(width: 12),
+                        ],
+                      );
+                    },
                   ),
                 ),
-              );
-            },
-          ),
-        ),
-        const SizedBox(height: 36.0),
-      ],
-    );
+                const SizedBox(height: 36.0),
+              ],
+            ),
+          );
   }
 }
