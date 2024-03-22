@@ -1,6 +1,7 @@
 import 'package:allcon/Pages/Concert/PerformaceDetail.dart';
 import 'package:allcon/Util/Loading.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/service/api.dart';
@@ -57,7 +58,7 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
             padding: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 5.0),
             child: GestureDetector(
               onTap: () {
-                PerformanceDetail(performance: performance);
+                Get.to(() => PerformanceDetail(performance: performance));
               },
               child: Card(
                 color: Colors.white,
@@ -85,7 +86,7 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
                       const SizedBox(width: 16),
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.all(0.0),
+                          padding: const EdgeInsets.only(right: 8.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +101,18 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              const SizedBox(height: 3.0),
+                              const SizedBox(height: 2.0),
+                              performance.cast != null &&
+                                      performance.cast!.isNotEmpty
+                                  ? Text(
+                                      '${performance.cast}',
+                                      style: const TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    )
+                                  : SizedBox.shrink(),
                               Text(
                                 '${performance.startDate} ~ ${performance.endDate}',
                                 style: const TextStyle(
@@ -108,23 +120,9 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
                                 ),
                               ),
                               Text(
-                                '${performance.time}',
-                                style: const TextStyle(
-                                  fontSize: 12.0,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Text(
                                 '${performance.place}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                              Text(
-                                '${performance.age}',
                                 style: const TextStyle(
                                   fontSize: 12.0,
                                 ),

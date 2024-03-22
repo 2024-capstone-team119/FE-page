@@ -59,23 +59,27 @@ class _WatchDeadConcertState extends State<WatchDeadConcert> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              snapshot.data![imgIndex].cast != null &&
+                                      snapshot.data![imgIndex].cast!.isNotEmpty
+                                  ? Text(
+                                      snapshot.data![imgIndex].name.toString(),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  : SizedBox.shrink(),
+                              const SizedBox(height: 5),
                               Text(
-                                snapshot.data![imgIndex].name.toString(),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                snapshot.data![imgIndex].name.toString() ??
+                                snapshot.data![imgIndex].cast.toString() ??
                                     'Unknown Performer',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(fontSize: 14),
                               ),
+                              const SizedBox(height: 2),
                               Text(
                                 '${snapshot.data![imgIndex].startDate} ~ ${snapshot.data![imgIndex].endDate}'
                                     .toString(),

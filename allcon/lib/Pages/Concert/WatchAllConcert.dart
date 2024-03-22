@@ -67,14 +67,15 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: 5),
                               Text(
-                                snapshot.data![imgIndex].name.toString() ??
+                                snapshot.data![imgIndex].cast.toString() ??
                                     'Unknown Performer',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(fontSize: 14),
                               ),
+                              const SizedBox(height: 2),
                               Text(
                                 '${snapshot.data![imgIndex].startDate} ~ ${snapshot.data![imgIndex].endDate}'
                                     .toString(),

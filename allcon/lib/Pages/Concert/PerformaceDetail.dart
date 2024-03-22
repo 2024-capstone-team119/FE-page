@@ -29,11 +29,16 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
       appBar: const MyAppBar(
         text: "상세 정보",
       ),
-      body: Column(
-        children: [
-          InfoHeader(context),
-          // InfoDetail(context),
-        ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              InfoHeader(context),
+              InfoDetailImg(),
+              SizedBox(height: 65), // 수정된 부분
+            ],
+          ),
+        ),
       ),
       floatingActionButton: SizedBox(
         width: MediaQuery.of(context).size.width * 0.88,
@@ -88,7 +93,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 240,
-              color: Colors.black.withOpacity(0.15),
+              color: Colors.black.withOpacity(0.2),
             ),
           ],
         )),
@@ -120,7 +125,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                     ),
                     SizedBox(height: 5.0),
                     Text(
-                      widget.performance.name ?? 'Unknown',
+                      widget.performance.cast ?? 'Unknown',
                       style: const TextStyle(
                         fontSize: 12.0,
                         fontWeight: FontWeight.w600,
@@ -155,17 +160,24 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
       ],
     );
   }
-}
 
-/*Widget InfoDetail(BuildContext context) {
-  return Container(
-    width: MediaQuery.of(context).size.width,
-    height: 235,
-    decoration: BoxDecoration(
-      image: DecorationImage(
-        image: NetworkImage(widget.performance.imgs ?? ""),
-        fit: BoxFit.cover,
+  Widget InfoDetailImg() {
+    String imageUrl = widget.performance.imgs.toString() ?? "";
+    imageUrl = imageUrl.replaceAll(RegExp(r'[\[\]]'), '');
+
+    return Padding(
+      padding: const EdgeInsets.all(12.5),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        // 높이 수정
+        height: MediaQuery.of(context).size.height * 10,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(imageUrl),
+            fit: BoxFit.fill,
+          ),
+        ),
       ),
-    ),
-  );
-}*/
+    );
+  }
+}
