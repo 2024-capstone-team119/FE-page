@@ -2,12 +2,11 @@ import 'package:allcon/Pages/Concert/PerformaceDetail.dart';
 import 'package:allcon/Util/Loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/service/api.dart';
 
 class DeadConcertCard extends StatefulWidget {
-  const DeadConcertCard({Key? key}) : super(key: key);
+  const DeadConcertCard({super.key});
 
   @override
   State<DeadConcertCard> createState() => _DeadConcertCardState();
@@ -20,7 +19,7 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
       future: Api.getPerformanceApproaching(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Loading();
+          return const Loading();
         } else if (snapshot.hasError) {
           return Text('에러: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -112,7 +111,7 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     )
-                                  : SizedBox.shrink(),
+                                  : const SizedBox.shrink(),
                               Text(
                                 '${performance.startDate} ~ ${performance.endDate}',
                                 style: const TextStyle(

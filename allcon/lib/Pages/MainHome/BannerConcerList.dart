@@ -1,4 +1,3 @@
-import 'package:allcon/Data/Concert.dart';
 import 'package:allcon/Pages/Concert/PerformaceDetail.dart';
 import 'package:allcon/Util/Loading.dart';
 import 'package:allcon/Util/Theme.dart';
@@ -9,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BannerConcerList extends StatefulWidget {
-  const BannerConcerList({Key? key}) : super(key: key);
+  const BannerConcerList({super.key});
 
   @override
   State<BannerConcerList> createState() => _BannerConcerListState();
@@ -22,7 +21,7 @@ class _BannerConcerListState extends State<BannerConcerList> {
       future: Api.getPerformanceNew(),
       builder: (context, AsyncSnapshot<List<Performance>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Loading();
+          return const Loading();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

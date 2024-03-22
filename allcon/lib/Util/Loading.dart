@@ -12,7 +12,7 @@ class Loading extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         color: lightGray,
-        child: Center(
+        child: const Center(
             child: SpinKitWave(
           color: Colors.deepPurple,
           size: 50.0,

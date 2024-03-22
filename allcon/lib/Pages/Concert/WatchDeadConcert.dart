@@ -1,12 +1,9 @@
-import 'package:allcon/Data/Concert.dart';
-import 'package:allcon/Data/Sample/concert_sample.dart';
 import 'package:allcon/Pages/Concert/PerformaceDetail.dart';
 import 'package:allcon/Util/Loading.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:allcon/pages/concert/PerformaceDetail.dart' as concertinfo;
 import 'package:allcon/service/api.dart';
 
 class WatchDeadConcert extends StatefulWidget {
@@ -26,7 +23,7 @@ class _WatchDeadConcertState extends State<WatchDeadConcert> {
         future: Api.getPerformanceApproaching(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Loading();
+            return const Loading();
           } else if (snapshot.hasError) {
             return Text('에러: ${snapshot.error}');
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -70,7 +67,7 @@ class _WatchDeadConcertState extends State<WatchDeadConcert> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     )
-                                  : SizedBox.shrink(),
+                                  : const SizedBox.shrink(),
                               const SizedBox(height: 5),
                               Text(
                                 snapshot.data![imgIndex].cast.toString() ??

@@ -3,18 +3,13 @@ import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/Widget/app_bar.dart';
-import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
-import 'package:get/get.dart';
-import 'package:allcon/Data/Concert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:allcon/model/performance_model.dart';
 
 class PerformanceDetail extends StatefulWidget {
   final Performance performance;
 
-  const PerformanceDetail({Key? key, required this.performance})
-      : super(key: key);
+  const PerformanceDetail({super.key, required this.performance});
 
   @override
   State<PerformanceDetail> createState() => _PerformanceDetailState();
@@ -35,7 +30,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
             children: [
               InfoHeader(context),
               InfoDetailImg(),
-              SizedBox(height: 70), // 수정된 부분
+              const SizedBox(height: 70), // 수정된 부분
             ],
           ),
         ),
@@ -102,7 +97,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                     ),
                   ],
                 )),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 50,
                 )
@@ -154,30 +149,30 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                 ),
                 softWrap: true,
               ),
-              SizedBox(height: 3),
+              const SizedBox(height: 3),
               Row(
                 children: [
                   Text(
                     widget.performance.genre ?? "",
-                    style: TextStyle(color: Colors.black54, fontSize: 12),
+                    style: const TextStyle(color: Colors.black54, fontSize: 12),
                   ),
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                   Text(
                     widget.performance.area ?? "",
-                    style: TextStyle(color: Colors.black54, fontSize: 12),
+                    style: const TextStyle(color: Colors.black54, fontSize: 12),
                   ),
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                   Text(
                     widget.performance.age ?? "",
-                    style: TextStyle(color: Colors.black54, fontSize: 12),
+                    style: const TextStyle(color: Colors.black54, fontSize: 12),
                   ),
                 ],
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               Row(
                 children: [
-                  Icon(CupertinoIcons.music_mic, size: 18),
-                  SizedBox(width: 8),
+                  const Icon(CupertinoIcons.music_mic, size: 18),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       widget.performance.cast ?? 'Unknown',
@@ -190,11 +185,11 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                   ),
                 ],
               ),
-              SizedBox(height: 3),
+              const SizedBox(height: 3),
               Row(
                 children: [
-                  Icon(CupertinoIcons.placemark, size: 18),
-                  SizedBox(width: 8),
+                  const Icon(CupertinoIcons.placemark, size: 18),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       widget.performance.place ?? 'Unknown',
@@ -207,11 +202,11 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                   ),
                 ],
               ),
-              SizedBox(height: 3),
+              const SizedBox(height: 3),
               Row(
                 children: [
-                  Icon(CupertinoIcons.calendar, size: 18),
-                  SizedBox(width: 8),
+                  const Icon(CupertinoIcons.calendar, size: 18),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       '${widget.performance.startDate} ~ ${widget.performance.endDate}' ??
@@ -249,7 +244,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                     color: lightGray,
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       '공연정보',
                       style: TextStyle(fontSize: 18),

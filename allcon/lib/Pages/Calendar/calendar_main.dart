@@ -312,8 +312,8 @@ class _CalendarState extends State<Calendar> {
                                               },
                                               child: Row(
                                                 children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets
+                                                  const Padding(
+                                                    padding: EdgeInsets
                                                         .fromLTRB(
                                                         0.0, 8.0, 12.0, 8.0),
                                                     child: Icon(
@@ -348,7 +348,7 @@ class _CalendarState extends State<Calendar> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 12),
+                          const SizedBox(width: 12),
                         ],
                       );
                     },
