@@ -1,4 +1,5 @@
 import 'package:allcon/Data/Concert.dart';
+import 'package:allcon/Util/Loading.dart';
 import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/service/api.dart';
@@ -19,7 +20,7 @@ class _BannerConcerListState extends State<BannerConcerList> {
       future: Api.getPerformanceNew(),
       builder: (context, AsyncSnapshot<List<Performance>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return Loading();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

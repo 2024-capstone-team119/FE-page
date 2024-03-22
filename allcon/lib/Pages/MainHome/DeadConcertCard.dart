@@ -1,4 +1,5 @@
 import 'package:allcon/Pages/Concert/PerformaceDetail.dart';
+import 'package:allcon/Util/Loading.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:allcon/model/performance_model.dart';
@@ -18,7 +19,7 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
       future: Api.getPerformanceApproaching(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return Loading();
         } else if (snapshot.hasError) {
           return Text('에러: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
