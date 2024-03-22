@@ -166,18 +166,13 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
     imageUrl = imageUrl.replaceAll(RegExp(r'[\[\]]'), '');
 
     return Padding(
-      padding: const EdgeInsets.all(12.5),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        // 높이 수정
-        height: MediaQuery.of(context).size.height * 10,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(imageUrl),
-            fit: BoxFit.fill,
-          ),
-        ),
-      ),
+      padding: const EdgeInsets.all(15),
+      child: imageUrl.isNotEmpty
+          ? Image.network(
+              imageUrl,
+              fit: BoxFit.contain,
+            )
+          : SizedBox.shrink(),
     );
   }
 }
