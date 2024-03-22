@@ -32,6 +32,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
       body: Column(
         children: [
           InfoHeader(context),
+          // InfoDetail(context),
         ],
       ),
       floatingActionButton: SizedBox(
@@ -156,18 +157,15 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
   }
 }
 
-/*class ConcertInfoPage extends StatelessWidget {
-  final String content;
-
-  const ConcertInfoPage(this.content, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        content,
-        style: const TextStyle(fontSize: 16.0),
+/*Widget InfoDetail(BuildContext context) {
+  return Container(
+    width: MediaQuery.of(context).size.width,
+    height: 235,
+    decoration: BoxDecoration(
+      image: DecorationImage(
+        image: NetworkImage(widget.performance.imgs ?? ""),
+        fit: BoxFit.cover,
       ),
-    );
-  }
+    ),
+  );
 }*/
