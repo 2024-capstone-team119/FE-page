@@ -1,11 +1,9 @@
-import 'package:allcon/Data/Concert.dart';
-import 'package:allcon/Data/Sample/concert_sample.dart';
 import 'package:allcon/Pages/Concert/PerformaceDetail.dart';
+import 'package:allcon/Util/Loading.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:allcon/pages/concert/PerformaceDetail.dart' as concertinfo;
 import 'package:allcon/service/api.dart';
 
 class WatchDeadConcert extends StatefulWidget {
@@ -25,7 +23,7 @@ class _WatchDeadConcertState extends State<WatchDeadConcert> {
         future: Api.getPerformanceApproaching(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return const Loading();
           } else if (snapshot.hasError) {
             return Text('에러: ${snapshot.error}');
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -58,23 +56,27 @@ class _WatchDeadConcertState extends State<WatchDeadConcert> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              snapshot.data![imgIndex].cast != null &&
+                                      snapshot.data![imgIndex].cast!.isNotEmpty
+                                  ? Text(
+                                      snapshot.data![imgIndex].name.toString(),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  : const SizedBox.shrink(),
+                              const SizedBox(height: 5),
                               Text(
-                                snapshot.data![imgIndex].name.toString(),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                snapshot.data![imgIndex].name.toString() ??
+                                snapshot.data![imgIndex].cast.toString() ??
                                     'Unknown Performer',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(fontSize: 14),
                               ),
+                              const SizedBox(height: 2),
                               Text(
                                 '${snapshot.data![imgIndex].startDate} ~ ${snapshot.data![imgIndex].endDate}'
                                     .toString(),

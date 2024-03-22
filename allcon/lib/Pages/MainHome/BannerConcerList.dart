@@ -1,12 +1,14 @@
-import 'package:allcon/Data/Concert.dart';
+import 'package:allcon/Pages/Concert/PerformaceDetail.dart';
+import 'package:allcon/Util/Loading.dart';
 import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/service/api.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BannerConcerList extends StatefulWidget {
-  const BannerConcerList({Key? key}) : super(key: key);
+  const BannerConcerList({super.key});
 
   @override
   State<BannerConcerList> createState() => _BannerConcerListState();
@@ -19,7 +21,7 @@ class _BannerConcerListState extends State<BannerConcerList> {
       future: Api.getPerformanceNew(),
       builder: (context, AsyncSnapshot<List<Performance>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const Loading();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -48,10 +50,7 @@ class _BannerConcerListState extends State<BannerConcerList> {
                 Performance performance = performances[index];
                 return GestureDetector(
                   onTap: () {
-                    print('배너 클릭 성공');
-                    /* Get.to(
-
-                    );*/
+                    Get.to(() => PerformanceDetail(performance: performance));
                   },
                   child: Stack(
                     children: [

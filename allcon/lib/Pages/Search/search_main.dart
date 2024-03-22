@@ -1,10 +1,8 @@
 import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
-import 'package:allcon/pages/concert/PerformaceDetail.dart' as concertinfo;
 import 'package:allcon/Data/Concert.dart';
 import 'package:allcon/Data/Sample/concert_sample.dart';
-import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 
 class Search extends StatefulWidget {
