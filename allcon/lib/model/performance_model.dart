@@ -4,6 +4,7 @@ class Performance {
   final String? mid;
   final String? id;
   final String? name;
+  final String? cast;
   final String? startDate;
   final String? endDate;
   final String? price;
@@ -23,6 +24,7 @@ class Performance {
     required this.mid,
     required this.id,
     required this.name,
+    required this.cast,
     required this.startDate,
     required this.endDate,
     required this.price,
@@ -44,6 +46,7 @@ class Performance {
       mid: json['_id'],
       id: json['id'],
       name: json['name'],
+      cast: json['cast'],
       startDate: json['startDate'],
       endDate: json['endDate'],
       price: json['price'],

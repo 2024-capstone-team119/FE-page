@@ -1,12 +1,10 @@
-import 'package:allcon/Data/Concert.dart';
-import 'package:allcon/Data/Sample/concert_sample.dart';
 import 'package:allcon/Pages/Concert/PerformaceDetail.dart';
+import 'package:allcon/Util/Loading.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/service/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:allcon/pages/concert/PerformaceDetail.dart' as concertinfo;
 
 class WatchAllConcert extends StatefulWidget {
   const WatchAllConcert({super.key});
@@ -25,7 +23,7 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
         future: Api.getPerformance(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return const Loading();
           } else if (snapshot.hasError) {
             return Text('에러: ${snapshot.error}');
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -66,14 +64,15 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: 5),
                               Text(
-                                snapshot.data![imgIndex].name.toString() ??
+                                snapshot.data![imgIndex].cast.toString() ??
                                     'Unknown Performer',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(fontSize: 14),
                               ),
+                              const SizedBox(height: 2),
                               Text(
                                 '${snapshot.data![imgIndex].startDate} ~ ${snapshot.data![imgIndex].endDate}'
                                     .toString(),

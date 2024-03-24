@@ -20,7 +20,7 @@ class MyProfile extends StatelessWidget {
   Widget userProfile(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.51,
+      height: MediaQuery.of(context).size.height * 0.46,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -37,7 +37,6 @@ class MyProfile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          style: const ButtonStyle(),
                           onPressed: () {
                             _pcon.rollback();
                           },
