@@ -56,7 +56,10 @@ class _ContentDetailState extends State<MyContentDetail> {
                     children: [
                       Obx(
                         () => Text(
-                          _contentController.getContent(widget.content.postId)?.title ?? '',
+                          _contentController
+                                  .getContent(widget.content.postId)
+                                  ?.title ??
+                              '',
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 25,
@@ -114,7 +117,10 @@ class _ContentDetailState extends State<MyContentDetail> {
                   const SizedBox(height: 16),
                   Obx(
                     () => Text(
-                      _contentController.getContent(widget.content.postId)?.content ?? '',
+                      _contentController
+                              .getContent(widget.content.postId)
+                              ?.content ??
+                          '',
                     ),
                   ),
                   const SizedBox(height: 5),
@@ -239,8 +245,8 @@ class _ContentDetailState extends State<MyContentDetail> {
   void addComment(String comment) {
     if (comment.isNotEmpty) {
       setState(() {
-        // Add comment to the list
-        widget.content.comment.add(comment);
+        // Update content controller's state
+        _contentController.updateComment(widget.content.postId, comment);
         // Clear the input field
         _commentController.clear();
       });

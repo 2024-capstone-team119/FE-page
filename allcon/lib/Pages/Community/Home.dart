@@ -5,6 +5,7 @@ import 'package:allcon/Pages/Community/Sub/TabContent/ContentListView.dart';
 import 'package:allcon/Pages/Community/controller/content_controller.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -37,9 +38,31 @@ class _MyCommunityState extends State<MyCommunity>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(
+      appBar: MyAppBar(
         text: "커뮤니티",
         automaticallyImplyLeading: false,
+        actions: TextButton(
+          onPressed: () {
+            Get.to(MyContentLikes(contentController: _contentController));
+          },
+          child: const Row(
+            children: [
+              Icon(
+                Icons.favorite,
+                size: 14.0,
+              ),
+              SizedBox(
+                width: 5.0,
+              ),
+              Text(
+                'Likes',
+                style: TextStyle(
+                  fontSize: 14.0,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar: const MyBottomNavigationBar(
         currentIndex: 3,
@@ -48,18 +71,25 @@ class _MyCommunityState extends State<MyCommunity>
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          FloatingActionButton(
-            onPressed: () {
-              Get.to(MyContentLikes(contentController: _contentController));
-            },
-            child: const Icon(Icons.favorite),
-          ),
-          const SizedBox(width: 12),
-          FloatingActionButton(
-            onPressed: () {
-              Get.to(const MyContentWrite());
-            },
-            child: const Icon(Icons.edit),
+          SizedBox(
+            width: 100.0,
+            height: 40.0,
+            child: FloatingActionButton(
+              onPressed: () {
+                Get.to(const MyContentWrite());
+              },
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.edit,
+                    size: 15.0,
+                  ),
+                  SizedBox(width: 13.0),
+                  Text('글쓰기'),
+                ],
+              ),
+            ),
           ),
         ],
       ),
