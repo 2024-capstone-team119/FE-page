@@ -6,7 +6,7 @@ import 'package:allcon/Widget/custom_text_area.dart';
 import 'package:allcon/Widget/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-
+import 'package:allcon/Data/Content.dart';
 import 'package:get/get.dart';
 
 class MyContentWrite extends StatefulWidget {
@@ -18,6 +18,8 @@ class MyContentWrite extends StatefulWidget {
 
 class _ContentWriteState extends State<MyContentWrite> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +32,13 @@ class _ContentWriteState extends State<MyContentWrite> {
           child: ListView(
             children: [
               CustomTextFormField(
+                controller: _titleController,
                 hint: "제목",
                 funValidator: validateTitle(),
               ),
               const SizedBox(height: 16),
               CustomTextArea(
+                controller: _contentController,
                 hint: "내용",
                 funValidator: validateContent(),
               ),
@@ -70,6 +74,20 @@ class _ContentWriteState extends State<MyContentWrite> {
                   text: "업로드",
                   funPageRoute: () {
                     if (_formKey.currentState!.validate()) {
+                      Content newContent = Content(
+                        postId: ContentController().contents.length + 1,
+                        title: _titleController.text,
+                        content: _contentController.text,
+                        date: DateTime.now(),
+                        isLike: false,
+                        like: 0,
+                        comment: [],
+                      );
+                      ContentController().addContent(newContent);
+                      // 업로드 후 초기화
+                      _titleController.clear();
+                      _contentController.clear();
+                      // 홈 페이지로 이동
                       Get.to(() => const MyCommunity());
                     }
                   },
