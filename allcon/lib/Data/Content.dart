@@ -21,7 +21,7 @@ class Content {
 }
 
 // 커뮤니티 글목록 관리
-class ContentController extends GetxController {
+class ContentListController extends GetxController {
   var contents = <Content>[].obs;
   void addContent(Content content) {
     contents.add(content);

@@ -75,7 +75,7 @@ class _ContentWriteState extends State<MyContentWrite> {
                   funPageRoute: () {
                     if (_formKey.currentState!.validate()) {
                       Content newContent = Content(
-                        postId: ContentController().contents.length + 1,
+                        postId: ContentListController().contents.length + 1,
                         title: _titleController.text,
                         content: _contentController.text,
                         date: DateTime.now(),
@@ -83,7 +83,7 @@ class _ContentWriteState extends State<MyContentWrite> {
                         like: 0,
                         comment: [],
                       );
-                      ContentController().addContent(newContent);
+                      ContentListController().addContent(newContent);
                       // 업로드 후 초기화
                       _titleController.clear();
                       _contentController.clear();
