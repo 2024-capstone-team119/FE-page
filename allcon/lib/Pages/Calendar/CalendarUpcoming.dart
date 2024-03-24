@@ -22,7 +22,7 @@ class _CalendarUpcomingState extends State<CalendarUpcoming> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<List<Performance>>(
-        future: Api.getPerformance(),
+        future: Api.getPerformanceApproaching(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loading();
@@ -33,13 +33,11 @@ class _CalendarUpcomingState extends State<CalendarUpcoming> {
           } else {
             _performances = snapshot.data!;
             final DateTime now = DateTime.now();
-            final DateTime endOfWeek = now.add(const Duration(days: 7));
             final filteredSchedules =
                 Map<DateTime, List<Performance>>.fromEntries(_performances
                     .where((performance) {
               DateTime startDate = DateTime.parse(performance.startDate!);
-              DateTime endDate = DateTime.parse(performance.endDate!);
-              return startDate.isAfter(now) && endDate.isBefore(endOfWeek);
+              return startDate.isAfter(now);
             }).map((performance) => MapEntry(
                         DateTime.parse(performance.startDate!),
                         [performance])));

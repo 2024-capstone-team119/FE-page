@@ -19,15 +19,6 @@ class _CalendarDateState extends State<CalendarDate> {
   DateTime _selectedDay = DateTime.now();
   late List<Performance> performances = [];
 
-  // 선택한 날짜에 해당하는 공연 필터링
-  List<Performance> _getEventsForDay(DateTime day) {
-    return performances.where((performance) {
-      DateTime startDate = DateTime.parse(performance.startDate!);
-      DateTime endDate = DateTime.parse(performance.endDate!);
-      return startDate.isBefore(day) && endDate.isAfter(day);
-    }).toList();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +32,15 @@ class _CalendarDateState extends State<CalendarDate> {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Text('데이터 없음');
           } else {
-            performances = snapshot.data!;
+            List<Performance> getEventsForDay(DateTime day) {
+              performances = snapshot.data!;
+              return performances.where((performance) {
+                DateTime startDate = DateTime.parse(performance.startDate!);
+                DateTime endDate = DateTime.parse(performance.endDate!);
+                return startDate.isBefore(day) && endDate.isAfter(day);
+              }).toList();
+            }
+
             return TableCalendar(
               locale: 'ko_KR',
               firstDay: DateTime.utc(2021, 10, 16),
@@ -166,7 +165,7 @@ class _CalendarDateState extends State<CalendarDate> {
                   return null;
                 },
               ),
-              eventLoader: (day) => _getEventsForDay(day),
+              eventLoader: (day) => getEventsForDay(day),
             );
           }
         },
