@@ -101,17 +101,17 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               const SizedBox(height: 2.0),
-                              performance.cast != null &&
-                                      performance.cast!.isNotEmpty
-                                  ? Text(
-                                      '${performance.cast}',
-                                      style: const TextStyle(
-                                        fontSize: 12.0,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    )
-                                  : const SizedBox.shrink(),
+                              if (performance.cast != null &&
+                                  performance.cast != null &&
+                                  performance.cast!.trim().isNotEmpty)
+                                Text(
+                                  '${performance.cast}',
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               Text(
                                 '${performance.startDate} ~ ${performance.endDate}',
                                 style: const TextStyle(

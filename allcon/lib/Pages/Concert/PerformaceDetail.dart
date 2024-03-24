@@ -169,22 +169,25 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                 ],
               ),
               const SizedBox(height: 10.0),
-              Row(
-                children: [
-                  const Icon(CupertinoIcons.music_mic, size: 18),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      widget.performance.cast ?? 'Unknown',
-                      style: const TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.black,
+              // 수정하기
+              if (widget.performance.cast != null &&
+                  widget.performance.cast!.trim().isNotEmpty)
+                Row(
+                  children: [
+                    const Icon(CupertinoIcons.music_mic, size: 18),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        widget.performance.cast ?? 'Unknown',
+                        style: const TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.black,
+                        ),
+                        softWrap: true,
                       ),
-                      softWrap: true,
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
               const SizedBox(height: 3),
               Row(
                 children: [
