@@ -241,9 +241,9 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
           padding: const EdgeInsets.fromLTRB(15.0, 25.0, 15.0, 0.0),
           child: Container(
             width: MediaQuery.of(context).size.width,
-            height: 35,
+            height: 40,
             decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.3),
+              color: Colors.grey.withOpacity(0.15),
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: const Center(
