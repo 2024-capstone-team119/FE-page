@@ -69,13 +69,18 @@ class _WatchDeadConcertState extends State<WatchDeadConcert> {
                                     )
                                   : const SizedBox.shrink(),
                               const SizedBox(height: 5),
-                              Text(
-                                snapshot.data![imgIndex].cast.toString() ??
-                                    'Unknown Performer',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontSize: 14),
-                              ),
+                              if (snapshot.data != null &&
+                                  snapshot.data![imgIndex].cast != null &&
+                                  snapshot.data![imgIndex].cast!
+                                      .trim()
+                                      .isNotEmpty)
+                                Text(
+                                  snapshot.data![imgIndex].cast.toString() ??
+                                      'Unknown Performer',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(fontSize: 14),
+                                ),
                               const SizedBox(height: 2),
                               Text(
                                 '${snapshot.data![imgIndex].startDate} ~ ${snapshot.data![imgIndex].endDate}'

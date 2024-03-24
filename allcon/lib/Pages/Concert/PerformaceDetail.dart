@@ -29,8 +29,8 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
           child: Column(
             children: [
               InfoHeader(context),
-              InfoDetailImg(),
-              const SizedBox(height: 70), // 수정된 부분
+              InfoDetailImgs(),
+              const SizedBox(height: 70),
             ],
           ),
         ),
@@ -169,22 +169,25 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                 ],
               ),
               const SizedBox(height: 10.0),
-              Row(
-                children: [
-                  const Icon(CupertinoIcons.music_mic, size: 18),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      widget.performance.cast ?? 'Unknown',
-                      style: const TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.black,
+              // 수정하기
+              if (widget.performance.cast != null &&
+                  widget.performance.cast!.trim().isNotEmpty)
+                Row(
+                  children: [
+                    const Icon(CupertinoIcons.music_mic, size: 18),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        widget.performance.cast ?? 'Unknown',
+                        style: const TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.black,
+                        ),
+                        softWrap: true,
                       ),
-                      softWrap: true,
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
               const SizedBox(height: 3),
               Row(
                 children: [
@@ -227,39 +230,55 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
     );
   }
 
-  Widget InfoDetailImg() {
-    String imageUrl = widget.performance.imgs.toString() ?? "";
-    imageUrl = imageUrl.replaceAll(RegExp(r'[\[\]]'), '');
+  Widget InfoDetailImgs() {
+    List<String>? imgUrls = widget.performance.imgs;
+    String poster = widget.performance.poster.toString() ?? "";
 
-    return imageUrl.isEmpty || imageUrl == "null"
-        ? Container()
-        : Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15.0, 25.0, 15.0, 0.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 35,
-                  decoration: BoxDecoration(
-                    color: lightGray,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      '공연정보',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(15.0, 25.0, 15.0, 0.0),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 40,
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: const Center(
+              child: Text(
+                '공연정보',
+                style: TextStyle(fontSize: 18),
               ),
-              Padding(
-                padding: const EdgeInsets.all(15),
+            ),
+          ),
+        ),
+        SizedBox(height: 15.0),
+        if (imgUrls == null || imgUrls.isEmpty)
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Image.network(
+              poster,
+              fit: BoxFit.contain,
+            ),
+          )
+        else
+          ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: imgUrls.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Image.network(
-                  imageUrl,
-                  fit: BoxFit.contain,
+                  imgUrls[index],
+                  fit: BoxFit.cover,
                 ),
-              ),
-            ],
-          );
+              );
+            },
+          ),
+      ],
+    );
   }
 }
