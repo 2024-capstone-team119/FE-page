@@ -17,11 +17,11 @@ class CalendarDate extends StatefulWidget {
 
 class _CalendarDateState extends State<CalendarDate> {
   DateTime _selectedDay = DateTime.now();
-  late List<Performance> _performances = [];
+  late List<Performance> performances = [];
 
   // 선택한 날짜에 해당하는 공연 필터링
   List<Performance> _getEventsForDay(DateTime day) {
-    return _performances.where((performance) {
+    return performances.where((performance) {
       DateTime startDate = DateTime.parse(performance.startDate!);
       DateTime endDate = DateTime.parse(performance.endDate!);
       return startDate.isBefore(day) && endDate.isAfter(day);
@@ -41,7 +41,7 @@ class _CalendarDateState extends State<CalendarDate> {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Text('데이터 없음');
           } else {
-            _performances = snapshot.data!;
+            performances = snapshot.data!;
             return TableCalendar(
               locale: 'ko_KR',
               firstDay: DateTime.utc(2021, 10, 16),

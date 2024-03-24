@@ -24,10 +24,10 @@ class _CalendarState extends State<Calendar> {
         child: Column(
           children: <Widget>[
             CalendarDate(),
-            SizedBox(height: 28.0),
-            CalendarList(),
-            SizedBox(height: 28.0),
-            CalendarUpcoming(),
+            // SizedBox(height: 28.0),
+            // CalendarList(),
+            // SizedBox(height: 28.0),
+            // CalendarUpcoming(),
           ],
         ),
       ),
