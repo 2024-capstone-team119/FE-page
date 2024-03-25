@@ -7,5 +7,5 @@
 
 |Front|Front|
 |:-:|:-:|
-|<img src="https://avatars.githubusercontent.com/u/112616257?v=4" width=250px alt="antisdun"/>|<img src="https://avatars.githubusercontent.com/u/115553490?v=4" width=250px alt="hansigg"/>|
-|[antisdun](https://github.com/antisdun)|[ekkk1126](https://github.com/ekkk1126)|
+|<img src="https://avatars.githubusercontent.com/u/112616257?v=4" width=250px alt="antisdun"/>|<img src="https://avatars.githubusercontent.com/u/115553490?v=4" width=250px alt="ekkkabi"/>|
+|[antisdun](https://github.com/antisdun)|[ekkkabi](https://github.com/ekkkabi)|

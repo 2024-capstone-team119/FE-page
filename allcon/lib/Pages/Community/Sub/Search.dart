@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 class MyContentSearch extends StatefulWidget {
   final void Function(String) onSearch;
 
-  const MyContentSearch({Key? key, required this.onSearch}) : super(key: key);
+  const MyContentSearch({super.key, required this.onSearch});
 
   @override
   State<MyContentSearch> createState() => _ContentSearchState();
@@ -18,6 +18,8 @@ class _ContentSearchState extends State<MyContentSearch> {
       child: TextField(
         decoration: InputDecoration(
           hintText: '검색어를 입력해주세요.',
+          filled: true,
+          fillColor: Colors.white,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
           ),

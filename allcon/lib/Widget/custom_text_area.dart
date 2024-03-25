@@ -6,6 +6,7 @@ class CustomTextArea extends StatelessWidget {
   final String? value;
 
   const CustomTextArea({
+    super.key,
     required this.hint,
     required this.funValidator,
     this.value,
@@ -22,7 +23,7 @@ class CustomTextArea extends StatelessWidget {
         border: InputBorder.none,
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.redAccent),
+          borderSide: const BorderSide(color: Colors.redAccent),
         ),
       ),
     );

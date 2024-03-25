@@ -12,9 +12,9 @@ class MyContentLikes extends StatefulWidget {
   final ContentController contentController;
 
   const MyContentLikes({
-    Key? key,
+    super.key,
     required this.contentController,
-  }) : super(key: key);
+  });
 
   @override
   _MyContentLikesState createState() => _MyContentLikesState();
@@ -34,8 +34,8 @@ class _MyContentLikesState extends State<MyContentLikes> {
     List<Content> likedContents = _contentController.getAllLikedContents();
 
     if (likedContents.isEmpty) {
-      return Scaffold(
-        appBar: const MyAppBar(text: '커뮤니티'),
+      return const Scaffold(
+        appBar: MyAppBar(text: '커뮤니티'),
         body: Preparing(
           text: "좋아요 목록이 비었습니다.\n 채워주세요 :)",
         ),
@@ -84,25 +84,25 @@ class _MyContentLikesState extends State<MyContentLikes> {
                           style: const TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height: 4.0),
+                        const SizedBox(height: 4.0),
                         Row(
                           children: [
                             Text(
-                              "${DateFormat('yyyy-MM-dd').format(dateTime)}",
-                              style: TextStyle(
+                              DateFormat('yyyy-MM-dd').format(dateTime),
+                              style: const TextStyle(
                                 fontSize: 12.0,
                               ),
                             ),
-                            SizedBox(width: 8.0),
+                            const SizedBox(width: 8.0),
                             Text(
-                              "${DateFormat('HH:mm').format(dateTime)}",
-                              style: TextStyle(
+                              DateFormat('HH:mm').format(dateTime),
+                              style: const TextStyle(
                                 fontSize: 12.0,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 4.0),
+                        const SizedBox(height: 4.0),
                         Row(
                           children: [
                             Icon(
@@ -118,15 +118,15 @@ class _MyContentLikesState extends State<MyContentLikes> {
                               ),
                             ),
                             const SizedBox(width: 8.0),
-                            Icon(
+                            const Icon(
                               CupertinoIcons.chat_bubble,
                               color: Colors.blueAccent,
                               size: 16.0,
                             ),
                             const SizedBox(width: 4.0),
                             Text(
-                              "${content.comment?.length ?? 0}",
-                              style: TextStyle(
+                              "${content.comment.length ?? 0}",
+                              style: const TextStyle(
                                 color: Colors.blueAccent,
                               ),
                             ),

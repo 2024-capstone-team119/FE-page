@@ -12,8 +12,8 @@ class MyContentUpdate extends StatefulWidget {
   final String title;
   final String content;
 
-  MyContentUpdate({Key? key, required this.title, required this.content})
-      : super(key: key);
+  const MyContentUpdate(
+      {super.key, required this.title, required this.content});
 
   @override
   _ContentUpdateState createState() => _ContentUpdateState();

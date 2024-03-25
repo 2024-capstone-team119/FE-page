@@ -1,8 +1,10 @@
+import 'package:allcon/Util/Theme.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/Pages/Seat/seat_review.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 
 class SeatWrite extends StatefulWidget {
   const SeatWrite({super.key});
@@ -51,10 +53,10 @@ class _SeatWriteState extends State<SeatWrite> {
 
     return Container(
       decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 238, 225, 255),
+        color: Colors.white,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10.0),
-          topRight: Radius.circular(10.0),
+          topLeft: Radius.circular(25.0),
+          topRight: Radius.circular(25.0),
         ),
       ),
       child: Padding(
@@ -66,11 +68,11 @@ class _SeatWriteState extends State<SeatWrite> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(12.0),
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
+                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 10.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -88,10 +90,10 @@ class _SeatWriteState extends State<SeatWrite> {
                                   });
                                 },
                                 icon: Icon(
-                                  Icons.star_outlined,
+                                  CupertinoIcons.star_fill,
                                   color: i <= selectedStar
                                       ? Colors.yellow
-                                      : Colors.white,
+                                      : Colors.black12,
                                 ),
                                 visualDensity: VisualDensity.compact,
                               ),
@@ -109,15 +111,17 @@ class _SeatWriteState extends State<SeatWrite> {
                       filled: true,
                       fillColor: Colors.white,
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(width: 1, color: Colors.black),
+                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                        borderSide:
+                            BorderSide(width: 0.5, color: Colors.black87),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(width: 1, color: Colors.black),
+                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                        borderSide:
+                            BorderSide(width: 0.5, color: Colors.black87),
                       ),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
                       ),
                     ),
                     onChanged: (_) {
@@ -125,47 +129,52 @@ class _SeatWriteState extends State<SeatWrite> {
                     },
                   ),
                   const SizedBox(
-                    height: 4.0,
+                    height: 3.0,
                   ),
                   uploadPhoto(),
-                  uploadButton(
-                    onPressed: () async {
-                      multiImage = await picker.pickMultiImage();
-                      setState(() {
-                        //multiImage를 통해 갤러리에서 가지고 온 사진들은 리스트 변수에 저장되므로 addAll()을 사용해서 images와 multiImage 리스트를 합쳐줍니다.
-                        images.addAll(multiImage);
-                      });
-                    },
-                    icon: Icons.add_photo_alternate,
-                    label: '사진 첨부하기',
-                  ),
-                  uploadButton(
-                    onPressed: isButtonEnabled
-                        ? () {
-                            _submitReview(
-                              Review(
-                                id: reviewId,
-                                name: 'noname$reviewId',
-                                star: selectedStar,
-                                text: _textController.text,
-                                createTime: currentTime,
-                                good: 0,
-                                bad: 0,
-                              ),
-                            );
-                            Navigator.of(context).pop();
-                          }
-                        : () {
-                            FocusScope.of(context).unfocus(); // 키보드 숨기기
-                            if (selectedStar == 0) {
-                              _showToast('별점을 남겨주세요.');
-                            } else {
-                              _showToast('10글자 이상의 리뷰를 작성해주세요.');
-                            }
-                          }, // 버튼 비활성화
-                    icon: Icons.edit,
-                    label: '리뷰 등록하기',
-                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      uploadButton(
+                        onPressed: () async {
+                          multiImage = await picker.pickMultiImage();
+                          setState(() {
+                            //multiImage를 통해 갤러리에서 가지고 온 사진들은 리스트 변수에 저장되므로 addAll()을 사용해서 images와 multiImage 리스트를 합쳐줍니다.
+                            images.addAll(multiImage);
+                          });
+                        },
+                        icon: Icons.add_photo_alternate,
+                        label: '사진 첨부하기',
+                      ),
+                      uploadButton(
+                        onPressed: isButtonEnabled
+                            ? () {
+                                _submitReview(
+                                  Review(
+                                    id: reviewId,
+                                    name: 'noname$reviewId',
+                                    star: selectedStar,
+                                    text: _textController.text,
+                                    createTime: currentTime,
+                                    good: 0,
+                                    bad: 0,
+                                  ),
+                                );
+                                Navigator.of(context).pop();
+                              }
+                            : () {
+                                FocusScope.of(context).unfocus(); // 키보드 숨기기
+                                if (selectedStar == 0) {
+                                  _showToast('별점을 남겨주세요 ');
+                                } else {
+                                  _showToast('10글자 이상의 리뷰를 작성해주세요');
+                                }
+                              }, // 버튼 비활성화
+                        icon: CupertinoIcons.pen,
+                        label: '리뷰 등록하기',
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -180,20 +189,24 @@ class _SeatWriteState extends State<SeatWrite> {
     required IconData icon,
     required String label,
   }) {
-    return OutlinedButton(
+    return ElevatedButton(
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
+          borderRadius: BorderRadius.circular(25.0),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: lightlavenderColor,
+        elevation: 0.5,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon),
+          Icon(icon, size: 25.0),
           const SizedBox(width: 8),
-          Text(label),
+          Text(
+            label,
+            style: const TextStyle(fontSize: 16.0),
+          ),
         ],
       ),
     );
@@ -264,17 +277,15 @@ class _SeatWriteState extends State<SeatWrite> {
         mainAxisSize: MainAxisSize.min,
         children: [
           const Icon(
-            Icons.priority_high,
+            size: 20.0,
+            CupertinoIcons.exclamationmark,
             color: Colors.white,
-          ),
-          const SizedBox(
-            width: 10.0,
           ),
           Text(
             alert,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 13.0,
+              fontSize: 16.0,
             ),
           ),
         ],

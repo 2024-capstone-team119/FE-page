@@ -1,9 +1,9 @@
 import 'package:allcon/Data/Content.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 
 class ContentController extends GetxController {
   RxList<Content> contents = <Content>[].obs;
+  RxInt commentCount = 0.obs; // 댓글 수 추적하는 변수
 
   ContentController._internal();
 
@@ -46,6 +46,17 @@ class ContentController extends GetxController {
 
     if (index != -1) {
       contents[index] = updatedContent;
+      update();
+    }
+  }
+
+  void updateComment(int postId, String comment) {
+    final int index =
+        contents.indexWhere((content) => content.postId == postId);
+
+    if (index != -1) {
+      contents[index].comment.add(comment);
+      commentCount.value++;
       update();
     }
   }
