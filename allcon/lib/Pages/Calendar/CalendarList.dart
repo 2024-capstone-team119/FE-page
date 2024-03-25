@@ -4,6 +4,7 @@ import 'package:allcon/service/api.dart';
 import 'package:allcon/Util/Theme.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 class CalendarList extends StatefulWidget {
   const CalendarList({super.key});
@@ -34,8 +35,9 @@ class _CalendarListState extends State<CalendarList> {
 
   List<Performance> _getEventsForDay(DateTime day) {
     return _performances.where((performance) {
-      DateTime startDate = DateTime.parse(performance.startDate!);
-      DateTime endDate = DateTime.parse(performance.endDate!);
+      DateTime startDate =
+          DateFormat("yyyy.MM.dd").parse(performance.startDate!);
+      DateTime endDate = DateFormat("yyyy.MM.dd").parse(performance.endDate!);
       return startDate.isBefore(day) && endDate.isAfter(day);
     }).toList();
   }
@@ -44,8 +46,8 @@ class _CalendarListState extends State<CalendarList> {
   Widget build(BuildContext context) {
     List<Performance> selectedDayEvents = _getEventsForDay(DateTime.now());
 
-    return Scaffold(
-      body: Column(
+    return Container(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           selectedDayEvents.isEmpty
