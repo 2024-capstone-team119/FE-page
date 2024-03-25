@@ -3,8 +3,8 @@ import 'package:allcon/Widget/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'CalendarDate.dart';
-import 'CalendarList.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({super.key});
@@ -23,11 +23,14 @@ class _CalendarState extends State<Calendar> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            CalendarDate(),
-            SizedBox(height: 28.0),
-            CalendarList(),
-            SizedBox(height: 28.0),
-            CalendarUpcoming(),
+            SizedBox(
+              height: 500.0,
+              child: CalendarDate(),
+            ),
+            SizedBox(
+              height: 300.0,
+              child: CalendarUpcoming(),
+            ),
           ],
         ),
       ),
