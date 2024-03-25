@@ -4,7 +4,6 @@ import 'package:allcon/service/api.dart';
 import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/Util/Loading.dart';
 import 'package:flutter/rendering.dart';
-
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -46,6 +45,9 @@ class _CalendarUpcomingState extends State<CalendarUpcoming> {
       groupedPerformances[startDate]!.add(performance);
     }
 
+    List<DateTime> sortedKeys = groupedPerformances.keys.toList()
+      ..sort((a, b) => a.compareTo(b));
+
     return Padding(
       padding: const EdgeInsets.only(left: 12.0, right: 12.0),
       child: Column(
@@ -78,11 +80,11 @@ class _CalendarUpcomingState extends State<CalendarUpcoming> {
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: groupedPerformances.length,
+              itemCount: sortedKeys.length,
               itemBuilder: (context, index) {
                 final List<Performance> events =
-                    groupedPerformances.values.toList()[index];
-                return buildPerformanceCard(events);
+                    groupedPerformances[sortedKeys[index]]!;
+                return buildPerformanceCard(events, sortedKeys[index]);
               },
             ),
           ),
@@ -91,10 +93,9 @@ class _CalendarUpcomingState extends State<CalendarUpcoming> {
     );
   }
 
-  Widget buildPerformanceCard(List<Performance> events) {
-    events.sort((a, b) => a.startDate!.compareTo(b.startDate!));
+  Widget buildPerformanceCard(List<Performance> events, DateTime date) {
     return Padding(
-      padding: const EdgeInsets.all(3.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 3.0, 3.0, 3.0),
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.84,
         child: Card(
@@ -106,8 +107,7 @@ class _CalendarUpcomingState extends State<CalendarUpcoming> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
                 child: Text(
-                  DateFormat.MMMd().format(
-                      DateFormat("yyyy.MM.dd").parse(events.first.startDate!)),
+                  DateFormat.MMMd().format(date),
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 20.0,

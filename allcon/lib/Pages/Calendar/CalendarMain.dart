@@ -5,7 +5,6 @@ import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'CalendarDate.dart';
-import 'CalendarList.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({super.key});
@@ -25,17 +24,11 @@ class _CalendarState extends State<Calendar> {
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: 400.0,
+              height: 500.0,
               child: CalendarDate(),
             ),
-            SizedBox(height: 28.0),
-            // SizedBox(
-            //   height: 1000.0,
-            //   child: CalendarList(),
-            // ),
-            // SizedBox(height: 28.0),
             SizedBox(
-              height: 1000.0,
+              height: 300.0,
               child: CalendarUpcoming(),
             ),
           ],
