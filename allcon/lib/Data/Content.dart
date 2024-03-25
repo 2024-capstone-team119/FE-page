@@ -19,11 +19,3 @@ class Content {
     this.isLike = false,
   });
 }
-
-// 커뮤니티 글목록 관리
-class ContentListController extends GetxController {
-  var contents = <Content>[].obs;
-  void addContent(Content content) {
-    contents.add(content);
-  }
-}

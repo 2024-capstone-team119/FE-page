@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:allcon/Data/Content.dart';
 import 'package:get/get.dart';
+import '../controller/content_controller.dart';
 
 class MyContentWrite extends StatefulWidget {
   const MyContentWrite({super.key});
@@ -75,7 +76,7 @@ class _ContentWriteState extends State<MyContentWrite> {
                   funPageRoute: () {
                     if (_formKey.currentState!.validate()) {
                       Content newContent = Content(
-                        postId: ContentListController().contents.length + 1,
+                        postId: ContentController().contents.length + 1,
                         title: _titleController.text,
                         content: _contentController.text,
                         date: DateTime.now(),
@@ -83,7 +84,7 @@ class _ContentWriteState extends State<MyContentWrite> {
                         like: 0,
                         comment: [],
                       );
-                      ContentListController().addContent(newContent);
+                      ContentController().addContent(newContent);
                       // 업로드 후 초기화
                       _titleController.clear();
                       _contentController.clear();

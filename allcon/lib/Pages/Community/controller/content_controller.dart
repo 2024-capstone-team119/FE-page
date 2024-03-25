@@ -31,7 +31,13 @@ class ContentController extends GetxController {
       content.like = content.isLike ? currentLike + 1 : currentLike - 1;
 
       contents[index] = content;
+      update();
     }
+  }
+
+  void addContent(Content content) {
+    contents.add(content);
+    update();
   }
 
   Content? getContent(int postId) {

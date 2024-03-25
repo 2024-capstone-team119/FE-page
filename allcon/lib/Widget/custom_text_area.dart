@@ -19,7 +19,6 @@ class CustomTextArea extends StatelessWidget {
     return TextFormField(
       maxLines: 18,
       controller: controller,
-      initialValue: value ?? "",
       validator: funValidator,
       decoration: InputDecoration(
         hintText: "$hint을 작성하세요.",
