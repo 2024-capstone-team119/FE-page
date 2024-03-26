@@ -4,6 +4,7 @@ import 'package:allcon/service/api.dart';
 import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/Util/Loading.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,15 +43,13 @@ class _CalendarDateState extends State<CalendarDate> {
             }).toList();
           }
 
-          return Column(
-            children: [
-              calendarDate(context, getEventsForDay),
-              const SizedBox(height: 11.0),
-              SizedBox(
-                height: 100.0,
-                child: calendarList(context, getEventsForDay(_selectedDay)),
-              ),
-            ],
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                calendarDate(context, getEventsForDay),
+                calendarList(context, getEventsForDay(_selectedDay)),
+              ],
+            ),
           );
         }
       },
@@ -91,22 +90,20 @@ class _CalendarDateState extends State<CalendarDate> {
       calendarStyle: CalendarStyle(
         isTodayHighlighted: true,
         todayTextStyle: const TextStyle(
-          color: Colors.deepPurple,
-          fontSize: 16.0,
-          fontWeight: FontWeight.w600,
+          color: Colors.white,
+          fontSize: 14.0,
         ),
         todayDecoration: BoxDecoration(
-          color: Colors.deepPurpleAccent.withOpacity(0.3),
+          color: Colors.deepPurple,
           shape: BoxShape.rectangle,
         ),
         selectedTextStyle: const TextStyle(
-          color: Colors.black,
-          fontSize: 14.0,
-        ),
+            color: lightlavenderColor,
+            fontSize: 14.0,
+            fontWeight: FontWeight.w500),
         selectedDecoration: BoxDecoration(
-          color: lavenderColor,
-          border: Border.all(color: Colors.deepPurple.withOpacity(0.2)),
-          shape: BoxShape.rectangle,
+          color: lightMint,
+          shape: BoxShape.circle,
         ),
         outsideDaysVisible: false,
         weekendTextStyle: const TextStyle(color: Colors.grey),
@@ -119,20 +116,19 @@ class _CalendarDateState extends State<CalendarDate> {
       calendarBuilders: CalendarBuilders(
         markerBuilder: (context, day, events) => events.isNotEmpty
             ? Positioned(
-                bottom: 3,
-                right: 3,
+                bottom: 0,
                 child: Container(
-                  width: 18,
-                  height: 18,
+                  width: 100,
+                  height: 15,
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
-                    color: Colors.deepPurple,
-                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                    color: lavenderColor,
+                    borderRadius: BorderRadius.all(Radius.circular(0.0)),
                   ),
                   child: Text(
                     '${events.length}',
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: Colors.deepPurple,
                       fontSize: 12.0,
                     ),
                   ),
@@ -186,47 +182,57 @@ class _CalendarDateState extends State<CalendarDate> {
 
   Widget calendarList(
       BuildContext context, List<Performance> selectedDayEvents) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            selectedDayEvents.isEmpty
-                ? Container()
-                : Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: selectedDayEvents.map((performance) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width * 0.95,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 12.0),
-                          margin: const EdgeInsets.only(bottom: 8.0),
-                          decoration: BoxDecoration(
-                            color: lavenderColor,
-                            border: Border.all(
-                                color: Colors.deepPurple.withOpacity(0.05)),
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                performance.name ?? '',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }).toList(),
+    return selectedDayEvents.isEmpty
+        ? SizedBox.shrink()
+        : Theme(
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+            child: ExpansionTile(
+              title: Row(
+                children: [
+                  SizedBox(width: 5.0),
+                  Text(
+                    '${DateFormat('yyyy.MM.dd').format(_selectedDay)}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-          ],
-        ),
-      ),
-    );
+                ],
+              ),
+              initiallyExpanded: true,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: selectedDayEvents.map((performance) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 12.0),
+                        margin: const EdgeInsets.only(bottom: 8.0),
+                        decoration: BoxDecoration(
+                          color: lavenderColor,
+                          border: Border.all(
+                              color: Colors.deepPurple.withOpacity(0.05)),
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              performance.name ?? '',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
+            ),
+          );
   }
 }
