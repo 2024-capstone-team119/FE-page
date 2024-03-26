@@ -10,8 +10,9 @@ import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 
 class CalendarDate extends StatefulWidget {
-  const CalendarDate({super.key});
+  final List<Performance> performances;
 
+  const CalendarDate({super.key, required this.performances});
   @override
   State<CalendarDate> createState() => _CalendarDateState();
 }
@@ -22,37 +23,22 @@ class _CalendarDateState extends State<CalendarDate> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Performance>>(
-      future: Api.getPerformance(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Loading();
-        } else if (snapshot.hasError) {
-          return Text('에러: ${snapshot.error}');
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('데이터 없음');
-        } else {
-          List<Performance> getEventsForDay(DateTime day) {
-            performances = snapshot.data!;
-            return performances.where((performance) {
-              DateTime startDate =
-                  DateFormat("yyyy.MM.dd").parse(performance.startDate!);
-              DateTime endDate =
-                  DateFormat("yyyy.MM.dd").parse(performance.endDate!);
-              return startDate.isBefore(day) && endDate.isAfter(day);
-            }).toList();
-          }
+    List<Performance> getEventsForDay(DateTime day) {
+      return widget.performances.where((performance) {
+        DateTime startDate =
+            DateFormat("yyyy.MM.dd").parse(performance.startDate!);
+        DateTime endDate = DateFormat("yyyy.MM.dd").parse(performance.endDate!);
+        return startDate.isBefore(day) && endDate.isAfter(day);
+      }).toList();
+    }
 
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                calendarDate(context, getEventsForDay),
-                calendarList(context, getEventsForDay(_selectedDay)),
-              ],
-            ),
-          );
-        }
-      },
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          calendarDate(context, getEventsForDay),
+          calendarList(context, getEventsForDay(_selectedDay)),
+        ],
+      ),
     );
   }
 
@@ -87,9 +73,9 @@ class _CalendarDateState extends State<CalendarDate> {
           size: 20.0,
         ),
       ),
-      calendarStyle: CalendarStyle(
+      calendarStyle: const CalendarStyle(
         isTodayHighlighted: true,
-        todayTextStyle: const TextStyle(
+        todayTextStyle: TextStyle(
           color: Colors.white,
           fontSize: 14.0,
         ),
@@ -97,7 +83,7 @@ class _CalendarDateState extends State<CalendarDate> {
           color: Colors.deepPurple,
           shape: BoxShape.rectangle,
         ),
-        selectedTextStyle: const TextStyle(
+        selectedTextStyle: TextStyle(
             color: lightlavenderColor,
             fontSize: 14.0,
             fontWeight: FontWeight.w500),
@@ -106,9 +92,9 @@ class _CalendarDateState extends State<CalendarDate> {
           shape: BoxShape.circle,
         ),
         outsideDaysVisible: false,
-        weekendTextStyle: const TextStyle(color: Colors.grey),
+        weekendTextStyle: TextStyle(color: Colors.grey),
         cellAlignment: Alignment.topCenter,
-        tableBorder: const TableBorder(
+        tableBorder: TableBorder(
           horizontalInside: BorderSide(color: Colors.black12),
           borderRadius: BorderRadius.zero,
         ),
@@ -118,7 +104,7 @@ class _CalendarDateState extends State<CalendarDate> {
             ? Positioned(
                 bottom: 0,
                 child: Container(
-                  width: 100,
+                  width: 65,
                   height: 15,
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
@@ -183,16 +169,16 @@ class _CalendarDateState extends State<CalendarDate> {
   Widget calendarList(
       BuildContext context, List<Performance> selectedDayEvents) {
     return selectedDayEvents.isEmpty
-        ? SizedBox.shrink()
+        ? const SizedBox.shrink()
         : Theme(
             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
             child: ExpansionTile(
               title: Row(
                 children: [
-                  SizedBox(width: 5.0),
+                  const SizedBox(width: 5.0),
                   Text(
-                    '${DateFormat('yyyy.MM.dd').format(_selectedDay)}',
-                    style: TextStyle(
+                    DateFormat('yyyy.MM.dd').format(_selectedDay),
+                    style: const TextStyle(
                       fontWeight: FontWeight.w400,
                     ),
                   ),

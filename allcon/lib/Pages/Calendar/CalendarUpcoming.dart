@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:allcon/model/performance_model.dart';
-import 'package:allcon/service/api.dart';
 import 'package:allcon/Util/Theme.dart';
-import 'package:allcon/Util/Loading.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 
 class CalendarUpcoming extends StatefulWidget {
-  const CalendarUpcoming({super.key});
+  final List<Performance> performances;
+
+  const CalendarUpcoming({super.key, required this.performances});
 
   @override
   State<CalendarUpcoming> createState() => _CalendarUpcomingState();
@@ -20,21 +20,8 @@ class _CalendarUpcomingState extends State<CalendarUpcoming> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Performance>>(
-      future: Api.getPerformanceApproaching(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Loading();
-        } else if (snapshot.hasError) {
-          return Text('에러: ${snapshot.error}');
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('데이터 없음');
-        } else {
-          List<Performance> performances = snapshot.data!;
-          return buildUpcomingPerformances(performances);
-        }
-      },
-    );
+    List<Performance> performances = widget.performances;
+    return buildUpcomingPerformances(performances);
   }
 
   Widget buildUpcomingPerformances(List<Performance> performances) {
@@ -56,7 +43,7 @@ class _CalendarUpcomingState extends State<CalendarUpcoming> {
         children: [
           const Row(
             children: [
-              const SizedBox(width: 10.0),
+              SizedBox(width: 10.0),
               Text(
                 "UPCOMING",
                 style: TextStyle(
@@ -76,7 +63,7 @@ class _CalendarUpcomingState extends State<CalendarUpcoming> {
               ),
             ],
           ),
-          Container(
+          SizedBox(
             height: 185,
             child: ListView.builder(
               shrinkWrap: true,
