@@ -4,6 +4,7 @@ import 'package:allcon/service/api.dart';
 import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/Util/Loading.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -53,14 +54,14 @@ class _CalendarUpcomingState extends State<CalendarUpcoming> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 12.0),
           const Row(
             children: [
+              const SizedBox(width: 10.0),
               Text(
                 "UPCOMING",
                 style: TextStyle(
                   color: Colors.deepPurple,
-                  fontSize: 25.0,
+                  fontSize: 20.0,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -75,8 +76,8 @@ class _CalendarUpcomingState extends State<CalendarUpcoming> {
               ),
             ],
           ),
-          SizedBox(
-            height: 230,
+          Container(
+            height: 185,
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
@@ -110,7 +111,7 @@ class _CalendarUpcomingState extends State<CalendarUpcoming> {
                   DateFormat.MMMd().format(date),
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontSize: 20.0,
+                    fontSize: 18.0,
                   ),
                 ),
               ),

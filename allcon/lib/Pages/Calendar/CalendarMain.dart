@@ -22,15 +22,10 @@ class _CalendarState extends State<Calendar> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 500.0,
-              child: CalendarDate(),
-            ),
-            SizedBox(
-              height: 300.0,
-              child: CalendarUpcoming(),
-            ),
+          children: [
+            CalendarDate(),
+            const SizedBox(height: 5.0),
+            CalendarUpcoming(),
           ],
         ),
       ),
