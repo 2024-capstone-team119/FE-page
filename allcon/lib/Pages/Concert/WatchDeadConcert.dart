@@ -82,10 +82,17 @@ class _WatchDeadConcertState extends State<WatchDeadConcert> {
                                   style: const TextStyle(fontSize: 14),
                                 ),
                               const SizedBox(height: 2),
-                              Text(
-                                '${snapshot.data![imgIndex].startDate} ~ ${snapshot.data![imgIndex].endDate}'
-                                    .toString(),
-                              ),
+                              if (snapshot.data![imgIndex].startDate ==
+                                  snapshot.data![imgIndex].endDate)
+                                Text(
+                                  '${snapshot.data![imgIndex].startDate}'
+                                      .toString(),
+                                )
+                              else
+                                Text(
+                                  '${snapshot.data![imgIndex].startDate} ~ ${snapshot.data![imgIndex].endDate}'
+                                      .toString(),
+                                ),
                             ],
                           ),
                         ),
