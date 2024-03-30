@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:allcon/model/performance_model.dart';
-import 'package:allcon/service/api.dart';
 import 'package:allcon/Util/Theme.dart';
-import 'package:allcon/Util/Loading.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -184,7 +182,7 @@ class _CalendarDateState extends State<CalendarDate> {
                   ),
                 ],
               ),
-              initiallyExpanded: true,
+              initiallyExpanded: false,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 12.0, right: 12.0),
