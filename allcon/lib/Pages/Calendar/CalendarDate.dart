@@ -18,6 +18,32 @@ class CalendarDate extends StatefulWidget {
 class _CalendarDateState extends State<CalendarDate> {
   late DateTime _selectedDay = DateTime.now();
   late List<Performance> performances = [];
+  late Map<DateTime, List<Performance>> _eventsMap = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _calculateEventsMap();
+  }
+
+  void _calculateEventsMap() {
+    _eventsMap = {};
+    for (var performance in widget.performances) {
+      DateTime startDate =
+          DateFormat("yyyy.MM.dd").parse(performance.startDate!);
+      DateTime endDate = DateFormat("yyyy.MM.dd").parse(performance.endDate!);
+      for (var date = startDate;
+          date.isBefore(endDate.add(const Duration(days: 1)));
+          date = date.add(const Duration(days: 1))) {
+        _eventsMap.update(date, (value) => value + [performance],
+            ifAbsent: () => [performance]);
+      }
+    }
+    // DateTime today = DateTime.now();
+    // List<Performance>? eventsForToday = _eventsMap[today];
+    // int eventsForTodayLength = eventsForToday?.length ?? 0;
+    // print('Events for today ($_selectedDay): $eventsForTodayLength');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,18 +57,20 @@ class _CalendarDateState extends State<CalendarDate> {
       }).toList();
     }
 
+    // List<Performance> events = getEventsForDay(DateTime.now());
+    // print('Events for today: ${events.length}');
+
     return SingleChildScrollView(
       child: Column(
         children: [
-          calendarDate(context, getEventsForDay),
+          calendarDate(context),
           calendarList(context, getEventsForDay(_selectedDay)),
         ],
       ),
     );
   }
 
-  Widget calendarDate(BuildContext context,
-      List<Performance> Function(DateTime) getEventsForDay) {
+  Widget calendarDate(BuildContext context) {
     return TableCalendar(
       locale: 'ko_KR',
       firstDay: DateTime.utc(2021, 10, 16),
@@ -161,7 +189,7 @@ class _CalendarDateState extends State<CalendarDate> {
           return null;
         },
       ),
-      eventLoader: (day) => getEventsForDay(day),
+      eventLoader: (day) => _eventsMap[day] ?? [],
     );
   }
 
