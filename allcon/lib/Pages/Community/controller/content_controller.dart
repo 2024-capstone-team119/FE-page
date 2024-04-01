@@ -16,7 +16,7 @@ class ContentController extends GetxController {
   }
 
   void setContentList(List<Content> initialContents) {
-    contents.value = List.from(initialContents);
+    contents.assignAll(initialContents);
   }
 
   void toggleLike(int postId) {
@@ -26,8 +26,8 @@ class ContentController extends GetxController {
     if (index != -1) {
       final Content content = contents[index];
 
-      final int currentLike = content.like ?? 0;
-      content.isLike = !(content.isLike ?? false);
+      final int currentLike = content.like;
+      content.isLike = !(content.isLike);
       content.like = content.isLike ? currentLike + 1 : currentLike - 1;
 
       contents[index] = content;
@@ -41,9 +41,7 @@ class ContentController extends GetxController {
   }
 
   Content? getContent(int postId) {
-    return contents.firstWhere(
-      (content) => content.postId == postId,
-    );
+    return contents.firstWhere((content) => content.postId == postId);
   }
 
   void updateContent(Content updatedContent) {
@@ -56,11 +54,13 @@ class ContentController extends GetxController {
     }
   }
 
-  void updateComment(int postId, String comment) {
+  void updateComment(int postId, String commentContent) {
     final int index =
         contents.indexWhere((content) => content.postId == postId);
 
     if (index != -1) {
+      final Comment comment =
+          Comment(commentId: postId, commentContent: commentContent);
       contents[index].comment.add(comment);
       commentCount.value++;
       update();

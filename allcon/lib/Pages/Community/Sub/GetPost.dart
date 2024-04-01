@@ -253,7 +253,7 @@ class _ContentDetailState extends State<MyContentDetail> {
     }
   }
 
-  Widget commentBox(BuildContext context, String comment, int num) {
+  Widget commentBox(BuildContext context, Comment comment, int num) {
     int number = num + 1;
     DateTime now = DateTime.now();
     return Padding(
@@ -304,7 +304,7 @@ class _ContentDetailState extends State<MyContentDetail> {
             ],
           ),
           Text(
-            comment,
+            comment.commentContent,
             style: const TextStyle(fontSize: 16.0, color: Colors.black),
           ),
           const SizedBox(height: 4),
