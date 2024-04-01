@@ -26,7 +26,8 @@ class _CalendarDateState extends State<CalendarDate> {
         DateTime startDate =
             DateFormat("yyyy.MM.dd").parse(performance.startDate!);
         DateTime endDate = DateFormat("yyyy.MM.dd").parse(performance.endDate!);
-        return startDate.isBefore(day) && endDate.isAfter(day);
+        return (startDate.isBefore(day) || startDate.isAtSameMomentAs(day)) &&
+            (endDate.isAfter(day) || endDate.isAtSameMomentAs(day));
       }).toList();
     }
 
