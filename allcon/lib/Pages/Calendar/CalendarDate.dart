@@ -65,6 +65,8 @@ class _CalendarDateState extends State<CalendarDate> {
           CupertinoIcons.chevron_right,
           size: 20.0,
         ),
+        leftChevronMargin: const EdgeInsets.only(left: 90.0),
+        rightChevronMargin: const EdgeInsets.only(right: 90.0),
       ),
       calendarStyle: const CalendarStyle(
         isTodayHighlighted: true,
@@ -171,7 +173,7 @@ class _CalendarDateState extends State<CalendarDate> {
                 children: [
                   const SizedBox(width: 5.0),
                   Text(
-                    DateFormat('yyyy.MM.dd').format(_selectedDay),
+                    DateFormat('yyyy.MM.dd').format(controller.selectedDay),
                     style: const TextStyle(
                       fontWeight: FontWeight.w400,
                     ),
