@@ -3,9 +3,11 @@ import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/Util/Theme.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
+import 'controller/selecetedDay_controller.dart';
 
 class CalendarDate extends StatefulWidget {
   final List<Performance> performances;
@@ -16,55 +18,21 @@ class CalendarDate extends StatefulWidget {
 }
 
 class _CalendarDateState extends State<CalendarDate> {
-  late DateTime _selectedDay = DateTime.now();
+  late final DateTime _selectedDay = DateTime.now();
   late List<Performance> performances = [];
-  late Map<DateTime, List<Performance>> _eventsMap = {};
-
-  @override
-  void initState() {
-    super.initState();
-    _calculateEventsMap();
-  }
-
-  void _calculateEventsMap() {
-    _eventsMap = {};
-    for (var performance in widget.performances) {
-      DateTime startDate =
-          DateFormat("yyyy.MM.dd").parse(performance.startDate!);
-      DateTime endDate = DateFormat("yyyy.MM.dd").parse(performance.endDate!);
-      for (var date = startDate;
-          date.isBefore(endDate.add(const Duration(days: 1)));
-          date = date.add(const Duration(days: 1))) {
-        _eventsMap.update(date, (value) => value + [performance],
-            ifAbsent: () => [performance]);
-      }
-    }
-    // DateTime today = DateTime.now();
-    // List<Performance>? eventsForToday = _eventsMap[today];
-    // int eventsForTodayLength = eventsForToday?.length ?? 0;
-    // print('Events for today ($_selectedDay): $eventsForTodayLength');
-  }
+  final SelectedDayController controller = Get.put(SelectedDayController());
 
   @override
   Widget build(BuildContext context) {
-    List<Performance> getEventsForDay(DateTime day) {
-      return widget.performances.where((performance) {
-        DateTime startDate =
-            DateFormat("yyyy.MM.dd").parse(performance.startDate!);
-        DateTime endDate = DateFormat("yyyy.MM.dd").parse(performance.endDate!);
-        return (startDate.isBefore(day) || startDate.isAtSameMomentAs(day)) &&
-            (endDate.isAfter(day) || endDate.isAtSameMomentAs(day));
-      }).toList();
-    }
-
-    // List<Performance> events = getEventsForDay(DateTime.now());
-    // print('Events for today: ${events.length}');
-
     return SingleChildScrollView(
       child: Column(
         children: [
-          calendarDate(context),
-          calendarList(context, getEventsForDay(_selectedDay)),
+          GetBuilder<SelectedDayController>(
+            builder: (_) => calendarDate(context),
+          ),
+          GetBuilder<SelectedDayController>(
+            builder: (_) => calendarList(context),
+          ),
         ],
       ),
     );
@@ -76,12 +44,10 @@ class _CalendarDateState extends State<CalendarDate> {
       firstDay: DateTime.utc(2021, 10, 16),
       lastDay: DateTime.utc(2030, 3, 14),
       focusedDay: DateTime.now(),
-      selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
       onDaySelected: (selectedDay, focusedDay) {
-        setState(() {
-          _selectedDay = selectedDay;
-        });
+        controller.setSelectedDay(selectedDay);
       },
+      selectedDayPredicate: (day) => isSameDay(day, controller.selectedDay),
       daysOfWeekHeight: 25,
       headerStyle: HeaderStyle(
         titleCentered: true,
@@ -189,12 +155,13 @@ class _CalendarDateState extends State<CalendarDate> {
           return null;
         },
       ),
-      eventLoader: (day) => _eventsMap[day] ?? [],
+      eventLoader: (day) => controller.getEventsForDay(day),
     );
   }
 
-  Widget calendarList(
-      BuildContext context, List<Performance> selectedDayEvents) {
+  Widget calendarList(BuildContext context) {
+    final selectedDayEvents =
+        controller.getEventsForDay(controller.selectedDay);
     return selectedDayEvents.isEmpty
         ? const SizedBox.shrink()
         : Theme(
