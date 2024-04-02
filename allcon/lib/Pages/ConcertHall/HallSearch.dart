@@ -32,7 +32,7 @@ class _HallSearchPageState extends State<HallSearch> {
             } else if (snapshot.hasError) {
               return Text('에러: ${snapshot.error}');
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Text('데이터 없음');
+              return const Preparing(text: '공연장 준비중입니다.\n 조금만 기다려주세요 :)');
             } else {
               List<Place> selectedList = snapshot.data!;
 
