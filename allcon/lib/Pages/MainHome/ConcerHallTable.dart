@@ -1,3 +1,4 @@
+import 'package:allcon/Pages/ConcertHall/hall_list.dart';
 import 'package:allcon/Pages/ConcertHall/hall_search.dart';
 import 'package:flutter/material.dart';
 
@@ -39,14 +40,7 @@ class ConcertHallTable extends StatelessWidget {
           .map(
             (cell) => InkWell(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HallSearch(
-                      initialTitle: cell,
-                    ),
-                  ),
-                );
+                handleCellTap(context, cell);
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
@@ -63,6 +57,15 @@ class ConcertHallTable extends StatelessWidget {
             ),
           )
           .toList(),
+    );
+  }
+
+  void handleCellTap(BuildContext context, String cell) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HallList(area: cell),
+      ),
     );
   }
 }
