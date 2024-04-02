@@ -18,7 +18,7 @@ class _BannerConcerListState extends State<BannerConcerList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Performance>>(
-      future: Api.getPerformanceNew(),
+      future: Api.getPerformanceNew_visit(),
       builder: (context, AsyncSnapshot<List<Performance>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Loading();

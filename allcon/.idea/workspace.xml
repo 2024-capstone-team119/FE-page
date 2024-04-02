@@ -10,7 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6fcfba98-4a14-4a43-a863-a4760934986e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/Pages/Concert/WatchDeadConcert.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Pages/Concert/WatchDeadConcert.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Pages/MainHome/BannerConcerList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Pages/MainHome/BannerConcerList.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Pages/MainHome/DeadConcertCard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Pages/MainHome/DeadConcertCard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/service/api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/service/api.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
