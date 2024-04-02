@@ -1,4 +1,3 @@
-/*
 import 'package:flutter/material.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/service/api.dart';
@@ -31,8 +30,8 @@ class _CalendarState extends State<Calendar> {
       ),
       body: FutureBuilder<List<dynamic>>(
         future: Future.wait([
-          Api.getPerformance(),
-          Api.getPerformanceApproaching(),
+          Api.getPerformance_ko_future(),
+          Api.getPerformanceApproaching_ko(),
         ]),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -64,4 +63,3 @@ class _CalendarState extends State<Calendar> {
     );
   }
 }
-*/

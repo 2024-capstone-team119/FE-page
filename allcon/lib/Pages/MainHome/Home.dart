@@ -27,7 +27,7 @@ class _MyHomeState extends State<MyHome> {
         automaticallyImplyLeading: false,
         actions: const Icon(CupertinoIcons.calendar_today),
         onActionPressed: () {
-          // Get.to(const Calendar());
+          Get.to(const Calendar());
         },
       ),
       body: const SafeArea(
