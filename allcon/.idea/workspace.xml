@@ -9,10 +9,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6fcfba98-4a14-4a43-a863-a4760934986e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/Pages/Concert/WatchDeadConcert.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Pages/Concert/WatchDeadConcert.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-    </list>
+    <list default="true" id="6fcfba98-4a14-4a43-a863-a4760934986e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

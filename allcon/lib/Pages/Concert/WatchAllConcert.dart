@@ -26,7 +26,7 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
       appBar: const MyAppBar(text: '전체공연'),
       backgroundColor: Colors.white,
       body: FutureBuilder<List<Performance>>(
-        future: Api.getPerformance(),
+        future: Api.getPerformance_visit_future(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loading();

@@ -16,7 +16,7 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Performance>>(
-      future: Api.getPerformanceApproaching(),
+      future: Api.getPerformanceApproaching_visit(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Loading();

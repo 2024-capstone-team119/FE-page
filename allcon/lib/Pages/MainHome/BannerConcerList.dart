@@ -18,7 +18,7 @@ class _BannerConcerListState extends State<BannerConcerList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Performance>>(
-      future: Api.getPerformanceNew(),
+      future: Api.getPerformanceNew_visit(),
       builder: (context, AsyncSnapshot<List<Performance>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Loading();
@@ -68,7 +68,8 @@ class _BannerConcerListState extends State<BannerConcerList> {
                                 color: Colors.white,
                                 child: Image.network(
                                   performance.poster ?? "",
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.fill, // 이미지가 카드 영역에 꽉 차도록 설정
+                                  height: 500, // 카드의 높이에 맞게 이미지 크기를 고정할 수 있습니다.
                                 ),
                               ),
                             )
