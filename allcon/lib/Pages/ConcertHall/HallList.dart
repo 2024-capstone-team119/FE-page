@@ -3,7 +3,7 @@ import 'package:allcon/model/place_model.dart';
 import 'package:allcon/service/api.dart';
 import 'package:allcon/Util/Loading.dart';
 import 'package:allcon/Pages/Seat/seat_main.dart';
-import './hall_search.dart';
+import 'HallSearch.dart';
 
 class HallList extends StatelessWidget {
   final String area;

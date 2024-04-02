@@ -1,5 +1,5 @@
-import 'package:allcon/Pages/ConcertHall/hall_list.dart';
-import 'package:allcon/Pages/ConcertHall/hall_search.dart';
+import 'package:allcon/Pages/ConcertHall/HallList.dart';
+import 'package:allcon/Pages/ConcertHall/HallSearch.dart';
 import 'package:flutter/material.dart';
 
 class ConcertHallTable extends StatelessWidget {
@@ -64,7 +64,7 @@ class ConcertHallTable extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => HallList(area: cell),
+        builder: (context) => HallSearch(area: cell),
       ),
     );
   }
