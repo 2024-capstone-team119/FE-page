@@ -1,3 +1,4 @@
+import 'package:allcon/Pages/ConcertHall/HallMain.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/model/place_model.dart';
 import 'package:allcon/service/api.dart';
@@ -6,7 +7,6 @@ import 'package:allcon/Widget/Preparing.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:allcon/Pages/Seat/seat_main.dart';
 
 class HallSearch extends StatefulWidget {
   final String area;
@@ -77,7 +77,7 @@ class _HallSearchPageState extends State<HallSearch> {
     void cardClickEvent(BuildContext context, String content) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SeatMain(title: content)),
+        MaterialPageRoute(builder: (context) => HallMain(title: content)),
       );
     }
 

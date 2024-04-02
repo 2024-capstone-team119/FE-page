@@ -1,4 +1,3 @@
-import 'package:allcon/Pages/ConcertHall/HallList.dart';
 import 'package:allcon/Pages/ConcertHall/HallSearch.dart';
 import 'package:flutter/material.dart';
 
