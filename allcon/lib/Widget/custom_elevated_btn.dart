@@ -4,7 +4,8 @@ class CustomElevatedBtn extends StatelessWidget {
   final String text;
   final funPageRoute;
 
-  const CustomElevatedBtn({super.key, required this.text, required this.funPageRoute});
+  const CustomElevatedBtn(
+      {super.key, required this.text, required this.funPageRoute});
 
   @override
   Widget build(BuildContext context) {
