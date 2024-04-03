@@ -114,8 +114,8 @@ class _LogInState extends State<LogIn> {
           AnimatedPositioned(
             duration: const Duration(milliseconds: 500),
             bottom: _isButtonVisible
-                ? MediaQuery.of(context).size.height * 0.08
-                : MediaQuery.of(context).size.height * 0.08 - 40.0,
+                ? MediaQuery.of(context).size.height * 0.082
+                : MediaQuery.of(context).size.height * 0.082 - 40.0,
             left: 0.0,
             right: 0.0,
             child: AnimatedOpacity(
@@ -130,8 +130,8 @@ class _LogInState extends State<LogIn> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(40.0),
                     child: Image.asset(
-                      'assets/login/kakao_login_large_wide.png',
-                      width: MediaQuery.of(context).size.width * 0.9,
+                      'assets/login/naver_login_button.png',
+                      width: MediaQuery.of(context).size.width * 0.92,
                     ),
                   ),
                 ),
