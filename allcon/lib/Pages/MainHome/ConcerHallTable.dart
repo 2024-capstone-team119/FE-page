@@ -22,8 +22,8 @@ class ConcertHallTable extends StatelessWidget {
             child: Table(
               border: TableBorder.all(),
               children: [
-                buildRow(context, ['서울', '경기도/인천', '강원도']),
-                buildRow(context, ['충청도', '경상도', '전라도']),
+                buildRow(context, ['서울', '경기,인천', '강원권']),
+                buildRow(context, ['충청권', '경상권', '전라권']),
               ],
             ),
           ),
