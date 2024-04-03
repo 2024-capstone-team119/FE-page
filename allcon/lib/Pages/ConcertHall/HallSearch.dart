@@ -18,14 +18,17 @@ class HallSearch extends StatefulWidget {
 }
 
 class _HallSearchPageState extends State<HallSearch> {
+  late final TextEditingController _textEditingController =
+      TextEditingController();
   String searchText = '';
+  late final Future<List<Place>> _futurePlaces = Api.getPlace(widget.area);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(text: '${widget.area} 공연장'),
       body: FutureBuilder(
-          future: Api.getPlace(widget.area),
+          future: _futurePlaces, // FutureBuilder의 future에 변수 할당
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Loading();
@@ -53,6 +56,7 @@ class _HallSearchPageState extends State<HallSearch> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 4.0),
       child: TextField(
+        controller: _textEditingController,
         decoration: InputDecoration(
           hintText: '검색어를 입력해주세요.',
           filled: true,
