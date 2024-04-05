@@ -28,7 +28,7 @@ class _HallSearchPageState extends State<HallSearch> {
     return Scaffold(
       appBar: MyAppBar(text: '${widget.area} 공연장'),
       body: FutureBuilder(
-          future: _futurePlaces, // FutureBuilder의 future에 변수 할당
+          future: _futurePlaces,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Loading();
@@ -78,10 +78,11 @@ class _HallSearchPageState extends State<HallSearch> {
   }
 
   Widget listTab(BuildContext context, List<Place> selectedList) {
-    void cardClickEvent(BuildContext context, String content) {
+    void cardClickEvent(BuildContext context, String content, String id) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HallMain(title: content)),
+        MaterialPageRoute(
+            builder: (context) => HallMain(title: content, id: id)),
       );
     }
 
@@ -103,7 +104,8 @@ class _HallSearchPageState extends State<HallSearch> {
                       ListTile(
                         title: Text(selectedList[index].name!),
                         onTap: () {
-                          cardClickEvent(context, selectedList[index].name!);
+                          cardClickEvent(context, selectedList[index].name!,
+                              selectedList[index].id!);
                         },
                         leading: Padding(
                           padding:
