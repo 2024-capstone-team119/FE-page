@@ -210,17 +210,30 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                 children: [
                   const Icon(CupertinoIcons.calendar, size: 18),
                   const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      '${widget.performance.startDate} ~ ${widget.performance.endDate}' ??
-                          'Unknown',
-                      style: const TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.black,
+                  if (widget.performance.startDate ==
+                      widget.performance.endDate)
+                    Expanded(
+                      child: Text(
+                        '${widget.performance.startDate}' ?? 'Unknown',
+                        style: const TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.black,
+                        ),
+                        softWrap: true,
                       ),
-                      softWrap: true,
+                    )
+                  else
+                    Expanded(
+                      child: Text(
+                        '${widget.performance.startDate} ~ ${widget.performance.endDate}' ??
+                            'Unknown',
+                        style: const TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.black,
+                        ),
+                        softWrap: true,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ],

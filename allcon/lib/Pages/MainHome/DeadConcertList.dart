@@ -4,15 +4,34 @@ import 'package:allcon/Pages/MainHome/DeadConcertCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:allcon/model/performance_model.dart';
+import 'package:allcon/service/api.dart';
 
 class DeadConcertList extends StatefulWidget {
-  const DeadConcertList({super.key});
+  const DeadConcertList({Key? key});
 
   @override
   State<DeadConcertList> createState() => _DeadConcertListState();
 }
 
 class _DeadConcertListState extends State<DeadConcertList> {
+  late List<Performance> performances;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchDeadConcerts();
+  }
+
+  Future<void> _fetchDeadConcerts() async {
+    try {
+      performances = await Api.getPerformanceApproaching_all();
+      setState(() {}); // Refresh UI after data fetch
+    } catch (error) {
+      print('Error fetching dead concerts: $error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +47,8 @@ class _DeadConcertListState extends State<DeadConcertList> {
             ),
           ),
           const SizedBox(height: 10.0),
-          const DeadConcertCard(),
+          if (performances.isNotEmpty)
+            DeadConcertCard(performances: performances),
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
             child: Column(

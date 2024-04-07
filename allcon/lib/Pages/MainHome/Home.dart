@@ -1,17 +1,21 @@
 import 'package:allcon/Pages/Calendar/CalendarMain.dart';
 import 'package:allcon/Pages/MainHome/BannerConcerList.dart';
 import 'package:allcon/Pages/MainHome/ConcerHallTable.dart';
+import 'package:allcon/Pages/MainHome/DeadConcertCard.dart';
 import 'package:allcon/Pages/MainHome/DeadConcertList.dart';
+import 'package:allcon/Util/Loading.dart';
 import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:allcon/Widget/copyRight_ALLCON.dart';
+import 'package:allcon/model/performance_model.dart';
+import 'package:allcon/service/api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyHome extends StatefulWidget {
-  const MyHome({super.key});
+  const MyHome({Key? key});
 
   @override
   _MyHomeState createState() => _MyHomeState();
@@ -25,7 +29,7 @@ class _MyHomeState extends State<MyHome> {
         text: 'ALLCON',
         textFontFamily: 'Cafe24Moyamoya',
         automaticallyImplyLeading: false,
-        actions: const Icon(CupertinoIcons.calendar_today),
+        actions: Icon(CupertinoIcons.calendar_today),
         onActionPressed: () {
           Get.to(const Calendar());
         },
@@ -42,9 +46,14 @@ class _MyHomeState extends State<MyHome> {
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -63,14 +72,41 @@ class HomePage extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            const BannerConcerList(),
-            const ConcertHallTable(),
-            Divider(
-                thickness: 10, color: const Color(0xFFE6E6E6).withOpacity(0.4)),
-            const SizedBox(height: 15.0),
-            const DeadConcertList(),
-            const SizedBox(height: 50),
-            copyRightAllCon(),
+            FutureBuilder<List<dynamic>>(
+              future: Future.wait([
+                Api.getPerformanceNew_all(),
+                Api.getPerformanceApproaching_all(),
+              ]),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Loading();
+                } else if (snapshot.hasError) {
+                  return Text('에러: ${snapshot.error}');
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Text('데이터 없음');
+                } else {
+                  List<dynamic> data = snapshot.data!;
+                  List<Performance> BannerPerformances =
+                      data[0] as List<Performance>;
+                  List<Performance> DeadPerformances =
+                      data[1] as List<Performance>;
+
+                  return Column(
+                    children: [
+                      BannerConcerList(performances: BannerPerformances),
+                      const ConcertHallTable(),
+                      Divider(
+                        thickness: 10,
+                        color: const Color(0xFFE6E6E6).withOpacity(0.4),
+                      ),
+                      const SizedBox(height: 15.0),
+                      DeadConcertList(),
+                      const SizedBox(height: 120),
+                    ],
+                  );
+                }
+              },
+            ),
           ],
         ),
       ),

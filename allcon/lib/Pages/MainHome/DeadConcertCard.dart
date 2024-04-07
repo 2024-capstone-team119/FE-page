@@ -1,12 +1,13 @@
+import 'package:allcon/Util/Theme.dart';
+import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/Pages/Concert/PerformaceDetail.dart';
-import 'package:allcon/Util/Loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:allcon/model/performance_model.dart';
-import 'package:allcon/service/api.dart';
 
 class DeadConcertCard extends StatefulWidget {
-  const DeadConcertCard({super.key});
+  final List<Performance> performances;
+
+  const DeadConcertCard({Key? key, required this.performances});
 
   @override
   State<DeadConcertCard> createState() => _DeadConcertCardState();
@@ -15,34 +16,21 @@ class DeadConcertCard extends StatefulWidget {
 class _DeadConcertCardState extends State<DeadConcertCard> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Performance>>(
-      future: Api.getPerformanceApproaching_visit(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Loading();
-        } else if (snapshot.hasError) {
-          return Text('에러: ${snapshot.error}');
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('데이터 없음');
-        } else {
-          List<Performance> performances = snapshot.data!;
-          List<Performance> firstList = performances.sublist(0, 3);
-          List<Performance> secondList = performances.sublist(3, 6);
+    List<Performance> performances = widget.performances;
+    List<Performance> firstList = performances.sublist(0, 3);
+    List<Performance> secondList = performances.sublist(3, 6);
 
-          return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                const SizedBox(width: 10.0),
-                _buildPerformanceList(context, firstList),
-                const SizedBox(width: 5.0),
-                _buildPerformanceList(context, secondList),
-                const SizedBox(width: 15.0),
-              ],
-            ),
-          );
-        }
-      },
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          const SizedBox(width: 10.0),
+          _buildPerformanceList(context, firstList),
+          const SizedBox(width: 5.0),
+          _buildPerformanceList(context, secondList),
+          const SizedBox(width: 15.0),
+        ],
+      ),
     );
   }
 
@@ -94,10 +82,10 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
                               Text(
                                 performance.name ?? '',
                                 style: const TextStyle(
-                                  fontSize: 16.5,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                 ),
-                                maxLines: 1,
+                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               const SizedBox(height: 2.0),
@@ -109,15 +97,23 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
                                   style: const TextStyle(
                                     fontSize: 12.0,
                                   ),
-                                  maxLines: 2,
+                                  maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                              Text(
-                                '${performance.startDate} ~ ${performance.endDate}',
-                                style: const TextStyle(
-                                  fontSize: 12.0,
+                              if (performance.startDate == performance.endDate)
+                                Text(
+                                  '${performance.startDate}',
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
+                                  ),
+                                )
+                              else
+                                Text(
+                                  '${performance.startDate} ~ ${performance.endDate}',
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
+                                  ),
                                 ),
-                              ),
                               Text(
                                 '${performance.place}',
                                 maxLines: 1,
