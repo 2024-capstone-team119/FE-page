@@ -1,5 +1,6 @@
 import 'package:allcon/Pages/ConcertHall/PlaceInfo.dart';
 import 'package:allcon/Pages/Seat/seat_main.dart';
+import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:allcon/Widget/custom_elevated_btn.dart';
@@ -64,15 +65,21 @@ class _HallMainState extends State<HallMain> {
   }
 
   Widget reviewBtn(BuildContext context) {
-    return CustomElevatedBtn(
-      text: '시야 리뷰 보러가기',
-      funPageRoute: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => SeatMain(title: widget.title)),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20.0, 3.0, 20.0, 8.0),
+      child: CustomElevatedBtn(
+        text: '시야 리뷰 보러가기',
+        buttonColor: lightMint,
+        textColor: Colors.white,
+        icon: CupertinoIcons.eyeglasses,
+        funPageRoute: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SeatMain(title: widget.title)),
+          );
+        },
+      ),
     );
   }
 }

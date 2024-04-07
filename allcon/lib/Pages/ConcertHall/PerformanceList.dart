@@ -139,7 +139,7 @@ class PerformanceList extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: SizedBox(
-            height: 130,
+            height: 135,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -162,17 +162,26 @@ class PerformanceList extends StatelessWidget {
                       ),
                       Text(
                         performances[index].name!,
-                        maxLines: 1,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 18.0,
+                          fontSize: 16.0,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       const SizedBox(height: 3.0),
+                      if (performances[index].startDate ==
+                          performances[index].endDate)
+                        Text(
+                          '${performances[index].startDate}',
+                        )
+                      else
+                        Text(
+                            '${performances[index].startDate} ~ ${performances[index].endDate}'),
                       Text(
-                        '${performances[index].startDate} ~ ${performances[index].endDate}\n${performances[index].cast}',
+                        '${performances[index].cast}',
                         maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 8.0),
                     ],

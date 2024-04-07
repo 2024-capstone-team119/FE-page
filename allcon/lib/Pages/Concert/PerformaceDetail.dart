@@ -36,7 +36,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
         ),
       ),
       floatingActionButton: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.88,
+        width: MediaQuery.of(context).size.width * 0.9,
         height: 50,
         child: FloatingActionButton(
           onPressed: () {
