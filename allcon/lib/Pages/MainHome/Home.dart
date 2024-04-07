@@ -56,20 +56,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.white,
-            lightGray,
-          ],
+    return SingleChildScrollView(
+      child: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.white,
+              lightGray,
+            ],
+          ),
         ),
-      ),
-      child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             FutureBuilder<List<dynamic>>(
@@ -100,8 +98,8 @@ class _HomePageState extends State<HomePage> {
                         color: const Color(0xFFE6E6E6).withOpacity(0.4),
                       ),
                       const SizedBox(height: 15.0),
-                      DeadConcertList(),
-                      const SizedBox(height: 120),
+                      DeadConcertCard(performances: DeadPerformances),
+                      const SizedBox(height: 30),
                     ],
                   );
                 }

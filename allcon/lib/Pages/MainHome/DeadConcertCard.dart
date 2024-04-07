@@ -1,6 +1,9 @@
+import 'package:allcon/Pages/Concert/WatchAllConcert.dart';
+import 'package:allcon/Pages/Concert/WatchDeadConcert.dart';
 import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/Pages/Concert/PerformaceDetail.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,17 +23,108 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
     List<Performance> firstList = performances.sublist(0, 3);
     List<Performance> secondList = performances.sublist(3, 6);
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          const SizedBox(width: 10.0),
-          _buildPerformanceList(context, firstList),
-          const SizedBox(width: 5.0),
-          _buildPerformanceList(context, secondList),
-          const SizedBox(width: 15.0),
-        ],
-      ),
+    return Column(
+      children: [
+        Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                '마감임박',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    const SizedBox(width: 10.0),
+                    _buildPerformanceList(context, firstList),
+                    const SizedBox(width: 5.0),
+                    _buildPerformanceList(context, secondList),
+                    const SizedBox(width: 15.0),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
+                child: Column(
+                  children: [
+                    OutlinedButton(
+                      onPressed: () {
+                        print('마감공연 버튼 클릭 성공');
+                        Get.to(const WatchDeadConcert());
+                      },
+                      style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                        ),
+                        side: MaterialStateProperty.all<BorderSide>(
+                          const BorderSide(color: Colors.black26, width: 0.5),
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            '마감임박 공연',
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                          SizedBox(width: 5.0),
+                          Icon(
+                            CupertinoIcons.chevron_right,
+                            size: 13.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                    OutlinedButton(
+                      onPressed: () {
+                        print('전체공연 버튼 클릭 성공');
+                        Get.to(const WatchAllConcert());
+                      },
+                      style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                        ),
+                        side: MaterialStateProperty.all<BorderSide>(
+                          const BorderSide(color: Colors.black26, width: 0.5),
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            '공연 전체보기',
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                          SizedBox(width: 5.0),
+                          Icon(
+                            CupertinoIcons.chevron_right,
+                            size: 13.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
