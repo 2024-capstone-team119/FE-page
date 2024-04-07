@@ -36,7 +36,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
         ),
       ),
       floatingActionButton: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.88,
+        width: MediaQuery.of(context).size.width * 0.9,
         height: 50,
         child: FloatingActionButton(
           onPressed: () {
@@ -210,17 +210,30 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                 children: [
                   const Icon(CupertinoIcons.calendar, size: 18),
                   const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      '${widget.performance.startDate} ~ ${widget.performance.endDate}' ??
-                          'Unknown',
-                      style: const TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.black,
+                  if (widget.performance.startDate ==
+                      widget.performance.endDate)
+                    Expanded(
+                      child: Text(
+                        '${widget.performance.startDate}' ?? 'Unknown',
+                        style: const TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.black,
+                        ),
+                        softWrap: true,
                       ),
-                      softWrap: true,
+                    )
+                  else
+                    Expanded(
+                      child: Text(
+                        '${widget.performance.startDate} ~ ${widget.performance.endDate}' ??
+                            'Unknown',
+                        style: const TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.black,
+                        ),
+                        softWrap: true,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ],
@@ -254,7 +267,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
             ),
           ),
         ),
-        SizedBox(height: 15.0),
+        const SizedBox(height: 15.0),
         if (imgUrls == null || imgUrls.isEmpty)
           Padding(
             padding: const EdgeInsets.all(15),
@@ -266,7 +279,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
         else
           ListView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: imgUrls.length,
             itemBuilder: (BuildContext context, int index) {
               return Padding(

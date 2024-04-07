@@ -3,6 +3,7 @@ import 'package:allcon/Pages/Community/Sub/Post.dart';
 import 'package:allcon/Pages/Community/Sub/Search.dart';
 import 'package:allcon/Pages/Community/Sub/TabContent/ContentListView.dart';
 import 'package:allcon/Pages/Community/controller/content_controller.dart';
+import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,28 +42,16 @@ class _MyCommunityState extends State<MyCommunity>
       appBar: MyAppBar(
         text: "커뮤니티",
         automaticallyImplyLeading: false,
-        actions: TextButton(
-          onPressed: () {
-            Get.to(MyContentLikes(contentController: _contentController));
-          },
-          child: const Row(
-            children: [
-              Icon(
-                Icons.favorite,
-                size: 14.0,
-              ),
-              SizedBox(
-                width: 5.0,
-              ),
-              Text(
-                'Likes',
-                style: TextStyle(
-                  fontSize: 14.0,
-                ),
-              ),
-            ],
+        actions: const Padding(
+          padding: EdgeInsets.only(right: 8.0, top: 5.0),
+          child: Icon(
+            CupertinoIcons.heart_circle,
+            size: 30.0,
           ),
         ),
+        onActionPressed: () {
+          Get.to(MyContentLikes(contentController: _contentController));
+        },
       ),
       bottomNavigationBar: const MyBottomNavigationBar(
         currentIndex: 3,
@@ -72,21 +61,30 @@ class _MyCommunityState extends State<MyCommunity>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            width: 100.0,
-            height: 40.0,
+            width: 130.0,
+            height: 45.0,
             child: FloatingActionButton(
+              backgroundColor: lavenderColor,
               onPressed: () {
                 Get.to(const MyContentWrite());
               },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100)),
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.edit,
-                    size: 15.0,
+                    CupertinoIcons.pencil_outline,
+                    size: 16.0,
                   ),
-                  SizedBox(width: 13.0),
-                  Text('글쓰기'),
+                  SizedBox(width: 12.0),
+                  Text(
+                    '글쓰기',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
                 ],
               ),
             ),

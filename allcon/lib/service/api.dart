@@ -1,12 +1,10 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/model/place_model.dart';
+import 'package:http/http.dart' as http;
 
 class Api {
-  static const baseUrl = "http://192.168.0.6:8080/api/";
+  static const baseUrl = "http://10.0.2.2:8080/api/";
 
   // 1. 공연목록 조회 (db상에 존재하는)
   static Future<List<Performance>> getPerformance_all_past() async {
@@ -37,6 +35,30 @@ class Api {
     List<Performance> performances = [];
 
     var url = Uri.parse("${baseUrl}get_performance/all/future");
+
+    try {
+      final res = await http.get(url);
+
+      if (res.statusCode == 200) {
+        var data = jsonDecode(res.body);
+        for (var performance in data) {
+          performances.add(Performance.fromJson(performance));
+        }
+      } else {
+        print("서버 응답 코드가 200이 아닙니다. 응답 코드: ${res.statusCode}");
+        // 특정 응답 코드에 따른 추가 처리 가능
+      }
+    } catch (e) {
+      print("데이터를 가져오지 못했습니다: $e");
+      // 예외 발생 시 처리
+    }
+    return performances;
+  }
+
+  static Future<List<Performance>> getPerformance_all_all() async {
+    List<Performance> performances = [];
+
+    var url = Uri.parse("${baseUrl}get_performance/all/all");
 
     try {
       final res = await http.get(url);

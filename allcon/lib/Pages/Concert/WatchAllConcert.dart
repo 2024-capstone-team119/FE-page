@@ -4,21 +4,62 @@ import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/service/api.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class WatchAllConcert extends StatefulWidget {
-  const WatchAllConcert({super.key});
+  const WatchAllConcert({Key? key}) : super(key: key);
 
   @override
   State<WatchAllConcert> createState() => _WatchAllConcertState();
 }
 
 class _WatchAllConcertState extends State<WatchAllConcert> {
+  late Future<List<Performance>> _performancesFuture;
+
   bool selectedOngoing = true;
   bool selectedFinished = false;
+  bool selectedKorea = true;
+  bool selectedOverseas = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _performancesFuture = _fetchPerformances();
+  }
+
+  Future<List<Performance>> _fetchPerformances() async {
+    try {
+      List<Performance> fetchedPerformances = [];
+
+      if (selectedOngoing &&
+          !selectedFinished &&
+          selectedKorea &&
+          !selectedOverseas) {
+        fetchedPerformances = await Api.getPerformance_ko_future();
+      } else if (selectedFinished &&
+          !selectedOngoing &&
+          selectedKorea &&
+          !selectedOverseas) {
+        fetchedPerformances = await Api.getPerformance_ko_past();
+      } else if (selectedOngoing &&
+          !selectedFinished &&
+          !selectedKorea &&
+          selectedOverseas) {
+        fetchedPerformances = await Api.getPerformance_visit_future();
+      } else if (selectedFinished &&
+          !selectedOngoing &&
+          !selectedKorea &&
+          selectedOverseas) {
+        fetchedPerformances = await Api.getPerformance_visit_past();
+      }
+
+      return fetchedPerformances;
+    } catch (error) {
+      print('Error fetching performances: $error');
+      rethrow;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +67,7 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
       appBar: const MyAppBar(text: '전체공연'),
       backgroundColor: Colors.white,
       body: FutureBuilder<List<Performance>>(
-        future: Api.getPerformance_visit_future(),
+        future: _performancesFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loading();
@@ -35,85 +76,108 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Text('데이터 없음');
           } else {
-            List<Performance> filteredPerformances = [];
-            DateFormat format = DateFormat("yyyy.MM.dd");
-            if (selectedOngoing) {
-              filteredPerformances.addAll(snapshot.data!
-                  .where((performance) => format
-                      .parse(performance.endDate!)
-                      .isAfter(DateTime.now()))
-                  .toList());
-            } else if (selectedFinished) {
-              filteredPerformances.addAll(snapshot.data!
-                  .where((performance) => format
-                      .parse(performance.endDate!)
-                      .isBefore(DateTime.now()))
-                  .toList());
-            }
+            List<Performance> performances = snapshot.data!;
 
             return Column(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(width: 18),
                     ChoiceChip(
-                      label: Text('공연중/예정'),
+                      label: const Text('공연중/예정'),
                       selected: selectedOngoing,
-                      avatar: Icon(CupertinoIcons.tag_circle),
                       selectedColor: lightMint,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
                       onSelected: (selected) {
-                        setState(() {
-                          selectedOngoing = selected;
-
-                          selectedFinished = false;
-                        });
+                        if (selected) {
+                          // 추가된 부분: 선택된 경우에만 동작하도록 수정
+                          setState(() {
+                            selectedOngoing = true;
+                            selectedFinished = false;
+                            _performancesFuture = _fetchPerformances();
+                          });
+                        }
                       },
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 5),
                     ChoiceChip(
-                      label: Text('종료공연'),
+                      label: const Text('종료공연'),
                       selected: selectedFinished,
-                      avatar: Icon(CupertinoIcons.tag_circle),
                       selectedColor: lightMint,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
                       onSelected: (selected) {
-                        setState(() {
-                          selectedFinished = selected;
-
-                          selectedOngoing = false;
-                        });
+                        if (selected) {
+                          setState(() {
+                            selectedFinished = true;
+                            selectedOngoing = false;
+                            _performancesFuture = _fetchPerformances();
+                          });
+                        }
+                      },
+                    ),
+                    const SizedBox(width: 5),
+                    ChoiceChip(
+                      label: const Text('국내'),
+                      selected: selectedKorea,
+                      selectedColor: lightPurple,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      onSelected: (selected) {
+                        if (selected) {
+                          setState(() {
+                            selectedKorea = true;
+                            selectedOverseas = false;
+                            _performancesFuture = _fetchPerformances();
+                          });
+                        }
+                      },
+                    ),
+                    const SizedBox(width: 5),
+                    ChoiceChip(
+                      label: const Text('내한'),
+                      selected: selectedOverseas,
+                      selectedColor: lightPurple,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      onSelected: (selected) {
+                        if (selected) {
+                          setState(() {
+                            selectedOverseas = true;
+                            selectedKorea = false;
+                            _performancesFuture = _fetchPerformances();
+                          });
+                        }
                       },
                     ),
                   ],
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: filteredPerformances.length,
-                    itemBuilder: (context, imgIndex) {
+                    itemCount: performances.length,
+                    itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
                         child: GestureDetector(
                           onTap: () {
-                            print(
-                                '항목이 클릭되었습니다: ${filteredPerformances[imgIndex]}');
+                            print('항목이 클릭되었습니다: ${performances[index]}');
                             Get.to(() => PerformanceDetail(
-                                  performance: filteredPerformances[imgIndex],
+                                  performance: performances[index],
                                 ));
                           },
                           child: Row(
                             children: [
-                              SizedBox(width: 20),
+                              const SizedBox(width: 20),
                               SizedBox(
                                 width: 80,
                                 child: Image.network(
-                                  filteredPerformances[imgIndex].poster ?? '',
+                                  performances[index].poster ?? '',
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -123,9 +187,7 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      filteredPerformances[imgIndex]
-                                          .name
-                                          .toString(),
+                                      performances[index].name ?? '',
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
@@ -134,36 +196,42 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
                                       ),
                                     ),
                                     const SizedBox(height: 5),
-                                    if (filteredPerformances[imgIndex].cast !=
-                                            null &&
-                                        filteredPerformances[imgIndex]
+                                    if (performances[index].cast != null &&
+                                        performances[index].cast!.isNotEmpty &&
+                                        performances[index]
                                             .cast!
                                             .trim()
                                             .isNotEmpty)
                                       Text(
-                                        filteredPerformances[imgIndex]
-                                                .cast
-                                                .toString() ??
-                                            'Unknown Performer',
+                                        performances[index].cast!,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(fontSize: 14),
                                       ),
                                     const SizedBox(height: 2),
-                                    if (filteredPerformances[imgIndex]
-                                            .startDate ==
-                                        filteredPerformances[imgIndex].endDate)
+                                    if (performances[index].startDate ==
+                                        performances[index].endDate)
                                       Text(
-                                          '${filteredPerformances[imgIndex].startDate}')
+                                        '${performances[index].startDate}',
+                                        style: const TextStyle(fontSize: 14),
+                                      )
                                     else
                                       Text(
-                                        '${filteredPerformances[imgIndex].startDate} ~ ${filteredPerformances[imgIndex].endDate}'
-                                            .toString(),
+                                        '${performances[index].startDate} ~ ${performances[index].endDate}',
+                                        style: const TextStyle(fontSize: 14),
                                       ),
+                                    Text(
+                                      '${performances[index].place}',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
-                              SizedBox(width: 20),
+                              const SizedBox(width: 20),
                             ],
                           ),
                         ),
