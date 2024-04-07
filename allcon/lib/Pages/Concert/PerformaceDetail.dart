@@ -267,7 +267,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
             ),
           ),
         ),
-        SizedBox(height: 15.0),
+        const SizedBox(height: 15.0),
         if (imgUrls == null || imgUrls.isEmpty)
           Padding(
             padding: const EdgeInsets.all(15),
@@ -279,7 +279,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
         else
           ListView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: imgUrls.length,
             itemBuilder: (BuildContext context, int index) {
               return Padding(

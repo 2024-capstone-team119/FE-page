@@ -2,12 +2,10 @@ import 'package:allcon/Pages/Calendar/CalendarMain.dart';
 import 'package:allcon/Pages/MainHome/BannerConcerList.dart';
 import 'package:allcon/Pages/MainHome/ConcerHallTable.dart';
 import 'package:allcon/Pages/MainHome/DeadConcertCard.dart';
-import 'package:allcon/Pages/MainHome/DeadConcertList.dart';
 import 'package:allcon/Util/Loading.dart';
 import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
-import 'package:allcon/Widget/copyRight_ALLCON.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/service/api.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyHome extends StatefulWidget {
-  const MyHome({Key? key});
+  const MyHome({Key? key}) : super(key: key);
 
   @override
   _MyHomeState createState() => _MyHomeState();
@@ -29,7 +27,7 @@ class _MyHomeState extends State<MyHome> {
         text: 'ALLCON',
         textFontFamily: 'Cafe24Moyamoya',
         automaticallyImplyLeading: false,
-        actions: Icon(CupertinoIcons.calendar_today),
+        actions: const Icon(CupertinoIcons.calendar_today),
         onActionPressed: () {
           Get.to(const Calendar());
         },
@@ -47,7 +45,7 @@ class _MyHomeState extends State<MyHome> {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();

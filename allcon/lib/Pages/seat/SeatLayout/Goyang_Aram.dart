@@ -1,15 +1,10 @@
-import 'package:allcon/Pages/Calendar/CalendarMain.dart';
 import 'package:allcon/Pages/seat/SeatLayout/CustomFigure/Trapezoid.dart';
 import 'package:allcon/Util/Theme.dart';
-import 'package:allcon/main.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
-import 'package:get/get.dart';
 
 class GoyangAram extends StatelessWidget {
-  const GoyangAram({Key? key}) : super(key: key);
+  const GoyangAram({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +13,7 @@ class GoyangAram extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         color: Colors.white,
-        child: Column(
+        child: const Column(
           children: [
             Stage(),
             SizedBox(height: 30),
@@ -35,13 +30,15 @@ class GoyangAram extends StatelessWidget {
 }
 
 class Stage extends StatelessWidget {
+  const Stage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black54,
       width: 240,
       height: 30,
-      child: Center(
+      child: const Center(
         child: Text(
           'STAGE',
           style: TextStyle(
@@ -55,6 +52,8 @@ class Stage extends StatelessWidget {
 }
 
 class Floor extends StatelessWidget {
+  const Floor({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -70,18 +69,18 @@ class Floor extends StatelessWidget {
                 lineToX3: 0.2,
                 color: Ground,
               ),
-              child: Container(
+              child: const SizedBox(
                 width: 80,
                 height: 60,
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Container(
               width: 160,
               height: 60,
               color: Ground,
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             CustomPaint(
               painter: TrapezoidPainter(
                 moveToX: 0,
@@ -91,14 +90,14 @@ class Floor extends StatelessWidget {
                 lineToX2: 0.8,
                 color: Ground,
               ),
-              child: Container(
+              child: const SizedBox(
                 width: 80,
                 height: 60,
               ),
             ),
           ],
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Row(
           children: [
             CustomPaint(
@@ -109,18 +108,18 @@ class Floor extends StatelessWidget {
                 lineToY1: 0,
                 color: Ground,
               ),
-              child: Container(
+              child: const SizedBox(
                 width: 80,
                 height: 100,
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Container(
               width: 160,
               height: 100,
               color: Ground,
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             CustomPaint(
               painter: TrapezoidPainter(
                 moveToX: 0,
@@ -129,14 +128,14 @@ class Floor extends StatelessWidget {
                 lineToY1: 0,
                 color: Ground,
               ),
-              child: Container(
+              child: const SizedBox(
                 width: 80,
                 height: 100,
               ),
             ),
           ],
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Row(
           children: [
             CustomPaint(
@@ -148,18 +147,18 @@ class Floor extends StatelessWidget {
                 lineToX3: 0.3,
                 color: Ground,
               ),
-              child: Container(
+              child: const SizedBox(
                 width: 80,
                 height: 40,
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Container(
               width: 160,
               height: 40,
               color: Ground,
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             CustomPaint(
               painter: TrapezoidPainter(
                 moveToX: 0,
@@ -169,14 +168,14 @@ class Floor extends StatelessWidget {
                 lineToX2: 0.7,
                 color: Ground,
               ),
-              child: Container(
+              child: const SizedBox(
                 width: 80,
                 height: 40,
               ),
             ),
           ],
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Row(
           children: [
             CustomPaint(
@@ -188,18 +187,18 @@ class Floor extends StatelessWidget {
                 lineToX3: 0.2,
                 color: Ground,
               ),
-              child: Container(
+              child: const SizedBox(
                 width: 120,
                 height: 50,
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Container(
               width: 160,
               height: 50,
               color: Ground,
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             CustomPaint(
               painter: TrapezoidPainter(
                 moveToX: 0,
@@ -209,7 +208,7 @@ class Floor extends StatelessWidget {
                 lineToX2: 0.8,
                 color: Ground,
               ),
-              child: Container(
+              child: const SizedBox(
                 width: 120,
                 height: 50,
               ),
@@ -222,6 +221,8 @@ class Floor extends StatelessWidget {
 }
 
 class Second extends StatelessWidget {
+  const Second({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -235,18 +236,18 @@ class Second extends StatelessWidget {
             lineToX3: 0.2,
             color: oneFloor,
           ),
-          child: Container(
+          child: const SizedBox(
             width: 160,
             height: 50,
           ),
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Container(
           width: 160,
           height: 50,
           color: oneFloor,
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         CustomPaint(
           painter: TrapezoidPainter(
             moveToX: 0,
@@ -256,7 +257,7 @@ class Second extends StatelessWidget {
             lineToX2: 0.8,
             color: oneFloor,
           ),
-          child: Container(
+          child: const SizedBox(
             width: 160,
             height: 50,
           ),
@@ -267,6 +268,8 @@ class Second extends StatelessWidget {
 }
 
 class Third extends StatelessWidget {
+  const Third({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -276,13 +279,13 @@ class Third extends StatelessWidget {
           height: 50,
           color: secondFloor,
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Container(
           width: 160,
           height: 50,
           color: secondFloor,
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Container(
           width: 130,
           height: 50,

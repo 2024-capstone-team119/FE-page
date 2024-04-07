@@ -4,12 +4,11 @@ import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/service/api.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class WatchAllConcert extends StatefulWidget {
-  const WatchAllConcert({Key? key});
+  const WatchAllConcert({Key? key}) : super(key: key);
 
   @override
   State<WatchAllConcert> createState() => _WatchAllConcertState();
@@ -58,7 +57,7 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
       return fetchedPerformances;
     } catch (error) {
       print('Error fetching performances: $error');
-      throw error;
+      rethrow;
     }
   }
 
@@ -85,7 +84,7 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ChoiceChip(
-                      label: Text('공연중/예정'),
+                      label: const Text('공연중/예정'),
                       selected: selectedOngoing,
                       selectedColor: lightMint,
                       shape: RoundedRectangleBorder(
@@ -102,9 +101,9 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
                         }
                       },
                     ),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     ChoiceChip(
-                      label: Text('종료공연'),
+                      label: const Text('종료공연'),
                       selected: selectedFinished,
                       selectedColor: lightMint,
                       shape: RoundedRectangleBorder(
@@ -120,9 +119,9 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
                         }
                       },
                     ),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     ChoiceChip(
-                      label: Text('국내'),
+                      label: const Text('국내'),
                       selected: selectedKorea,
                       selectedColor: lightPurple,
                       shape: RoundedRectangleBorder(
@@ -138,9 +137,9 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
                         }
                       },
                     ),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     ChoiceChip(
-                      label: Text('내한'),
+                      label: const Text('내한'),
                       selected: selectedOverseas,
                       selectedColor: lightPurple,
                       shape: RoundedRectangleBorder(
@@ -158,7 +157,7 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
                     ),
                   ],
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Expanded(
                   child: ListView.builder(
                     itemCount: performances.length,
@@ -174,7 +173,7 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
                           },
                           child: Row(
                             children: [
-                              SizedBox(width: 20),
+                              const SizedBox(width: 20),
                               SizedBox(
                                 width: 80,
                                 child: Image.network(
@@ -232,7 +231,7 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
                                   ],
                                 ),
                               ),
-                              SizedBox(width: 20),
+                              const SizedBox(width: 20),
                             ],
                           ),
                         ),

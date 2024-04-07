@@ -8,7 +8,8 @@ import 'package:get/get.dart';
 class BannerConcerList extends StatefulWidget {
   final List<Performance> performances;
 
-  const BannerConcerList({Key? key, required this.performances});
+  const BannerConcerList({Key? key, required this.performances})
+      : super(key: key);
 
   @override
   State<BannerConcerList> createState() => _BannerConcerListState();

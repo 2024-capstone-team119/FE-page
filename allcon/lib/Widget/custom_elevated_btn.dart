@@ -11,7 +11,7 @@ class CustomElevatedBtn extends StatelessWidget {
   final Color? iconColor;
 
   const CustomElevatedBtn({
-    Key? key,
+    super.key,
     required this.text,
     required this.funPageRoute,
     this.textColor = Colors.deepPurple,
@@ -19,7 +19,7 @@ class CustomElevatedBtn extends StatelessWidget {
     this.buttonColor = lavenderColor,
     this.icon,
     this.iconColor = lavenderColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

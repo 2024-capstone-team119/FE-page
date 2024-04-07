@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/model/performance_model.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class PerformanceList extends StatelessWidget {

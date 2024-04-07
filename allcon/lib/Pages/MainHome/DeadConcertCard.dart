@@ -1,6 +1,5 @@
 import 'package:allcon/Pages/Concert/WatchAllConcert.dart';
 import 'package:allcon/Pages/Concert/WatchDeadConcert.dart';
-import 'package:allcon/Util/Theme.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/Pages/Concert/PerformaceDetail.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +9,8 @@ import 'package:get/get.dart';
 class DeadConcertCard extends StatefulWidget {
   final List<Performance> performances;
 
-  const DeadConcertCard({Key? key, required this.performances});
+  const DeadConcertCard({Key? key, required this.performances})
+      : super(key: key);
 
   @override
   State<DeadConcertCard> createState() => _DeadConcertCardState();

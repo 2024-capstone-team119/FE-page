@@ -42,8 +42,8 @@ class _MyCommunityState extends State<MyCommunity>
       appBar: MyAppBar(
         text: "커뮤니티",
         automaticallyImplyLeading: false,
-        actions: Padding(
-          padding: const EdgeInsets.only(right: 8.0, top: 5.0),
+        actions: const Padding(
+          padding: EdgeInsets.only(right: 8.0, top: 5.0),
           child: Icon(
             CupertinoIcons.heart_circle,
             size: 30.0,
@@ -71,7 +71,7 @@ class _MyCommunityState extends State<MyCommunity>
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100)),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
