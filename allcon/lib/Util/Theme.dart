@@ -14,3 +14,9 @@ const darkMint = Color(0xFF055B5C);
 // 검정-회색 계열
 const lightGray = Color(0xFFF6F6F6);
 const midGray = Color(0xFFEDEBEB);
+
+// 공연장 좌석배치도 색깔
+const Ground = Colors.deepPurple;
+const oneFloor = Colors.lightBlue;
+const secondFloor = Colors.green;
+const thirdFloor = Colors.amber;
