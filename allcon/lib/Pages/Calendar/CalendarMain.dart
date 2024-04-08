@@ -28,7 +28,7 @@ class _CalendarState extends State<Calendar> {
       ),
       body: FutureBuilder<List<dynamic>>(
         future: Future.wait([
-          Api.getPerformance_ko_future(),
+          Api.getPerformance_all_all(),
           Api.getPerformanceApproaching_ko(),
         ]),
         builder: (context, snapshot) {
@@ -44,12 +44,20 @@ class _CalendarState extends State<Calendar> {
             List<Performance> upcomingPerformances =
                 results[1] as List<Performance>;
 
-            selectedDayController.setPerformances(performances);
+            // 국내 공연만 담아오기
+            List<Performance> koPerformances = [];
+            for (Performance performance in performances) {
+              if (performance.visit == 'N') {
+                koPerformances.add(performance);
+              }
+            }
+
+            selectedDayController.setPerformances(koPerformances);
 
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  CalendarDate(performances: performances),
+                  CalendarDate(performances: koPerformances),
                   CalendarUpcoming(performances: upcomingPerformances),
                 ],
               ),
