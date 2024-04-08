@@ -21,13 +21,19 @@ class PerformanceList extends StatelessWidget {
   }
 
   Widget title(BuildContext context) {
+    // 진행중/예정인 공연만 리스트 생성
+    List<Performance> ongoingPerformances = performances.where((performance) {
+      DateTime endDate = DateFormat('yyyy.MM.dd').parse(performance.endDate!);
+      return endDate.isAfter(DateTime.now());
+    }).toList();
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 16.0, 0.0, 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            '진행중/예정인 공연 (${performances.length})',
+            '진행중/예정인 공연 (${ongoingPerformances.length})',
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ],
@@ -52,7 +58,7 @@ class PerformanceList extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const Text(
-              '진행 예정인 공연이 없습니다.', // text 수정
+              '진행 예정인 공연이 없습니다.',
               style: TextStyle(
                 fontSize: 20.0,
               ),
@@ -129,66 +135,72 @@ class PerformanceList extends StatelessWidget {
       itemBuilder: (context, index) {
         DateTime startDate =
             DateFormat('yyyy.MM.dd').parse(performances[index].startDate!);
+        DateTime endDate =
+            DateFormat('yyyy.MM.dd').parse(performances[index].endDate!);
         DateTime now = DateTime.now();
         int dDay = startDate.difference(now).inDays;
 
         String startText = (dDay <= 0) ? '공연중' : '공연예정';
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          child: SizedBox(
-            height: 135,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(5.0),
-                  child: Image.network(
-                    performances[index].poster!,
-                    fit: BoxFit.cover,
-                    width: 100,
+        // 종료된 공연은 리스트에서 삭제
+        if (endDate.isBefore(now)) {
+          return const SizedBox.shrink();
+        } else {
+          return Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            child: SizedBox(
+              height: 135,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(5.0),
+                    child: Image.network(
+                      performances[index].poster!,
+                      fit: BoxFit.cover,
+                      width: 100,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 15),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 4.0),
-                        child: startPerformance(dDay, startText),
-                      ),
-                      Text(
-                        performances[index].name!,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w500,
+                  const SizedBox(width: 15),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 4.0),
+                          child: startPerformance(dDay, startText),
                         ),
-                      ),
-                      const SizedBox(height: 3.0),
-                      if (performances[index].startDate ==
-                          performances[index].endDate)
                         Text(
-                          '${performances[index].startDate}',
-                        )
-                      else
+                          performances[index].name!,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: 3.0),
+                        if (performances[index].startDate ==
+                            performances[index].endDate)
+                          Text('${performances[index].startDate}')
+                        else
+                          Text(
+                              '${performances[index].startDate} ~ ${performances[index].endDate}'),
                         Text(
-                            '${performances[index].startDate} ~ ${performances[index].endDate}'),
-                      Text(
-                        '${performances[index].cast}',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 8.0),
-                    ],
+                          '${performances[index].cast}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 8.0),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        );
+          );
+        }
       },
     );
   }
