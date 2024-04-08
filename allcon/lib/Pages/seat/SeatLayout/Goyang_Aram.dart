@@ -2,7 +2,6 @@ import 'package:allcon/Pages/seat/SeatLayout/CustomFigure/Trapezoid.dart';
 import 'package:allcon/Util/Theme.dart';
 import 'package:flutter/material.dart';
 
-
 class GoyangAram extends StatelessWidget {
   const GoyangAram({super.key});
 
