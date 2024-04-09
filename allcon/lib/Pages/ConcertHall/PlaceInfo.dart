@@ -14,7 +14,8 @@ class _PlaceInfoState extends State<PlaceInfo> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 350,
+      width: MediaQuery.of(context).size.width,
+      height: 300,
       child: Column(
         children: [
           PlaceBar(context, widget.placeDetail),

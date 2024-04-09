@@ -42,31 +42,27 @@ class PerformanceList extends StatelessWidget {
   }
 
   Widget noPerformance(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Center(
-        child: Column(
-          children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-            const Text(
-              'O',
-              style: TextStyle(
-                fontSize: 120.0,
-                fontFamily: 'Cafe24Moyamoya',
-                color: Color(0xFFff66a1),
-              ),
-              textAlign: TextAlign.center,
+    return Center(
+      child: Column(
+        children: [
+          const Text(
+            'O',
+            style: TextStyle(
+              fontSize: 120.0,
+              fontFamily: 'Cafe24Moyamoya',
+              color: Color(0xFFff66a1),
             ),
-            const Text(
-              '진행 예정인 공연이 없습니다.',
-              style: TextStyle(
-                fontSize: 20.0,
-              ),
-              textAlign: TextAlign.center,
+            textAlign: TextAlign.center,
+          ),
+          const Text(
+            '진행 예정인 공연이 없습니다.',
+            style: TextStyle(
+              fontSize: 18.0,
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-          ],
-        ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 30),
+        ],
       ),
     );
   }
