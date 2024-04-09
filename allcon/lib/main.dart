@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const OlympicChaejo(),
+      home: const LogIn(),
       theme: ThemeData(fontFamily: 'Pretendard'),
       themeMode: ThemeMode.system,
     );
