@@ -3,8 +3,14 @@ import 'dart:math' as math;
 
 class TrapezoidCurvePainter extends CustomPainter {
   final Color color; // 변수로 받아올 색상
-  final double topStartX, topEndX, topStartY, topEndY; // 윗변 좌표
-  final double bottomStartX, bottomEndX, bottomStartY, bottomEndY; // 아랫변 좌표
+  final double topStartX, // 좌측상단 y좌표
+      topEndX, // 좌측하단 y좌표
+      topStartY, // 좌측상단 x좌표
+      topEndY; // 좌측하단 x좌표
+  final double bottomStartX, // 우측상단 y좌표
+      bottomEndX, // 우측하단 y좌표
+      bottomStartY, // 우측상단 x좌표
+      bottomEndY; // 우측하단 x좌표
   final double curveIntensity; // 곡선의 정도를 나타내는 변수
   final double rotationAngle; // 회전 각도
 

@@ -18,11 +18,14 @@ class OlympicChaejo extends StatelessWidget {
             child: SizedBox(
               width: 700,
               height: 700,
-              child: Stack(
-                children: [
-                  ...secondSeat(secondSeatCenter(context)),
-                  ...firstSeat(firstSeatCenter(context)),
-                ],
+              child: Transform.scale(
+                scale: 0.5,
+                child: Stack(
+                  children: [
+                    ...secondSeat(secondSeatCenter(context)),
+                    ...firstSeat(firstSeatCenter(context)),
+                  ],
+                ),
               ),
             ),
           ),
@@ -34,7 +37,7 @@ class OlympicChaejo extends StatelessWidget {
   List<Widget> secondSeat(Offset center) {
     return List.generate(30, (index) {
       double angle = index * 2 * math.pi / 30;
-      double x = center.dx + 250 * math.cos(angle) + 150;
+      double x = center.dx + 250 * math.cos(angle) + 50;
       double y = center.dy + 250 * math.sin(angle);
       return Positioned(
         left: x,
@@ -43,11 +46,11 @@ class OlympicChaejo extends StatelessWidget {
           size: const Size(30, 45),
           painter: TrapezoidCurvePainter(
             color: secondFloor,
-            topStartX: 0,
+            topStartX: 0, // topStartX부터 topEndX == 도형 높이
             topEndX: 60,
             topStartY: 49,
             topEndY: 55,
-            bottomStartX: 0,
+            bottomStartX: 0, // bottomStartX부터 bottomEndX == 도형 높이
             bottomEndX: 60,
             bottomStartY: 3,
             bottomEndY: -3,
@@ -62,7 +65,7 @@ class OlympicChaejo extends StatelessWidget {
   List<Widget> firstSeat(Offset center) {
     return List.generate(28, (index) {
       double angle = index * math.pi / 14;
-      double x = center.dx + 150 * math.cos(angle) + 150;
+      double x = center.dx + 150 * math.cos(angle) + 50;
       double y = center.dy + 150 * math.sin(angle);
       return Positioned(
         left: x,
