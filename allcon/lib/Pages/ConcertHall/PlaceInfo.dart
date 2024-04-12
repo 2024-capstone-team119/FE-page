@@ -1,5 +1,7 @@
 import 'package:allcon/model/place_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PlaceInfo extends StatefulWidget {
   final Place placeDetail;
@@ -27,6 +29,8 @@ class _PlaceInfoState extends State<PlaceInfo> {
   }
 
   Widget PlaceBar(BuildContext context, Place placeDetail) {
+    final Uri url = Uri.parse(placeDetail.url!);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -56,19 +60,28 @@ class _PlaceInfoState extends State<PlaceInfo> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 4.0),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.language_rounded,
-                                  color: Colors.deepPurple, size: 15.0),
-                              const SizedBox(width: 12.0),
-                              Text(placeDetail.url!, // 프리즘홀 문제
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(fontSize: 12.0)),
-                            ],
+                        GestureDetector(
+                          onTap: () {
+                            launchUrl(url);
+                          },
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 4.0),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.language_rounded,
+                                    color: Colors.deepPurple, size: 15.0),
+                                const SizedBox(width: 12.0),
+                                SizedBox(
+                                  width: 320.0,
+                                  child: Text(
+                                    placeDetail.url!,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(fontSize: 12.0),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         Padding(
