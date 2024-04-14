@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/service/api.dart';
@@ -5,6 +6,7 @@ import 'package:allcon/Util/Loading.dart';
 import 'package:allcon/Pages/Calendar/CalendarUpcoming.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'CalendarDate.dart';
 import './controller/selecetedDay_controller.dart';
 import 'package:get/get.dart';
@@ -19,6 +21,18 @@ class Calendar extends StatefulWidget {
 class _CalendarState extends State<Calendar> {
   final SelectedDayController selectedDayController =
       Get.put(SelectedDayController());
+
+  Future<void> cacheData(List<dynamic> data) async {
+    final cacheManager = DefaultCacheManager();
+    const key = 'performance_data'; // 캐시 키
+
+    await cacheManager.removeFile(key); // 기존 데이터 삭제
+
+    await cacheManager.putFile(
+      key,
+      utf8.encode(jsonEncode(data)), // 데이터를 JSON 문자열로 인코딩하여 저장
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,20 +58,15 @@ class _CalendarState extends State<Calendar> {
             List<Performance> upcomingPerformances =
                 results[1] as List<Performance>;
 
-            // 국내 공연만 담아오기
-            List<Performance> koPerformances = [];
-            for (Performance performance in performances) {
-              if (performance.visit == 'N') {
-                koPerformances.add(performance);
-              }
-            }
+            // 데이터 캐싱
+            cacheData([performances, upcomingPerformances]);
 
-            selectedDayController.setPerformances(koPerformances);
+            selectedDayController.setPerformances(performances);
 
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  CalendarDate(performances: koPerformances),
+                  CalendarDate(performances: performances),
                   CalendarUpcoming(performances: upcomingPerformances),
                 ],
               ),

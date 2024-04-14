@@ -16,7 +16,6 @@ class CalendarDate extends StatefulWidget {
 }
 
 class _CalendarDateState extends State<CalendarDate> {
-  late final DateTime _selectedDay = DateTime.now();
   late List<Performance> performances = [];
   final SelectedDayController controller = Get.put(SelectedDayController());
 
