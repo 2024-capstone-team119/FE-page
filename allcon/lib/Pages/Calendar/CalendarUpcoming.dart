@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/Util/Theme.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -37,7 +35,7 @@ class _CalendarUpcomingState extends State<CalendarUpcoming> {
       ..sort((a, b) => a.compareTo(b));
 
     return Padding(
-      padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+      padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

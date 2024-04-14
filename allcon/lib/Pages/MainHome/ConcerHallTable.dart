@@ -1,4 +1,4 @@
-import 'package:allcon/Pages/ConcertHall/hall_search.dart';
+import 'package:allcon/Pages/ConcertHall/HallSearch.dart';
 import 'package:flutter/material.dart';
 
 class ConcertHallTable extends StatelessWidget {
@@ -22,8 +22,8 @@ class ConcertHallTable extends StatelessWidget {
             child: Table(
               border: TableBorder.all(),
               children: [
-                buildRow(context, ['서울', '경기도/인천', '강원도']),
-                buildRow(context, ['충청도', '경상도', '전라도']),
+                buildRow(context, ['서울', '경기,인천', '강원권']),
+                buildRow(context, ['충청권', '경상권', '전라권']),
               ],
             ),
           ),
@@ -39,14 +39,7 @@ class ConcertHallTable extends StatelessWidget {
           .map(
             (cell) => InkWell(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HallSearch(
-                      initialTitle: cell,
-                    ),
-                  ),
-                );
+                handleCellTap(context, cell);
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
@@ -63,6 +56,15 @@ class ConcertHallTable extends StatelessWidget {
             ),
           )
           .toList(),
+    );
+  }
+
+  void handleCellTap(BuildContext context, String cell) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HallSearch(area: cell),
+      ),
     );
   }
 }

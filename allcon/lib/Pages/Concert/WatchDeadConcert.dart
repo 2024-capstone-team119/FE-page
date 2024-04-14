@@ -20,7 +20,7 @@ class _WatchDeadConcertState extends State<WatchDeadConcert> {
       appBar: const MyAppBar(text: '마감임박 공연'),
       backgroundColor: Colors.white,
       body: FutureBuilder<List<Performance>>(
-        future: Api.getPerformanceApproaching(),
+        future: Api.getPerformanceApproaching_all(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loading();

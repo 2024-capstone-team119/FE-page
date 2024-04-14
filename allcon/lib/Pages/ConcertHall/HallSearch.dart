@@ -1,34 +1,53 @@
-import 'package:allcon/Pages/Seat/seat_main.dart';
+import 'package:allcon/Pages/ConcertHall/HallMain.dart';
+import 'package:flutter/material.dart';
+import 'package:allcon/model/place_model.dart';
+import 'package:allcon/service/api.dart';
+import 'package:allcon/Util/Loading.dart';
 import 'package:allcon/Widget/Preparing.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:allcon/Pages/ConcertHall/hall_list.dart';
 
 class HallSearch extends StatefulWidget {
-  final String initialTitle;
+  final String area;
 
-  const HallSearch({super.key, required this.initialTitle});
+  const HallSearch({super.key, required this.area});
 
   @override
   State<HallSearch> createState() => _HallSearchPageState();
 }
 
 class _HallSearchPageState extends State<HallSearch> {
+  late final TextEditingController _textEditingController =
+      TextEditingController();
   String searchText = '';
+  late final Future<List<Place>> _futurePlaces = Api.getPlace(widget.area);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(text: '${widget.initialTitle} 공연장'),
-      body: Column(
-        children: <Widget>[
-          searchTab(context),
-          const SizedBox(height: 16.0),
-          listTab(context),
-        ],
-      ),
+      appBar: MyAppBar(text: '${widget.area} 공연장'),
+      body: FutureBuilder(
+          future: _futurePlaces,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Loading();
+            } else if (snapshot.hasError) {
+              return Text('에러: ${snapshot.error}');
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Preparing(text: '공연장 준비중입니다.\n 조금만 기다려주세요 :)');
+            } else {
+              List<Place> selectedList = snapshot.data!;
+
+              return Column(
+                children: <Widget>[
+                  searchTab(context),
+                  const SizedBox(height: 16.0),
+                  listTab(context, selectedList),
+                ],
+              );
+            }
+          }),
       bottomNavigationBar: const MyBottomNavigationBar(currentIndex: 1),
     );
   }
@@ -37,6 +56,7 @@ class _HallSearchPageState extends State<HallSearch> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 4.0),
       child: TextField(
+        controller: _textEditingController,
         decoration: InputDecoration(
           hintText: '검색어를 입력해주세요.',
           filled: true,
@@ -57,58 +77,35 @@ class _HallSearchPageState extends State<HallSearch> {
     );
   }
 
-  Widget listTab(BuildContext context) {
-    void cardClickEvent(BuildContext context, String content) {
+  Widget listTab(BuildContext context, List<Place> selectedList) {
+    void cardClickEvent(BuildContext context, String content, String id) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SeatMain(title: content)),
+        MaterialPageRoute(
+            builder: (context) => HallMain(title: content, id: id)),
       );
     }
 
-    List<Place> selectedList = [];
-
-    // 주어진 조건에 따라 적절한 리스트 선택
-    if (widget.initialTitle == '서울') {
-      selectedList = seoulList;
-    } else if (widget.initialTitle == '경상도') {
-      selectedList = gyeongSangList;
-    } else {
-      return const Expanded(
-        child: Preparing(text: "공연장 준비중입니다.\n 조금만 기다려주세요 :)"),
-      );
-    }
-
-    // 리스트가 선택된 경우, 해당 리스트의 아이템을 표시
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // const Padding(
-          //   padding: EdgeInsets.all(8.0),
-          //   child: Text(
-          //     '목록',
-          //     textAlign: TextAlign.center,
-          //     style: TextStyle(
-          //       fontSize: 18,
-          //       fontWeight: FontWeight.bold,
-          //     ),
-          //   ),
-          // ),
           Expanded(
             child: ListView.builder(
               itemCount: selectedList.length,
               itemBuilder: (BuildContext context, int index) {
                 if (searchText.isEmpty ||
                     selectedList[index]
-                        .title
+                        .name!
                         .toLowerCase()
                         .contains(searchText.toLowerCase())) {
                   return Column(
                     children: [
                       ListTile(
-                        title: Text(selectedList[index].title),
+                        title: Text(selectedList[index].name!),
                         onTap: () {
-                          cardClickEvent(context, selectedList[index].title);
+                          cardClickEvent(context, selectedList[index].name!,
+                              selectedList[index].id!);
                         },
                         leading: Padding(
                           padding:
@@ -129,9 +126,8 @@ class _HallSearchPageState extends State<HallSearch> {
                       ),
                     ],
                   );
-                } else {
-                  return const SizedBox.shrink();
                 }
+                return const SizedBox.shrink();
               },
             ),
           ),

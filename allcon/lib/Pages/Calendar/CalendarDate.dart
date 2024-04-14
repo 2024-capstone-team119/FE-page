@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:allcon/model/performance_model.dart';
-import 'package:allcon/service/api.dart';
 import 'package:allcon/Util/Theme.dart';
-import 'package:allcon/Util/Loading.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
+import 'controller/selecetedDay_controller.dart';
 
 class CalendarDate extends StatefulWidget {
   final List<Performance> performances;
@@ -18,43 +16,36 @@ class CalendarDate extends StatefulWidget {
 }
 
 class _CalendarDateState extends State<CalendarDate> {
-  late DateTime _selectedDay = DateTime.now();
+  late final DateTime _selectedDay = DateTime.now();
   late List<Performance> performances = [];
+  final SelectedDayController controller = Get.put(SelectedDayController());
 
   @override
   Widget build(BuildContext context) {
-    List<Performance> getEventsForDay(DateTime day) {
-      return widget.performances.where((performance) {
-        DateTime startDate =
-            DateFormat("yyyy.MM.dd").parse(performance.startDate!);
-        DateTime endDate = DateFormat("yyyy.MM.dd").parse(performance.endDate!);
-        return startDate.isBefore(day) && endDate.isAfter(day);
-      }).toList();
-    }
-
     return SingleChildScrollView(
       child: Column(
         children: [
-          calendarDate(context, getEventsForDay),
-          calendarList(context, getEventsForDay(_selectedDay)),
+          GetBuilder<SelectedDayController>(
+            builder: (_) => calendarDate(context),
+          ),
+          GetBuilder<SelectedDayController>(
+            builder: (_) => calendarList(context),
+          ),
         ],
       ),
     );
   }
 
-  Widget calendarDate(BuildContext context,
-      List<Performance> Function(DateTime) getEventsForDay) {
+  Widget calendarDate(BuildContext context) {
     return TableCalendar(
       locale: 'ko_KR',
       firstDay: DateTime.utc(2021, 10, 16),
       lastDay: DateTime.utc(2030, 3, 14),
-      focusedDay: DateTime.now(),
-      selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
+      focusedDay: controller.selectedDay,
       onDaySelected: (selectedDay, focusedDay) {
-        setState(() {
-          _selectedDay = selectedDay;
-        });
+        controller.setSelectedDay(selectedDay);
       },
+      selectedDayPredicate: (day) => isSameDay(day, controller.selectedDay),
       daysOfWeekHeight: 25,
       headerStyle: HeaderStyle(
         titleCentered: true,
@@ -72,6 +63,8 @@ class _CalendarDateState extends State<CalendarDate> {
           CupertinoIcons.chevron_right,
           size: 20.0,
         ),
+        leftChevronMargin: const EdgeInsets.only(left: 90.0),
+        rightChevronMargin: const EdgeInsets.only(right: 90.0),
       ),
       calendarStyle: const CalendarStyle(
         isTodayHighlighted: true,
@@ -162,12 +155,13 @@ class _CalendarDateState extends State<CalendarDate> {
           return null;
         },
       ),
-      eventLoader: (day) => getEventsForDay(day),
+      eventLoader: (day) => controller.getEventsForDay(day),
     );
   }
 
-  Widget calendarList(
-      BuildContext context, List<Performance> selectedDayEvents) {
+  Widget calendarList(BuildContext context) {
+    final selectedDayEvents =
+        controller.getEventsForDay(controller.selectedDay);
     return selectedDayEvents.isEmpty
         ? const SizedBox.shrink()
         : Theme(
@@ -177,14 +171,14 @@ class _CalendarDateState extends State<CalendarDate> {
                 children: [
                   const SizedBox(width: 5.0),
                   Text(
-                    DateFormat('yyyy.MM.dd').format(_selectedDay),
+                    DateFormat('yyyy.MM.dd').format(controller.selectedDay),
                     style: const TextStyle(
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                 ],
               ),
-              initiallyExpanded: true,
+              initiallyExpanded: false,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 12.0, right: 12.0),
