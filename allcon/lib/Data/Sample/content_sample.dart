@@ -1,157 +1,266 @@
+import 'package:get/get.dart';
 import '../Content.dart';
 
-class ContentSamples {
-  Map<int, List<Content>> contentsamples = {
-    0: [
-      Content(
-          postId: 1,
-          title: "자게 제목1",
-          content: "자게 1 내용입니다.\n number1" * 10,
-          like: 3,
-          date: DateTime.parse("2021-06-28"),
-          isLike: true,
-          comment: [
-            "뭐하는 어플이야?",
-            "올콘이야😂",
-            "믿고 써볼게!!!",
-            "댓글4",
-            "댓글5",
-            "댓글6",
-          ]),
-      Content(
-          postId: 2,
-          title: "자게 제목투투222?",
-          like: 5,
-          date: DateTime.parse("2021-06-27"),
-          comment: [
-            "뭐하는 어플이야?",
-            "올콘이야😂",
-            "믿고 써볼게!!!",
-            "댓글4",
-            "댓글5",
-            "댓글6",
-          ]),
-      Content(
-          postId: 3,
-          title: "자게 제목1",
-          content: "자게 제목일입니다.\n number1" * 10,
-          like: 1,
-          date: DateTime.parse("2021-06-28")),
-      Content(
-          postId: 4,
-          title: "자게 제목투투222?",
-          content: "자게 제목일입니다.\n number1" * 10,
-          date: DateTime.parse("2021-06-27")),
-      Content(
-          postId: 5,
-          title: "자게 제목1",
-          content: "자게 제목일입니다.\n number1" * 10,
-          like: 1,
-          isLike: true,
-          date: DateTime.parse("2021-06-28")),
-      Content(
-          postId: 6,
-          title: "자게 제목투투222?",
-          isLike: true,
-          date: DateTime.parse("2021-06-27")),
-      Content(
-          postId: 7,
-          title: "자게 제목1",
-          content: "자게 제목일입니다.\n number1" * 10,
-          date: DateTime.parse("2021-06-28")),
-      Content(
-          postId: 8, title: "자게 제목투투222?", date: DateTime.parse("2021-06-27")),
-      Content(
-          postId: 9,
-          title: "자게 제목1",
-          content: "자게 제목일입니다.\n number1" * 10,
-          date: DateTime.parse("2021-06-28")),
-      Content(
-          postId: 10, title: "자게 제목투투222?", date: DateTime.parse("2021-06-27")),
-      Content(
-          postId: 11,
-          title: "자게 제목1",
-          content: "자게 제목일입니다.\n number1" * 10,
-          date: DateTime.parse("2021-06-28"),
-          comment: [
-            "뭐하는 어플이야?",
-            "올콘이야😂",
-            "믿고 써볼게!!!",
-            "댓글4",
-            "댓글5",
-            "댓글6",
-          ]),
-      Content(
-          postId: 12,
-          title: "자게 마지막",
-          content: "자게 리스트뷰 마지막 끝에 위치한 게시글임..." * 40,
-          like: 1,
-          isLike: true,
-          date: DateTime.parse("2021-06-27"),
-          comment: [
-            "뭐하는 어플이야?",
-            "올콘이야😂",
-            "믿고 써볼게!!!",
-            "댓글4",
-            "댓글5",
-            "댓글6",
-          ]),
-    ],
-    1: [
-      Content(
-        postId: 21,
-        title: "브루노마스 3일 양일콘 후기",
-        content: "[레전드 브루노마스]\n갈 수 있음 꼭 가!!!!!",
-        like: 22,
+// 더미 데이터 생성
+List<Category> generateDummyData() {
+  List<Category> contentsamples = [];
+
+  List<RxContent> freetalk = [
+    RxContent(
+      postId: 1,
+      title: "자게 제목1",
+      writer: '익명1',
+      content: ("자게 1 내용입니다.\n number1" * 10),
+      likeCounts: 3,
+      date: DateTime.parse("2021-06-28"),
+      isLike: true,
+      comment: [
+        Comment(commentId: 0, commentContent: "뭐하는 어플이야?"),
+        Comment(commentId: 1, commentContent: "올콘이야😂"),
+        Comment(commentId: 2, commentContent: "믿고 써볼게!!!"),
+        Comment(commentId: 3, commentContent: "댓글4"),
+        Comment(commentId: 4, commentContent: "댓글5"),
+        Comment(commentId: 5, commentContent: "댓글6"),
+      ],
+    ),
+    RxContent(
+      postId: 2,
+      title: "자게 제목투투222?",
+      writer: '익명2',
+      content: "자게 2 내용입니다.",
+      likeCounts: 5,
+      date: DateTime.parse("2021-06-27"),
+      isLike: false,
+      comment: [
+        Comment(commentId: 0, commentContent: "뭐하는 어플이야?"),
+        Comment(commentId: 1, commentContent: "올콘이야😂"),
+        Comment(commentId: 2, commentContent: "믿고 써볼게!!!"),
+        Comment(commentId: 3, commentContent: "댓글4"),
+        Comment(commentId: 4, commentContent: "댓글5"),
+        Comment(commentId: 5, commentContent: "댓글6"),
+      ].obs,
+    ),
+    RxContent(
+      postId: 3,
+      title: "자게 제목1",
+      writer: '익명3',
+      content: "자게 제목일입니다.\n number1" * 10,
+      likeCounts: 1,
+      date: DateTime.parse("2021-06-28"),
+      isLike: false,
+      comment: [],
+    ),
+    RxContent(
+      postId: 4,
+      title: "자게 제목투투222?",
+      writer: '익명4',
+      content: "자게 제목일입니다.\n number1" * 10,
+      date: DateTime.parse("2021-06-27"),
+      isLike: false,
+      likeCounts: 8,
+      comment: [],
+    ),
+    RxContent(
+      postId: 5,
+      title: "자게 제목1",
+      writer: 'writer',
+      content: "자게 제목일입니다.\n number1" * 10,
+      likeCounts: 1,
+      isLike: true,
+      date: DateTime.parse("2021-06-28"),
+      comment: [],
+    ),
+    RxContent(
+      postId: 6,
+      title: "자게 제목투투222?",
+      writer: 'writer2',
+      content: "자게 6 내용입니다.",
+      likeCounts: 1,
+      isLike: true,
+      date: DateTime.parse("2021-06-27"),
+      comment: [],
+    ),
+    RxContent(
+      postId: 7,
+      title: "자게 제목1",
+      writer: 'writer3',
+      content: "자게 제목일입니다.\n number1" * 10,
+      likeCounts: 0,
+      date: DateTime.parse("2021-06-28"),
+      isLike: false,
+      comment: [],
+    ),
+    RxContent(
+      postId: 8,
+      title: "자게 제목투투222?",
+      content: "자게 8 내용입니다.",
+      date: DateTime.parse("2021-06-27"),
+      writer: 'writer',
+      likeCounts: 10,
+      isLike: false,
+      comment: [],
+    ),
+    RxContent(
+      postId: 9,
+      title: "자게 제목1",
+      content: "자게 제목일입니다.\n number1" * 10,
+      date: DateTime.parse("2021-06-28"),
+      writer: 'writer',
+      likeCounts: 0,
+      isLike: false,
+      comment: [],
+    ),
+    RxContent(
+      postId: 10,
+      title: "자게 제목투투222?",
+      content: "자게 10 내용입니다.",
+      date: DateTime.parse("2021-06-27"),
+      writer: 'writer',
+      likeCounts: 0,
+      isLike: false,
+      comment: [],
+    ),
+    RxContent(
+        postId: 11,
+        title: "자게 제목1",
+        content: "자게 제목일입니다.\n number1" * 10,
+        date: DateTime.parse("2021-06-28"),
+        writer: 'writer',
+        likeCounts: 0,
+        isLike: false,
+        comment: [
+          Comment(commentId: 0, commentContent: "뭐하는 어플이야?"),
+          Comment(commentId: 1, commentContent: "올콘이야😂"),
+          Comment(commentId: 2, commentContent: "믿고 써볼게!!!"),
+          Comment(commentId: 3, commentContent: "댓글4"),
+          Comment(commentId: 4, commentContent: "댓글5"),
+          Comment(commentId: 5, commentContent: "댓글6"),
+        ]),
+    RxContent(
+        postId: 12,
+        title: "자게 마지막",
+        content: "자게 리스트뷰 마지막 끝에 위치한 게시글임..." * 40,
+        likeCounts: 1,
         isLike: true,
-      ),
-      Content(
-        postId: 22,
-        content: "테일러스위프트\n드디어 내한 n년 소취 후기",
-        like: 34,
-        isLike: true,
-      ),
-      Content(
-        postId: 23,
-        title: "찰푸레전드 찍음",
-        content: "비록 1시간 반콘이지만,, 올타임 레전드!!!!",
-        like: 37,
-        isLike: true,
-      ),
-      Content(
-        postId: 24,
-        title: "2024 현카 슈퍼콘 후기입니당",
-        content: "안녕하세요.\n 현카 슈퍼콘 취켓팅 주인공입니다. 다름 아니라",
-        like: 26,
-      ),
-    ],
-    2: [
-      Content(
-          postId: 31,
-          title: "25일 서울콘 양도합니다.",
-          content: "25일 서울콘 양도합니다." * 15,
-          like: 5,
-          date: DateTime.parse("2021-06-25")),
-      Content(
-          postId: 32,
-          title: "올콘 양도구함 제발ㅜ",
-          content: "올콘 양도구함 제발ㅜ",
-          like: 22,
-          isLike: true,
-          date: DateTime.parse("2021-06-23")),
-    ],
-    3: [
-      Content(
-          postId: 41,
-          title: "카풀 구해요ㅠㅠㅠㅠㅠ제발",
-          content: "카풀 구해요ㅠㅠㅠㅠㅠ제발",
-          date: DateTime.parse("2021-06-28")),
-      Content(
-          postId: 42,
-          title: "콘서트 전까지 같이 놀 사람 구함",
-          content: "콘서트 전까지 같이 놀 사람 구함",
-          like: 7,
-          date: DateTime.parse("2023-06-28")),
-    ],
-  };
+        date: DateTime.parse("2021-06-27"),
+        writer: 'writer',
+        comment: [
+          Comment(commentId: 0, commentContent: "뭐하는 어플이야?"),
+          Comment(commentId: 1, commentContent: "올콘이야😂"),
+          Comment(commentId: 2, commentContent: "믿고 써볼게!!!"),
+          Comment(commentId: 3, commentContent: "댓글4"),
+          Comment(commentId: 4, commentContent: "댓글5"),
+          Comment(commentId: 5, commentContent: "댓글6"),
+        ]),
+  ];
+
+  List<RxContent> review = [
+    RxContent(
+      postId: 21,
+      title: "브루노마스 3일 양일콘 후기",
+      date: DateTime.parse("2023-06-28"),
+      content: "[레전드 브루노마스]\n갈 수 있음 꼭 가!!!!!",
+      likeCounts: 22,
+      isLike: true,
+      writer: 'writer',
+      comment: [],
+    ),
+    RxContent(
+      postId: 22,
+      title: "테일러스위프트",
+      date: DateTime.parse("2023-06-28"),
+      content: "테일러스위프트\n드디어 내한 n년 소취 후기",
+      likeCounts: 34,
+      isLike: true,
+      writer: 'writer',
+      comment: [],
+    ),
+    RxContent(
+      postId: 23,
+      title: "찰푸레전드 찍음",
+      date: DateTime.parse("2023-06-28"),
+      content: "비록 1시간 반콘이지만,, 올타임 레전드!!!!",
+      likeCounts: 37,
+      isLike: true,
+      writer: 'writer',
+      comment: [],
+    ),
+    RxContent(
+      postId: 24,
+      title: "2024 현카 슈퍼콘 후기입니당",
+      date: DateTime.parse("2023-06-28"),
+      content: "안녕하세요.\n 현카 슈퍼콘 취켓팅 주인공입니다. 다름 아니라",
+      likeCounts: 26,
+      writer: 'writer',
+      isLike: false,
+      comment: [],
+    ),
+  ];
+
+  List<RxContent> exchange = [
+    RxContent(
+      postId: 31,
+      title: "25일 서울콘 양도합니다.",
+      content: "25일 서울콘 양도합니다." * 15,
+      likeCounts: 5,
+      date: DateTime.parse("2021-06-25"),
+      writer: 'writer',
+      isLike: false,
+      comment: [],
+    ),
+    RxContent(
+      postId: 32,
+      title: "올콘 양도구함 제발ㅜ",
+      content: "올콘 양도구함 제발ㅜ",
+      likeCounts: 22,
+      isLike: true,
+      date: DateTime.parse("2021-06-23"),
+      writer: 'writer',
+      comment: [],
+    ),
+  ];
+
+  List<RxContent> carpool = [
+    RxContent(
+      postId: 41,
+      title: "카풀 구해요ㅠㅠㅠㅠㅠ제발",
+      content: "카풀 구해요ㅠㅠㅠㅠㅠ제발",
+      date: DateTime.parse("2021-06-28"),
+      writer: 'writer',
+      likeCounts: 0,
+      isLike: false,
+      comment: [],
+    ),
+    RxContent(
+      postId: 42,
+      title: "콘서트 전까지 같이 놀 사람 구함",
+      content: "콘서트 전까지 같이 놀 사람 구함",
+      likeCounts: 7,
+      date: DateTime.parse("2023-06-28"),
+      writer: 'writer',
+      isLike: false,
+      comment: [],
+    ),
+  ];
+
+  contentsamples.addAll([
+    Category(
+      tabIdx: 0,
+      content: freetalk,
+    ),
+    Category(
+      tabIdx: 1,
+      content: review,
+    ),
+    Category(
+      tabIdx: 2,
+      content: exchange,
+    ),
+    Category(
+      tabIdx: 3,
+      content: carpool,
+    ),
+  ]);
+
+  return contentsamples;
 }
