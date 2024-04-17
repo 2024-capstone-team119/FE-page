@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:allcon/Pages/MainHome/Home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
 
 void main() => runApp(const MyLogIn());
@@ -110,7 +113,7 @@ class _LogInState extends State<LogIn> {
             ),
           ),
 
-          // 카카오톡 로그인
+          // 네이버 로그인
           AnimatedPositioned(
             duration: const Duration(milliseconds: 500),
             bottom: _isButtonVisible
@@ -125,7 +128,7 @@ class _LogInState extends State<LogIn> {
                 alignment: Alignment.center,
                 child: InkWell(
                   onTap: () {
-                    Get.to(const MyHome());
+                    signInWithNaver();
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(40.0),
@@ -157,5 +160,19 @@ class _LogInState extends State<LogIn> {
         ],
       ),
     );
+  }
+
+  // 네이버 로그인 로직
+  Future<void> signInWithNaver() async {
+    NaverLoginResult res = await FlutterNaverLogin.logIn();
+    final NaverLoginResult result = await FlutterNaverLogin.logIn();
+    NaverAccessToken naverAccessToken =
+        await FlutterNaverLogin.currentAccessToken;
+    setState(() {
+      var accesToken = naverAccessToken.accessToken;
+      var tokenType = naverAccessToken.tokenType;
+    });
+
+    print("result $result");
   }
 }

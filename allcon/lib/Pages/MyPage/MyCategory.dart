@@ -1,6 +1,7 @@
 import 'package:allcon/Pages/Login/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
 
 class MyCategory extends StatelessWidget {
@@ -71,7 +72,7 @@ class MyCategory extends StatelessWidget {
                 style: TextStyle(fontSize: 20.0),
               ),
               onTap: () {
-                print('로그아웃 is clicked');
+                logOutWithNaver();
               },
             ),
           ),
@@ -100,4 +101,14 @@ class MyCategory extends StatelessWidget {
       ),
     );
   }
+}
+
+// 로그아웃 로직
+Future<void> logOutWithNaver() async {
+  try {
+    FlutterNaverLogin.logOutAndDeleteToken().then((value) => {
+          print("Naver Logout is successful"),
+          Get.to(const MyLogIn()),
+        });
+  } catch (error) {}
 }
