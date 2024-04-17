@@ -27,16 +27,18 @@ class MyContentListView extends StatefulWidget {
 }
 
 class _MyContentListViewState extends State<MyContentListView> {
-  List<Content> getSampleData(int index) {
+  List<RxContent> getSampleData(int index) {
+    List<Category> categories = generateDummyData();
+
     switch (index) {
       case 0:
-        return ContentSamples().contentsamples[0] ?? [];
+        return categories[0].content;
       case 1:
-        return ContentSamples().contentsamples[1] ?? [];
+        return categories[1].content;
       case 2:
-        return ContentSamples().contentsamples[2] ?? [];
+        return categories[2].content;
       case 3:
-        return ContentSamples().contentsamples[3] ?? [];
+        return categories[3].content;
       default:
         return [];
     }
@@ -66,9 +68,9 @@ class _MyContentListViewState extends State<MyContentListView> {
     );
   }
 
-  Widget _buildContentItem(BuildContext context, Content content, int index) {
+  Widget _buildContentItem(BuildContext context, RxContent content, int index) {
     final lowercaseSearchText = widget.searchText.toLowerCase();
-    final lowercaseContent = content.content.toLowerCase() ?? '';
+    final lowercaseContent = content.content.toLowerCase();
 
     if (widget.searchText.isNotEmpty &&
         !lowercaseContent.contains(lowercaseSearchText)) {
@@ -80,10 +82,10 @@ class _MyContentListViewState extends State<MyContentListView> {
 
   Widget createBox(
     BuildContext context,
-    Content content,
+    RxContent content,
     int index,
   ) {
-    DateTime dateTime = content.date ?? DateTime.now();
+    DateTime dateTime = DateFormat('yyyy-MM-dd').parse(content.date.toString());
     return GestureDetector(
       onTap: () {
         Get.to(() => MyContentDetail(
@@ -108,7 +110,8 @@ class _MyContentListViewState extends State<MyContentListView> {
                       children: [
                         Obx(
                           () => Text(
-                            widget.contentController.contents[index].title,
+                            widget
+                                .contentController.contents[index].title.value,
                             style: const TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold,
@@ -119,14 +122,18 @@ class _MyContentListViewState extends State<MyContentListView> {
                         Row(
                           children: [
                             Text(
-                              DateFormat('yyyy-MM-dd').format(dateTime),
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                              ),
+                              widget.contentController.contents[index].writer
+                                  .value,
+                              style: const TextStyle(fontSize: 12.0),
+                            ),
+                            const SizedBox(width: 8.0),
+                            const Text(
+                              '|',
+                              style: TextStyle(fontSize: 12.0),
                             ),
                             const SizedBox(width: 8.0),
                             Text(
-                              DateFormat('HH:mm').format(dateTime),
+                              DateFormat('yyyy-MM-dd').format(dateTime),
                               style: const TextStyle(
                                 fontSize: 12.0,
                               ),
@@ -144,7 +151,7 @@ class _MyContentListViewState extends State<MyContentListView> {
                             const SizedBox(width: 4.0),
                             Obx(
                               () => Text(
-                                "${widget.contentController.contents[index].like}",
+                                "${widget.contentController.contents[index].likeCounts}",
                                 style: TextStyle(
                                   color: Colors.red[300],
                                 ),
@@ -174,15 +181,17 @@ class _MyContentListViewState extends State<MyContentListView> {
                     () => IconButton(
                       iconSize: 30.0,
                       icon: Icon(
-                        widget.contentController.contents[index].isLike
+                        widget.contentController.contents[index].isLike.value
                             ? CupertinoIcons.heart_fill
                             : CupertinoIcons.heart,
-                        color: widget.contentController.contents[index].isLike
+                        color: widget
+                                .contentController.contents[index].isLike.value
                             ? Colors.redAccent
                             : Colors.grey,
                       ),
                       onPressed: () {
-                        widget.contentController.toggleLike(content.postId);
+                        widget.contentController
+                            .toggleLike(content.postId.value);
                         widget.contentController.update();
                       },
                     ),

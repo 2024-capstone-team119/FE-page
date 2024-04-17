@@ -1,3 +1,4 @@
+import 'package:allcon/Data/Sample/content_sample.dart';
 import 'package:allcon/Pages/Community/Home.dart';
 import 'package:allcon/Util/validator_util.dart';
 import 'package:allcon/Widget/app_bar.dart';
@@ -11,7 +12,8 @@ import 'package:get/get.dart';
 import '../controller/content_controller.dart';
 
 class MyContentWrite extends StatefulWidget {
-  const MyContentWrite({super.key});
+  final String initialCategory;
+  const MyContentWrite({super.key, required this.initialCategory});
 
   @override
   _ContentWriteState createState() => _ContentWriteState();
@@ -21,6 +23,15 @@ class _ContentWriteState extends State<MyContentWrite> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
+
+  late String _selectedCategory;
+  int _selectedCategoryIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedCategory = widget.initialCategory;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +43,23 @@ class _ContentWriteState extends State<MyContentWrite> {
           key: _formKey,
           child: ListView(
             children: [
+              DropdownButton(
+                items: ['자유게시판', '후기', '교환/양도', '카풀']
+                    .map((item) => DropdownMenuItem(
+                          value: item,
+                          child: Text(item),
+                        ))
+                    .toList(),
+                value: _selectedCategory,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedCategory = value.toString();
+                    // 선택된 카테고리의 인덱스 찾기
+                    _selectedCategoryIndex = ['자유게시판', '후기', '교환/양도', '카풀']
+                        .indexWhere((category) => category == value);
+                  });
+                },
+              ),
               CustomTextFormField(
                 controller: _titleController,
                 hint: "제목",
@@ -75,21 +103,26 @@ class _ContentWriteState extends State<MyContentWrite> {
                   text: "업로드",
                   funPageRoute: () {
                     if (_formKey.currentState!.validate()) {
-                      Content newContent = Content(
+                      RxContent newContent = RxContent(
                         postId: ContentController().contents.length + 1,
                         title: _titleController.text,
+                        writer: '추가작성자',
                         content: _contentController.text,
                         date: DateTime.now(),
                         isLike: false,
-                        like: 0,
+                        likeCounts: 0,
                         comment: [],
                       );
-                      ContentController().addContent(newContent);
+                      // 선택된 카테고리의 인덱스 전달
+                      ContentController().addContent(newContent,
+                          _selectedCategoryIndex, generateDummyData());
                       // 업로드 후 초기화
                       _titleController.clear();
                       _contentController.clear();
                       // 홈 페이지로 이동
-                      Get.to(() => const MyCommunity());
+                      Get.to(() => MyCommunity(
+                            initialTabIndex: _selectedCategoryIndex,
+                          ));
                     }
                   },
                 ),

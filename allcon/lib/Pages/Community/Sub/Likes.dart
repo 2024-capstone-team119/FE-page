@@ -31,7 +31,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
 
   @override
   Widget build(BuildContext context) {
-    List<Content> likedContents = _contentController.getAllLikedContents();
+    List<RxContent> likedContents = _contentController.getAllLikedContents();
 
     if (likedContents.isEmpty) {
       return const Scaffold(
@@ -55,8 +55,8 @@ class _MyContentLikesState extends State<MyContentLikes> {
     );
   }
 
-  Widget _buildContentItem(Content content) {
-    DateTime dateTime = content.date ?? DateTime.now();
+  Widget _buildContentItem(RxContent content) {
+    DateTime dateTime = content.date.value ?? DateTime.now();
     return GestureDetector(
       onTap: () {
         Get.to(() => MyContentDetail(
@@ -80,7 +80,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          content.title ?? "",
+                          content.title.value,
                           style: const TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.bold),
                         ),
@@ -112,7 +112,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
                             ),
                             const SizedBox(width: 4.0),
                             Text(
-                              "${content.like}",
+                              "${content.likeCounts}",
                               style: TextStyle(
                                 color: Colors.red[300],
                               ),
@@ -125,7 +125,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
                             ),
                             const SizedBox(width: 4.0),
                             Text(
-                              "${content.comment.length ?? 0}",
+                              "${content.comment.length}",
                               style: const TextStyle(
                                 color: Colors.blueAccent,
                               ),
@@ -138,14 +138,15 @@ class _MyContentLikesState extends State<MyContentLikes> {
                   IconButton(
                     iconSize: 30.0,
                     icon: Icon(
-                      content.isLike
+                      content.isLike.value
                           ? CupertinoIcons.heart_fill
                           : CupertinoIcons.heart,
-                      color: content.isLike ? Colors.redAccent : Colors.grey,
+                      color:
+                          content.isLike.value ? Colors.redAccent : Colors.grey,
                     ),
                     onPressed: () {
                       setState(() {
-                        _contentController.toggleLike(content.postId);
+                        _contentController.toggleLike(content.postId.value);
                       });
                     },
                   ),

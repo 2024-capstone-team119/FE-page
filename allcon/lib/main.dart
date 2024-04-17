@@ -1,5 +1,4 @@
 import 'package:allcon/Pages/Login/login.dart';
-import 'package:allcon/Pages/Seat/SeatLayout/Seoul/OlympicChaejo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';

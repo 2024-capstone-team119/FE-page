@@ -47,7 +47,7 @@ class _ContentUpdateState extends State<MyContentUpdate> {
               CustomTextFormField(
                 hint: "제목",
                 funValidator: validateTitle(),
-                value: widget.title ?? "", // 서버에서 불러오기
+                value: widget.title, // 서버에서 불러오기
               ),
               const SizedBox(height: 16),
               CustomTextArea(

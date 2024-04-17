@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class MyContentDetail extends StatefulWidget {
-  final Content content;
+  final RxContent content;
   final ContentController contentController;
 
   const MyContentDetail({
@@ -57,8 +57,9 @@ class _ContentDetailState extends State<MyContentDetail> {
                       Obx(
                         () => Text(
                           _contentController
-                                  .getContent(widget.content.postId)
-                                  ?.title ??
+                                  .getContent(widget.content.postId.value)
+                                  ?.title
+                                  .value ??
                               '',
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
@@ -107,7 +108,18 @@ class _ContentDetailState extends State<MyContentDetail> {
                     ],
                   ),
                   const SizedBox(height: 6.0),
-                  Text('${widget.content.date}'),
+                  Row(
+                    children: [
+                      Text(widget.content.writer.value),
+                      const SizedBox(width: 10.0),
+                      const Text('|'),
+                      const SizedBox(width: 10.0),
+                      Text(
+                        DateFormat('yyyy-MM-dd HH:mm')
+                            .format(widget.content.date.value!),
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 16.0),
                   Container(
                     height: 1.0,
@@ -118,8 +130,9 @@ class _ContentDetailState extends State<MyContentDetail> {
                   Obx(
                     () => Text(
                       _contentController
-                              .getContent(widget.content.postId)
-                              ?.content ??
+                              .getContent(widget.content.postId.value)
+                              ?.content
+                              .value ??
                           '',
                     ),
                   ),
@@ -136,8 +149,10 @@ class _ContentDetailState extends State<MyContentDetail> {
                                 iconSize: 30.0,
                                 icon: Icon(
                                   _contentController
-                                              .getContent(widget.content.postId)
-                                              ?.isLike ??
+                                              .getContent(
+                                                  widget.content.postId.value)
+                                              ?.isLike
+                                              .value ??
                                           false
                                       ? CupertinoIcons.heart_fill
                                       : CupertinoIcons.heart,
@@ -145,13 +160,13 @@ class _ContentDetailState extends State<MyContentDetail> {
                                 ),
                                 onPressed: () {
                                   _contentController
-                                      .toggleLike(widget.content.postId);
+                                      .toggleLike(widget.content.postId.value);
                                 },
                               ),
                             ),
                             Obx(
                               () => Text(
-                                '${_contentController.getContent(widget.content.postId)?.like ?? 0}',
+                                '${_contentController.getContent(widget.content.postId.value)?.likeCounts ?? 0}',
                                 style: TextStyle(
                                   color: Colors.red[300],
                                 ),
@@ -164,7 +179,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              '${_contentController.getContent(widget.content.postId)?.comment.length ?? 0}',
+                              '${_contentController.getContent(widget.content.postId.value)?.comment.length ?? 0}',
                               style: const TextStyle(
                                 color: Colors.blueAccent,
                               ),
@@ -246,7 +261,7 @@ class _ContentDetailState extends State<MyContentDetail> {
     if (comment.isNotEmpty) {
       setState(() {
         // Update content controller's state
-        _contentController.updateComment(widget.content.postId, comment);
+        _contentController.updateComment(widget.content.postId.value, comment);
         // Clear the input field
         _commentController.clear();
       });

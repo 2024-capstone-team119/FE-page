@@ -11,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyCommunity extends StatefulWidget {
-  const MyCommunity({super.key});
+  final int initialTabIndex;
+  const MyCommunity({super.key, this.initialTabIndex = 0});
 
   @override
   State<MyCommunity> createState() => _MyCommunityState();
@@ -26,7 +27,8 @@ class _MyCommunityState extends State<MyCommunity>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
+    _tabController = TabController(
+        length: 4, vsync: this, initialIndex: widget.initialTabIndex);
     _contentController = ContentController();
   }
 
@@ -66,7 +68,10 @@ class _MyCommunityState extends State<MyCommunity>
             child: FloatingActionButton(
               backgroundColor: lavenderColor,
               onPressed: () {
-                Get.to(const MyContentWrite());
+                Get.to(MyContentWrite(
+                  initialCategory:
+                      getTabName(_tabController.index), // 현재 선택된 탭의 이름 전달
+                ));
               },
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100)),
@@ -111,6 +116,21 @@ class _MyCommunityState extends State<MyCommunity>
         ],
       ),
     );
+  }
+
+  String getTabName(int index) {
+    switch (index) {
+      case 0:
+        return "자유게시판";
+      case 1:
+        return "후기";
+      case 2:
+        return "교환/양도";
+      case 3:
+        return "카풀/동행";
+      default:
+        return "";
+    }
   }
 
   Widget tabBar(BuildContext context, TabController tabController) {
