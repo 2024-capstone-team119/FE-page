@@ -2,6 +2,7 @@ import 'package:allcon/Data/Sample/content_sample.dart';
 import 'package:allcon/Pages/Community/Home.dart';
 import 'package:allcon/Util/validator_util.dart';
 import 'package:allcon/Widget/app_bar.dart';
+import 'package:allcon/Widget/custom_dropdown_button.dart';
 import 'package:allcon/Widget/custom_elevated_btn.dart';
 import 'package:allcon/Widget/custom_text_area.dart';
 import 'package:allcon/Widget/custom_text_form_field.dart';
@@ -15,8 +16,11 @@ import '../controller/content_controller.dart';
 class MyContentWrite extends StatefulWidget {
   final String initialCategory;
   final int tabIdx;
-  const MyContentWrite(
-      {super.key, required this.initialCategory, required this.tabIdx});
+  const MyContentWrite({
+    super.key,
+    required this.initialCategory,
+    required this.tabIdx,
+  });
 
   @override
   _ContentWriteState createState() => _ContentWriteState();
@@ -47,13 +51,8 @@ class _ContentWriteState extends State<MyContentWrite> {
           key: _formKey,
           child: ListView(
             children: [
-              DropdownButton(
-                items: ['자유게시판', '후기', '교환/양도', '카풀']
-                    .map((item) => DropdownMenuItem(
-                          value: item,
-                          child: Text(item),
-                        ))
-                    .toList(),
+              CustomDropdownButton(
+                items: const ['자유게시판', '후기', '교환/양도', '카풀'],
                 value: _selectedCategory,
                 onChanged: (value) {
                   setState(() {

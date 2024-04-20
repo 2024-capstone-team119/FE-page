@@ -6,13 +6,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Function()? onActionPressed;
   final String? textFontFamily;
   final bool automaticallyImplyLeading;
+  final PreferredSizeWidget? bottom;
 
-  const MyAppBar({super.key, 
+  const MyAppBar({
+    super.key,
     required this.text,
     this.actions,
     this.onActionPressed,
     this.textFontFamily,
     this.automaticallyImplyLeading = true,
+    this.bottom,
   });
 
   @override
@@ -42,9 +45,17 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           )
       ],
+      bottom: bottom,
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize {
+    if (bottom != null) {
+      // bottom 위젯이 있는 경우 AppBar의 높이에 bottom의 preferredSize 높이를 추가
+      return Size.fromHeight(kToolbarHeight + bottom!.preferredSize.height);
+    } else {
+      return const Size.fromHeight(kToolbarHeight);
+    }
+  }
 }
