@@ -70,7 +70,8 @@ class ContentController extends GetxController {
           Comment(commentId: postId, commentContent: commentContent);
       contents[index].comment.add(comment);
       commentCount.value++;
-      update();
+      // RxList에 변화가 있음을 감지하고 UI를 업데이트합니다.
+      contents.refresh();
     }
   }
 }
