@@ -1,3 +1,4 @@
+import 'package:allcon/Data/Sample/content_sample.dart';
 import 'package:allcon/Pages/Community/Sub/Likes.dart';
 import 'package:allcon/Pages/Community/Sub/Post.dart';
 import 'package:allcon/Pages/Community/Sub/Search.dart';
@@ -28,7 +29,9 @@ class _MyCommunityState extends State<MyCommunity>
   void initState() {
     super.initState();
     _tabController = TabController(
-        length: 4, vsync: this, initialIndex: widget.initialTabIndex);
+        length: contentsamples.length,
+        vsync: this,
+        initialIndex: widget.initialTabIndex);
     _contentController = ContentController();
   }
 
@@ -69,8 +72,8 @@ class _MyCommunityState extends State<MyCommunity>
               backgroundColor: lavenderColor,
               onPressed: () {
                 Get.to(MyContentWrite(
-                  initialCategory:
-                      getTabName(_tabController.index), // 현재 선택된 탭의 이름 전달
+                  initialCategory: contentsamples[_tabController.index]
+                      .name, // 현재 선택된 탭의 이름 전달
                   tabIdx: _tabController.index,
                 ));
               },
@@ -119,60 +122,26 @@ class _MyCommunityState extends State<MyCommunity>
     );
   }
 
-  String getTabName(int index) {
-    switch (index) {
-      case 0:
-        return "자유게시판";
-      case 1:
-        return "후기";
-      case 2:
-        return "교환/양도";
-      case 3:
-        return "카풀/동행";
-      default:
-        return "";
-    }
-  }
-
   Widget tabBar(BuildContext context, TabController tabController) {
     return DefaultTabController(
-      length: 4,
+      length: contentsamples.length,
       child: Column(
         children: [
           TabBar(
             controller: tabController,
-            tabs: const <Widget>[
-              Tab(text: "자유게시판"),
-              Tab(text: "후기"),
-              Tab(text: "교환/양도"),
-              Tab(text: "카풀/동행"),
-            ],
+            tabs:
+                contentsamples.map((sample) => Tab(text: sample.name)).toList(),
           ),
           Expanded(
             child: TabBarView(
               controller: tabController,
-              children: [
-                MyContentListView(
-                  tabIdx: 0,
-                  contentController: _contentController,
-                  searchText: searchText,
-                ),
-                MyContentListView(
-                  tabIdx: 1,
-                  contentController: _contentController,
-                  searchText: searchText,
-                ),
-                MyContentListView(
-                  tabIdx: 2,
-                  contentController: _contentController,
-                  searchText: searchText,
-                ),
-                MyContentListView(
-                  tabIdx: 3,
-                  contentController: _contentController,
-                  searchText: searchText,
-                ),
-              ],
+              children: contentsamples
+                  .map((sample) => MyContentListView(
+                        tabIdx: sample.tabIdx,
+                        contentController: _contentController,
+                        searchText: searchText,
+                      ))
+                  .toList(),
             ),
           ),
         ],

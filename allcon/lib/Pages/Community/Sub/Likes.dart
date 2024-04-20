@@ -1,8 +1,8 @@
-import 'package:allcon/Data/Content.dart';
 import 'package:allcon/Pages/Community/Sub/GetPost.dart';
 import 'package:allcon/Pages/Community/controller/content_controller.dart';
 import 'package:allcon/Widget/Preparing.dart';
 import 'package:allcon/Widget/app_bar.dart';
+import 'package:allcon/model/community_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,7 +31,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
 
   @override
   Widget build(BuildContext context) {
-    List<RxContent> likedContents = _contentController.getAllLikedContents();
+    List<Content> likedContents = _contentController.getAllLikedContents();
 
     if (likedContents.isEmpty) {
       return const Scaffold(
@@ -55,8 +55,8 @@ class _MyContentLikesState extends State<MyContentLikes> {
     );
   }
 
-  Widget _buildContentItem(RxContent content) {
-    DateTime dateTime = content.date.value ?? DateTime.now();
+  Widget _buildContentItem(Content content) {
+    DateTime dateTime = content.date;
     return GestureDetector(
       onTap: () {
         Get.to(() => MyContentDetail(
@@ -80,7 +80,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          content.title.value,
+                          content.title,
                           style: const TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.bold),
                         ),
@@ -138,15 +138,14 @@ class _MyContentLikesState extends State<MyContentLikes> {
                   IconButton(
                     iconSize: 30.0,
                     icon: Icon(
-                      content.isLike.value
+                      content.isLike
                           ? CupertinoIcons.heart_fill
                           : CupertinoIcons.heart,
-                      color:
-                          content.isLike.value ? Colors.redAccent : Colors.grey,
+                      color: content.isLike ? Colors.redAccent : Colors.grey,
                     ),
                     onPressed: () {
                       setState(() {
-                        _contentController.toggleLike(content.postId.value);
+                        _contentController.toggleLike(content.postId);
                       });
                     },
                   ),

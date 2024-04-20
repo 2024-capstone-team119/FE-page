@@ -1,8 +1,8 @@
-import 'package:allcon/Data/Content.dart';
+import 'package:allcon/model/community_model.dart';
 import 'package:get/get.dart';
 
 class ContentController extends GetxController {
-  RxList<RxContent> contents = <RxContent>[].obs;
+  RxList<Content> contents = <Content>[].obs;
   RxInt commentCount = 0.obs; // 댓글 수 추적하는 변수
 
   ContentController._internal();
@@ -12,26 +12,26 @@ class ContentController extends GetxController {
   }
 
   // 글 목록
-  void setContentList(List<RxContent> initialContents) {
+  void setContentList(List<Content> initialContents) {
     contents.assignAll(initialContents);
   }
 
-  RxContent? getContent(int postId) {
-    return contents.firstWhere((content) => content.postId.value == postId);
+  Content? getContent(int postId) {
+    return contents.firstWhere((content) => content.postId == postId);
   }
 
   // 글 업로드
-  void addContent(
-      RxContent content, int tabIdx, List<Category> contentsamples) {
+  void addContent(Content content, int tabIdx, List<Category> contentsamples) {
     contentsamples[tabIdx].content.add(content);
     // RxList에 변화가 있음을 감지하고 UI를 업데이트합니다.
     contents.refresh();
+    // print('내용: ${contentsamples[tabIdx].content[index].content}');
   }
 
   // 글 수정
-  void updateContent(RxContent updatedContent) {
-    final int index = contents.indexWhere(
-        (content) => content.postId.value == updatedContent.postId.value);
+  void updateContent(Content updatedContent) {
+    final int index = contents
+        .indexWhere((content) => content.postId == updatedContent.postId);
 
     if (index != -1) {
       contents[index] = updatedContent;
@@ -40,21 +40,20 @@ class ContentController extends GetxController {
   }
 
   // 좋아요
-  List<RxContent> getAllLikedContents() {
-    return contents.where((content) => content.isLike.value == true).toList();
+  List<Content> getAllLikedContents() {
+    return contents.where((content) => content.isLike == true).toList();
   }
 
   void toggleLike(int postId) {
     final int index =
-        contents.indexWhere((content) => content.postId.value == postId);
+        contents.indexWhere((content) => content.postId == postId);
 
     if (index != -1) {
-      final RxContent content = contents[index];
+      final Content content = contents[index];
 
-      final int currentLike = content.likeCounts.value;
-      content.isLike.value = !(content.isLike.value);
-      content.likeCounts.value =
-          content.isLike.value ? currentLike + 1 : currentLike - 1;
+      final int currentLike = content.likeCounts;
+      content.isLike = !(content.isLike);
+      content.likeCounts = content.isLike ? currentLike + 1 : currentLike - 1;
 
       contents[index] = content;
       update();
@@ -64,7 +63,7 @@ class ContentController extends GetxController {
   // 댓글
   void updateComment(int postId, String commentContent) {
     final int index =
-        contents.indexWhere((content) => content.postId.value == postId);
+        contents.indexWhere((content) => content.postId == postId);
 
     if (index != -1) {
       final Comment comment =

@@ -5,9 +5,10 @@ import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/custom_elevated_btn.dart';
 import 'package:allcon/Widget/custom_text_area.dart';
 import 'package:allcon/Widget/custom_text_form_field.dart';
+import 'package:allcon/model/community_model.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:allcon/Data/Content.dart';
+
 import 'package:get/get.dart';
 import '../controller/content_controller.dart';
 
@@ -106,8 +107,11 @@ class _ContentWriteState extends State<MyContentWrite> {
                   text: "업로드",
                   funPageRoute: () {
                     if (_formKey.currentState!.validate()) {
-                      RxContent newContent = RxContent(
-                        postId: ContentController().contents.length + 1,
+                      Content newContent = Content(
+                        postId: contentsamples[_selectedCategoryIndex]
+                                .content
+                                .length +
+                            1,
                         title: _titleController.text,
                         writer: '추가작성자',
                         content: _contentController.text,
@@ -117,8 +121,8 @@ class _ContentWriteState extends State<MyContentWrite> {
                         comment: [],
                       );
                       // 선택된 카테고리의 인덱스 전달
-                      ContentController().addContent(newContent,
-                          _selectedCategoryIndex, generateDummyData());
+                      ContentController().addContent(
+                          newContent, _selectedCategoryIndex, contentsamples);
                       // 업로드 후 초기화
                       _titleController.clear();
                       _contentController.clear();

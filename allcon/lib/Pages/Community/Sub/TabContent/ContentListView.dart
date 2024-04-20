@@ -1,7 +1,7 @@
-import 'package:allcon/Data/Content.dart';
 import 'package:allcon/Data/Sample/content_sample.dart';
 import 'package:allcon/Pages/Community/Sub/GetPost.dart';
 import 'package:allcon/Pages/Community/controller/content_controller.dart';
+import 'package:allcon/model/community_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -27,28 +27,12 @@ class MyContentListView extends StatefulWidget {
 }
 
 class _MyContentListViewState extends State<MyContentListView> {
-  List<RxContent> getSampleData(int index) {
-    List<Category> categories = generateDummyData();
-
-    switch (index) {
-      case 0:
-        return categories[0].content;
-      case 1:
-        return categories[1].content;
-      case 2:
-        return categories[2].content;
-      case 3:
-        return categories[3].content;
-      default:
-        return [];
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // initState 대신 build 메서드 외부에서 초기화
-      widget.contentController.setContentList(getSampleData(widget.tabIdx));
+      widget.contentController
+          .setContentList(contentsamples[widget.tabIdx].content);
     });
 
     return Scaffold(
@@ -68,7 +52,7 @@ class _MyContentListViewState extends State<MyContentListView> {
     );
   }
 
-  Widget _buildContentItem(BuildContext context, RxContent content, int index) {
+  Widget _buildContentItem(BuildContext context, Content content, int index) {
     final lowercaseSearchText = widget.searchText.toLowerCase();
     final lowercaseContent = content.content.toLowerCase();
 
@@ -82,7 +66,7 @@ class _MyContentListViewState extends State<MyContentListView> {
 
   Widget createBox(
     BuildContext context,
-    RxContent content,
+    Content content,
     int index,
   ) {
     DateTime dateTime = DateFormat('yyyy-MM-dd').parse(content.date.toString());
@@ -110,8 +94,7 @@ class _MyContentListViewState extends State<MyContentListView> {
                       children: [
                         Obx(
                           () => Text(
-                            widget
-                                .contentController.contents[index].title.value,
+                            widget.contentController.contents[index].title,
                             style: const TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold,
@@ -122,8 +105,7 @@ class _MyContentListViewState extends State<MyContentListView> {
                         Row(
                           children: [
                             Text(
-                              widget.contentController.contents[index].writer
-                                  .value,
+                              widget.contentController.contents[index].writer,
                               style: const TextStyle(fontSize: 12.0),
                             ),
                             const SizedBox(width: 8.0),
@@ -181,17 +163,15 @@ class _MyContentListViewState extends State<MyContentListView> {
                     () => IconButton(
                       iconSize: 30.0,
                       icon: Icon(
-                        widget.contentController.contents[index].isLike.value
+                        widget.contentController.contents[index].isLike
                             ? CupertinoIcons.heart_fill
                             : CupertinoIcons.heart,
-                        color: widget
-                                .contentController.contents[index].isLike.value
+                        color: widget.contentController.contents[index].isLike
                             ? Colors.redAccent
                             : Colors.grey,
                       ),
                       onPressed: () {
-                        widget.contentController
-                            .toggleLike(content.postId.value);
+                        widget.contentController.toggleLike(content.postId);
                         widget.contentController.update();
                       },
                     ),
