@@ -24,7 +24,8 @@ class ContentController extends GetxController {
   void addContent(
       RxContent content, int tabIdx, List<Category> contentsamples) {
     contentsamples[tabIdx].content.add(content);
-    update();
+    // RxList에 변화가 있음을 감지하고 UI를 업데이트합니다.
+    contents.refresh();
   }
 
   // 글 수정

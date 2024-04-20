@@ -13,7 +13,9 @@ import '../controller/content_controller.dart';
 
 class MyContentWrite extends StatefulWidget {
   final String initialCategory;
-  const MyContentWrite({super.key, required this.initialCategory});
+  final int tabIdx;
+  const MyContentWrite(
+      {super.key, required this.initialCategory, required this.tabIdx});
 
   @override
   _ContentWriteState createState() => _ContentWriteState();
@@ -25,12 +27,13 @@ class _ContentWriteState extends State<MyContentWrite> {
   final TextEditingController _contentController = TextEditingController();
 
   late String _selectedCategory;
-  int _selectedCategoryIndex = 0;
+  late int _selectedCategoryIndex;
 
   @override
   void initState() {
     super.initState();
     _selectedCategory = widget.initialCategory;
+    _selectedCategoryIndex = widget.tabIdx;
   }
 
   @override
