@@ -4,7 +4,7 @@ import 'package:allcon/model/place_model.dart';
 import 'package:http/http.dart' as http;
 
 class Api {
-  static const baseUrl = "http://10.0.2.2:8080/api/";
+  static const baseUrl = "http://192.168.79.207:8080/api/";
 
   // 1. 공연목록 조회 (db상에 존재하는)
   static Future<List<Performance>> getPerformance_all_past() async {

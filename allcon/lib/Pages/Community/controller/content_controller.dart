@@ -1,4 +1,4 @@
-import 'package:allcon/Data/Content.dart';
+import 'package:allcon/model/community_model.dart';
 import 'package:get/get.dart';
 
 class ContentController extends GetxController {
@@ -11,35 +11,24 @@ class ContentController extends GetxController {
     return ContentController._internal();
   }
 
-  List<Content> getAllLikedContents() {
-    return contents.where((content) => content.isLike == true).toList();
-  }
-
+  // 글 목록
   void setContentList(List<Content> initialContents) {
-    contents.value = List.from(initialContents);
-  }
-
-  void toggleLike(int postId) {
-    final int index =
-        contents.indexWhere((content) => content.postId == postId);
-
-    if (index != -1) {
-      final Content content = contents[index];
-
-      final int currentLike = content.like ?? 0;
-      content.isLike = !(content.isLike ?? false);
-      content.like = content.isLike ? currentLike + 1 : currentLike - 1;
-
-      contents[index] = content;
-    }
+    contents.assignAll(initialContents);
   }
 
   Content? getContent(int postId) {
-    return contents.firstWhere(
-      (content) => content.postId == postId,
-    );
+    return contents.firstWhere((content) => content.postId == postId);
   }
 
+  // 글 업로드
+  void addContent(Content content, int tabIdx, List<Category> contentsamples) {
+    contentsamples[tabIdx].content.add(content);
+    // RxList에 변화가 있음을 감지하고 UI를 업데이트합니다.
+    contents.refresh();
+    // print('내용: ${contentsamples[tabIdx].content[index].content}');
+  }
+
+  // 글 수정
   void updateContent(Content updatedContent) {
     final int index = contents
         .indexWhere((content) => content.postId == updatedContent.postId);
@@ -50,11 +39,35 @@ class ContentController extends GetxController {
     }
   }
 
-  void updateComment(int postId, String comment) {
+  // 좋아요
+  List<Content> getAllLikedContents() {
+    return contents.where((content) => content.isLike == true).toList();
+  }
+
+  void toggleLike(int postId) {
     final int index =
         contents.indexWhere((content) => content.postId == postId);
 
     if (index != -1) {
+      final Content content = contents[index];
+
+      final int currentLike = content.likeCounts;
+      content.isLike = !(content.isLike);
+      content.likeCounts = content.isLike ? currentLike + 1 : currentLike - 1;
+
+      contents[index] = content;
+      update();
+    }
+  }
+
+  // 댓글
+  void updateComment(int postId, String commentContent) {
+    final int index =
+        contents.indexWhere((content) => content.postId == postId);
+
+    if (index != -1) {
+      final Comment comment =
+          Comment(commentId: postId, commentContent: commentContent);
       contents[index].comment.add(comment);
       commentCount.value++;
       update();

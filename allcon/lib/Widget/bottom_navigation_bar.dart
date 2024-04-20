@@ -26,7 +26,7 @@ class MyBottomNavigationBar extends StatelessWidget {
             Get.off(const Search());
             break;
           case 3:
-            Get.off(const MyCommunity());
+            Get.off(const MyCommunity(initialTabIndex: 0));
             break;
         }
       },

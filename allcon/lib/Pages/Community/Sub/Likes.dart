@@ -1,8 +1,8 @@
-import 'package:allcon/Data/Content.dart';
 import 'package:allcon/Pages/Community/Sub/GetPost.dart';
 import 'package:allcon/Pages/Community/controller/content_controller.dart';
 import 'package:allcon/Widget/Preparing.dart';
 import 'package:allcon/Widget/app_bar.dart';
+import 'package:allcon/model/community_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
@@ -56,7 +56,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
   }
 
   Widget _buildContentItem(Content content) {
-    DateTime dateTime = content.date ?? DateTime.now();
+    DateTime dateTime = content.date;
     return GestureDetector(
       onTap: () {
         Get.to(() => MyContentDetail(
@@ -80,7 +80,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          content.title ?? "",
+                          content.title,
                           style: const TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.bold),
                         ),
@@ -112,7 +112,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
                             ),
                             const SizedBox(width: 4.0),
                             Text(
-                              "${content.like}",
+                              "${content.likeCounts}",
                               style: TextStyle(
                                 color: Colors.red[300],
                               ),
@@ -125,7 +125,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
                             ),
                             const SizedBox(width: 4.0),
                             Text(
-                              "${content.comment.length ?? 0}",
+                              "${content.comment.length}",
                               style: const TextStyle(
                                 color: Colors.blueAccent,
                               ),

@@ -1,6 +1,6 @@
-import 'package:allcon/Data/Content.dart';
 import 'package:allcon/Pages/Community/controller/content_controller.dart';
 import 'package:allcon/Widget/app_bar.dart';
+import 'package:allcon/model/community_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -107,7 +107,18 @@ class _ContentDetailState extends State<MyContentDetail> {
                     ],
                   ),
                   const SizedBox(height: 6.0),
-                  Text('${widget.content.date}'),
+                  Row(
+                    children: [
+                      Text(widget.content.writer),
+                      const SizedBox(width: 10.0),
+                      const Text('|'),
+                      const SizedBox(width: 10.0),
+                      Text(
+                        DateFormat('yyyy-MM-dd HH:mm')
+                            .format(widget.content.date),
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 16.0),
                   Container(
                     height: 1.0,
@@ -151,7 +162,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                             ),
                             Obx(
                               () => Text(
-                                '${_contentController.getContent(widget.content.postId)?.like ?? 0}',
+                                '${_contentController.getContent(widget.content.postId)?.likeCounts ?? 0}',
                                 style: TextStyle(
                                   color: Colors.red[300],
                                 ),
@@ -253,7 +264,7 @@ class _ContentDetailState extends State<MyContentDetail> {
     }
   }
 
-  Widget commentBox(BuildContext context, String comment, int num) {
+  Widget commentBox(BuildContext context, Comment comment, int num) {
     int number = num + 1;
     DateTime now = DateTime.now();
     return Padding(
@@ -304,7 +315,7 @@ class _ContentDetailState extends State<MyContentDetail> {
             ],
           ),
           Text(
-            comment,
+            comment.commentContent,
             style: const TextStyle(fontSize: 16.0, color: Colors.black),
           ),
           const SizedBox(height: 4),
