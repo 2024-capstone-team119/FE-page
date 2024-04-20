@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 
 class MyCommunity extends StatefulWidget {
   final int initialTabIndex;
-  const MyCommunity({super.key, this.initialTabIndex = 0});
+  const MyCommunity({super.key, required this.initialTabIndex});
 
   @override
   State<MyCommunity> createState() => _MyCommunityState();
@@ -71,6 +71,7 @@ class _MyCommunityState extends State<MyCommunity>
                 Get.to(MyContentWrite(
                   initialCategory:
                       getTabName(_tabController.index), // 현재 선택된 탭의 이름 전달
+                  tabIdx: _tabController.index,
                 ));
               },
               shape: RoundedRectangleBorder(
