@@ -1,7 +1,7 @@
-import 'package:allcon/Data/Content.dart';
 import 'package:allcon/Data/Sample/content_sample.dart';
 import 'package:allcon/Pages/Community/Sub/GetPost.dart';
 import 'package:allcon/Pages/Community/controller/content_controller.dart';
+import 'package:allcon/model/community_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -27,26 +27,12 @@ class MyContentListView extends StatefulWidget {
 }
 
 class _MyContentListViewState extends State<MyContentListView> {
-  List<Content> getSampleData(int index) {
-    switch (index) {
-      case 0:
-        return ContentSamples().contentsamples[0] ?? [];
-      case 1:
-        return ContentSamples().contentsamples[1] ?? [];
-      case 2:
-        return ContentSamples().contentsamples[2] ?? [];
-      case 3:
-        return ContentSamples().contentsamples[3] ?? [];
-      default:
-        return [];
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // initState 대신 build 메서드 외부에서 초기화
-      widget.contentController.setContentList(getSampleData(widget.tabIdx));
+      widget.contentController
+          .setContentList(contentsamples[widget.tabIdx].content);
     });
 
     return Scaffold(
@@ -68,7 +54,7 @@ class _MyContentListViewState extends State<MyContentListView> {
 
   Widget _buildContentItem(BuildContext context, Content content, int index) {
     final lowercaseSearchText = widget.searchText.toLowerCase();
-    final lowercaseContent = content.content.toLowerCase() ?? '';
+    final lowercaseContent = content.content.toLowerCase();
 
     if (widget.searchText.isNotEmpty &&
         !lowercaseContent.contains(lowercaseSearchText)) {
@@ -83,7 +69,7 @@ class _MyContentListViewState extends State<MyContentListView> {
     Content content,
     int index,
   ) {
-    DateTime dateTime = content.date ?? DateTime.now();
+    DateTime dateTime = DateFormat('yyyy-MM-dd').parse(content.date.toString());
     return GestureDetector(
       onTap: () {
         Get.to(() => MyContentDetail(
@@ -119,14 +105,17 @@ class _MyContentListViewState extends State<MyContentListView> {
                         Row(
                           children: [
                             Text(
-                              DateFormat('yyyy-MM-dd').format(dateTime),
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                              ),
+                              widget.contentController.contents[index].writer,
+                              style: const TextStyle(fontSize: 12.0),
+                            ),
+                            const SizedBox(width: 8.0),
+                            const Text(
+                              '|',
+                              style: TextStyle(fontSize: 12.0),
                             ),
                             const SizedBox(width: 8.0),
                             Text(
-                              DateFormat('HH:mm').format(dateTime),
+                              DateFormat('yyyy-MM-dd').format(dateTime),
                               style: const TextStyle(
                                 fontSize: 12.0,
                               ),
@@ -144,7 +133,7 @@ class _MyContentListViewState extends State<MyContentListView> {
                             const SizedBox(width: 4.0),
                             Obx(
                               () => Text(
-                                "${widget.contentController.contents[index].like}",
+                                "${widget.contentController.contents[index].likeCounts}",
                                 style: TextStyle(
                                   color: Colors.red[300],
                                 ),

@@ -1,3 +1,4 @@
+import 'package:allcon/Data/Sample/content_sample.dart';
 import 'package:allcon/Pages/Community/Sub/Likes.dart';
 import 'package:allcon/Pages/Community/Sub/Post.dart';
 import 'package:allcon/Pages/Community/Sub/Search.dart';
@@ -11,7 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyCommunity extends StatefulWidget {
-  const MyCommunity({super.key});
+  final int initialTabIndex;
+  const MyCommunity({super.key, required this.initialTabIndex});
 
   @override
   State<MyCommunity> createState() => _MyCommunityState();
@@ -26,7 +28,10 @@ class _MyCommunityState extends State<MyCommunity>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
+    _tabController = TabController(
+        length: contentsamples.length,
+        vsync: this,
+        initialIndex: widget.initialTabIndex);
     _contentController = ContentController();
   }
 
@@ -50,7 +55,11 @@ class _MyCommunityState extends State<MyCommunity>
           ),
         ),
         onActionPressed: () {
-          Get.to(MyContentLikes(contentController: _contentController));
+          Get.to(MyContentLikes(
+            contentController: _contentController,
+            tabIdx: _tabController.index,
+            initialCategory: contentsamples[_tabController.index].name,
+          ));
         },
       ),
       bottomNavigationBar: const MyBottomNavigationBar(
@@ -66,7 +75,11 @@ class _MyCommunityState extends State<MyCommunity>
             child: FloatingActionButton(
               backgroundColor: lavenderColor,
               onPressed: () {
-                Get.to(const MyContentWrite());
+                Get.to(MyContentWrite(
+                  initialCategory: contentsamples[_tabController.index]
+                      .name, // 현재 선택된 탭의 이름 전달
+                  tabIdx: _tabController.index,
+                ));
               },
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100)),
@@ -115,43 +128,24 @@ class _MyCommunityState extends State<MyCommunity>
 
   Widget tabBar(BuildContext context, TabController tabController) {
     return DefaultTabController(
-      length: 4,
+      length: contentsamples.length,
       child: Column(
         children: [
           TabBar(
             controller: tabController,
-            tabs: const <Widget>[
-              Tab(text: "자유게시판"),
-              Tab(text: "후기"),
-              Tab(text: "교환/양도"),
-              Tab(text: "카풀/동행"),
-            ],
+            tabs:
+                contentsamples.map((sample) => Tab(text: sample.name)).toList(),
           ),
           Expanded(
             child: TabBarView(
               controller: tabController,
-              children: [
-                MyContentListView(
-                  tabIdx: 0,
-                  contentController: _contentController,
-                  searchText: searchText,
-                ),
-                MyContentListView(
-                  tabIdx: 1,
-                  contentController: _contentController,
-                  searchText: searchText,
-                ),
-                MyContentListView(
-                  tabIdx: 2,
-                  contentController: _contentController,
-                  searchText: searchText,
-                ),
-                MyContentListView(
-                  tabIdx: 3,
-                  contentController: _contentController,
-                  searchText: searchText,
-                ),
-              ],
+              children: contentsamples
+                  .map((sample) => MyContentListView(
+                        tabIdx: sample.tabIdx,
+                        contentController: _contentController,
+                        searchText: searchText,
+                      ))
+                  .toList(),
             ),
           ),
         ],
