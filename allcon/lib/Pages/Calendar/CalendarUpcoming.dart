@@ -62,7 +62,7 @@ class _CalendarUpcomingState extends State<CalendarUpcoming> {
             ],
           ),
           SizedBox(
-            height: 185,
+            height: 220,
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
