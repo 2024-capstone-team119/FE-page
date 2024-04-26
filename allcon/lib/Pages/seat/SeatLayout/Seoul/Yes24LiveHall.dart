@@ -57,7 +57,7 @@ Widget first(BuildContext context) {
               lineToX1: 1,
               lineToY1: 0,
               lineToX3: 0.1,
-              color: Ground,
+              color: oneFloor,
             ),
             child: const SizedBox(
               width: 100,
@@ -68,7 +68,7 @@ Widget first(BuildContext context) {
           Container(
             width: 100,
             height: 80,
-            color: Ground,
+            color: oneFloor,
           ),
           const SizedBox(width: 20),
           CustomPaint(
@@ -78,7 +78,7 @@ Widget first(BuildContext context) {
               lineToX1: 0.8,
               lineToY1: 0,
               lineToX2: 0.9,
-              color: Ground,
+              color: oneFloor,
             ),
             child: const SizedBox(
               width: 100,
@@ -93,13 +93,13 @@ Widget first(BuildContext context) {
           Container(
             width: 90,
             height: 50,
-            color: Ground,
+            color: oneFloor,
           ),
           const SizedBox(width: 140),
           Container(
             width: 90,
             height: 50,
-            color: Ground,
+            color: oneFloor,
           ),
         ],
       ),
@@ -118,7 +118,7 @@ Widget second(BuildContext context) {
           lineToY1: 0,
           lineToX2: 1.05,
           lineToX3: 0.7,
-          color: oneFloor,
+          color: secondFloor,
         ),
         child: const SizedBox(
           width: 140,
@@ -134,7 +134,7 @@ Widget second(BuildContext context) {
           lineToY1: 0,
           lineToX2: 1.03,
           lineToX3: 0,
-          color: oneFloor,
+          color: secondFloor,
         ),
         child: const SizedBox(
           width: 140,
@@ -149,7 +149,7 @@ Widget second(BuildContext context) {
           lineToX1: 0.62,
           lineToY1: 0,
           lineToX2: 0.32,
-          color: oneFloor,
+          color: secondFloor,
         ),
         child: const SizedBox(
           width: 140,
