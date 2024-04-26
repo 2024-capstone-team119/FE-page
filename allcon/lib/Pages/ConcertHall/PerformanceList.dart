@@ -42,10 +42,10 @@ class PerformanceList extends StatelessWidget {
   }
 
   Widget noPerformance(BuildContext context) {
-    return Center(
+    return const Center(
       child: Column(
         children: [
-          const Text(
+          Text(
             'O',
             style: TextStyle(
               fontSize: 120.0,
@@ -54,7 +54,7 @@ class PerformanceList extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const Text(
+          Text(
             '진행 예정인 공연이 없습니다.',
             style: TextStyle(
               fontSize: 18.0,
@@ -68,7 +68,7 @@ class PerformanceList extends StatelessWidget {
   }
 
   Widget startPerformance(int dDay, String startText) {
-    if (dDay <= 0) {
+    if (dDay + 1 <= 0) {
       // 공연 중
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
@@ -134,9 +134,12 @@ class PerformanceList extends StatelessWidget {
         DateTime endDate =
             DateFormat('yyyy.MM.dd').parse(performances[index].endDate!);
         DateTime now = DateTime.now();
+
         int dDay = startDate.difference(now).inDays;
 
-        String startText = (dDay <= 0) ? '공연중' : '공연예정';
+        String startText = (dDay + 1 <= 0) ? '공연중' : '공연예정';
+
+        print('$index: $dDay');
 
         // 종료된 공연은 리스트에서 삭제
         if (endDate.isBefore(now)) {
