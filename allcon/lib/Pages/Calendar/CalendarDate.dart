@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/Util/Theme.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -8,16 +7,12 @@ import 'package:flutter/cupertino.dart';
 import 'controller/selecetedDay_controller.dart';
 
 class CalendarDate extends StatefulWidget {
-  final List<Performance> performances;
-
-  const CalendarDate({super.key, required this.performances});
+  const CalendarDate({super.key});
   @override
   State<CalendarDate> createState() => _CalendarDateState();
 }
 
 class _CalendarDateState extends State<CalendarDate> {
-  late final DateTime _selectedDay = DateTime.now();
-  late List<Performance> performances = [];
   final SelectedDayController controller = Get.put(SelectedDayController());
 
   @override
@@ -25,9 +20,7 @@ class _CalendarDateState extends State<CalendarDate> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          GetBuilder<SelectedDayController>(
-            builder: (_) => calendarDate(context),
-          ),
+          calendarDate(context),
           GetBuilder<SelectedDayController>(
             builder: (_) => calendarList(context),
           ),
@@ -37,125 +30,136 @@ class _CalendarDateState extends State<CalendarDate> {
   }
 
   Widget calendarDate(BuildContext context) {
-    return TableCalendar(
-      locale: 'ko_KR',
-      firstDay: DateTime.utc(2021, 10, 16),
-      lastDay: DateTime.utc(2030, 3, 14),
-      focusedDay: controller.selectedDay,
-      onDaySelected: (selectedDay, focusedDay) {
-        controller.setSelectedDay(selectedDay);
-      },
-      selectedDayPredicate: (day) => isSameDay(day, controller.selectedDay),
-      daysOfWeekHeight: 25,
-      headerStyle: HeaderStyle(
-        titleCentered: true,
-        titleTextFormatter: (date, locale) =>
-            DateFormat.yMMMM(locale).format(date),
-        formatButtonVisible: false,
-        titleTextStyle: const TextStyle(
-            fontSize: 18.0, color: Colors.black87, fontWeight: FontWeight.w500),
-        headerPadding: const EdgeInsets.symmetric(vertical: 4.0),
-        leftChevronIcon: const Icon(
-          CupertinoIcons.chevron_left,
-          size: 20.0,
-        ),
-        rightChevronIcon: const Icon(
-          CupertinoIcons.chevron_right,
-          size: 20.0,
-        ),
-        leftChevronMargin: const EdgeInsets.only(left: 90.0),
-        rightChevronMargin: const EdgeInsets.only(right: 90.0),
-      ),
-      calendarStyle: const CalendarStyle(
-        isTodayHighlighted: true,
-        todayTextStyle: TextStyle(
-          color: Colors.white,
-          fontSize: 14.0,
-        ),
-        todayDecoration: BoxDecoration(
-          color: Colors.deepPurple,
-          shape: BoxShape.rectangle,
-        ),
-        selectedTextStyle: TextStyle(
-            color: lightlavenderColor,
-            fontSize: 14.0,
-            fontWeight: FontWeight.w500),
-        selectedDecoration: BoxDecoration(
-          color: lightMint,
-          shape: BoxShape.circle,
-        ),
-        outsideDaysVisible: false,
-        weekendTextStyle: TextStyle(color: Colors.grey),
-        cellAlignment: Alignment.topCenter,
-        tableBorder: TableBorder(
-          horizontalInside: BorderSide(color: Colors.black12),
-          borderRadius: BorderRadius.zero,
-        ),
-      ),
-      calendarBuilders: CalendarBuilders(
-        markerBuilder: (context, day, events) => events.isNotEmpty
-            ? Positioned(
-                bottom: 0,
-                child: Container(
-                  width: 65,
-                  height: 15,
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    color: lavenderColor,
-                    borderRadius: BorderRadius.all(Radius.circular(0.0)),
-                  ),
-                  child: Text(
-                    '${events.length}',
-                    style: const TextStyle(
-                      color: Colors.deepPurple,
-                      fontSize: 12.0,
+    return GetBuilder<SelectedDayController>(
+      builder: (_) {
+        final selectedDay = controller.selectedDay;
+        return TableCalendar(
+          locale: 'ko_KR',
+          firstDay: DateTime.utc(2021, 10, 16),
+          lastDay: DateTime.utc(2030, 3, 14),
+          focusedDay: selectedDay,
+          onDaySelected: (selectedDay, focusedDay) {
+            controller.setSelectedDay(selectedDay);
+            setState(() {});
+          },
+          selectedDayPredicate: (day) => isSameDay(day, selectedDay),
+          daysOfWeekHeight: 25,
+          headerStyle: HeaderStyle(
+            titleCentered: true,
+            titleTextFormatter: (date, locale) =>
+                DateFormat.yMMMM(locale).format(date),
+            formatButtonVisible: false,
+            titleTextStyle: const TextStyle(
+                fontSize: 18.0,
+                color: Colors.black87,
+                fontWeight: FontWeight.w500),
+            headerPadding: const EdgeInsets.symmetric(vertical: 4.0),
+            leftChevronIcon: const Icon(
+              CupertinoIcons.chevron_left,
+              size: 20.0,
+            ),
+            rightChevronIcon: const Icon(
+              CupertinoIcons.chevron_right,
+              size: 20.0,
+            ),
+            leftChevronMargin: const EdgeInsets.only(left: 90.0),
+            rightChevronMargin: const EdgeInsets.only(right: 90.0),
+          ),
+          calendarStyle: const CalendarStyle(
+            isTodayHighlighted: true,
+            todayTextStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 14.0,
+            ),
+            todayDecoration: BoxDecoration(
+              color: Colors.deepPurple,
+              shape: BoxShape.rectangle,
+            ),
+            selectedTextStyle: TextStyle(
+                color: lightlavenderColor,
+                fontSize: 14.0,
+                fontWeight: FontWeight.w500),
+            selectedDecoration: BoxDecoration(
+              color: lightMint,
+              shape: BoxShape.circle,
+            ),
+            outsideDaysVisible: false,
+            weekendTextStyle: TextStyle(color: Colors.grey),
+            cellAlignment: Alignment.topCenter,
+            tableBorder: TableBorder(
+              horizontalInside: BorderSide(color: Colors.black12),
+              borderRadius: BorderRadius.zero,
+            ),
+          ),
+          calendarBuilders: CalendarBuilders(
+            markerBuilder: (context, day, events) => events.isNotEmpty
+                ? Positioned(
+                    bottom: 0,
+                    child: Container(
+                      width: 80,
+                      height: 15,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        color: lavenderColor,
+                        borderRadius: BorderRadius.all(Radius.circular(0.0)),
+                      ),
+                      child: Text(
+                        '${events.length}',
+                        style: const TextStyle(
+                          color: Colors.deepPurple,
+                          fontSize: 12.0,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              )
-            : null,
-        dowBuilder: (context, date) {
-          switch (date.weekday) {
-            case 1:
-              return const Center(
-                child: Text('MON'),
-              );
-            case 2:
-              return const Center(
-                child: Text('TUE'),
-              );
-            case 3:
-              return const Center(
-                child: Text('WED'),
-              );
-            case 4:
-              return const Center(
-                child: Text('THU'),
-              );
-            case 5:
-              return const Center(
-                child: Text('FRI'),
-              );
-            case 6:
-              return const Center(
-                child: Text(
-                  'SAT',
-                ),
-              );
-            case 7:
-              return const Center(
-                child: Text(
-                  'SUN',
-                  style: TextStyle(
-                    color: Colors.redAccent,
-                  ),
-                ),
-              );
-          }
-          return null;
-        },
-      ),
-      eventLoader: (day) => controller.getEventsForDay(day),
+                  )
+                : null,
+            dowBuilder: (context, date) {
+              switch (date.weekday) {
+                case 1:
+                  return const Center(
+                    child: Text('MON'),
+                  );
+                case 2:
+                  return const Center(
+                    child: Text('TUE'),
+                  );
+                case 3:
+                  return const Center(
+                    child: Text('WED'),
+                  );
+                case 4:
+                  return const Center(
+                    child: Text('THU'),
+                  );
+                case 5:
+                  return const Center(
+                    child: Text('FRI'),
+                  );
+                case 6:
+                  return const Center(
+                    child: Text(
+                      'SAT',
+                      style: TextStyle(
+                        color: Colors.blueAccent,
+                      ),
+                    ),
+                  );
+                case 7:
+                  return const Center(
+                    child: Text(
+                      'SUN',
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                  );
+              }
+              return null;
+            },
+          ),
+          eventLoader: (day) => controller.getEventsForDay(day),
+        );
+      },
     );
   }
 

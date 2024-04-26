@@ -1,5 +1,3 @@
-// 공연 데이터 모델
-
 class Performance {
   final String? mid;
   final String? id;
@@ -62,5 +60,28 @@ class Performance {
       imgs: List<String>.from(json['imgs']),
       update: json['update'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': mid,
+      'id': id,
+      'name': name,
+      'cast': cast,
+      'startDate': startDate,
+      'endDate': endDate,
+      'price': price,
+      'place': place,
+      'placeId': placeId,
+      'age': age,
+      'area': area,
+      'visit': visit,
+      'state': state,
+      'time': time,
+      'genre': genre,
+      'poster': poster,
+      'imgs': imgs,
+      'update': update,
+    };
   }
 }
