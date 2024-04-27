@@ -68,7 +68,8 @@ class PerformanceList extends StatelessWidget {
   }
 
   Widget startPerformance(int dDay, String startText) {
-    if (dDay + 1 <= 0) {
+    print('디데이: $dDay');
+    if (dDay <= 0) {
       // 공연 중
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
@@ -111,7 +112,7 @@ class PerformanceList extends StatelessWidget {
               borderRadius: BorderRadius.circular(4.0),
             ),
             child: Text(
-              'D-${dDay + 1}',
+              'D-$dDay',
               style: const TextStyle(
                 color: Colors.deepPurple,
                 fontWeight: FontWeight.bold,
@@ -134,12 +135,13 @@ class PerformanceList extends StatelessWidget {
         DateTime endDate =
             DateFormat('yyyy.MM.dd').parse(performances[index].endDate!);
         DateTime now = DateTime.now();
+        now = DateTime(now.year, now.month, now.day); // 현재 시간을 자정으로 고정
 
         int dDay = startDate.difference(now).inDays;
 
-        String startText = (dDay + 1 <= 0) ? '공연중' : '공연예정';
+        String startText = (dDay <= 0) ? '공연중' : '공연예정';
 
-        print('$index: $dDay');
+        print('현재: $now, 시작일: $startDate');
 
         // 종료된 공연은 리스트에서 삭제
         if (endDate.isBefore(now)) {
