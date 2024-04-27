@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:allcon/Pages/MainHome/Home.dart';
+import 'package:allcon/service/LoginService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
@@ -160,19 +161,5 @@ class _LogInState extends State<LogIn> {
         ],
       ),
     );
-  }
-
-  // 네이버 로그인 로직
-  Future<void> signInWithNaver() async {
-    NaverLoginResult res = await FlutterNaverLogin.logIn();
-    final NaverLoginResult result = await FlutterNaverLogin.logIn();
-    NaverAccessToken naverAccessToken =
-        await FlutterNaverLogin.currentAccessToken;
-    setState(() {
-      var accesToken = naverAccessToken.accessToken;
-      var tokenType = naverAccessToken.tokenType;
-    });
-
-    print("result $result");
   }
 }
