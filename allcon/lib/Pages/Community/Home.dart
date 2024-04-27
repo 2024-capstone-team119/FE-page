@@ -55,7 +55,11 @@ class _MyCommunityState extends State<MyCommunity>
           ),
         ),
         onActionPressed: () {
-          Get.to(MyContentLikes(contentController: _contentController));
+          Get.to(MyContentLikes(
+            contentController: _contentController,
+            tabIdx: _tabController.index,
+            initialCategory: contentsamples[_tabController.index].name,
+          ));
         },
       ),
       bottomNavigationBar: const MyBottomNavigationBar(

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/service/api.dart';
@@ -5,6 +6,7 @@ import 'package:allcon/Util/Loading.dart';
 import 'package:allcon/Pages/Calendar/CalendarUpcoming.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'CalendarDate.dart';
 import './controller/selecetedDay_controller.dart';
 import 'package:get/get.dart';
@@ -20,45 +22,65 @@ class _CalendarState extends State<Calendar> {
   final SelectedDayController selectedDayController =
       Get.put(SelectedDayController());
 
+  late List<Performance> performancesCache = [];
+  late List<Performance> upcomingPerformancesCache = [];
+
+  Future<void> fetchPerformanceData() async {
+    final cacheManager = DefaultCacheManager();
+    const key = 'performance_data'; // 캐시 키
+
+    // 캐시된 데이터 가져오기
+    FileInfo? fileInfo = await cacheManager.getFileFromCache(key);
+
+    if (fileInfo != null) {
+      // 캐시된 데이터가 있으면 이를 사용
+      String jsonData = await fileInfo.file.readAsString();
+      List<dynamic> cachedData = jsonDecode(jsonData);
+      performancesCache = (cachedData[0] as List<dynamic>)
+          .map((data) => Performance.fromJson(data))
+          .toList();
+      upcomingPerformancesCache = (cachedData[1] as List<dynamic>)
+          .map((data) => Performance.fromJson(data))
+          .toList();
+    } else {
+      // 캐시된 데이터가 없으면 API 호출하여 데이터 가져오기
+      List<Performance> performances = await Api.getPerformance_all_all();
+      List<Performance> upcomingPerformances =
+          await Api.getPerformanceApproaching_ko();
+
+      // 가져온 데이터를 캐시에 저장
+      await cacheManager.putFile(
+        key,
+        utf8.encode(jsonEncode([performances, upcomingPerformances])),
+      );
+
+      // 캐시된 데이터로 설정
+      performancesCache = performances;
+      upcomingPerformancesCache = upcomingPerformances;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(
         text: "달력",
       ),
-      body: FutureBuilder<List<dynamic>>(
-        future: Future.wait([
-          Api.getPerformance_all_all(),
-          Api.getPerformanceApproaching_ko(),
-        ]),
+      body: FutureBuilder<void>(
+        future: fetchPerformanceData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loading();
           } else if (snapshot.hasError) {
             return Text('에러: ${snapshot.error}');
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Text('데이터 없음');
           } else {
-            List<dynamic> results = snapshot.data!;
-            List<Performance> performances = results[0] as List<Performance>;
-            List<Performance> upcomingPerformances =
-                results[1] as List<Performance>;
-
-            // 국내 공연만 담아오기
-            List<Performance> koPerformances = [];
-            for (Performance performance in performances) {
-              if (performance.visit == 'N') {
-                koPerformances.add(performance);
-              }
-            }
-
-            selectedDayController.setPerformances(koPerformances);
-
+            selectedDayController.setPerformances(performancesCache);
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  CalendarDate(performances: koPerformances),
-                  CalendarUpcoming(performances: upcomingPerformances),
+                  const CalendarDate(),
+                  if (upcomingPerformancesCache.isNotEmpty)
+                    CalendarUpcoming(performances: upcomingPerformancesCache),
                 ],
               ),
             );

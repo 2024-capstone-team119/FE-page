@@ -1,3 +1,4 @@
+import 'package:allcon/Data/Sample/content_sample.dart';
 import 'package:allcon/model/community_model.dart';
 import 'package:get/get.dart';
 
@@ -39,9 +40,16 @@ class ContentController extends GetxController {
     }
   }
 
-  // 좋아요
-  List<Content> getAllLikedContents() {
-    return contents.where((content) => content.isLike == true).toList();
+  List<Content> getAllLikedContents(int tabIdx) {
+    Category? category = contentsamples
+        .firstWhereOrNull((category) => category.tabIdx == tabIdx);
+    // 해당 Category에서 isLike가 true인 Content 목록을 반환합니다.
+    if (category != null) {
+      return category.content
+          .where((content) => content.isLike == true)
+          .toList();
+    }
+    return [];
   }
 
   void toggleLike(int postId) {
@@ -70,7 +78,8 @@ class ContentController extends GetxController {
           Comment(commentId: postId, commentContent: commentContent);
       contents[index].comment.add(comment);
       commentCount.value++;
-      update();
+      // RxList에 변화가 있음을 감지하고 UI를 업데이트합니다.
+      contents.refresh();
     }
   }
 }
