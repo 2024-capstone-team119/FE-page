@@ -6,7 +6,7 @@ import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:allcon/widget/custom_elevated_btn.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/model/place_model.dart';
-import 'package:allcon/service/api.dart';
+import 'package:allcon/service/concertService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:allcon/utils/Loading.dart';
 import 'package:flutter/material.dart';
@@ -29,8 +29,8 @@ class _HallMainState extends State<HallMain> {
       appBar: MyAppBar(text: widget.title),
       body: FutureBuilder<List<dynamic>>(
         future: Future.wait([
-          Api.getPerformanceInThisPlace(widget.id),
-          Api.getPlaceById(widget.id),
+          ConcertService.getPerformanceInThisPlace(widget.id),
+          ConcertService.getPlaceById(widget.id),
         ]),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

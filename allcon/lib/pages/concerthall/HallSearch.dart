@@ -1,7 +1,7 @@
 import 'package:allcon/pages/concerthall/HallMain.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/model/place_model.dart';
-import 'package:allcon/service/api.dart';
+import 'package:allcon/service/concertService.dart';
 import 'package:allcon/utils/Loading.dart';
 import 'package:allcon/utils/Preparing.dart';
 import 'package:allcon/widget/app_bar.dart';
@@ -21,7 +21,8 @@ class _HallSearchPageState extends State<HallSearch> {
   late final TextEditingController _textEditingController =
       TextEditingController();
   String searchText = '';
-  late final Future<List<Place>> _futurePlaces = Api.getPlace(widget.area);
+  late final Future<List<Place>> _futurePlaces =
+      ConcertService.getPlace(widget.area);
 
   @override
   Widget build(BuildContext context) {

@@ -1,10 +1,13 @@
 import 'dart:ui';
+import 'package:allcon/model/concertLikes_model.dart';
+import 'package:allcon/service/concertLikesService.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:allcon/model/performance_model.dart';
+import 'package:http/http.dart' as http;
 
 class PerformanceDetail extends StatefulWidget {
   final Performance performance;
@@ -16,7 +19,39 @@ class PerformanceDetail extends StatefulWidget {
 }
 
 class _PerformanceDetailState extends State<PerformanceDetail> {
-  bool isFavorite = false;
+  bool isMyLikesConcert = false;
+  ConcertLikes? concertLikes;
+  final client = http.Client();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchConcertLikesData();
+  }
+
+  Future<void> fetchConcertLikesData() async {
+    concertLikes =
+        await ConcertLikesService().fetchConcertLikes(client, 'userId');
+    setState(() {
+      isMyLikesConcert =
+          concertLikes?.concertId.contains(widget.performance.id) ?? false;
+    });
+  }
+
+  Future<void> updateConcertLikesData() async {
+    // async 추가
+    if (concertLikes == null) {
+      concertLikes = ConcertLikes('', 'userId', []);
+    }
+    final updatedConcertIds = isMyLikesConcert
+        ? [...concertLikes!.concertId, widget.performance.id]
+        : concertLikes!.concertId
+            .where((id) => id != widget.performance.id)
+            .toList();
+    concertLikes = ConcertLikes(concertLikes!.id, concertLikes!.userId,
+        updatedConcertIds.cast<String>());
+    await ConcertLikesService().updateConcertLikes(client, concertLikes!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,16 +154,19 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
               right: 15,
               child: IconButton(
                 icon: Icon(
-                  isFavorite ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
-                  color: isFavorite ? Colors.redAccent : Colors.black26,
+                  isMyLikesConcert
+                      ? CupertinoIcons.heart_fill
+                      : CupertinoIcons.heart,
+                  color: isMyLikesConcert ? Colors.redAccent : Colors.black26,
                   size: 30.0,
                 ),
                 color: Colors.redAccent,
-                onPressed: () {
+                onPressed: () async {
                   // 버튼 클릭 시 수행할 작업
                   setState(() {
-                    isFavorite = !isFavorite;
+                    isMyLikesConcert = !isMyLikesConcert;
                   });
+                  await updateConcertLikesData();
                 },
               ),
             ),

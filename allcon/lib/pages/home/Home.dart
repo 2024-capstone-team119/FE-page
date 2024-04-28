@@ -7,7 +7,7 @@ import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:allcon/model/performance_model.dart';
-import 'package:allcon/service/api.dart';
+import 'package:allcon/service/concertService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -70,8 +70,8 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             FutureBuilder<List<dynamic>>(
               future: Future.wait([
-                Api.getPerformanceNew_all(),
-                Api.getPerformanceApproaching_all(),
+                ConcertService.getPerformanceNew_all(),
+                ConcertService.getPerformanceApproaching_all(),
               ]),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {

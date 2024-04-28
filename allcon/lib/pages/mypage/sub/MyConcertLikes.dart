@@ -1,35 +1,36 @@
+import 'package:allcon/model/concertLikes_model.dart';
 import 'package:allcon/pages/concert/PerformaceDetail.dart';
+import 'package:allcon/service/concertLikesService.dart';
 import 'package:allcon/utils/Loading.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:allcon/service/concertService.dart';
 
-class WatchDeadConcert extends StatefulWidget {
-  const WatchDeadConcert({super.key});
+class MyConcertLikes extends StatefulWidget {
+  const MyConcertLikes({super.key});
 
   @override
-  State<WatchDeadConcert> createState() => _WatchDeadConcertState();
+  State<MyConcertLikes> createState() => _MyConcertLikesState();
 }
 
-class _WatchDeadConcertState extends State<WatchDeadConcert> {
+class _MyConcertLikesState extends State<MyConcertLikes> {
+  final userId = 'userId';
+  final client = http.Client();
+  final concertLikesService = ConcertLikesService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(text: '마감임박 공연'),
+      appBar: const MyAppBar(text: '관심공연 목록'),
       backgroundColor: Colors.white,
-      body: FutureBuilder<List<Performance>>(
-        future: ConcertService.getPerformanceApproaching_all(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Loading();
-          } else if (snapshot.hasError) {
-            return Text('에러: ${snapshot.error}');
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Text('데이터 없음');
-          } else {
-            return ListView.builder(
+      body: FutureBuilder<ConcertLikes?>(
+          future: concertLikesService.fetchConcertLikes(client, userId),
+          builder: (context, snapshot) {
+            return Container();
+            /*ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, imgIndex) {
                 return Padding(
@@ -101,10 +102,8 @@ class _WatchDeadConcertState extends State<WatchDeadConcert> {
                   ),
                 );
               },
-            );
-          }
-        },
-      ),
+            );*/
+          }),
     );
   }
 }

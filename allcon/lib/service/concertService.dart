@@ -1,16 +1,15 @@
 import 'dart:convert';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/model/place_model.dart';
+import 'package:allcon/service/baseUrl.dart';
 import 'package:http/http.dart' as http;
 
-class Api {
-  static const baseUrl = "http://10.0.2.2:8080/api/";
-
+class ConcertService {
   // 1. 공연목록 조회 (db상에 존재하는)
   static Future<List<Performance>> getPerformance_all_past() async {
     List<Performance> performances = [];
 
-    var url = Uri.parse("${baseUrl}get_performance/all/past");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance/all/past");
 
     try {
       final res = await http.get(url);
@@ -34,7 +33,7 @@ class Api {
   static Future<List<Performance>> getPerformance_all_future() async {
     List<Performance> performances = [];
 
-    var url = Uri.parse("${baseUrl}get_performance/all/future");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance/all/future");
 
     try {
       final res = await http.get(url);
@@ -58,7 +57,7 @@ class Api {
   static Future<List<Performance>> getPerformance_all_all() async {
     List<Performance> performances = [];
 
-    var url = Uri.parse("${baseUrl}get_performance/all/all");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance/all/all");
 
     try {
       final res = await http.get(url);
@@ -82,7 +81,7 @@ class Api {
   static Future<List<Performance>> getPerformance_ko_past() async {
     List<Performance> performances = [];
 
-    var url = Uri.parse("${baseUrl}get_performance/ko/past");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance/ko/past");
 
     try {
       final res = await http.get(url);
@@ -106,7 +105,7 @@ class Api {
   static Future<List<Performance>> getPerformance_ko_future() async {
     List<Performance> performances = [];
 
-    var url = Uri.parse("${baseUrl}get_performance/ko/future");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance/ko/future");
 
     try {
       final res = await http.get(url);
@@ -130,7 +129,7 @@ class Api {
   static Future<List<Performance>> getPerformance_visit_past() async {
     List<Performance> performances = [];
 
-    var url = Uri.parse("${baseUrl}get_performance/visit/past");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance/visit/past");
 
     try {
       final res = await http.get(url);
@@ -154,7 +153,7 @@ class Api {
   static Future<List<Performance>> getPerformance_visit_future() async {
     List<Performance> performances = [];
 
-    var url = Uri.parse("${baseUrl}get_performance/visit/future");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance/visit/future");
 
     try {
       final res = await http.get(url);
@@ -179,7 +178,7 @@ class Api {
   static Future<List<Performance>> getPerformanceNew_all() async {
     List<Performance> performances = [];
 
-    var url = Uri.parse("${baseUrl}get_performance_new/all");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance_new/all");
 
     try {
       final res = await http.get(url);
@@ -203,7 +202,7 @@ class Api {
   static Future<List<Performance>> getPerformanceNew_ko() async {
     List<Performance> performances = [];
 
-    var url = Uri.parse("${baseUrl}get_performance_new/ko");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance_new/ko");
 
     try {
       final res = await http.get(url);
@@ -227,7 +226,7 @@ class Api {
   static Future<List<Performance>> getPerformanceNew_visit() async {
     List<Performance> performances = [];
 
-    var url = Uri.parse("${baseUrl}get_performance_new/visit");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance_new/visit");
 
     try {
       final res = await http.get(url);
@@ -252,7 +251,7 @@ class Api {
   static Future<List<Performance>> getPerformanceApproaching_all() async {
     List<Performance> performances = [];
 
-    var url = Uri.parse("${baseUrl}get_performance_approaching/all");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance_approaching/all");
     final res = await http.get(url);
 
     try {
@@ -274,7 +273,7 @@ class Api {
   static Future<List<Performance>> getPerformanceApproaching_ko() async {
     List<Performance> performances = [];
 
-    var url = Uri.parse("${baseUrl}get_performance_approaching/ko");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance_approaching/ko");
     final res = await http.get(url);
 
     try {
@@ -296,7 +295,7 @@ class Api {
   static Future<List<Performance>> getPerformanceApproaching_visit() async {
     List<Performance> performances = [];
 
-    var url = Uri.parse("${baseUrl}get_performance_approaching/visit");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance_approaching/visit");
     final res = await http.get(url);
 
     try {
@@ -317,7 +316,7 @@ class Api {
 
   // 4. 공연 id로 공연목록 조회
   static Future<Performance?> getPerformanceById(String id) async {
-    var url = Uri.parse("${baseUrl}get_performance/$id");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance/$id");
 
     try {
       final res = await http.get(url);
@@ -342,7 +341,8 @@ class Api {
   static Future<List<Performance>> getPerformanceInThisPlace(String id) async {
     try {
       List<Performance> performances = [];
-      var url = Uri.parse("${baseUrl}get_performance_in_this_place/$id");
+      var url =
+          Uri.parse("${BaseUrl.baseUrl}get_performance_in_this_place/$id");
       final res = await http.get(url);
 
       if (res.statusCode == 200) {
@@ -370,7 +370,7 @@ class Api {
   static Future<List<Performance>> getPerformanceByName(String name) async {
     List<Performance> performances = [];
 
-    var url = Uri.parse("${baseUrl}get_performance_by_name/$name");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance_by_name/$name");
 
     try {
       final res = await http.get(url);
@@ -395,7 +395,7 @@ class Api {
   static Future<List<Performance>> getPerformanceByDate(
       String st, String ed) async {
     List<Performance> performances = [];
-    var url = Uri.parse("${baseUrl}get_performance/$st/$ed");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance/$st/$ed");
     final res = await http.get(url);
     try {
       if (res.statusCode == 200) {
@@ -419,7 +419,7 @@ class Api {
   static Future<List<Place>> getPlace(String area) async {
     List<Place> places = [];
 
-    var url = Uri.parse("${baseUrl}get_place/$area");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_place/$area");
     final res = await http.get(url);
 
     try {
@@ -441,7 +441,7 @@ class Api {
   // 2. 공연 목록 카드에서 누른 장소의 공연장 id로 공연장 찾기
   static Future<Place?> getPlaceById(String id) async {
     try {
-      var url = Uri.parse("${baseUrl}get_place_by_id/$id");
+      var url = Uri.parse("${BaseUrl.baseUrl}get_place_by_id/$id");
       final res = await http.get(url);
 
       if (res.statusCode == 200) {
@@ -467,7 +467,7 @@ class Api {
     List<Place> places = [];
 
     // URL 구성
-    var url = Uri.parse("${baseUrl}get_place_by_name/$name");
+    var url = Uri.parse("${BaseUrl.baseUrl}get_place_by_name/$name");
 
     try {
       // HTTP 요청 수행

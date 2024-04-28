@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:allcon/model/performance_model.dart';
-import 'package:allcon/service/api.dart';
+import 'package:allcon/service/concertService.dart';
 import 'package:allcon/utils/Loading.dart';
 import 'package:allcon/pages/calendar/CalendarUpcoming.dart';
 import 'package:allcon/widget/app_bar.dart';
@@ -44,9 +44,10 @@ class _CalendarState extends State<Calendar> {
           .toList();
     } else {
       // 캐시된 데이터가 없으면 API 호출하여 데이터 가져오기
-      List<Performance> performances = await Api.getPerformance_all_all();
+      List<Performance> performances =
+          await ConcertService.getPerformance_all_all();
       List<Performance> upcomingPerformances =
-          await Api.getPerformanceApproaching_ko();
+          await ConcertService.getPerformanceApproaching_ko();
 
       // 가져온 데이터를 캐시에 저장
       await cacheManager.putFile(

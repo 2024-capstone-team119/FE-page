@@ -3,7 +3,7 @@ import 'package:allcon/utils/Loading.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/model/performance_model.dart';
-import 'package:allcon/service/api.dart';
+import 'package:allcon/service/concertService.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,22 +36,23 @@ class _WatchAllConcertState extends State<WatchAllConcert> {
           !selectedFinished &&
           selectedKorea &&
           !selectedOverseas) {
-        fetchedPerformances = await Api.getPerformance_ko_future();
+        fetchedPerformances = await ConcertService.getPerformance_ko_future();
       } else if (selectedFinished &&
           !selectedOngoing &&
           selectedKorea &&
           !selectedOverseas) {
-        fetchedPerformances = await Api.getPerformance_ko_past();
+        fetchedPerformances = await ConcertService.getPerformance_ko_past();
       } else if (selectedOngoing &&
           !selectedFinished &&
           !selectedKorea &&
           selectedOverseas) {
-        fetchedPerformances = await Api.getPerformance_visit_future();
+        fetchedPerformances =
+            await ConcertService.getPerformance_visit_future();
       } else if (selectedFinished &&
           !selectedOngoing &&
           !selectedKorea &&
           selectedOverseas) {
-        fetchedPerformances = await Api.getPerformance_visit_past();
+        fetchedPerformances = await ConcertService.getPerformance_visit_past();
       }
 
       return fetchedPerformances;
