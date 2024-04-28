@@ -32,7 +32,7 @@ class MyCategory extends StatelessWidget {
               ),
               onTap: () {
                 print('관심 공연 목록 is clicked');
-                Get.to(MyConcertLikes());
+                Get.to(const MyConcertLikes());
               },
             ),
           ),

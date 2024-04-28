@@ -1,7 +1,5 @@
 import 'package:http/http.dart' as http;
 import 'package:allcon/pages/home/Home.dart';
-import 'package:allcon/service/LoginService.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
 

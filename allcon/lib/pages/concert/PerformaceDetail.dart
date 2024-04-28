@@ -40,9 +40,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
 
   Future<void> updateConcertLikesData() async {
     // async 추가
-    if (concertLikes == null) {
-      concertLikes = ConcertLikes('', 'userId', []);
-    }
+    concertLikes ??= ConcertLikes('', 'userId', []);
     final updatedConcertIds = isMyLikesConcert
         ? [...concertLikes!.concertId, widget.performance.id]
         : concertLikes!.concertId

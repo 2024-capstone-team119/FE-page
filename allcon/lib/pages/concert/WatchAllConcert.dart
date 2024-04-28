@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class WatchAllConcert extends StatefulWidget {
-  const WatchAllConcert({Key? key}) : super(key: key);
+  const WatchAllConcert({super.key});
 
   @override
   State<WatchAllConcert> createState() => _WatchAllConcertState();

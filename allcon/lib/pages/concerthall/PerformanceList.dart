@@ -42,10 +42,10 @@ class PerformanceList extends StatelessWidget {
   }
 
   Widget noPerformance(BuildContext context) {
-    return Center(
+    return const Center(
       child: Column(
         children: [
-          const Text(
+          Text(
             'O',
             style: TextStyle(
               fontSize: 120.0,
@@ -54,7 +54,7 @@ class PerformanceList extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const Text(
+          Text(
             '진행 예정인 공연이 없습니다.',
             style: TextStyle(
               fontSize: 18.0,

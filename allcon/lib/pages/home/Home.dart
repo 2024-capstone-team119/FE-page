@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyHome extends StatefulWidget {
-  const MyHome({Key? key}) : super(key: key);
+  const MyHome({super.key});
 
   @override
   _MyHomeState createState() => _MyHomeState();
@@ -45,7 +45,7 @@ class _MyHomeState extends State<MyHome> {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();

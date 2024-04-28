@@ -1,6 +1,5 @@
 import 'package:allcon/model/place_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PlaceInfo extends StatefulWidget {

@@ -1,9 +1,7 @@
 import 'package:allcon/pages/seat/layout/customFigure/TrapezoidCurve.dart';
 import 'package:allcon/utils/Colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
-import 'package:flutter/widgets.dart';
 
 class OlympicChaejo extends StatelessWidget {
   const OlympicChaejo({super.key});

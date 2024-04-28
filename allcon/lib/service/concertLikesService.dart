@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:allcon/model/concertLikes_model.dart';
 import 'package:allcon/service/baseUrl.dart';
 import 'package:http/http.dart' as http;
-import 'package:get/get.dart' as GetX;
 
 class ConcertLikesService {
   // 등록한 좋아요한 콘서트 정보 요청

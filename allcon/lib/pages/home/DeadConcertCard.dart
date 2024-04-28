@@ -9,8 +9,7 @@ import 'package:get/get.dart';
 class DeadConcertCard extends StatefulWidget {
   final List<Performance> performances;
 
-  const DeadConcertCard({Key? key, required this.performances})
-      : super(key: key);
+  const DeadConcertCard({super.key, required this.performances});
 
   @override
   State<DeadConcertCard> createState() => _DeadConcertCardState();
