@@ -93,7 +93,7 @@ class MyCategory extends StatelessWidget {
                 style: TextStyle(fontSize: 20.0),
               ),
               onTap: () {
-                Get.to(const MyLogIn());
+                widthDrawNaver();
               },
             ),
           ),
@@ -103,12 +103,28 @@ class MyCategory extends StatelessWidget {
   }
 }
 
-// 로그아웃 로직
+//  회원 로그아웃
 Future<void> logOutWithNaver() async {
   try {
-    FlutterNaverLogin.logOutAndDeleteToken().then((value) => {
+    FlutterNaverLogin.logOut().then((value) => {
           print("Naver Logout is successful"),
           Get.to(const MyLogIn()),
         });
-  } catch (error) {}
+  } catch (error) {
+    print('네이버 유저 로그아웃 실패');
+    print(error);
+  }
+}
+
+// 회원 탈퇴
+Future<void> widthDrawNaver() async {
+  try {
+    FlutterNaverLogin.logOutAndDeleteToken().then((value) => {
+          print("네이버 탈퇴 is successful"),
+          Get.to(const MyLogIn()),
+        });
+  } catch (error) {
+    print('네이버 유저 탈퇴 실패');
+    print(error);
+  }
 }
