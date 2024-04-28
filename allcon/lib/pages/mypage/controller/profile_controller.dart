@@ -1,5 +1,5 @@
 import 'package:allcon/Data/User.dart';
-import 'package:allcon/Pages/MyPage/controller/img_crop_controller.dart';
+import 'package:allcon/pages/mypage/controller/img_crop_controller.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 

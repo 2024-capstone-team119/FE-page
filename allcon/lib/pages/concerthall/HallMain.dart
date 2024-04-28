@@ -1,9 +1,9 @@
-import 'package:allcon/Pages/ConcertHall/PlaceInfo.dart';
-import 'package:allcon/Pages/Seat/seat_main.dart';
+import 'package:allcon/pages/concerthall/PlaceInfo.dart';
+import 'package:allcon/pages/seat/seat_main.dart';
 import 'package:allcon/utils/Colors.dart';
-import 'package:allcon/Widget/app_bar.dart';
-import 'package:allcon/Widget/bottom_navigation_bar.dart';
-import 'package:allcon/Widget/custom_elevated_btn.dart';
+import 'package:allcon/widget/app_bar.dart';
+import 'package:allcon/widget/bottom_navigation_bar.dart';
+import 'package:allcon/widget/custom_elevated_btn.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/model/place_model.dart';
 import 'package:allcon/service/api.dart';

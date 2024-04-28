@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:allcon/utils/Colors.dart';
-import 'package:allcon/Widget/bottom_navigation_bar.dart';
+import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:allcon/Widget/app_bar.dart';
+import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:allcon/model/performance_model.dart';
 

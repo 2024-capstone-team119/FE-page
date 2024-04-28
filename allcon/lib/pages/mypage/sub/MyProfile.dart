@@ -1,6 +1,6 @@
-import 'package:allcon/Pages/MyPage/edit_userName.dart';
-import 'package:allcon/Pages/MyPage/controller/img_crop_controller.dart';
-import 'package:allcon/Pages/MyPage/controller/profile_controller.dart';
+import 'package:allcon/pages/mypage/sub/edit_userName.dart';
+import 'package:allcon/pages/mypage/controller/img_crop_controller.dart';
+import 'package:allcon/pages/mypage/controller/profile_controller.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

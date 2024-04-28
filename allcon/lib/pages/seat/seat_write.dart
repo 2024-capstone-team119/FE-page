@@ -1,6 +1,6 @@
 import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:allcon/Pages/Seat/seat_review.dart';
+import 'package:allcon/pages/seat/seat_review.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';

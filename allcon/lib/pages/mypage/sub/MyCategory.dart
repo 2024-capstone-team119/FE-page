@@ -1,4 +1,5 @@
-import 'package:allcon/Pages/Login/login.dart';
+import 'package:allcon/pages/login/login.dart';
+import 'package:allcon/pages/mypage/sub/MyConcertLikes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
@@ -31,6 +32,7 @@ class MyCategory extends StatelessWidget {
               ),
               onTap: () {
                 print('관심 공연 목록 is clicked');
+                Get.to(MyConcertLikes());
               },
             ),
           ),

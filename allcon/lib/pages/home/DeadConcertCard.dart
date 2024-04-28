@@ -1,7 +1,7 @@
-import 'package:allcon/Pages/Concert/WatchAllConcert.dart';
-import 'package:allcon/Pages/Concert/WatchDeadConcert.dart';
+import 'package:allcon/pages/concert/WatchAllConcert.dart';
+import 'package:allcon/pages/concert/WatchDeadConcert.dart';
 import 'package:allcon/model/performance_model.dart';
-import 'package:allcon/Pages/Concert/PerformaceDetail.dart';
+import 'package:allcon/pages/concert/PerformaceDetail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

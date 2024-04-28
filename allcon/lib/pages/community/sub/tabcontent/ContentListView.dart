@@ -1,6 +1,6 @@
 import 'package:allcon/Data/Sample/content_sample.dart';
-import 'package:allcon/Pages/Community/Sub/GetPost.dart';
-import 'package:allcon/Pages/Community/controller/content_controller.dart';
+import 'package:allcon/pages/community/sub/GetPost.dart';
+import 'package:allcon/pages/community/controller/content_controller.dart';
 import 'package:allcon/model/community_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

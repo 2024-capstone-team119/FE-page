@@ -1,11 +1,11 @@
-import 'package:allcon/Pages/Calendar/CalendarMain.dart';
-import 'package:allcon/Pages/MainHome/BannerConcerList.dart';
-import 'package:allcon/Pages/MainHome/ConcerHallTable.dart';
-import 'package:allcon/Pages/MainHome/DeadConcertCard.dart';
+import 'package:allcon/pages/calendar/CalendarMain.dart';
+import 'package:allcon/pages/home/BannerConcerList.dart';
+import 'package:allcon/pages/home/ConcerHallTable.dart';
+import 'package:allcon/pages/home/DeadConcertCard.dart';
 import 'package:allcon/utils/Loading.dart';
 import 'package:allcon/utils/Colors.dart';
-import 'package:allcon/Widget/app_bar.dart';
-import 'package:allcon/Widget/bottom_navigation_bar.dart';
+import 'package:allcon/widget/app_bar.dart';
+import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/service/api.dart';
 import 'package:flutter/cupertino.dart';

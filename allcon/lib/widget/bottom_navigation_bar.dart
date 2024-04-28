@@ -1,5 +1,5 @@
-import 'package:allcon/Pages/Community/Home.dart';
-import 'package:allcon/Pages/MainHome/Home.dart';
+import 'package:allcon/pages/community/Home.dart';
+import 'package:allcon/pages/home/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../Pages/MyPage/MyPage.dart';

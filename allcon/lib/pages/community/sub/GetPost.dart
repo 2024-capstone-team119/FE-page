@@ -1,5 +1,5 @@
-import 'package:allcon/Pages/Community/controller/content_controller.dart';
-import 'package:allcon/Widget/app_bar.dart';
+import 'package:allcon/pages/community/controller/content_controller.dart';
+import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/model/community_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

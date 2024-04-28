@@ -1,5 +1,5 @@
-import 'package:allcon/Pages/MyPage/MyCategory.dart';
-import 'package:allcon/Pages/MyPage/MyProfile.dart';
+import 'package:allcon/pages/mypage/sub/MyCategory.dart';
+import 'package:allcon/pages/mypage/sub/MyProfile.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';

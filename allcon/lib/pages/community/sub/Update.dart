@@ -1,9 +1,9 @@
 import 'package:allcon/utils/validator_util.dart';
-import 'package:allcon/Widget/app_bar.dart';
-import 'package:allcon/Widget/custom_elevated_btn.dart';
-import 'package:allcon/Widget/custom_text_area.dart';
-import 'package:allcon/Widget/custom_text_form_field.dart';
-import 'package:allcon/Widget/bottom_navigation_bar.dart';
+import 'package:allcon/widget/app_bar.dart';
+import 'package:allcon/widget/custom_elevated_btn.dart';
+import 'package:allcon/widget/custom_text_area.dart';
+import 'package:allcon/widget/custom_text_form_field.dart';
+import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math';

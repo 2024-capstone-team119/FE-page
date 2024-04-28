@@ -1,6 +1,6 @@
-import 'package:allcon/Pages/Concert/PerformaceDetail.dart';
+import 'package:allcon/pages/concert/PerformaceDetail.dart';
 import 'package:allcon/utils/Loading.dart';
-import 'package:allcon/Widget/app_bar.dart';
+import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

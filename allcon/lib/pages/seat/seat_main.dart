@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:allcon/pages/seat/seat_write.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
-import 'package:allcon/Pages/Seat/seat_review.dart';
+import 'package:allcon/pages/seat/seat_review.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 

@@ -1,4 +1,4 @@
-import 'package:allcon/Pages/ConcertHall/HallSearch.dart';
+import 'package:allcon/pages/concerthall/HallSearch.dart';
 import 'package:flutter/material.dart';
 
 class ConcertHallTable extends StatelessWidget {

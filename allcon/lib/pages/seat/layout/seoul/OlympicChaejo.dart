@@ -1,4 +1,4 @@
-import 'package:allcon/Pages/Seat/SeatLayout/CustomFigure/TrapezoidCurve.dart';
+import 'package:allcon/pages/seat/layout/customFigure/TrapezoidCurve.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
