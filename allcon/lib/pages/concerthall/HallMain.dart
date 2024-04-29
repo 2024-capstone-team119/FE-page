@@ -46,6 +46,7 @@ class _HallMainState extends State<HallMain> {
               child: Column(
                 children: [
                   PlaceInfo(placeDetail: placeDetail),
+                  const SizedBox(height: 5.0),
                   reviewBtn(context),
                   const SizedBox(height: 5.0),
                   Container(
@@ -65,7 +66,7 @@ class _HallMainState extends State<HallMain> {
 
   Widget reviewBtn(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20.0, 3.0, 20.0, 8.0),
+      padding: const EdgeInsets.fromLTRB(16.0, 3.0, 16.0, 5.0),
       child: CustomElevatedBtn(
         text: '시야 리뷰 보러가기',
         buttonColor: lightMint,
