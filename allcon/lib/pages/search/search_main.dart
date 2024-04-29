@@ -1,9 +1,13 @@
+import 'package:allcon/model/performance_model.dart';
+import 'package:allcon/pages/concert/PerformaceDetail.dart';
+import 'package:allcon/utils/Loading.dart';
+import 'package:allcon/utils/Preparing.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
-import 'package:allcon/Data/Concert.dart';
-import 'package:allcon/Data/Sample/concert_sample.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:allcon/service/concertService.dart';
+import 'package:get/get.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -14,7 +18,13 @@ class Search extends StatefulWidget {
 
 class _SearchPageState extends State<Search> {
   String searchText = '';
-  List<Concert> allConcert = allConcertSample;
+  TextEditingController? searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    searchController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,26 +33,26 @@ class _SearchPageState extends State<Search> {
         text: "검색",
         automaticallyImplyLeading: false,
       ),
-      body: Column(
-        children: <Widget>[
-          searchTab(context),
-          const SizedBox(
-            height: 16.0,
-          ),
-          /*
-          const Text(
-            '목록',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(
-            height: 5.0,
-          ),*/
-          listTab(context),
-        ],
+      body: FutureBuilder(
+        future: ConcertService.getPerformanceByName(searchText),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Loading();
+          } else if (snapshot.hasError) {
+            return Text('에러: ${snapshot.error}');
+          } else {
+            List<Performance>? searchList = snapshot.data;
+            return Column(
+              children: <Widget>[
+                searchTab(context),
+                const SizedBox(
+                  height: 16.0,
+                ),
+                listTab(context, searchList),
+              ],
+            );
+          }
+        },
       ),
       bottomNavigationBar: const MyBottomNavigationBar(
         currentIndex: 2,
@@ -54,6 +64,7 @@ class _SearchPageState extends State<Search> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 4.0),
       child: TextField(
+        controller: searchController,
         decoration: InputDecoration(
           hintText: '검색어를 입력해주세요.',
           filled: true,
@@ -65,74 +76,76 @@ class _SearchPageState extends State<Search> {
               const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           suffixIcon: const Icon(CupertinoIcons.search),
         ),
-        onChanged: (value) {
+        onEditingComplete: () {
           setState(() {
-            searchText = value;
+            searchText = searchController!.text;
           });
         },
       ),
     );
   }
 
-  Widget listTab(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: allConcert.length,
-        itemBuilder: (BuildContext context, int index) {
-          final concert = allConcert[index];
-          // 검색어가 비어 있거나 검색어와 일치하는 경우에만 아이템을 표시
-          if (searchText.isEmpty ||
-              (concert.title != null &&
-                  concert.title!
-                      .toLowerCase()
-                      .contains(searchText.toLowerCase())) ||
-              (concert.performer != null &&
-                  concert.performer!
-                      .toLowerCase()
-                      .contains(searchText.toLowerCase()))) {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: GestureDetector(
-                onTap: () {
-                  /*Get.to(
-                    const concertinfo.ConcertInfo(),
-                    arguments: concert,
-                  );*/
-                },
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text(
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        concert.title ?? 'unknown',
-                        style: const TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w400),
-                      ),
-                      subtitle: Text(
-                        concert.performer ?? 'unknown',
-                        style: const TextStyle(fontSize: 15.0),
-                      ),
-                      leading: ClipRRect(
-                        borderRadius: BorderRadius.circular(5.0),
-                        child: Image.network(
-                          concert.imgUrl ?? '',
-                          fit: BoxFit.cover,
-                        ),
+  Widget listTab(BuildContext context, List<Performance>? searchList) {
+    return searchList != null && searchList.isNotEmpty
+        ? Expanded(
+            child: ListView.builder(
+              itemCount: searchList.length,
+              itemBuilder: (BuildContext context, int index) {
+                final concert = searchList[index];
+                // 검색어가 비어 있거나 검색어와 일치하는 경우에만 아이템을 표시
+                if ((concert.name != null &&
+                        concert.name!
+                            .toLowerCase()
+                            .contains(searchText.toLowerCase())) ||
+                    (concert.cast != null &&
+                        concert.cast!
+                            .toLowerCase()
+                            .contains(searchText.toLowerCase()))) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(
+                          PerformanceDetail(performance: concert),
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Text(
+                              concert.name ?? '',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  fontSize: 18.0, fontWeight: FontWeight.w400),
+                            ),
+                            subtitle: Text(
+                              concert.cast ?? '',
+                              style: const TextStyle(fontSize: 15.0),
+                            ),
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(3.0),
+                              child: Image.network(
+                                concert.poster ?? '',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Divider(
+                            color: Colors.grey[200],
+                          ),
+                        ],
                       ),
                     ),
-                    Divider(
-                      color: Colors.grey[200],
-                    ),
-                  ],
-                ),
-              ),
-            );
-          } else {
-            return const SizedBox.shrink();
-          }
-        },
-      ),
-    );
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            ),
+          )
+        : const Expanded(
+            child: Preparing(text: '검색 결과가 없습니다.'),
+          );
   }
 }
