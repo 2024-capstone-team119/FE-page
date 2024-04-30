@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:allcon/service/LoginService.dart';
+import 'package:allcon/service/loginService.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyLogIn());
