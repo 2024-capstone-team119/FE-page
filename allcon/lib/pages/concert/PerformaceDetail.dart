@@ -1,9 +1,11 @@
 import 'dart:ui';
+import 'package:allcon/pages/concert/controller/concertLiket_controller.dart';
+import 'package:allcon/utils/Colors.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:allcon/model/concertLikes_model.dart';
 import 'package:allcon/service/concertLikesService.dart';
-import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
-import 'package:flutter/material.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:allcon/model/performance_model.dart';
@@ -19,16 +21,19 @@ class PerformanceDetail extends StatefulWidget {
 }
 
 class _PerformanceDetailState extends State<PerformanceDetail> {
-  bool isMyLikesConcert = false;
-  ConcertLikes? concertLikes;
+  final concertLikesController = Get.put(concertLikedController());
+  late bool isMyLikesConcert;
+  late ConcertLikes? concertLikes;
   final client = http.Client();
 
   @override
   void initState() {
     super.initState();
+    isMyLikesConcert = concertLikesController.likes;
     fetchConcertLikesData();
   }
 
+  // 사용자의 좋아요 상태를 가져와서 UI를 업데이트
   Future<void> fetchConcertLikesData() async {
     concertLikes =
         await ConcertLikesService().fetchConcertLikes(client, 'userId');
@@ -38,8 +43,8 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
     });
   }
 
+  // 사용자의 좋아요 상태를 업데이트
   Future<void> updateConcertLikesData() async {
-    // async 추가
     concertLikes ??= ConcertLikes('', 'userId', []);
     final updatedConcertIds = isMyLikesConcert
         ? [...concertLikes!.concertId, widget.performance.id]
@@ -151,19 +156,18 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
               top: 186,
               right: 15,
               child: IconButton(
-                icon: Icon(
-                  isMyLikesConcert
-                      ? CupertinoIcons.heart_fill
-                      : CupertinoIcons.heart,
-                  color: isMyLikesConcert ? Colors.redAccent : Colors.black26,
-                  size: 30.0,
+                icon: GetBuilder<concertLikedController>(
+                  builder: (controller) => Icon(
+                    controller.likes
+                        ? CupertinoIcons.heart_fill
+                        : CupertinoIcons.heart,
+                    color: controller.likes ? Colors.redAccent : Colors.black26,
+                    size: 30.0,
+                  ),
                 ),
-                color: Colors.redAccent,
                 onPressed: () async {
                   // 버튼 클릭 시 수행할 작업
-                  setState(() {
-                    isMyLikesConcert = !isMyLikesConcert;
-                  });
+                  concertLikesController.getLiked();
                   await updateConcertLikesData();
                 },
               ),
@@ -205,7 +209,6 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                 ],
               ),
               const SizedBox(height: 10.0),
-              // 수정하기
               if (widget.performance.cast != null &&
                   widget.performance.cast!.trim().isNotEmpty)
                 Row(

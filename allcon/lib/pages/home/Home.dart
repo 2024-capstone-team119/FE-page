@@ -1,7 +1,7 @@
 import 'package:allcon/pages/calendar/CalendarMain.dart';
-import 'package:allcon/pages/home/BannerConcerList.dart';
-import 'package:allcon/pages/home/ConcerHallTable.dart';
-import 'package:allcon/pages/home/DeadConcertCard.dart';
+import 'package:allcon/pages/home/sub/BannerConcerList.dart';
+import 'package:allcon/pages/home/sub/ConcerHallTable.dart';
+import 'package:allcon/pages/home/sub/DeadConcertCard.dart';
 import 'package:allcon/utils/Loading.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/widget/app_bar.dart';
