@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 
 class MyContentListView extends StatefulWidget {
   final int tabIdx;
+  final String category;
   final String title;
   final String searchText;
   final ContentController contentController;
@@ -17,6 +18,7 @@ class MyContentListView extends StatefulWidget {
   const MyContentListView({
     super.key,
     required this.tabIdx,
+    required this.category,
     required this.contentController,
     this.title = '',
     this.searchText = '',
@@ -73,6 +75,8 @@ class _MyContentListViewState extends State<MyContentListView> {
     return GestureDetector(
       onTap: () {
         Get.to(() => MyContentDetail(
+              category: widget.category,
+              tabIdx: widget.tabIdx,
               content: content,
               contentController: widget.contentController,
             ));

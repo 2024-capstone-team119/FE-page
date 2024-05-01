@@ -1,4 +1,5 @@
 import 'package:allcon/pages/community/controller/content_controller.dart';
+import 'package:allcon/pages/community/sub/Update.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/model/community_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,11 +8,15 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class MyContentDetail extends StatefulWidget {
+  final String? category;
+  final int? tabIdx;
   final Content content;
   final ContentController contentController;
 
   const MyContentDetail({
     super.key,
+    this.category,
+    this.tabIdx,
     required this.content,
     required this.contentController,
   });
@@ -77,8 +82,17 @@ class _ContentDetailState extends State<MyContentDetail> {
                                 CupertinoActionSheetAction(
                                   child: const Text('수정'),
                                   onPressed: () {
-                                    // You can navigate to the update screen
-                                    // or perform any other action as needed.
+                                    Get.to(MyContentUpdate(
+                                      initialCategory: widget.tabIdx ?? 0,
+                                      category: widget.category,
+                                      originContent: widget.content,
+                                      title: _contentController
+                                          .getContent(widget.content.postId)!
+                                          .title,
+                                      content: _contentController
+                                          .getContent(widget.content.postId)!
+                                          .content,
+                                    ));
                                   },
                                 ),
                                 CupertinoActionSheetAction(

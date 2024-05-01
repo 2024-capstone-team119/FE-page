@@ -16,6 +16,7 @@ import '../controller/content_controller.dart';
 class MyContentWrite extends StatefulWidget {
   final String initialCategory;
   final int tabIdx;
+
   const MyContentWrite({
     super.key,
     required this.initialCategory,
