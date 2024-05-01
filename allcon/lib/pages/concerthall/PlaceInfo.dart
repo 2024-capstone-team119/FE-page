@@ -1,6 +1,7 @@
 import 'package:allcon/model/place_model.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:allcon/pages/concerthall/HallMap.dart';
 
 class PlaceInfo extends StatefulWidget {
   final Place placeDetail;
@@ -16,18 +17,20 @@ class _PlaceInfoState extends State<PlaceInfo> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 300,
+      height: 400,
       child: Column(
         children: [
-          PlaceBar(context, widget.placeDetail),
+          placeBar(context, widget.placeDetail),
           const Divider(color: Colors.grey),
-          const Text('지도 넣고 싶다.'),
+          const Expanded(
+            child: HallMap(),
+          ),
         ],
       ),
     );
   }
 
-  Widget PlaceBar(BuildContext context, Place placeDetail) {
+  Widget placeBar(BuildContext context, Place placeDetail) {
     final Uri url = Uri.parse(placeDetail.url!);
 
     return Column(

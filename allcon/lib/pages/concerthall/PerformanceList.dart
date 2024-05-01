@@ -68,7 +68,6 @@ class PerformanceList extends StatelessWidget {
   }
 
   Widget startPerformance(int dDay, String startText) {
-    print('디데이: $dDay');
     if (dDay <= 0) {
       // 공연 중
       return Container(
@@ -140,8 +139,6 @@ class PerformanceList extends StatelessWidget {
         int dDay = startDate.difference(now).inDays;
 
         String startText = (dDay <= 0) ? '공연중' : '공연예정';
-
-        print('현재: $now, 시작일: $startDate');
 
         // 종료된 공연은 리스트에서 삭제
         if (endDate.isBefore(now)) {
