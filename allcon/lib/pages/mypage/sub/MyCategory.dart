@@ -1,5 +1,7 @@
+import 'package:allcon/controller/user_controller.dart';
 import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/pages/mypage/sub/MyConcertLikes.dart';
+import 'package:allcon/utils/jwt.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
@@ -10,6 +12,8 @@ class MyCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserController u = Get.find();
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 6.0),
       child: Column(
@@ -73,7 +77,10 @@ class MyCategory extends StatelessWidget {
                 '로그아웃',
                 style: TextStyle(fontSize: 20.0),
               ),
-              onTap: () {},
+              onTap: () {
+                u.logout();
+                Get.to(MyLogIn());
+              },
             ),
           ),
           Card(
