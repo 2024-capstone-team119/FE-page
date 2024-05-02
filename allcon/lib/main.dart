@@ -1,4 +1,4 @@
-import 'package:allcon/pages/login/MySignIn.dart';
+import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const MySignIn(),
+      home: const MyLogIn(),
       theme: ThemeData(fontFamily: 'Pretendard'),
       themeMode: ThemeMode.system,
     );

@@ -1,3 +1,4 @@
+import 'package:allcon/controller/user_controller.dart';
 import 'package:allcon/pages/home/Home.dart';
 import 'package:allcon/pages/login/MySignUp.dart';
 import 'package:allcon/utils/validator_util.dart';
@@ -6,18 +7,19 @@ import 'package:allcon/widget/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MySignIn extends StatefulWidget {
-  const MySignIn({super.key});
+class MyLogIn extends StatefulWidget {
+  const MyLogIn({super.key});
 
   @override
-  State<MySignIn> createState() => _MySignInState();
+  State<MyLogIn> createState() => _MyMyLogInState();
 }
 
-class _MySignInState extends State<MySignIn> {
+class _MyMyLogInState extends State<MyLogIn> {
   final _formKey = GlobalKey<FormState>();
-  // final UserController u = Get.put(UserController());
-  final _username = TextEditingController();
-  final _password = TextEditingController();
+  final UserController u = Get.put(UserController());
+
+  final _userEmail = TextEditingController();
+  final _userPwd = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -78,22 +80,28 @@ class _MySignInState extends State<MySignIn> {
             CustomTextFormField(
               hint: "이메일을 입력해주세요",
               funValidator: validateEmail(),
+              controller: _userEmail,
             ),
             SizedBox(height: 20),
             CustomTextFormField(
               hint: "비밀번호를 입력해주세요",
               funValidator: validatePwd(),
+              controller: _userPwd,
             ),
             SizedBox(height: 32),
             CustomElevatedBtn(
                 text: "로그인",
                 funPageRoute: () async {
                   if (_formKey.currentState!.validate()) {
-                    // int result = await u.login(_username.text.trim(), _password.text.trim());
-                    // if (result == 1) {
-                    Get.to(() => MyHome());
-                  } else {
-                    Get.snackbar("로그인 시도", "로그인 실패");
+                    // Get.to(() => MyHome());
+                    String token = await u.login(
+                        _userEmail.text.trim(), _userPwd.text.trim());
+                    if (token != "-1") {
+                      print("토큰 받기 성공");
+                      Get.to(() => MyHome());
+                    } else {
+                      Get.snackbar('로그인 시도', "로그인 실패하였습니다😭");
+                    }
                   }
                 })
           ],

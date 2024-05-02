@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'package:allcon/pages/login/MySignIn.dart';
+import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/pages/login/MySignUp.dart';
-import 'package:allcon/service/loginService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -115,7 +114,7 @@ class _MyFirstVisitState extends State<MyFirstVisit> {
                   // 로그인 버튼
                   OutlinedButton(
                     onPressed: () {
-                      Get.to(MySignIn());
+                      Get.to(MyLogIn());
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,

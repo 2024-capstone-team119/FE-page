@@ -1,4 +1,4 @@
-import 'package:allcon/pages/login/MySignIn.dart';
+import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/pages/mypage/sub/MyConcertLikes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -73,9 +73,7 @@ class MyCategory extends StatelessWidget {
                 '로그아웃',
                 style: TextStyle(fontSize: 20.0),
               ),
-              onTap: () {
-                logOutWithNaver();
-              },
+              onTap: () {},
             ),
           ),
           Card(
@@ -94,39 +92,11 @@ class MyCategory extends StatelessWidget {
                 '회원탈퇴',
                 style: TextStyle(fontSize: 20.0),
               ),
-              onTap: () {
-                widthDrawNaver();
-              },
+              onTap: () {},
             ),
           ),
         ],
       ),
     );
-  }
-}
-
-//  회원 로그아웃
-Future<void> logOutWithNaver() async {
-  try {
-    FlutterNaverLogin.logOut().then((value) => {
-          print("Naver Logout is successful"),
-          Get.to(const MySignIn()),
-        });
-  } catch (error) {
-    print('네이버 유저 로그아웃 실패');
-    print(error);
-  }
-}
-
-// 회원 탈퇴
-Future<void> widthDrawNaver() async {
-  try {
-    FlutterNaverLogin.logOutAndDeleteToken().then((value) => {
-          print("네이버 탈퇴 is successful"),
-          Get.to(const MySignIn()),
-        });
-  } catch (error) {
-    print('네이버 유저 탈퇴 실패');
-    print(error);
   }
 }
