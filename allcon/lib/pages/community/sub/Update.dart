@@ -1,4 +1,3 @@
-import 'package:allcon/Data/Sample/content_sample.dart';
 import 'package:allcon/model/community_model.dart';
 import 'package:allcon/pages/community/Home.dart';
 import 'package:allcon/pages/community/controller/content_controller.dart';
@@ -51,8 +50,6 @@ class _ContentUpdateState extends State<MyContentUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    print('업데이트: ${widget.initialCategory}');
-
     return Scaffold(
       appBar: const MyAppBar(text: "커뮤니티"),
       bottomNavigationBar: const MyBottomNavigationBar(
@@ -65,13 +62,13 @@ class _ContentUpdateState extends State<MyContentUpdate> {
           child: ListView(
             children: [
               CustomDropdownButton(
-                items: const ['자유게시판', '후기', '교환/양도', '카풀'],
+                items: const ['자유게시판', '후기', '카풀'],
                 value: _selectedCategory!,
                 onChanged: (value) {
                   setState(() {
                     _selectedCategory = value.toString();
                     // 선택된 카테고리의 인덱스 찾기
-                    _selectedCategoryIndex = ['자유게시판', '후기', '교환/양도', '카풀']
+                    _selectedCategoryIndex = ['자유게시판', '후기', '카풀']
                         .indexWhere((category) => category == value);
                   });
                 },
@@ -119,13 +116,9 @@ class _ContentUpdateState extends State<MyContentUpdate> {
                   text: "수정완료",
                   funPageRoute: () {
                     if (_formKey.currentState!.validate()) {
-                      // 1. 해당 포스트를 찾기
-                      Content? updatedContent = Content(
-                        postId: contentsamples[_selectedCategoryIndex]
-                                .content
-                                .last
-                                .postId +
-                            1,
+                      // 수정된 컨텐트
+                      Content updatedContent = Content(
+                        postId: widget.originContent.postId,
                         writer: widget.originContent.writer,
                         title: _titleController.text,
                         content: _contentController.text,
@@ -135,21 +128,11 @@ class _ContentUpdateState extends State<MyContentUpdate> {
                         comment: widget.originContent.comment,
                       );
 
-                      // 2. 카테고리를 변경
-                      // 이전 카테고리에서 해당 포스트를 제거
-                      int oldCategoryIndex = contentsamples.indexWhere(
-                          (category) => category.name == widget.category);
-                      contentsamples[oldCategoryIndex].content.removeWhere(
-                          (content) =>
-                              content.postId == widget.originContent.postId);
-                      // 새로운 카테고리에 해당 포스트 추가
-                      contentsamples[_selectedCategoryIndex]
-                          .content
-                          .add(updatedContent);
+                      // ContentController에 업데이트된 내용을 전달하여 업데이트합니다.
+                      ContentController().updateContent(updatedContent,
+                          _selectedCategoryIndex, widget.category);
 
-                      // 3. 업데이트된 내용을 ContentController에 전달하여 업데이트
-                      ContentController().updateContent(updatedContent);
-
+                      // 수정된 내용을 반영한 MyCommunity 페이지로 이동합니다.
                       Get.to(() => MyCommunity(
                             initialTabIndex: _selectedCategoryIndex,
                           ));

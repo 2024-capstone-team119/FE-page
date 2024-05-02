@@ -45,8 +45,13 @@ class _MyContentListViewState extends State<MyContentListView> {
         child: Obx(() => ListView.builder(
               itemCount: widget.contentController.contents.length,
               itemBuilder: (context, index) {
+                // 거꾸로 된 인덱스 계산
+                final reversedIndex =
+                    widget.contentController.contents.length - index - 1;
                 return _buildContentItem(
-                    context, widget.contentController.contents[index], index);
+                    context,
+                    widget.contentController.contents[reversedIndex],
+                    reversedIndex);
               },
               scrollDirection: Axis.vertical,
             )),

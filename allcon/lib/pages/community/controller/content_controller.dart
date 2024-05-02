@@ -26,11 +26,38 @@ class ContentController extends GetxController {
     contentsamples[tabIdx].content.add(content);
     // RxList에 변화가 있음을 감지하고 UI를 업데이트합니다.
     contents.refresh();
-    // print('내용: ${contentsamples[tabIdx].content[index].content}');
   }
 
   // 글 수정
-  void updateContent(Content updatedContent) {
+  void updateContent(Content updatedContent, int selectedCategoryIndex,
+      String? originCategory) {
+    // 옮길 카테고리의 컨텐트 리스트
+    List<Content> targetCategoryContents =
+        contentsamples[selectedCategoryIndex].content;
+
+    // 수정된 컨텐트의 목표 위치
+    int targetIndex = 0;
+    for (int i = 0; i < targetCategoryContents.length; i++) {
+      if (targetCategoryContents[i].postId > updatedContent.postId) {
+        targetIndex = i;
+        break;
+      }
+    }
+
+    // 수정된 컨텐트 제거
+    int oldCategoryIndex = contentsamples
+        .indexWhere((category) => category.name == originCategory);
+    contentsamples[oldCategoryIndex]
+        .content
+        .removeWhere((content) => content.postId == updatedContent.postId);
+
+    // 목표 위치에 수정된 컨텐트 추가
+    contentsamples[selectedCategoryIndex].content.insert(
+          targetIndex,
+          updatedContent,
+        );
+
+    // 글 업데이트
     final int index = contents
         .indexWhere((content) => content.postId == updatedContent.postId);
 
