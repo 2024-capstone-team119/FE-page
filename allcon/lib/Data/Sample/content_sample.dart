@@ -135,7 +135,7 @@ List<Category> contentsamples = [
     name: '후기',
     content: [
       Content(
-        postId: 0,
+        postId: 9,
         writer: '강지은',
         title: '테일러 스위프트 콘서트 후기',
         content: '테일러 최고',
@@ -149,7 +149,7 @@ List<Category> contentsamples = [
         ],
       ),
       Content(
-        postId: 1,
+        postId: 10,
         writer: 'creamycoke',
         title: '아이유 콘서트 후기 남깁니다',
         content: '아이유 콘서트 최고',
@@ -162,7 +162,7 @@ List<Category> contentsamples = [
         ],
       ),
       Content(
-        postId: 2,
+        postId: 11,
         writer: 'gamsung',
         title: '최고의 가수 찰리푸스',
         content: '찰푸 너무 좋아요',
@@ -174,11 +174,11 @@ List<Category> contentsamples = [
     ],
   ),
   Category(
-    tabIdx: 3,
+    tabIdx: 2,
     name: '카풀',
     content: [
       Content(
-        postId: 0,
+        postId: 12,
         writer: '강지은',
         title: '같이 카풀 하실 분',
         content: '연락주세용',
@@ -192,7 +192,7 @@ List<Category> contentsamples = [
         ],
       ),
       Content(
-        postId: 1,
+        postId: 13,
         writer: 'creamycoke',
         title: '4/27 카풀 구합니다.',
         content: '태워주세요.',
