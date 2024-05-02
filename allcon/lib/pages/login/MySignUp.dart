@@ -34,14 +34,13 @@ class _MySignUpState extends State<MySignUp> {
   }
 
   Widget WellcomText() {
-    // 위젯 함수로 선언
     return Row(
       children: [
         Row(
           children: [
             SizedBox(width: 20),
             Text(
-              '환영합니다!',
+              '반가워요!',
               style: TextStyle(
                 color: Colors.black87,
                 fontWeight: FontWeight.w500,
@@ -54,7 +53,7 @@ class _MySignUpState extends State<MySignUp> {
               style: TextStyle(
                 color: Colors.deepPurple,
                 fontFamily: 'Cafe24Moyamoya',
-                fontSize: 36.0,
+                fontSize: 40.0,
               ),
             )
           ],
