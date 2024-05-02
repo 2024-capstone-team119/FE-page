@@ -1,7 +1,6 @@
 import 'package:allcon/pages/home/Home.dart';
 import 'package:allcon/pages/login/MySignUp.dart';
 import 'package:allcon/utils/validator_util.dart';
-import 'package:allcon/widget/copyRight_ALLCON.dart';
 import 'package:allcon/widget/custom_elevated_btn.dart';
 import 'package:allcon/widget/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +14,10 @@ class MySignIn extends StatefulWidget {
 }
 
 class _MySignInState extends State<MySignIn> {
-  final _emailFormKey = GlobalKey<FormState>();
-  final _pwdFormKey = GlobalKey<FormState>();
-  final _userNameFormKey = GlobalKey<FormState>();
   final _formKey = GlobalKey<FormState>();
+  // final UserController u = Get.put(UserController());
+  final _username = TextEditingController();
+  final _password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,26 +43,25 @@ class _MySignInState extends State<MySignIn> {
   }
 
   Widget WellcomText() {
-    // 위젯 함수로 선언
     return Column(
       children: [
         Row(
           children: [
             Text(
-              '반가워요!',
+              '올콘해요!',
               style: TextStyle(
                 color: Colors.black87,
                 fontWeight: FontWeight.w500,
                 fontSize: 26.0,
               ),
             ),
-            SizedBox(width: 5.0),
+            SizedBox(width: 8.0),
             Text(
               'O',
               style: TextStyle(
                 color: Colors.deepPurple,
                 fontFamily: 'Cafe24Moyamoya',
-                fontSize: 36.0,
+                fontSize: 40.0,
               ),
             ),
           ],
@@ -89,9 +87,15 @@ class _MySignInState extends State<MySignIn> {
             SizedBox(height: 32),
             CustomElevatedBtn(
                 text: "로그인",
-                funPageRoute: () => Get.to(
-                      MyHome(),
-                    ))
+                funPageRoute: () async {
+                  if (_formKey.currentState!.validate()) {
+                    // int result = await u.login(_username.text.trim(), _password.text.trim());
+                    // if (result == 1) {
+                    Get.to(() => MyHome());
+                  } else {
+                    Get.snackbar("로그인 시도", "로그인 실패");
+                  }
+                })
           ],
         ));
   }

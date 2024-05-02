@@ -27,7 +27,7 @@ Function validateContent() {
 // 로그인-회원가입시 이메일 유효성 검사
 Function validateEmail() {
   return (String? value) {
-    if (value == null || value.isEmpty) {
+    if (value!.isEmpty) {
       return "공백이 들어갈 수 없습니다.";
     } else if (!isEmail(value)) {
       return "이메일 형식에 맞지 않습니다.";
@@ -42,7 +42,7 @@ Function validateEmail() {
 // 로그인-회원가입시 비밀번호 유효성 검사
 Function validatePwd() {
   return (String? value) {
-    if (value == null || value.isEmpty) {
+    if (value!.isEmpty) {
       return "공백이 들어갈 수 없습니다.";
     } else if (value.length > 12) {
       return "비밀번호 길이를 초과하였습니다.";
@@ -57,7 +57,7 @@ Function validatePwd() {
 // 회원가입시 닉네임 유효성 검사
 Function validateUserName() {
   return (String? value) {
-    if (value == null || value.isEmpty) {
+    if (value!.isEmpty) {
       return "공백이 들어갈 수 없습니다.";
     } else if (value.length > 8) {
       return "닉네임은 최대 8자입니다.";
