@@ -11,6 +11,8 @@ class Place {
   final String? adres;
   final String? parking;
   final String? chart;
+  final String? la;
+  final String? lo;
 
   Place({
     required this.mid,
@@ -23,6 +25,8 @@ class Place {
     required this.adres,
     required this.parking,
     required this.chart,
+    required this.la,
+    required this.lo,
   });
 
   factory Place.fromJson(Map<String, dynamic> json) {
@@ -37,6 +41,8 @@ class Place {
       adres: json['adres'],
       parking: json['parking'],
       chart: json['chart'],
+      la: json['la'],
+      lo: json['lo'],
     );
   }
 }
