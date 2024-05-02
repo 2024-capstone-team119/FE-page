@@ -86,6 +86,7 @@ flutter:
     - assets/login/kakao_login_large_wide.png
     - assets/login/naver_login_button.png
     - assets/logo/allcon_icon.png
+    - assets/etc/avatar.png
     #   - images/a_dot_burr.jpeg
     #   - images/a_dot_ham.jpeg
 

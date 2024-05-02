@@ -144,7 +144,7 @@ Widget EditUserInfo(
                   height: 100,
                   child: pcon.myProfile.value.profileImg == null
                       ? Image.asset(
-                          'assets/logo/allcon_icon.png',
+                          'assets/etc/avatar.png',
                           fit: BoxFit.cover,
                         )
                       : Image.file(
