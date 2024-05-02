@@ -1,22 +1,16 @@
-class Profile {
-  final String username;
+class User {
   final String email;
-  final String gender;
-  final String age;
-  final String name;
+  final String password;
+  final String nickname;
 
-  Profile(
-    this.username,
+  User(
     this.email,
-    this.gender,
-    this.age,
-    this.name,
+    this.password,
+    this.nickname,
   );
 
-  Profile.fromJson(Map<String, dynamic> json)
-      : username = json['username'],
-        email = json['email'],
-        gender = json['gender'],
-        age = json['age'],
-        name = json['name'];
+  User.fromJson(Map<String, dynamic> json)
+      : email = json['email'],
+        password = json['password'],
+        nickname = json['nickname'];
 }
