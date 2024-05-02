@@ -174,37 +174,6 @@ List<Category> contentsamples = [
     ],
   ),
   Category(
-    tabIdx: 2,
-    name: '교환/양도',
-    content: [
-      Content(
-        postId: 0,
-        writer: '강지은',
-        title: '티켓 교환해요',
-        content: '스탠딩이랑 좌석 교환 구합니다.',
-        date: DateTime.now(),
-        isLike: false,
-        likeCounts: 0,
-        comment: [
-          Comment(commentId: 2, commentContent: "믿고 써볼게!!!"),
-        ],
-      ),
-      Content(
-        postId: 1,
-        writer: 'creamycoke',
-        title: '티켓 양도합니다.',
-        content: '원가로 양도해요.',
-        date: DateTime.now(),
-        isLike: false,
-        likeCounts: 0,
-        comment: [
-          Comment(commentId: 0, commentContent: "뭐하는 어플이야?"),
-          Comment(commentId: 1, commentContent: "올콘이야😂"),
-        ],
-      ),
-    ],
-  ),
-  Category(
     tabIdx: 3,
     name: '카풀',
     content: [
