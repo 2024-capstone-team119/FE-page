@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 
 class HallMap extends StatelessWidget {
-  late int longitude; // 경도
-  late int latitude; // 위도
+  final double longitude; // 경도
+  final double latitude; // 위도
 
-  HallMap({
+  const HallMap({
     super.key,
-    /*longitude, latitude*/
+    required this.longitude,
+    required this.latitude,
   });
 
   @override
@@ -25,9 +26,18 @@ class HallMap extends StatelessWidget {
           consumeSymbolTapEvents: false, // 심볼 탭 이벤트 소비 여부 설정
         ),
         onCameraChange: (NCameraUpdateReason reason, bool animated) {
-          NCameraUpdate.withParams(zoom: 20);
+          // 카메라 변경 시 실행되는 콜백 함수
+          // 필요한 경우 구현 추가
         },
         onMapReady: (controller) async {
+          // 공연장 위치 표시
+          final marker = NMarker(
+            id: 'test',
+            position: NLatLng(latitude, longitude),
+          );
+
+          controller.addOverlay(marker);
+
           // 지도 준비 완료 시 호출되는 콜백 함수
           mapControllerCompleter
               .complete(controller); // Completer에 지도 컨트롤러 완료 신호 전송

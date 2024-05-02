@@ -22,8 +22,8 @@ class _PlaceInfoState extends State<PlaceInfo> {
         children: [
           placeBar(context, widget.placeDetail),
           const Divider(color: Colors.grey),
-          Expanded(
-            child: HallMap(),
+          const Expanded(
+            child: HallMap(widget.placeDetail.la, widget.placeDetail.lo),
           ),
         ],
       ),
