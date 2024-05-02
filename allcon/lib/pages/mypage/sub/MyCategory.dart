@@ -1,4 +1,4 @@
-import 'package:allcon/pages/login/login.dart';
+import 'package:allcon/pages/login/MySignIn.dart';
 import 'package:allcon/pages/mypage/sub/MyConcertLikes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +110,7 @@ Future<void> logOutWithNaver() async {
   try {
     FlutterNaverLogin.logOut().then((value) => {
           print("Naver Logout is successful"),
-          Get.to(const MyLogIn()),
+          Get.to(const MySignIn()),
         });
   } catch (error) {
     print('네이버 유저 로그아웃 실패');
@@ -123,7 +123,7 @@ Future<void> widthDrawNaver() async {
   try {
     FlutterNaverLogin.logOutAndDeleteToken().then((value) => {
           print("네이버 탈퇴 is successful"),
-          Get.to(const MyLogIn()),
+          Get.to(const MySignIn()),
         });
   } catch (error) {
     print('네이버 유저 탈퇴 실패');

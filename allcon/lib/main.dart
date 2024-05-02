@@ -1,6 +1,4 @@
-import 'package:allcon/pages/home/Home.dart';
-import 'package:allcon/pages/login/login.dart';
-import 'package:allcon/pages/login/splash_screen.dart';
+import 'package:allcon/pages/login/MySignIn.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
@@ -30,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home: const MySignIn(),
       theme: ThemeData(fontFamily: 'Pretendard'),
       themeMode: ThemeMode.system,
     );

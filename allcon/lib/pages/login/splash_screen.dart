@@ -1,4 +1,4 @@
-import 'package:allcon/pages/login/login.dart';
+import 'package:allcon/pages/login/MySignIn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(seconds: 2), () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => const LogIn(),
+          builder: (_) => const MySignIn(),
         ));
       });
     });
