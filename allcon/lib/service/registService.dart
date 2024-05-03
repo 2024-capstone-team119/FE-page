@@ -6,54 +6,70 @@ import 'package:http/http.dart' as http;
 import 'baseUrl.dart';
 
 class RegistService {
-  // 이메일 중복 확인
-  static Future<http.Response> checkEmailExists(String email) async {
-    var url = Uri.parse("${BaseUrl.baseUrl}check_email_exists?email=$email");
-
+// Check if the email already exists
+  Future<bool> checkEmailExists(String email) async {
     try {
-      final res = await http.get(url);
-      return res; // 이제 전체 응답을 반환
+      final response = await http
+          .get(Uri.parse('${BaseUrl.baseUrl}check_email_exists/$email'));
+      if (response.statusCode == 200) {
+        print('Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        return jsonDecode(response.body)['exists'];
+      } else {
+        print('Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to check email');
+      }
     } catch (e) {
-      // 오류 처리를 여기서 수행, 오류 응답 생성
-      return http.Response('{"exists": true, "error": "Network error"}', 500);
+      print('Error occurred while checking email: $e');
+      return false; // Consider the proper way to handle error states
     }
   }
 
-// 닉네임 중복 확인
-  static Future<http.Response> checkNicknameExists(String nickname) async {
-    var url =
-        Uri.parse('${BaseUrl.baseUrl}check_nickname_exists?nickname=$nickname');
-
+// Check if the nickname already exists
+  Future<bool> checkNicknameExists(String nickname) async {
     try {
-      final res = await http.get(url);
-      return res; // 이제 전체 응답을 반환
+      final response = await http
+          .get(Uri.parse('${BaseUrl.baseUrl}check_nickname_exists/$nickname'));
+      if (response.statusCode == 200) {
+        print('Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        return jsonDecode(response.body)['exists'];
+      } else {
+        print('Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to check nickname');
+      }
     } catch (e) {
-      // 오류 처리를 여기서 수행, 오류 응답 생성
-      return http.Response('{"exists": true, "error": "Network error"}', 500);
+      print('Error occurred while checking nickname: $e');
+      return false; // Consider the proper way to handle error states
     }
   }
 
-  // user 가입 method
-  static addUser(userData) async {
-    var url = Uri.parse('${BaseUrl.baseUrl}registration');
-
+// Register a new user
+  Future<dynamic> registerUser(
+      String email, String password, String nickname) async {
     try {
-      // 이건 Node 서버에 데이터를 보내는 코드
-      final res = await http.post(url, body: userData);
-
-      // Node 서버에서 응답이 긍정적
-      if (res.statusCode == 200) {
-        var data = jsonDecode(res.body.toString());
-        print(data);
+      final response = await http.post(
+        Uri.parse('${BaseUrl.baseUrl}registration'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(
+            {'email': email, 'password': password, 'nickname': nickname}),
+      );
+      if (response.statusCode == 200) {
+        print('Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        return jsonDecode(response.body);
+      } else {
+        print('Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        final errorMessage =
+            jsonDecode(response.body)['message'] ?? 'Unknown error';
+        throw Exception(errorMessage);
       }
-      // Node 서버에서 응답이 부정적
-      else {
-        print('failed to get response');
-      }
-    }
-    //  Node와의 연결에 문제가 생겼을 때
-    catch (e) {
-      debugPrint(e.toString());
+    } catch (e) {
+      print('Error occurred during registration: $e');
+      return e.toString(); // Consider the proper way to handle error states
     }
   }
 }
