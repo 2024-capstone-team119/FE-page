@@ -1,6 +1,12 @@
+import 'dart:convert';
+
+import 'package:allcon/pages/home/Home.dart';
+import 'package:allcon/service/registService.dart';
+import 'package:allcon/utils/convert_utf8.dart';
 import 'package:allcon/utils/validator_util.dart';
 import 'package:allcon/widget/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MySignUp extends StatefulWidget {
   const MySignUp({super.key});
@@ -13,6 +19,10 @@ class _MySignUpState extends State<MySignUp> {
   final _emailFormKey = GlobalKey<FormState>();
   final _pwdFormKey = GlobalKey<FormState>();
   final _userNameFormKey = GlobalKey<FormState>();
+
+  final _emailController = TextEditingController();
+  final _pwdController = TextEditingController();
+  final _userNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +89,7 @@ class _MySignUpState extends State<MySignUp> {
                 child: CustomTextFormField(
                   hint: '이메일 주소를 입력해주세요',
                   funValidator: validateEmail(),
+                  controller: _emailController,
                 ),
               )
             ],
@@ -93,6 +104,7 @@ class _MySignUpState extends State<MySignUp> {
                 child: CustomTextFormField(
                   hint: '이메일 주소를 입력해주세요',
                   funValidator: validatePwd(),
+                  controller: _pwdController,
                 ),
               )
             ],
@@ -107,18 +119,66 @@ class _MySignUpState extends State<MySignUp> {
                 child: CustomTextFormField(
                   hint: '닉네임을 입력해주세요',
                   funValidator: validateUserName(),
+                  controller: _userNameController,
                 ),
               )
             ],
           ),
         ),
       ],
-      onStepContinue: () {
-        setState(() {
-          if (_currentStep < 2) {
-            _currentStep += 1;
-          }
-        });
+      onStepContinue: () async {
+        switch (_currentStep) {
+          case 0:
+            // 이메일 형식 유효할 경우
+            if (_emailFormKey.currentState!.validate()) {
+              final email = _emailController.text;
+              bool emailExists = await RegistService().checkEmailExists(email);
+              // 이메일 중복 아닐 경우
+              if (emailExists) {
+                setState(() {
+                  _currentStep++;
+                });
+              } else {
+                Get.snackbar('회원가입 실패', '이미 등록된 이메일입니다.');
+              }
+            }
+            break;
+          case 1:
+            setState(() {
+              _currentStep++;
+            });
+            break;
+
+          // 닉네임중복확인
+          case 2:
+            if (_userNameFormKey.currentState!.validate()) {
+              final email = _userNameController.text;
+              bool nickNameExists =
+                  await RegistService().checkNicknameExists(email);
+              // 닉네임 중복 아닐 경우 -> 회원가입
+              if (nickNameExists) {
+                var req = await RegistService().registerUser(
+                  _emailController.text,
+                  _pwdController.text,
+                  _userNameController.text,
+                );
+                if (req is Exception) {
+                  Get.snackbar('회원가입 실패', '회원가입에 실패하였습니다😭');
+                } else {
+                  Get.offAll(MyHome());
+                }
+              } else {
+                Get.snackbar('회원가입 실패', '이미 등록된 닉네임입니다.');
+              }
+            }
+            break;
+        }
+      },
+      onStepCancel: () {
+        if (_currentStep <= 0)
+          Get.back();
+        else
+          _currentStep -= 1;
       },
     );
   }

@@ -93,7 +93,6 @@ class _MyMyLogInState extends State<MyLogIn> {
                 text: "로그인",
                 funPageRoute: () async {
                   if (_formKey.currentState!.validate()) {
-                    // Get.to(() => MyHome());
                     String token = await u.login(
                         _userEmail.text.trim(), _userPwd.text.trim());
                     if (token != "-1") {
