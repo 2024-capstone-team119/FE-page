@@ -1,29 +1,18 @@
 import 'dart:async';
-import 'package:allcon/service/loginService.dart';
+import 'package:allcon/pages/login/MyLogIn.dart';
+import 'package:allcon/pages/login/MySignUp.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-void main() => runApp(const MyLogIn());
-
-class MyLogIn extends StatelessWidget {
-  const MyLogIn({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: LogIn(),
-    );
-  }
-}
-
-class LogIn extends StatefulWidget {
-  const LogIn({super.key});
+class MyFirstVisit extends StatefulWidget {
+  const MyFirstVisit({super.key});
 
   @override
-  State<LogIn> createState() => _LogInState();
+  State<MyFirstVisit> createState() => _MyFirstVisitState();
 }
 
-class _LogInState extends State<LogIn> {
+class _MyFirstVisitState extends State<MyFirstVisit> {
   double _textOpacity = 0.0;
   double _buttonOpacity = 0.0;
   bool _isButtonVisible = false;
@@ -79,7 +68,7 @@ class _LogInState extends State<LogIn> {
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'Cafe24Moyamoya',
-                    fontSize: 96,
+                    fontSize: 100,
                     height: 1.0,
                   ),
                 ),
@@ -88,7 +77,7 @@ class _LogInState extends State<LogIn> {
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'Cafe24Moyamoya',
-                    fontSize: 25,
+                    fontSize: 30,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -102,7 +91,7 @@ class _LogInState extends State<LogIn> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: 18,
                     ),
                   ),
                 ),
@@ -110,47 +99,63 @@ class _LogInState extends State<LogIn> {
             ),
           ),
 
-          // 네이버 로그인
+          // 로그인 버튼
           AnimatedPositioned(
             duration: const Duration(milliseconds: 500),
-            bottom: _isButtonVisible
-                ? MediaQuery.of(context).size.height * 0.082
-                : MediaQuery.of(context).size.height * 0.082 - 40.0,
+            bottom: MediaQuery.of(context).size.height * 0.05,
             left: 0.0,
             right: 0.0,
             child: AnimatedOpacity(
               duration: const Duration(milliseconds: 1000),
               opacity: _buttonOpacity,
-              child: Align(
-                alignment: Alignment.center,
-                child: InkWell(
-                  onTap: () {
-                    signInWithNaver();
-                  },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(40.0),
-                    child: Image.asset(
-                      'assets/login/naver_login_button.png',
-                      width: MediaQuery.of(context).size.width * 0.92,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // 로그인 버튼
+                  OutlinedButton(
+                    onPressed: () {
+                      Get.to(MyLogIn());
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      side: BorderSide.none,
+                      fixedSize:
+                          Size(MediaQuery.of(context).size.width * 0.88, 50),
+                    ),
+                    child: Text(
+                      '이메일로 로그인',
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 20.0,
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
-          ),
-
-          // 올콘 Copyright 표시
-          Align(
-            alignment: const Alignment(0.0, 0.95),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'ⓒ 2024. (ALLCON) all rights reserved.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: const Color(0xB27A7A7A).withOpacity(0.7),
-                  fontSize: 8,
-                ),
+                  SizedBox(height: 3),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '아직 올콘러가 아니세요?',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.0,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Get.to(MySignUp());
+                        },
+                        child: Text(
+                          '회원가입',
+                          style: TextStyle(
+                            color: Colors.deepPurple,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
               ),
             ),
           ),
