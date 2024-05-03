@@ -12,7 +12,7 @@ class MyCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserController u = Get.find();
+    final UserController u = Get.put(UserController());
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 6.0),
