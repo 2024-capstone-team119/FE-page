@@ -1,4 +1,5 @@
 import 'package:allcon/Pages/MyPage/MyPage.dart';
+import 'package:allcon/pages/home/Home.dart';
 import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/pages/mypage/sub/MyProfile.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyPage(),
+      home: MyLogIn(),
       theme: ThemeData(fontFamily: 'Pretendard'),
       themeMode: ThemeMode.system,
     );

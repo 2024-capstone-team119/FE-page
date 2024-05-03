@@ -1,15 +1,12 @@
-import 'dart:convert';
-
 import 'package:allcon/pages/home/Home.dart';
+import 'package:flutter/material.dart';
 import 'package:allcon/service/registService.dart';
-import 'package:allcon/utils/convert_utf8.dart';
 import 'package:allcon/utils/validator_util.dart';
 import 'package:allcon/widget/custom_text_form_field.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MySignUp extends StatefulWidget {
-  const MySignUp({super.key});
+  const MySignUp({Key? key}) : super(key: key);
 
   @override
   State<MySignUp> createState() => _MySignUpState();
@@ -24,6 +21,10 @@ class _MySignUpState extends State<MySignUp> {
   final _pwdController = TextEditingController();
   final _userNameController = TextEditingController();
 
+  final _registService = RegistService();
+
+  int _currentStep = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +35,7 @@ class _MySignUpState extends State<MySignUp> {
             child: Column(
               children: [
                 WellcomText(),
-                SingUpStep(),
+                SignUpStep(),
               ],
             ),
           ),
@@ -72,8 +73,7 @@ class _MySignUpState extends State<MySignUp> {
     );
   }
 
-  Widget SingUpStep() {
-    int _currentStep = 0;
+  Widget SignUpStep() {
     return Stepper(
       type: StepperType.vertical,
       currentStep: _currentStep,
@@ -131,10 +131,10 @@ class _MySignUpState extends State<MySignUp> {
           case 0:
             // 이메일 형식 유효할 경우
             if (_emailFormKey.currentState!.validate()) {
-              final email = _emailController.text;
-              bool emailExists = await RegistService().checkEmailExists(email);
+              bool emailExists =
+                  await _registService.checkEmailExists(_emailController.text);
               // 이메일 중복 아닐 경우
-              if (emailExists) {
+              if (!emailExists) {
                 setState(() {
                   _currentStep++;
                 });
@@ -148,16 +148,14 @@ class _MySignUpState extends State<MySignUp> {
               _currentStep++;
             });
             break;
-
           // 닉네임중복확인
           case 2:
             if (_userNameFormKey.currentState!.validate()) {
-              final email = _userNameController.text;
-              bool nickNameExists =
-                  await RegistService().checkNicknameExists(email);
+              bool nickNameExists = await _registService
+                  .checkNicknameExists(_userNameController.text);
               // 닉네임 중복 아닐 경우 -> 회원가입
-              if (nickNameExists) {
-                var req = await RegistService().registerUser(
+              if (!nickNameExists) {
+                var req = await _registService.registerUser(
                   _emailController.text,
                   _pwdController.text,
                   _userNameController.text,
