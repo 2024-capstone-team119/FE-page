@@ -1,3 +1,5 @@
+import 'package:allcon/utils/validator_util.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +13,7 @@ class EditUserName extends StatefulWidget {
 
 class _EditUserNameState extends State<EditUserName> {
   final TextEditingController _textEditingController = TextEditingController();
+  final _userNickFormKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -44,6 +47,7 @@ class _EditUserNameState extends State<EditUserName> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             editTextField(),
+            SizedBox(height: 18),
             Buttons(),
           ],
         ),
@@ -64,24 +68,33 @@ class _EditUserNameState extends State<EditUserName> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(width: 20),
-            TextField(
-              controller: _textEditingController,
-              maxLength: 8,
-              textAlign: TextAlign.center,
-              decoration: const InputDecoration(
-                hintText: "닉네임",
-                hintStyle: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black54,
+            const SizedBox(height: 16),
+            Form(
+              key: _userNickFormKey,
+              child: TextFormField(
+                controller: _textEditingController,
+                maxLength: 8,
+                textAlign: TextAlign.center,
+                validator: validateEditNick,
+                decoration: const InputDecoration(
+                  hintText: "닉네임",
+                  hintStyle: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black54,
+                  ),
+                  counterStyle: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black54,
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
                 ),
-                counterStyle: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black54,
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                ),
+                onFieldSubmitted: (_) {
+                  if (_userNickFormKey.currentState!.validate()) {
+                    Get.back(result: _textEditingController.text);
+                  }
+                },
               ),
             ),
           ],
@@ -103,7 +116,9 @@ class _EditUserNameState extends State<EditUserName> {
           const SizedBox(width: 8),
           ElevatedButton(
               onPressed: () {
-                Get.back(result: _textEditingController.text);
+                if (_userNickFormKey.currentState!.validate()) {
+                  Get.back(result: _textEditingController.text);
+                }
               },
               child: const Text('완료')),
         ],
