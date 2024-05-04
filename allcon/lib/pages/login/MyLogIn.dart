@@ -1,3 +1,4 @@
+import 'package:allcon/pages/login/controller/account_controller.dart';
 import 'package:allcon/pages/home/Home.dart';
 import 'package:allcon/pages/login/MySignUp.dart';
 import 'package:allcon/pages/login/controller/user_controller.dart';
@@ -16,7 +17,7 @@ class MyLogIn extends StatefulWidget {
 
 class _MyMyLogInState extends State<MyLogIn> {
   final _formKey = GlobalKey<FormState>();
-  final UserController u = Get.put(UserController());
+  final AccountController _accountController = Get.put(AccountController());
 
   final _userEmail = TextEditingController();
   final _userPwd = TextEditingController();
@@ -93,13 +94,13 @@ class _MyMyLogInState extends State<MyLogIn> {
                 text: "로그인",
                 funPageRoute: () async {
                   if (_formKey.currentState!.validate()) {
-                    String token = await u.login(
+                    String token = await _accountController.login(
                         _userEmail.text.trim(), _userPwd.text.trim());
                     if (token != "-1") {
                       print("토큰 받기 성공");
                       Get.to(() => MyHome());
                     } else {
-                      Get.snackbar('로그인 시도', "로그인 실패하였습니다😭");
+                      Get.snackbar('로그인 실패 😭', "다시 시도해주세요!");
                     }
                   }
                 })

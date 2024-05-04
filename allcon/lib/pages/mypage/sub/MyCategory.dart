@@ -1,4 +1,4 @@
-import 'package:allcon/pages/login/controller/user_controller.dart';
+import 'package:allcon/pages/login/controller/account_controller.dart';
 import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/pages/mypage/sub/MyConcertLikes.dart';
 import 'package:allcon/utils/jwt.dart';
@@ -12,7 +12,7 @@ class MyCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserController u = Get.put(UserController());
+    final AccountController _accountController = Get.put(AccountController());
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 6.0),
@@ -78,7 +78,7 @@ class MyCategory extends StatelessWidget {
                 style: TextStyle(fontSize: 20.0),
               ),
               onTap: () {
-                u.logout();
+                _accountController.logout();
                 Get.to(MyLogIn());
               },
             ),
