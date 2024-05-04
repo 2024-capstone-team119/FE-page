@@ -1,6 +1,6 @@
 import 'package:allcon/pages/home/Home.dart';
+import 'package:allcon/service/account/registService.dart';
 import 'package:flutter/material.dart';
-import 'package:allcon/service/registService.dart';
 import 'package:allcon/utils/validator_util.dart';
 import 'package:allcon/widget/custom_text_form_field.dart';
 import 'package:get/get.dart';

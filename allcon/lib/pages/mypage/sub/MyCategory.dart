@@ -1,4 +1,4 @@
-import 'package:allcon/controller/user_controller.dart';
+import 'package:allcon/pages/login/controller/account_controller.dart';
 import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/pages/mypage/sub/MyConcertLikes.dart';
 import 'package:allcon/utils/jwt.dart';
@@ -12,7 +12,7 @@ class MyCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserController u = Get.put(UserController());
+    final AccountController u = Get.put(AccountController());
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 6.0),

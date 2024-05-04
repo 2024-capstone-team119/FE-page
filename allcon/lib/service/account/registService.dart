@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'package:allcon/service/baseUrl.dart';
 import 'package:http/http.dart' as http;
-import 'baseUrl.dart';
 
 class RegistService {
 // Check if the email already exists
