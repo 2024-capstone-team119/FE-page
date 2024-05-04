@@ -85,10 +85,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/logo/allcon-text-white.png
-    - assets/login/kakao_login_large_wide.png
-    - assets/login/naver_login_button.png
-    - assets/logo/allcon_icon.png
+    - assets/img/avatar.png
+    - assets/img/splash-icon.png
     #   - images/a_dot_burr.jpeg
     #   - images/a_dot_ham.jpeg
 

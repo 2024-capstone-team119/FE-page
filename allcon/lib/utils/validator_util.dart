@@ -66,3 +66,14 @@ Function validateUserName() {
     }
   };
 }
+
+// 유저닉네임 수정시 유효성 검사
+String? validateEditNick(String? value) {
+  if (value!.isEmpty) {
+    return "공백이 들어갈 수 없습니다.";
+  } else if (value.length > 8) {
+    return "닉네임은 최대 8자입니다.";
+  } else {
+    return null;
+  }
+}

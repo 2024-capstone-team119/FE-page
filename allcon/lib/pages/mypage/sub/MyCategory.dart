@@ -12,7 +12,7 @@ class MyCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AccountController u = Get.put(AccountController());
+    final AccountController _accountController = Get.put(AccountController());
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 6.0),
@@ -78,7 +78,7 @@ class MyCategory extends StatelessWidget {
                 style: TextStyle(fontSize: 20.0),
               ),
               onTap: () {
-                u.logout();
+                _accountController.logout();
                 Get.to(MyLogIn());
               },
             ),
