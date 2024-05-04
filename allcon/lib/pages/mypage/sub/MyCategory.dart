@@ -1,4 +1,4 @@
-import 'package:allcon/controller/user_controller.dart';
+import 'package:allcon/pages/login/controller/user_controller.dart';
 import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/pages/mypage/sub/MyConcertLikes.dart';
 import 'package:allcon/utils/jwt.dart';

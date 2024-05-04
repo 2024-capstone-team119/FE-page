@@ -1,4 +1,4 @@
-import 'package:allcon/controller/dto/LoginReqDto.dart';
+import 'package:allcon/model/login_model.dart';
 import 'package:allcon/service/userProvider.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 

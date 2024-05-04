@@ -89,7 +89,7 @@ Widget userInfo(BuildContext context, ProfileController pcon) {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(50),
           child: Image.asset(
-            'assets/etc/avatar.png',
+            'assets/img/avatar.png',
             fit: BoxFit.cover,
           ),
         ),
@@ -144,7 +144,7 @@ Widget EditUserInfo(
                   height: 100,
                   child: pcon.myProfile.value.profileImg == null
                       ? Image.asset(
-                          'assets/etc/avatar.png',
+                          'assets/img/avatar.png',
                           fit: BoxFit.cover,
                         )
                       : Image.file(
