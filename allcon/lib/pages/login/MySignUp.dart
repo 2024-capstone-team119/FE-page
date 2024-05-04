@@ -19,6 +19,7 @@ class _MySignUpState extends State<MySignUp> {
 
   final _emailController = TextEditingController();
   final _pwdController = TextEditingController();
+  final _pwdConfirmController = TextEditingController();
   final _userNameController = TextEditingController();
 
   final _registService = RegistService();
@@ -101,12 +102,26 @@ class _MySignUpState extends State<MySignUp> {
             children: <Widget>[
               Form(
                 key: _pwdFormKey,
-                child: CustomTextFormField(
-                  hint: '이메일 주소를 입력해주세요',
-                  funValidator: validatePwd(),
-                  controller: _pwdController,
+                child: Column(
+                  children: [
+                    CustomTextFormField(
+                      hint: '비밀번호를 입력해주세요',
+                      funValidator: validatePwd(),
+                      controller: _pwdController,
+                    ),
+                    CustomTextFormField(
+                      hint: '비밀번호를 다시 입력해주세요.',
+                      funValidator: (value) {
+                        if (value != _pwdController.text) {
+                          return '비밀번호가 일치하지 않습니다.';
+                        }
+                        return null;
+                      },
+                      controller: _pwdConfirmController,
+                    ),
+                  ],
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -144,9 +159,11 @@ class _MySignUpState extends State<MySignUp> {
             }
             break;
           case 1:
-            setState(() {
-              _currentStep++;
-            });
+            if (_pwdFormKey.currentState!.validate()) {
+              setState(() {
+                _currentStep++;
+              });
+            }
             break;
           // 닉네임중복확인
           case 2:
