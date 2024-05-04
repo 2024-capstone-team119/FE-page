@@ -1,4 +1,7 @@
+import 'package:allcon/Pages/MyPage/MyPage.dart';
 import 'package:allcon/pages/home/Home.dart';
+import 'package:allcon/pages/login/MyLogIn.dart';
+import 'package:allcon/pages/mypage/sub/MyProfile.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
@@ -28,7 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const MyHome(),
+      home: MyPage(),
       theme: ThemeData(fontFamily: 'Pretendard'),
       themeMode: ThemeMode.system,
     );

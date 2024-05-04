@@ -142,6 +142,7 @@ class _MyCommunityState extends State<MyCommunity>
               children: contentsamples
                   .map((sample) => MyContentListView(
                         tabIdx: sample.tabIdx,
+                        category: sample.name,
                         contentController: _contentController,
                         searchText: searchText,
                       ))

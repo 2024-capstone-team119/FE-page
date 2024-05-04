@@ -1,5 +1,7 @@
-import 'package:allcon/pages/login/login.dart';
+import 'package:allcon/controller/user_controller.dart';
+import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/pages/mypage/sub/MyConcertLikes.dart';
+import 'package:allcon/utils/jwt.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
@@ -10,6 +12,8 @@ class MyCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserController u = Get.put(UserController());
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 6.0),
       child: Column(
@@ -74,7 +78,8 @@ class MyCategory extends StatelessWidget {
                 style: TextStyle(fontSize: 20.0),
               ),
               onTap: () {
-                logOutWithNaver();
+                u.logout();
+                Get.to(MyLogIn());
               },
             ),
           ),
@@ -94,39 +99,11 @@ class MyCategory extends StatelessWidget {
                 '회원탈퇴',
                 style: TextStyle(fontSize: 20.0),
               ),
-              onTap: () {
-                widthDrawNaver();
-              },
+              onTap: () {},
             ),
           ),
         ],
       ),
     );
-  }
-}
-
-//  회원 로그아웃
-Future<void> logOutWithNaver() async {
-  try {
-    FlutterNaverLogin.logOut().then((value) => {
-          print("Naver Logout is successful"),
-          Get.to(const MyLogIn()),
-        });
-  } catch (error) {
-    print('네이버 유저 로그아웃 실패');
-    print(error);
-  }
-}
-
-// 회원 탈퇴
-Future<void> widthDrawNaver() async {
-  try {
-    FlutterNaverLogin.logOutAndDeleteToken().then((value) => {
-          print("네이버 탈퇴 is successful"),
-          Get.to(const MyLogIn()),
-        });
-  } catch (error) {
-    print('네이버 유저 탈퇴 실패');
-    print(error);
   }
 }

@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 class CustomTextArea extends StatelessWidget {
   final String hint;
   final funValidator;
-  final String? value;
-  final TextEditingController? controller;
+  final TextEditingController controller;
 
   const CustomTextArea({
     super.key,
     required this.hint,
     required this.funValidator,
-    this.value,
-    this.controller,
+    required this.controller,
   });
 
   @override

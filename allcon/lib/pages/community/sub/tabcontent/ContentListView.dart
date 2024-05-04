@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 
 class MyContentListView extends StatefulWidget {
   final int tabIdx;
+  final String category;
   final String title;
   final String searchText;
   final ContentController contentController;
@@ -17,6 +18,7 @@ class MyContentListView extends StatefulWidget {
   const MyContentListView({
     super.key,
     required this.tabIdx,
+    required this.category,
     required this.contentController,
     this.title = '',
     this.searchText = '',
@@ -43,8 +45,13 @@ class _MyContentListViewState extends State<MyContentListView> {
         child: Obx(() => ListView.builder(
               itemCount: widget.contentController.contents.length,
               itemBuilder: (context, index) {
+                // 거꾸로 된 인덱스 계산
+                final reversedIndex =
+                    widget.contentController.contents.length - index - 1;
                 return _buildContentItem(
-                    context, widget.contentController.contents[index], index);
+                    context,
+                    widget.contentController.contents[reversedIndex],
+                    reversedIndex);
               },
               scrollDirection: Axis.vertical,
             )),
@@ -73,6 +80,8 @@ class _MyContentListViewState extends State<MyContentListView> {
     return GestureDetector(
       onTap: () {
         Get.to(() => MyContentDetail(
+              category: widget.category,
+              tabIdx: widget.tabIdx,
               content: content,
               contentController: widget.contentController,
             ));

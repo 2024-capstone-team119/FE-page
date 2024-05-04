@@ -1,6 +1,8 @@
+import 'package:allcon/pages/concert/PerformaceDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 
 class PerformanceList extends StatelessWidget {
   final List<Performance> performances;
@@ -24,7 +26,9 @@ class PerformanceList extends StatelessWidget {
     // 진행중/예정인 공연만 리스트 생성
     List<Performance> ongoingPerformances = performances.where((performance) {
       DateTime endDate = DateFormat('yyyy.MM.dd').parse(performance.endDate!);
-      return endDate.isAfter(DateTime.now());
+      DateTime now =
+          DateTime.now().subtract(const Duration(days: 1)); // 현재 날짜에 하루를 뻄 날짜
+      return endDate.isAfter(now);
     }).toList();
 
     return Padding(
@@ -162,36 +166,42 @@ class PerformanceList extends StatelessWidget {
                   ),
                   const SizedBox(width: 15),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 4.0),
-                          child: startPerformance(dDay, startText),
-                        ),
-                        Text(
-                          performances[index].name!,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(() => PerformanceDetail(
+                            performance: performances[index]));
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 4.0),
+                            child: startPerformance(dDay, startText),
                           ),
-                        ),
-                        const SizedBox(height: 3.0),
-                        if (performances[index].startDate ==
-                            performances[index].endDate)
-                          Text('${performances[index].startDate}')
-                        else
                           Text(
-                              '${performances[index].startDate} ~ ${performances[index].endDate}'),
-                        Text(
-                          '${performances[index].cast}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 8.0),
-                      ],
+                            performances[index].name!,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 3.0),
+                          if (performances[index].startDate ==
+                              performances[index].endDate)
+                            Text('${performances[index].startDate}')
+                          else
+                            Text(
+                                '${performances[index].startDate} ~ ${performances[index].endDate}'),
+                          Text(
+                            '${performances[index].cast}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 8.0),
+                        ],
+                      ),
                     ),
                   ),
                 ],

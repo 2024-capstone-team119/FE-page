@@ -55,13 +55,13 @@ class _MyContentLikesState extends State<MyContentLikes> {
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 20.0),
             child: CustomDropdownButton(
-              items: const ['자유게시판', '후기', '교환/양도', '카풀'],
+              items: const ['자유게시판', '후기', '카풀'],
               value: _selectedCategory,
               onChanged: (value) {
                 setState(() {
                   _selectedCategory = value.toString();
                   // 선택된 카테고리의 인덱스 찾기
-                  _selectedCategoryIndex = ['자유게시판', '후기', '교환/양도', '카풀']
+                  _selectedCategoryIndex = ['자유게시판', '후기', '카풀']
                       .indexWhere((category) => category == value);
                   _updateLikedContents();
                 });

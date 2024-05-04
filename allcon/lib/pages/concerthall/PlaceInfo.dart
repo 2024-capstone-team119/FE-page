@@ -22,9 +22,11 @@ class _PlaceInfoState extends State<PlaceInfo> {
         children: [
           placeBar(context, widget.placeDetail),
           const Divider(color: Colors.grey),
-          const Expanded(
-            child: HallMap(),
-          ),
+          Expanded(
+              child: HallMap(
+            latitude: double.parse(widget.placeDetail.la!),
+            longitude: double.parse(widget.placeDetail.lo!),
+          )),
         ],
       ),
     );

@@ -19,6 +19,7 @@ class User {
           userName: user.userName,
           email: user.email,
         );
+
   void initImgFile() {
     profileImg = null;
   }

@@ -1,13 +1,19 @@
-class Profile {
-  final String username;
+class User {
   final String email;
+  final String password;
+  final String nickname;
 
-  Profile(
-    this.username,
-    this.email,
-  );
+  User({
+    required this.email,
+    required this.password,
+    required this.nickname,
+  });
 
-  Profile.fromJson(Map<String, dynamic> json)
-      : username = json['username'],
-        email = json['email'];
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      email: json['email'],
+      password: json['password'],
+      nickname: json['nickname'],
+    );
+  }
 }

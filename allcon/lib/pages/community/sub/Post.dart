@@ -16,6 +16,7 @@ import '../controller/content_controller.dart';
 class MyContentWrite extends StatefulWidget {
   final String initialCategory;
   final int tabIdx;
+
   const MyContentWrite({
     super.key,
     required this.initialCategory,
@@ -52,13 +53,13 @@ class _ContentWriteState extends State<MyContentWrite> {
           child: ListView(
             children: [
               CustomDropdownButton(
-                items: const ['자유게시판', '후기', '교환/양도', '카풀'],
+                items: const ['자유게시판', '후기', '카풀'],
                 value: _selectedCategory,
                 onChanged: (value) {
                   setState(() {
                     _selectedCategory = value.toString();
                     // 선택된 카테고리의 인덱스 찾기
-                    _selectedCategoryIndex = ['자유게시판', '후기', '교환/양도', '카풀']
+                    _selectedCategoryIndex = ['자유게시판', '후기', '카풀']
                         .indexWhere((category) => category == value);
                   });
                 },
