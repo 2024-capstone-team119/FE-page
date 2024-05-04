@@ -21,7 +21,7 @@ class PerformanceDetail extends StatefulWidget {
 }
 
 class _PerformanceDetailState extends State<PerformanceDetail> {
-  final concertLikesController = Get.put(concertLikedController());
+  final _concertLikesController = Get.put(concertLikedController());
   late bool isMyLikesConcert;
   late ConcertLikes? concertLikes;
   final client = http.Client();
@@ -29,7 +29,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
   @override
   void initState() {
     super.initState();
-    isMyLikesConcert = concertLikesController.likes;
+    isMyLikesConcert = _concertLikesController.likes;
     fetchConcertLikesData();
   }
 
@@ -78,7 +78,10 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
         height: 50,
         child: FloatingActionButton(
           onPressed: () {
-            // 예매처 이동
+            Get.snackbar(
+              '죄송합니다 🙌',
+              '해당 서비스는 준비중입니다!\n조금만 기다려주세요~',
+            );
           },
           backgroundColor: Mint,
           child: const Row(
@@ -167,7 +170,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                 ),
                 onPressed: () async {
                   // 버튼 클릭 시 수행할 작업
-                  concertLikesController.getLiked();
+                  _concertLikesController.getLiked();
                   await updateConcertLikesData();
                 },
               ),
