@@ -9,19 +9,23 @@ class GoyangAram extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: Container(
-        alignment: Alignment.center,
-        color: Colors.white,
-        child: const Column(
-          children: [
-            Stage(),
-            SizedBox(height: 30),
-            Floor(),
-            SizedBox(height: 30),
-            Second(),
-            SizedBox(height: 30),
-            Third(),
-          ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Container(
+          alignment: Alignment.center,
+          color: Colors.white,
+          child: const Column(
+            children: [
+              Stage(),
+              SizedBox(height: 30),
+              Floor(),
+              SizedBox(height: 30),
+              Second(),
+              SizedBox(height: 30),
+              Third(),
+              SizedBox(height: 30),
+            ],
+          ),
         ),
       ),
     );
