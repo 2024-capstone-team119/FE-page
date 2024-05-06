@@ -1,8 +1,8 @@
 import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/review/controller/hall_controller.dart';
 import 'package:allcon/pages/review/controller/review_controller.dart';
-import 'package:allcon/pages/review/review_list.dart';
-import 'package:allcon/pages/review/review_mine.dart';
+import 'package:allcon/pages/review/ReviewList.dart';
+import 'package:allcon/pages/review/MyReview.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/Data/Sample/review_sample.dart';
@@ -98,6 +98,9 @@ class _ReviewMainState extends State<ReviewMain> {
       _reviewController.setReviewList(reviewList);
     });
 
+    List<Zone> zoneList =
+        seoulHall[_hallController.getHallIdx(widget.title)].zone;
+
     return SingleChildScrollView(
       child: Container(
         color: Colors.white,
@@ -130,7 +133,7 @@ class _ReviewMainState extends State<ReviewMain> {
                       ),
                       onPressed: () {
                         setState(() {
-                          _reviewController.showModalSheet(
+                          _reviewController.showWriteModalSheet(
                               context, reviewList, selectedZone);
                         });
                       },
@@ -151,8 +154,12 @@ class _ReviewMainState extends State<ReviewMain> {
                   _reviewController.reviews.length,
                   (index) {
                     return mine
-                        ? ReviewMine(
+                        ? MyReview(
                             index: _reviewController.reviews[index].reviewId,
+                            reviewList: reviewList,
+                            zoneList: zoneList,
+                            zone: selectedZone,
+                            zoneTotal: zoneTotal,
                           )
                         : ReviewList(
                             index: _reviewController.reviews[index].reviewId,

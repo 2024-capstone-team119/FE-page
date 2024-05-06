@@ -1,5 +1,5 @@
 import 'package:allcon/pages/concerthall/PlaceInfo.dart';
-import 'package:allcon/pages/review/review_main.dart';
+import 'package:allcon/pages/review/ReviewMain.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';

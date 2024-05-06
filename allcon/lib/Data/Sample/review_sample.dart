@@ -45,7 +45,7 @@ final seoulHall = [
       ]),
       Zone(zoneIdx: 1, zoneName: '2구역', review: [
         Review(
-          reviewId: 0,
+          reviewId: 3,
           writer: 'rkdwldms42',
           content:
               '7열 오른쪽에 위치한 자리입니다. 예상보다 시야 좋았고, 브루노는 엄청나게 잘 보이지는 않지만 형체는 볼 수 있는 정도(?) 전광판으로도 충분했어요~~',
@@ -56,7 +56,7 @@ final seoulHall = [
           dateTime: DateTime.now(),
         ),
         Review(
-          reviewId: 1,
+          reviewId: 4,
           writer: 'creamycoke',
           content:
               '12열 왼쪽에 위치한 자리입니다. 좌석이 약간 좁은 편이지만 무대 전체를 잘 볼 수 있어서 만족스럽습니다.',
@@ -116,7 +116,7 @@ final seoulHall = [
       ]),
       Zone(zoneIdx: 1, zoneName: '2구역', review: [
         Review(
-          reviewId: 0,
+          reviewId: 3,
           writer: 'rkdwldms42',
           content:
               '7열 오른쪽에 위치한 자리입니다. 예상보다 시야 좋았고, 브루노는 엄청나게 잘 보이지는 않지만 형체는 볼 수 있는 정도(?) 전광판으로도 충분했어요~~',
@@ -127,7 +127,7 @@ final seoulHall = [
           dateTime: DateTime.now(),
         ),
         Review(
-          reviewId: 1,
+          reviewId: 4,
           writer: 'creamycoke',
           content:
               '12열 왼쪽에 위치한 자리입니다. 좌석이 약간 좁은 편이지만 무대 전체를 잘 볼 수 있어서 만족스럽습니다.',
@@ -193,7 +193,7 @@ final seoulHall = [
       ]),
       Zone(zoneIdx: 1, zoneName: 'B구역', review: [
         Review(
-          reviewId: 0,
+          reviewId: 3,
           writer: 'rkdwldms42',
           content:
               '7열 오른쪽에 위치한 자리입니다. 예상보다 시야 좋았고, 브루노는 엄청나게 잘 보이지는 않지만 형체는 볼 수 있는 정도(?) 전광판으로도 충분했어요~~',
@@ -204,7 +204,7 @@ final seoulHall = [
           dateTime: DateTime.now(),
         ),
         Review(
-          reviewId: 1,
+          reviewId: 4,
           writer: 'creamycoke',
           content:
               '12열 왼쪽에 위치한 자리입니다. 좌석이 약간 좁은 편이지만 무대 전체를 잘 볼 수 있어서 만족스럽습니다.',

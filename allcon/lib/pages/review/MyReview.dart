@@ -1,28 +1,37 @@
+import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/review/controller/review_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class ReviewMine extends StatefulWidget {
+class MyReview extends StatefulWidget {
   final int index;
+  final List<Review> reviewList;
+  final List<Zone> zoneList;
+  final String zone;
+  final List<String> zoneTotal;
 
-  const ReviewMine({
+  const MyReview({
     super.key,
     required this.index,
+    required this.reviewList,
+    required this.zoneList,
+    required this.zone,
+    required this.zoneTotal,
   });
 
   @override
-  State<ReviewMine> createState() => _ReviewMineState();
+  State<MyReview> createState() => _MyReviewState();
 }
 
-class _ReviewMineState extends State<ReviewMine> {
-  late final ReviewController reviewController;
+class _MyReviewState extends State<MyReview> {
+  late final ReviewController _reviewController;
 
   @override
   void initState() {
     super.initState();
-    reviewController = Get.put(ReviewController());
+    _reviewController = Get.put(ReviewController());
   }
 
   @override
@@ -46,7 +55,20 @@ class _ReviewMineState extends State<ReviewMine> {
                         actions: <Widget>[
                           CupertinoActionSheetAction(
                             child: const Text('수정'),
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.back();
+                              setState(() {
+                                _reviewController.showUpdateModalSheet(
+                                    context,
+                                    widget.reviewList,
+                                    widget.zoneList,
+                                    widget.zoneTotal,
+                                    widget.zone,
+                                    widget.reviewList[widget.index],
+                                    widget.reviewList[widget.index].content,
+                                    widget.reviewList[widget.index].starCount);
+                              });
+                            },
                           ),
                           CupertinoActionSheetAction(
                             child: const Text('삭제'),
@@ -85,15 +107,15 @@ class _ReviewMineState extends State<ReviewMine> {
                   ),
                 ),
                 Row(
-                  children: reviewController.starCounts(
-                      reviewController.reviews[widget.index].starCount),
+                  children: _reviewController.starCounts(
+                      _reviewController.reviews[widget.index].starCount),
                 ),
               ],
             ),
             const SizedBox(
               height: 15.0,
             ),
-            Text(reviewController.reviews[widget.index].content),
+            Text(_reviewController.reviews[widget.index].content),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -112,30 +134,30 @@ class _ReviewMineState extends State<ReviewMine> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          reviewController.reviews[widget.index].goodCount++;
+                          _reviewController.reviews[widget.index].goodCount++;
                         });
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.blue),
                       child: Text(
-                        'Good (${reviewController.reviews[widget.index].goodCount})',
+                        'Good (${_reviewController.reviews[widget.index].goodCount})',
                       ),
                     ),
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          reviewController.reviews[widget.index].badCount++;
+                          _reviewController.reviews[widget.index].badCount++;
                         });
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.red),
                       child: Text(
-                        'Bad (${reviewController.reviews[widget.index].badCount})',
+                        'Bad (${_reviewController.reviews[widget.index].badCount})',
                       ),
                     ),
                   ],
                 ),
                 Text(
                   DateFormat('yyyy-MM-dd')
-                      .format(reviewController.reviews[widget.index].dateTime),
+                      .format(_reviewController.reviews[widget.index].dateTime),
                 ),
               ],
             ),
