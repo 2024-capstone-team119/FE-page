@@ -1,30 +1,36 @@
+import 'package:allcon/model/review_model.dart';
+import 'package:allcon/pages/review/controller/review_controller.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:allcon/pages/seat/seat_review.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 
-class SeatWrite extends StatefulWidget {
-  const SeatWrite({super.key});
+class ReviewWrite extends StatefulWidget {
+  final List<Review> reviewList;
+  final String zone;
+  final int reviewId;
+
+  const ReviewWrite({
+    super.key,
+    required this.reviewList,
+    required this.zone,
+    required this.reviewId,
+  });
 
   @override
-  State<SeatWrite> createState() => _SeatWriteState();
+  State<ReviewWrite> createState() => _ReviewWriteState();
 }
 
-class _SeatWriteState extends State<SeatWrite> {
+class _ReviewWriteState extends State<ReviewWrite> {
   int selectedStar = 0;
-  int reviewId = 0;
+  late int reviewId;
+
   late String currentTime;
   final TextEditingController _textController = TextEditingController();
-
-  void _submitReview(Review newReview) {
-    setState(() {
-      reviewList.add(newReview);
-    });
-    reviewId++;
-  }
+  late final ReviewController _reviewController;
 
   late FToast fToast;
 
@@ -36,14 +42,10 @@ class _SeatWriteState extends State<SeatWrite> {
   // 초기화
   void initState() {
     super.initState();
-    currentTime = _getCurrentDate();
+    reviewId = widget.reviewId;
+    _reviewController = Get.put(ReviewController());
     fToast = FToast();
     fToast.init(context);
-  }
-
-  String _getCurrentDate() {
-    DateTime now = DateTime.now();
-    return "${now.year}-${now.month}-${now.day}";
   }
 
   @override
@@ -76,9 +78,9 @@ class _SeatWriteState extends State<SeatWrite> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'A구역',
-                          style: TextStyle(fontSize: 20.0),
+                        Text(
+                          widget.zone,
+                          style: const TextStyle(fontSize: 20.0),
                         ),
                         Row(
                           children: [
@@ -92,7 +94,7 @@ class _SeatWriteState extends State<SeatWrite> {
                                 icon: Icon(
                                   CupertinoIcons.star_fill,
                                   color: i <= selectedStar
-                                      ? Colors.yellow
+                                      ? lightMint
                                       : Colors.black12,
                                 ),
                                 visualDensity: VisualDensity.compact,
@@ -149,16 +151,18 @@ class _SeatWriteState extends State<SeatWrite> {
                       uploadButton(
                         onPressed: isButtonEnabled
                             ? () {
-                                _submitReview(
+                                _reviewController.submitReview(
                                   Review(
-                                    id: reviewId,
-                                    name: 'noname$reviewId',
-                                    star: selectedStar,
-                                    text: _textController.text,
-                                    createTime: currentTime,
-                                    good: 0,
-                                    bad: 0,
+                                    reviewId: reviewId,
+                                    writer: 'noname$reviewId',
+                                    content: _textController.text,
+                                    image: '',
+                                    starCount: selectedStar,
+                                    goodCount: 0,
+                                    badCount: 0,
+                                    dateTime: DateTime.now(),
                                   ),
+                                  widget.reviewList,
                                 );
                                 Navigator.of(context).pop();
                               }
