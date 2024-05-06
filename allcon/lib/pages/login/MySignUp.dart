@@ -110,7 +110,7 @@ class _MySignUpState extends State<MySignUp> {
                       controller: _pwdController,
                     ),
                     CustomTextFormField(
-                      hint: '비밀번호를 다시 입력해주세요.',
+                      hint: '비밀번호를 다시 입력해주세요',
                       funValidator: (value) {
                         if (value != _pwdController.text) {
                           return '비밀번호가 일치하지 않습니다.';
