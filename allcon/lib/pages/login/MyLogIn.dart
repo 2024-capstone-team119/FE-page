@@ -1,7 +1,6 @@
 import 'package:allcon/pages/login/controller/account_controller.dart';
 import 'package:allcon/pages/home/Home.dart';
 import 'package:allcon/pages/login/MySignUp.dart';
-import 'package:allcon/pages/login/controller/user_controller.dart';
 import 'package:allcon/utils/validator_util.dart';
 import 'package:allcon/widget/custom_elevated_btn.dart';
 import 'package:allcon/widget/custom_text_form_field.dart';
@@ -94,10 +93,11 @@ class _MyMyLogInState extends State<MyLogIn> {
                 text: "로그인",
                 funPageRoute: () async {
                   if (_formKey.currentState!.validate()) {
-                    String token = await _accountController.login(
+                    bool isToken = await _accountController.login(
                         _userEmail.text.trim(), _userPwd.text.trim());
-                    if (token != "-1") {
+                    if (isToken) {
                       print("토큰 받기 성공");
+                      Get.snackbar('로그인 성공 😚', "반가워요!");
                       Get.to(() => MyHome());
                     } else {
                       Get.snackbar('로그인 실패 😭', "다시 시도해주세요!");

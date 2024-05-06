@@ -44,7 +44,8 @@ class MyApp extends StatelessWidget {
     final isLoggedIn = Get.find<AccountController>().isLogin.value;
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: isLoggedIn ? const MyHome() : const MyLogIn(),
+      // home: isLoggedIn ? const MyHome() : const MyLogIn(),
+      home: MyLogIn(),
       theme: ThemeData(fontFamily: 'Pretendard'),
       themeMode: ThemeMode.system,
     );
