@@ -1,4 +1,4 @@
-import 'package:allcon/pages/seat/layout/customFigure/TrapezoidCurve.dart';
+import 'package:allcon/pages/review/layout/customFigure/TrapezoidCurve.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -9,25 +9,22 @@ class OlympicChaejo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Column(
-        children: [
-          Center(
-            child: SizedBox(
-              width: 700,
-              height: 700,
-              child: Transform.scale(
-                scale: 0.5,
-                child: Stack(
-                  children: [
-                    ...secondSeat(secondSeatCenter(context)),
-                    ...firstSeat(firstSeatCenter(context)),
-                  ],
-                ),
-              ),
+      scrollDirection: Axis.vertical,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width + 200,
+          height: 600,
+          child: Transform.scale(
+            scale: 0.8,
+            child: Stack(
+              children: [
+                ...secondSeat(secondSeatCenter(context)),
+                ...firstSeat(firstSeatCenter(context)),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -38,7 +35,7 @@ class OlympicChaejo extends StatelessWidget {
       double x = center.dx + 250 * math.cos(angle) + 50;
       double y = center.dy + 250 * math.sin(angle);
       return Positioned(
-        left: x,
+        left: x + 50,
         top: y,
         child: CustomPaint(
           size: const Size(30, 45),
@@ -66,7 +63,7 @@ class OlympicChaejo extends StatelessWidget {
       double x = center.dx + 150 * math.cos(angle) + 50;
       double y = center.dy + 150 * math.sin(angle);
       return Positioned(
-        left: x,
+        left: x + 50,
         top: y,
         child: CustomPaint(
           size: const Size(30, 45),
@@ -111,12 +108,12 @@ class OlympicChaejo extends StatelessWidget {
   // secondSeat의 중심 좌표를 계산하는 함수
   Offset secondSeatCenter(BuildContext context) {
     return Offset(MediaQuery.of(context).size.width / 2,
-        MediaQuery.of(context).size.height / 2);
+        MediaQuery.of(context).size.height / 3);
   }
 
   // firstSeat의 중심 좌표를 계산하는 함수
   Offset firstSeatCenter(BuildContext context) {
     return Offset(MediaQuery.of(context).size.width / 2,
-        MediaQuery.of(context).size.height / 2);
+        MediaQuery.of(context).size.height / 3);
   }
 }

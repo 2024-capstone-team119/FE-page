@@ -1,30 +1,49 @@
-import 'package:allcon/utils/Colors.dart';
-import 'package:flutter/material.dart';
-import 'package:allcon/pages/seat/seat_review.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:allcon/model/review_model.dart';
+import 'package:allcon/pages/review/controller/review_controller.dart';
+import 'package:allcon/utils/Colors.dart';
+import 'package:allcon/widget/custom_dropdown_button.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
-class SeatWrite extends StatefulWidget {
-  const SeatWrite({super.key});
+class ReviewUpdate extends StatefulWidget {
+  final List<Review> reviewList;
+  final List<Zone> zoneList;
+  final List<String> zoneTotal;
+  final String zone;
+  final Review selectedReview;
+  final int reviewId;
+  final String text;
+  final int star;
+
+  const ReviewUpdate({
+    super.key,
+    required this.reviewList,
+    required this.zoneList,
+    required this.zoneTotal,
+    required this.zone,
+    required this.selectedReview,
+    required this.reviewId,
+    required this.text,
+    required this.star,
+  });
 
   @override
-  State<SeatWrite> createState() => _SeatWriteState();
+  State<ReviewUpdate> createState() => _ReviewUpdateState();
 }
 
-class _SeatWriteState extends State<SeatWrite> {
-  int selectedStar = 0;
-  int reviewId = 0;
-  late String currentTime;
-  final TextEditingController _textController = TextEditingController();
+class _ReviewUpdateState extends State<ReviewUpdate> {
+  late int reviewId;
+  late String selectedZone;
+  late int selectedZoneIdx = 0;
+  late int selectedStar;
 
-  void _submitReview(Review newReview) {
-    setState(() {
-      reviewList.add(newReview);
-    });
-    reviewId++;
-  }
+  late String currentTime;
+  late TextEditingController _textController;
+  late final ReviewController _reviewController;
 
   late FToast fToast;
 
@@ -36,14 +55,13 @@ class _SeatWriteState extends State<SeatWrite> {
   // 초기화
   void initState() {
     super.initState();
-    currentTime = _getCurrentDate();
+    reviewId = widget.reviewId;
+    selectedZone = widget.zone;
+    selectedStar = widget.star;
+    _reviewController = Get.put(ReviewController());
+    _textController = TextEditingController(text: widget.text);
     fToast = FToast();
     fToast.init(context);
-  }
-
-  String _getCurrentDate() {
-    DateTime now = DateTime.now();
-    return "${now.year}-${now.month}-${now.day}";
   }
 
   @override
@@ -76,9 +94,17 @@ class _SeatWriteState extends State<SeatWrite> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'A구역',
-                          style: TextStyle(fontSize: 20.0),
+                        CustomDropdownButton(
+                          items: widget.zoneTotal,
+                          value: selectedZone,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedZone = value.toString();
+                              // 선택된 구역의 인덱스 찾기
+                              selectedZoneIdx = widget.zoneTotal
+                                  .indexWhere((zone) => zone == value);
+                            });
+                          },
                         ),
                         Row(
                           children: [
@@ -92,7 +118,7 @@ class _SeatWriteState extends State<SeatWrite> {
                                 icon: Icon(
                                   CupertinoIcons.star_fill,
                                   color: i <= selectedStar
-                                      ? Colors.yellow
+                                      ? lightMint
                                       : Colors.black12,
                                 ),
                                 visualDensity: VisualDensity.compact,
@@ -106,7 +132,6 @@ class _SeatWriteState extends State<SeatWrite> {
                     controller: _textController,
                     maxLines: 5,
                     decoration: const InputDecoration(
-                      hintText: '10글자 이상의 리뷰를 작성해주세요.',
                       labelStyle: TextStyle(color: Colors.black),
                       filled: true,
                       fillColor: Colors.white,
@@ -144,21 +169,26 @@ class _SeatWriteState extends State<SeatWrite> {
                           });
                         },
                         icon: Icons.add_photo_alternate,
-                        label: '사진 첨부하기',
+                        label: '사진 수정하기',
                       ),
                       uploadButton(
                         onPressed: isButtonEnabled
                             ? () {
-                                _submitReview(
+                                _reviewController.updateReview(
                                   Review(
-                                    id: reviewId,
-                                    name: 'noname$reviewId',
-                                    star: selectedStar,
-                                    text: _textController.text,
-                                    createTime: currentTime,
-                                    good: 0,
-                                    bad: 0,
+                                    reviewId: widget.selectedReview.reviewId,
+                                    writer: widget.selectedReview.writer,
+                                    content: _textController.text,
+                                    image: widget.selectedReview.image,
+                                    starCount: selectedStar,
+                                    goodCount: widget.selectedReview.goodCount,
+                                    badCount: widget.selectedReview.badCount,
+                                    dateTime: widget.selectedReview.dateTime,
                                   ),
+                                  widget.selectedReview,
+                                  widget.zone,
+                                  widget.zoneList,
+                                  selectedZoneIdx,
                                 );
                                 Navigator.of(context).pop();
                               }
@@ -171,7 +201,7 @@ class _SeatWriteState extends State<SeatWrite> {
                                 }
                               }, // 버튼 비활성화
                         icon: CupertinoIcons.pen,
-                        label: '리뷰 등록하기',
+                        label: '리뷰 수정하기',
                       ),
                     ],
                   )
