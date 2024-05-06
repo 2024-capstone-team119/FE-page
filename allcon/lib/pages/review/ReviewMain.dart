@@ -153,19 +153,33 @@ class _ReviewMainState extends State<ReviewMain> {
                 List<Widget> reviewWidgets = List.generate(
                   _reviewController.reviews.length,
                   (index) {
+                    int reversedIndex =
+                        _reviewController.reviews.length - 1 - index;
+
+                    // goodCount가 높은 순으로 정렬합니다.
+                    List<Review> sortedReviews = List.from(reviewList);
+                    sortedReviews
+                        .sort((a, b) => b.goodCount.compareTo(a.goodCount));
+
                     return mine
                         ? MyReview(
-                            index: _reviewController.reviews[index].reviewId,
+                            index: _reviewController
+                                .reviews[reversedIndex].reviewId,
                             reviewList: reviewList,
                             zoneList: zoneList,
                             zone: selectedZone,
                             zoneTotal: zoneTotal,
                           )
-                        : ReviewList(
-                            index: _reviewController.reviews[index].reviewId,
-                          );
+                        : isRecommend
+                            ? ReviewList(
+                                review: sortedReviews[index],
+                              )
+                            : ReviewList(
+                                review: reviewList[reversedIndex],
+                              );
                   },
                 );
+
                 return Column(
                   children: reviewWidgets,
                 );

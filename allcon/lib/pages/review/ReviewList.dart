@@ -1,14 +1,15 @@
+import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/review/controller/review_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class ReviewList extends StatefulWidget {
-  final int index;
+  final Review review;
 
   const ReviewList({
     super.key,
-    required this.index,
+    required this.review,
   });
 
   @override
@@ -37,22 +38,22 @@ class _ReviewListState extends State<ReviewList> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  _reviewController.reviews[widget.index].writer,
+                  widget.review.writer,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 15.0,
                   ),
                 ),
                 Row(
-                  children: _reviewController.starCounts(
-                      _reviewController.reviews[widget.index].starCount),
+                  children:
+                      _reviewController.starCounts(widget.review.starCount),
                 ),
               ],
             ),
             const SizedBox(
               height: 15.0,
             ),
-            Text(_reviewController.reviews[widget.index].content),
+            Text(widget.review.content),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -70,31 +71,29 @@ class _ReviewListState extends State<ReviewList> {
                     ),
                     TextButton(
                       onPressed: () {
-                        setState(() {
-                          _reviewController.reviews[widget.index].goodCount++;
-                        });
+                        _reviewController
+                            .incrementGoodCount(widget.review.reviewId);
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.blue),
                       child: Text(
-                        'Good (${_reviewController.reviews[widget.index].goodCount})',
+                        'Good (${widget.review.goodCount})',
                       ),
                     ),
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          _reviewController.reviews[widget.index].badCount++;
+                          widget.review.badCount++;
                         });
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.red),
                       child: Text(
-                        'Bad (${_reviewController.reviews[widget.index].badCount})',
+                        'Bad (${widget.review.badCount})',
                       ),
                     ),
                   ],
                 ),
                 Text(
-                  DateFormat('yyyy-MM-dd')
-                      .format(_reviewController.reviews[widget.index].dateTime),
+                  DateFormat('yyyy-MM-dd').format(widget.review.dateTime),
                 ),
               ],
             ),
