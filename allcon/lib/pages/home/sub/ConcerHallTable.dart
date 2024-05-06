@@ -1,3 +1,5 @@
+import 'package:allcon/Data/Sample/review_sample.dart';
+import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/concerthall/HallSearch.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +24,7 @@ class ConcertHallTable extends StatelessWidget {
             child: Table(
               border: TableBorder.all(),
               children: [
-                buildRow(context, ['서울', '경기,인천', '강원권']),
+                buildRow(context, ['서울', '경기•인천', '강원권']),
                 buildRow(context, ['충청권', '경상권', '전라권']),
               ],
             ),
@@ -60,10 +62,22 @@ class ConcertHallTable extends StatelessWidget {
   }
 
   void handleCellTap(BuildContext context, String cell) {
+    List<Hall> selectedHallList;
+    switch (cell) {
+      case '서울':
+        selectedHallList = seoulHall;
+        break;
+      case '경기•인천':
+        selectedHallList = gyeongInHall;
+        break;
+      default:
+        selectedHallList = noHall;
+    }
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => HallSearch(area: cell),
+        builder: (context) =>
+            HallSearch(area: cell, hallList: selectedHallList),
       ),
     );
   }

@@ -5,15 +5,19 @@ import 'package:allcon/pages/review/ReviewList.dart';
 import 'package:allcon/pages/review/MyReview.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
 import 'package:flutter/material.dart';
-import 'package:allcon/Data/Sample/review_sample.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 
 class ReviewMain extends StatefulWidget {
   final String title;
+  final List<Hall> hallList;
 
-  const ReviewMain({super.key, required this.title});
+  const ReviewMain({
+    super.key,
+    required this.title,
+    required this.hallList,
+  });
 
   @override
   State<ReviewMain> createState() => _ReviewMainState();
@@ -49,8 +53,8 @@ class _ReviewMainState extends State<ReviewMain> {
             children: [
               SizedBox(
                   height: 300,
-                  child:
-                      _hallController.getSeatingChartByHallName(widget.title)),
+                  child: _hallController.getSeatingChartByHallName(
+                      widget.title, widget.hallList)),
               const SizedBox(height: 5),
               Expanded(
                 child: DefaultTabController(
@@ -85,21 +89,23 @@ class _ReviewMainState extends State<ReviewMain> {
   }
 
   Widget reviewTab(BuildContext context, bool isRecommend, bool mine) {
-    List<String> zoneTotal = _hallController.getZoneNames(widget.title);
+    List<String> zoneTotal =
+        _hallController.getZoneNames(widget.title, widget.hallList);
     late String selectedZone = zoneTotal[selectedZoneIdx];
 
-    List<Review> reviewList =
-        seoulHall[_hallController.getHallIdx(widget.title)]
-            .zone[selectedZoneIdx]
-            .review;
+    List<Review> reviewList = widget
+        .hallList[_hallController.getHallIdx(widget.title, widget.hallList)]
+        .zone[selectedZoneIdx]
+        .review;
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // initState 대신 build 메서드 외부에서 초기화
       _reviewController.setReviewList(reviewList);
     });
 
-    List<Zone> zoneList =
-        seoulHall[_hallController.getHallIdx(widget.title)].zone;
+    List<Zone> zoneList = widget
+        .hallList[_hallController.getHallIdx(widget.title, widget.hallList)]
+        .zone;
 
     return SingleChildScrollView(
       child: Container(

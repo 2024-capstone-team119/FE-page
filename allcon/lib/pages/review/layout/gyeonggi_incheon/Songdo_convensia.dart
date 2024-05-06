@@ -9,18 +9,22 @@ class SongdoConvensia extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: Container(
-        alignment: Alignment.center,
-        color: Colors.white,
-        child: const Column(
-          children: [
-            Stage(),
-            SizedBox(height: 30),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Floor(),
-            ),
-          ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Container(
+          alignment: Alignment.center,
+          color: Colors.white,
+          child: const Column(
+            children: [
+              Stage(),
+              SizedBox(height: 30),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Floor(),
+              ),
+              SizedBox(height: 30),
+            ],
+          ),
         ),
       ),
     );
