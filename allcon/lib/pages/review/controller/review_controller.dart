@@ -17,7 +17,6 @@ class ReviewController extends GetxController {
   // 리뷰 목록
   void setReviewList(List<Review> initialReviews) {
     reviews.assignAll(initialReviews);
-    reviews.refresh();
   }
 
   // 별점 표시
@@ -35,13 +34,14 @@ class ReviewController extends GetxController {
   }
 
   // 리뷰 작성 모달
-  void showModalSheet(BuildContext context, String zone) {
+  void showModalSheet(
+      BuildContext context, List<Review> reviewList, String zone) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
         return ReviewWrite(
-          reviewList: reviews,
+          reviewList: reviewList,
           zone: zone,
           reviewId: reviews.length,
         );

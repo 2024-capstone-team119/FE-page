@@ -1,3 +1,4 @@
+import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/review/controller/hall_controller.dart';
 import 'package:allcon/pages/review/controller/review_controller.dart';
 import 'package:allcon/pages/review/review_list.dart';
@@ -15,10 +16,10 @@ class ReviewMain extends StatefulWidget {
   const ReviewMain({super.key, required this.title});
 
   @override
-  State<ReviewMain> createState() => _SeatMainState();
+  State<ReviewMain> createState() => _ReviewMainState();
 }
 
-class _SeatMainState extends State<ReviewMain> {
+class _ReviewMainState extends State<ReviewMain> {
   late final ReviewController _reviewController;
   late final HallController _hallController;
   late int selectedZoneIdx = 0;
@@ -36,13 +37,6 @@ class _SeatMainState extends State<ReviewMain> {
 
   @override
   Widget build(BuildContext context) {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      // initState 대신 build 메서드 외부에서 초기화
-      _reviewController.setReviewList(
-          seoulHall[_hallController.getHallIdx(widget.title)]
-              .zone[selectedZoneIdx]
-              .review);
-    });
     return GetBuilder<ReviewController>(
       init: ReviewController(),
       builder: (controller) {
@@ -94,6 +88,16 @@ class _SeatMainState extends State<ReviewMain> {
     List<String> zoneTotal = _hallController.getZoneNames(widget.title);
     late String selectedZone = zoneTotal[selectedZoneIdx];
 
+    List<Review> reviewList =
+        seoulHall[_hallController.getHallIdx(widget.title)]
+            .zone[selectedZoneIdx]
+            .review;
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      // initState 대신 build 메서드 외부에서 초기화
+      _reviewController.setReviewList(reviewList);
+    });
+
     return SingleChildScrollView(
       child: Container(
         color: Colors.white,
@@ -127,7 +131,7 @@ class _SeatMainState extends State<ReviewMain> {
                       onPressed: () {
                         setState(() {
                           _reviewController.showModalSheet(
-                              context, selectedZone);
+                              context, reviewList, selectedZone);
                         });
                       },
                       child: const Text(
