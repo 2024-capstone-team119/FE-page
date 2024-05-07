@@ -49,6 +49,7 @@ class ContentController extends GetxController {
     contentsamples.insert(insertIndex, updatedContent);
   }
 
+  // 좋아요
   List<Content> getAllLikedContents(String category) {
     // category와 동일한 이름을 가진 모든 Content 목록을 찾습니다.
     List<Content> categoryContents = contentsamples
@@ -81,7 +82,7 @@ class ContentController extends GetxController {
   }
 
   // 댓글
-  void updateComment(int postId, String commentContent) {
+  void addComment(int postId, String commentContent) {
     final int index =
         contents.indexWhere((content) => content.postId == postId);
 
@@ -93,5 +94,20 @@ class ContentController extends GetxController {
       // RxList에 변화가 있음을 감지하고 UI를 업데이트합니다.
       contents.refresh();
     }
+  }
+
+  void updateComment(int postId, int commentId, String commentContent) {
+    final int index =
+        contents.indexWhere((content) => content.postId == postId);
+
+    final Comment updateComment =
+        Comment(commentId: commentId, commentContent: commentContent);
+
+    int existingIndex = contents[index]
+        .comment
+        .indexWhere((comment) => comment.commentId == updateComment.commentId);
+
+    // 기존 댓글이 존재하는 경우 해당 위치에 댓글을 수정
+    contents[index].comment[existingIndex] = updateComment;
   }
 }

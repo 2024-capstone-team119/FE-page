@@ -32,6 +32,9 @@ class _ContentDetailState extends State<MyContentDetail> {
   final TextEditingController _commentController = TextEditingController();
   final FocusNode _commentFocusNode = FocusNode();
 
+  // _editingComment 변수를 추가하여 수정할 댓글을 저장합니다.
+  Comment? _editingComment;
+
   @override
   void initState() {
     super.initState();
@@ -235,6 +238,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                 focusNode: _commentFocusNode,
                 cursorColor: Colors.grey,
                 textInputAction: TextInputAction.search,
+                // 수정할 댓글이 있다면 초기값으로 설정합니다.
                 decoration: InputDecoration(
                   hintText: '댓글을 입력하세요.',
                   border: InputBorder.none,
@@ -244,20 +248,36 @@ class _ContentDetailState extends State<MyContentDetail> {
                       color: Colors.deepPurple,
                     ),
                     onPressed: () {
-                      addComment(_commentController.text);
+                      // 수정할 댓글이 있다면 해당 댓글을 수정합니다.
+                      if (_editingComment != null) {
+                        editComment(
+                          _editingComment!,
+                          _commentController.text,
+                        );
+                      } else {
+                        addComment(_commentController.text);
+                      }
                       _commentController.clear();
                       _commentFocusNode.unfocus();
+
+                      _editingComment = null;
                     },
                   ),
                 ),
                 onEditingComplete: () async {
-                  await showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      addComment(_commentController.text);
-                      return const AlertDialog();
-                    },
-                  );
+                  // 수정할 댓글이 있다면 해당 댓글을 수정합니다.
+                  if (_editingComment != null) {
+                    editComment(_editingComment!, _commentController.text);
+                  } else {
+                    await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        addComment(_commentController.text);
+                        return const AlertDialog();
+                      },
+                    );
+                  }
+                  _commentController.clear();
                 },
               ),
             ),
@@ -271,7 +291,23 @@ class _ContentDetailState extends State<MyContentDetail> {
     if (comment.isNotEmpty) {
       setState(() {
         // Update content controller's state
-        _contentController.updateComment(widget.content.postId, comment);
+        _contentController.addComment(widget.content.postId, comment);
+        // Clear the input field
+        _commentController.clear();
+      });
+    }
+  }
+
+  void editComment(Comment comment, String updatedContent) {
+    if (updatedContent.isNotEmpty) {
+      setState(() {
+        // Update content controller's state
+        _contentController.updateComment(
+          widget.content.postId,
+          comment.commentId,
+          updatedContent,
+        );
+
         // Clear the input field
         _commentController.clear();
       });
@@ -335,17 +371,14 @@ class _ContentDetailState extends State<MyContentDetail> {
                             CupertinoActionSheetAction(
                               child: const Text('수정'),
                               onPressed: () {
-                                Get.to(MyContentUpdate(
-                                  initialCategory: widget.tabIdx ?? 0,
-                                  category: widget.category,
-                                  originContent: widget.content,
-                                  title: _contentController
-                                      .getContent(widget.content.postId)!
-                                      .title,
-                                  content: _contentController
-                                      .getContent(widget.content.postId)!
-                                      .content,
-                                ));
+                                Get.back();
+                                // 수정할 댓글 내용을 입력 필드에 채웁니다.
+                                setState(() {
+                                  _editingComment = comment;
+                                  _commentController.text =
+                                      comment.commentContent;
+                                  _commentFocusNode.requestFocus();
+                                });
                               },
                             ),
                             CupertinoActionSheetAction(
