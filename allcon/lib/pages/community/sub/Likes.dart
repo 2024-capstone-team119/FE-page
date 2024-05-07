@@ -27,7 +27,6 @@ class MyContentLikes extends StatefulWidget {
 class _MyContentLikesState extends State<MyContentLikes> {
   late ContentController _contentController;
   late String _selectedCategory;
-  late int _selectedCategoryIndex;
   List<Content> likedContents = [];
 
   @override
@@ -35,14 +34,12 @@ class _MyContentLikesState extends State<MyContentLikes> {
     super.initState();
     _contentController = widget.contentController;
     _selectedCategory = widget.initialCategory;
-    _selectedCategoryIndex = widget.tabIdx;
     _updateLikedContents();
   }
 
   // 좋아요된 콘텐츠 목록을 업데이트하는 함수
   void _updateLikedContents() {
-    likedContents =
-        _contentController.getAllLikedContents(_selectedCategoryIndex);
+    likedContents = _contentController.getAllLikedContents(_selectedCategory);
   }
 
   @override
@@ -60,9 +57,6 @@ class _MyContentLikesState extends State<MyContentLikes> {
               onChanged: (value) {
                 setState(() {
                   _selectedCategory = value.toString();
-                  // 선택된 카테고리의 인덱스 찾기
-                  _selectedCategoryIndex = ['자유게시판', '후기', '카풀']
-                      .indexWhere((category) => category == value);
                   _updateLikedContents();
                 });
               },

@@ -324,6 +324,53 @@ class _ContentDetailState extends State<MyContentDetail> {
                       ],
                     ),
                   ),
+                  GestureDetector(
+                    onTap: () {
+                      showCupertinoModalPopup(
+                        context: context,
+                        builder: (BuildContext sheetContext) =>
+                            CupertinoActionSheet(
+                          title: const Text('옵션'),
+                          actions: <Widget>[
+                            CupertinoActionSheetAction(
+                              child: const Text('수정'),
+                              onPressed: () {
+                                Get.to(MyContentUpdate(
+                                  initialCategory: widget.tabIdx ?? 0,
+                                  category: widget.category,
+                                  originContent: widget.content,
+                                  title: _contentController
+                                      .getContent(widget.content.postId)!
+                                      .title,
+                                  content: _contentController
+                                      .getContent(widget.content.postId)!
+                                      .content,
+                                ));
+                              },
+                            ),
+                            CupertinoActionSheetAction(
+                              child: const Text('삭제'),
+                              onPressed: () {
+                                // You can handle content deletion
+                              },
+                            ),
+                          ],
+                          cancelButton: CupertinoActionSheetAction(
+                            isDefaultAction: true,
+                            onPressed: () {
+                              Navigator.pop(context, '취소');
+                            },
+                            child: const Text('취소'),
+                          ),
+                        ),
+                      );
+                    },
+                    child: const Icon(
+                      Icons.more_vert,
+                      size: 20,
+                      color: Colors.black54,
+                    ),
+                  ),
                 ],
               ),
             ],
