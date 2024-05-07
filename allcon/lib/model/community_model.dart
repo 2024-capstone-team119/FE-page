@@ -1,28 +1,7 @@
 // 커뮤니티 글 모델
 
-class Category {
-  int tabIdx;
-  String name;
-  List<Content> content;
-
-  Category({
-    required this.tabIdx,
-    required this.name,
-    required this.content,
-  });
-
-  factory Category.fromJson(Map<String, dynamic> json) {
-    return Category(
-      tabIdx: json['tabIdx'],
-      name: json['name'],
-      content: (json['content'] as List<dynamic>)
-          .map((contentJson) => Content.fromJson(contentJson))
-          .toList(),
-    );
-  }
-}
-
 class Content {
+  final String category;
   final int postId;
   final String writer;
   final String title;
@@ -33,6 +12,7 @@ class Content {
   final List<Comment> comment;
 
   Content({
+    required this.category,
     required this.postId,
     required this.writer,
     required this.title,
@@ -45,6 +25,7 @@ class Content {
 
   factory Content.fromJson(Map<String, dynamic> json) {
     return Content(
+      category: json['category'],
       postId: json['postId'],
       writer: json['writer'],
       title: json['title'],

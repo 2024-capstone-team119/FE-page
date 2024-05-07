@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class MyContentListView extends StatefulWidget {
-  final int tabIdx;
   final String category;
   final String title;
   final String searchText;
@@ -17,7 +16,6 @@ class MyContentListView extends StatefulWidget {
 
   const MyContentListView({
     super.key,
-    required this.tabIdx,
     required this.category,
     required this.contentController,
     this.title = '',
@@ -33,8 +31,7 @@ class _MyContentListViewState extends State<MyContentListView> {
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // initState 대신 build 메서드 외부에서 초기화
-      widget.contentController
-          .setContentList(contentsamples[widget.tabIdx].content);
+      widget.contentController.setContentList(contentsamples, widget.category);
     });
 
     return Scaffold(
@@ -81,7 +78,6 @@ class _MyContentListViewState extends State<MyContentListView> {
       onTap: () {
         Get.to(() => MyContentDetail(
               category: widget.category,
-              tabIdx: widget.tabIdx,
               content: content,
               contentController: widget.contentController,
             ));
