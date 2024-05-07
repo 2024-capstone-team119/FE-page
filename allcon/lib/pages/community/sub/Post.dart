@@ -108,10 +108,8 @@ class _ContentWriteState extends State<MyContentWrite> {
                   funPageRoute: () {
                     if (_formKey.currentState!.validate()) {
                       Content newContent = Content(
-                        postId: contentsamples[_selectedCategoryIndex]
-                                .content
-                                .length +
-                            1,
+                        category: _selectedCategory,
+                        postId: contentsamples.length,
                         title: _titleController.text,
                         writer: '추가작성자',
                         content: _contentController.text,

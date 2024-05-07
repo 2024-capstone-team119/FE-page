@@ -13,8 +13,12 @@ class ContentController extends GetxController {
   }
 
   // 글 목록
-  void setContentList(List<Content> initialContents) {
-    contents.assignAll(initialContents);
+  void setContentList(List<Content> initialContents, String category) {
+    List<Content> filteredContents = initialContents
+        .where((content) => content.category == category)
+        .toList();
+
+    contents.assignAll(filteredContents);
   }
 
   Content? getContent(int postId) {
@@ -22,61 +26,43 @@ class ContentController extends GetxController {
   }
 
   // 글 업로드
-  void addContent(Content content, int tabIdx, List<Category> contentsamples) {
-    contentsamples[tabIdx].content.add(content);
+  void addContent(Content content, int tabIdx, List<Content> contentsamples) {
+    contentsamples.add(content);
     // RxList에 변화가 있음을 감지하고 UI를 업데이트합니다.
     contents.refresh();
   }
 
   // 글 수정
-  void updateContent(Content updatedContent, int selectedCategoryIndex,
-      String? originCategory) {
-    // 옮길 카테고리의 컨텐트 리스트
-    List<Content> targetCategoryContents =
-        contentsamples[selectedCategoryIndex].content;
-
-    // 수정된 컨텐트의 목표 위치
-    int targetIndex = 0;
-    for (int i = 0; i < targetCategoryContents.length; i++) {
-      if (targetCategoryContents[i].postId > updatedContent.postId) {
-        targetIndex = i;
-        break;
-      }
-    }
-
+  void updateContent(Content updatedContent, int postId) {
     // 수정된 컨텐트 제거
-    int oldCategoryIndex = contentsamples
-        .indexWhere((category) => category.name == originCategory);
-    contentsamples[oldCategoryIndex]
-        .content
+    contentsamples
         .removeWhere((content) => content.postId == updatedContent.postId);
 
-    // 목표 위치에 수정된 컨텐트 추가
-    contentsamples[selectedCategoryIndex].content.insert(
-          targetIndex,
-          updatedContent,
-        );
-
-    // 글 업데이트
-    final int index = contents
-        .indexWhere((content) => content.postId == updatedContent.postId);
-
-    if (index != -1) {
-      contents[index] = updatedContent;
-      update();
+    // 새로운 콘텐츠 추가할 위치 찾기
+    int insertIndex =
+        contentsamples.indexWhere((content) => content.postId < postId);
+    if (insertIndex == -1) {
+      insertIndex = contentsamples.length;
     }
+
+    // 목표 위치에 수정된 컨텐트 추가
+    contentsamples.insert(insertIndex, updatedContent);
   }
 
-  List<Content> getAllLikedContents(int tabIdx) {
-    Category? category = contentsamples
-        .firstWhereOrNull((category) => category.tabIdx == tabIdx);
-    // 해당 Category에서 isLike가 true인 Content 목록을 반환합니다.
-    if (category != null) {
-      return category.content
-          .where((content) => content.isLike == true)
-          .toList();
+  // 좋아요
+  List<Content> getAllLikedContents(String category) {
+    // category와 동일한 이름을 가진 모든 Content 목록을 찾습니다.
+    List<Content> categoryContents = contentsamples
+        .where((content) => content.category == category)
+        .toList();
+
+    // 만약 categoryContents가 비어있다면 빈 리스트를 반환합니다.
+    if (categoryContents.isEmpty) {
+      return [];
     }
-    return [];
+
+    // 해당 Category에서 isLike가 true인 Content 목록을 반환합니다.
+    return categoryContents.where((content) => content.isLike == true).toList();
   }
 
   void toggleLike(int postId) {
@@ -96,7 +82,7 @@ class ContentController extends GetxController {
   }
 
   // 댓글
-  void updateComment(int postId, String commentContent) {
+  void addComment(int postId, String commentContent) {
     final int index =
         contents.indexWhere((content) => content.postId == postId);
 
@@ -108,5 +94,20 @@ class ContentController extends GetxController {
       // RxList에 변화가 있음을 감지하고 UI를 업데이트합니다.
       contents.refresh();
     }
+  }
+
+  void updateComment(int postId, int commentId, String commentContent) {
+    final int index =
+        contents.indexWhere((content) => content.postId == postId);
+
+    final Comment updateComment =
+        Comment(commentId: commentId, commentContent: commentContent);
+
+    int existingIndex = contents[index]
+        .comment
+        .indexWhere((comment) => comment.commentId == updateComment.commentId);
+
+    // 기존 댓글이 존재하는 경우 해당 위치에 댓글을 수정
+    contents[index].comment[existingIndex] = updateComment;
   }
 }

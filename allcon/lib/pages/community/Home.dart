@@ -1,4 +1,3 @@
-import 'package:allcon/Data/Sample/content_sample.dart';
 import 'package:allcon/pages/community/sub/Likes.dart';
 import 'package:allcon/pages/community/sub/Post.dart';
 import 'package:allcon/pages/community/sub/Search.dart';
@@ -21,15 +20,16 @@ class MyCommunity extends StatefulWidget {
 
 class _MyCommunityState extends State<MyCommunity>
     with TickerProviderStateMixin {
+  final List<String> categoryList = ['자유게시판', '후기', '카풀'];
   late final TabController _tabController;
-  String searchText = '';
   late final ContentController _contentController;
+  String searchText = '';
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(
-        length: contentsamples.length,
+        length: categoryList.length,
         vsync: this,
         initialIndex: widget.initialTabIndex);
     _contentController = ContentController();
@@ -58,7 +58,7 @@ class _MyCommunityState extends State<MyCommunity>
           Get.to(MyContentLikes(
             contentController: _contentController,
             tabIdx: _tabController.index,
-            initialCategory: contentsamples[_tabController.index].name,
+            initialCategory: categoryList[_tabController.index],
           ));
         },
       ),
@@ -76,8 +76,8 @@ class _MyCommunityState extends State<MyCommunity>
               backgroundColor: lavenderColor,
               onPressed: () {
                 Get.to(MyContentWrite(
-                  initialCategory: contentsamples[_tabController.index]
-                      .name, // 현재 선택된 탭의 이름 전달
+                  initialCategory:
+                      categoryList[_tabController.index], // 현재 선택된 탭의 이름 전달
                   tabIdx: _tabController.index,
                 ));
               },
@@ -128,25 +128,23 @@ class _MyCommunityState extends State<MyCommunity>
 
   Widget tabBar(BuildContext context, TabController tabController) {
     return DefaultTabController(
-      length: contentsamples.length,
+      length: categoryList.length,
       child: Column(
         children: [
           TabBar(
             controller: tabController,
-            tabs:
-                contentsamples.map((sample) => Tab(text: sample.name)).toList(),
+            tabs: categoryList.map((category) => Tab(text: category)).toList(),
           ),
           Expanded(
             child: TabBarView(
               controller: tabController,
-              children: contentsamples
-                  .map((sample) => MyContentListView(
-                        tabIdx: sample.tabIdx,
-                        category: sample.name,
-                        contentController: _contentController,
-                        searchText: searchText,
-                      ))
-                  .toList(),
+              children: categoryList.map((category) {
+                return MyContentListView(
+                  category: category,
+                  contentController: _contentController,
+                  searchText: searchText,
+                );
+              }).toList(),
             ),
           ),
         ],

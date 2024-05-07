@@ -118,6 +118,7 @@ class _ContentUpdateState extends State<MyContentUpdate> {
                     if (_formKey.currentState!.validate()) {
                       // 수정된 컨텐트
                       Content updatedContent = Content(
+                        category: _selectedCategory!,
                         postId: widget.originContent.postId,
                         writer: widget.originContent.writer,
                         title: _titleController.text,
@@ -129,8 +130,8 @@ class _ContentUpdateState extends State<MyContentUpdate> {
                       );
 
                       // ContentController에 업데이트된 내용을 전달하여 업데이트합니다.
-                      ContentController().updateContent(updatedContent,
-                          _selectedCategoryIndex, widget.category);
+                      ContentController().updateContent(
+                          updatedContent, _selectedCategoryIndex);
 
                       // 수정된 내용을 반영한 MyCommunity 페이지로 이동합니다.
                       Get.to(() => MyCommunity(
