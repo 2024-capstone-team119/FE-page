@@ -13,57 +13,45 @@ class CalendarDate extends StatefulWidget {
 }
 
 class _CalendarDateState extends State<CalendarDate> {
-  final SelectedDayController controller = Get.put(SelectedDayController());
+  final SelectedDayController _dayController =
+      Get.find<SelectedDayController>();
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          calendarDate(context),
-          GetBuilder<SelectedDayController>(
-            builder: (_) => calendarList(context),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget calendarDate(BuildContext context) {
     return GetBuilder<SelectedDayController>(
       builder: (_) {
-        final selectedDay = controller.selectedDay;
+        final selectedDay = _dayController.selectedDay;
         return TableCalendar(
           locale: 'ko_KR',
-          firstDay: DateTime.utc(2021, 10, 16),
-          lastDay: DateTime.utc(2030, 3, 14),
+          rowHeight: 68,
+          availableGestures: AvailableGestures.none,
+          firstDay: DateTime.utc(2021, 01, 01),
+          lastDay: DateTime.utc(2025, 12, 31),
           focusedDay: selectedDay,
           onDaySelected: (selectedDay, focusedDay) {
-            controller.setSelectedDay(selectedDay);
-            setState(() {});
+            _dayController.setSelectedDay(selectedDay);
           },
           selectedDayPredicate: (day) => isSameDay(day, selectedDay),
-          daysOfWeekHeight: 25,
-          headerStyle: HeaderStyle(
+          daysOfWeekHeight: 32,
+          headerStyle: const HeaderStyle(
             titleCentered: true,
-            titleTextFormatter: (date, locale) =>
-                DateFormat.yMMMM(locale).format(date),
             formatButtonVisible: false,
-            titleTextStyle: const TextStyle(
-                fontSize: 18.0,
-                color: Colors.black87,
-                fontWeight: FontWeight.w500),
-            headerPadding: const EdgeInsets.symmetric(vertical: 4.0),
-            leftChevronIcon: const Icon(
+            titleTextStyle: TextStyle(
+              fontSize: 20.0,
+              color: Colors.black87,
+              fontWeight: FontWeight.w500,
+            ),
+            headerPadding: EdgeInsets.symmetric(vertical: 4.0),
+            leftChevronIcon: Icon(
               CupertinoIcons.chevron_left,
               size: 20.0,
             ),
-            rightChevronIcon: const Icon(
+            rightChevronIcon: Icon(
               CupertinoIcons.chevron_right,
               size: 20.0,
             ),
-            leftChevronMargin: const EdgeInsets.only(left: 90.0),
-            rightChevronMargin: const EdgeInsets.only(right: 90.0),
+            leftChevronMargin: EdgeInsets.only(left: 90.0),
+            rightChevronMargin: EdgeInsets.only(right: 90.0),
           ),
           calendarStyle: const CalendarStyle(
             isTodayHighlighted: true,
@@ -76,15 +64,15 @@ class _CalendarDateState extends State<CalendarDate> {
               shape: BoxShape.rectangle,
             ),
             selectedTextStyle: TextStyle(
-                color: lightlavenderColor,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w500),
+              color: lightlavenderColor,
+              fontSize: 14.0,
+              fontWeight: FontWeight.w500,
+            ),
             selectedDecoration: BoxDecoration(
               color: lightMint,
-              shape: BoxShape.circle,
+              shape: BoxShape.rectangle,
             ),
             outsideDaysVisible: false,
-            weekendTextStyle: TextStyle(color: Colors.grey),
             cellAlignment: Alignment.topCenter,
             tableBorder: TableBorder(
               horizontalInside: BorderSide(color: Colors.black12),
@@ -97,7 +85,7 @@ class _CalendarDateState extends State<CalendarDate> {
                     bottom: 0,
                     child: Container(
                       width: 80,
-                      height: 15,
+                      height: 16,
                       alignment: Alignment.center,
                       decoration: const BoxDecoration(
                         color: lavenderColor,
@@ -116,107 +104,30 @@ class _CalendarDateState extends State<CalendarDate> {
             dowBuilder: (context, date) {
               switch (date.weekday) {
                 case 1:
-                  return const Center(
-                    child: Text('MON'),
-                  );
+                  return const Center(child: Text('월'));
                 case 2:
-                  return const Center(
-                    child: Text('TUE'),
-                  );
+                  return const Center(child: Text('화'));
                 case 3:
-                  return const Center(
-                    child: Text('WED'),
-                  );
+                  return const Center(child: Text('수'));
                 case 4:
-                  return const Center(
-                    child: Text('THU'),
-                  );
+                  return const Center(child: Text('목'));
                 case 5:
-                  return const Center(
-                    child: Text('FRI'),
-                  );
+                  return const Center(child: Text('금'));
                 case 6:
                   return const Center(
-                    child: Text(
-                      'SAT',
-                      style: TextStyle(
-                        color: Colors.blueAccent,
-                      ),
-                    ),
-                  );
+                      child:
+                          Text('토', style: TextStyle(color: Colors.redAccent)));
                 case 7:
                   return const Center(
-                    child: Text(
-                      'SUN',
-                      style: TextStyle(
-                        color: Colors.redAccent,
-                      ),
-                    ),
-                  );
+                      child:
+                          Text('일', style: TextStyle(color: Colors.redAccent)));
               }
               return null;
             },
           ),
-          eventLoader: (day) => controller.getEventsForDay(day),
+          eventLoader: (day) => _dayController.getEventsForDay(day),
         );
       },
     );
-  }
-
-  Widget calendarList(BuildContext context) {
-    final selectedDayEvents =
-        controller.getEventsForDay(controller.selectedDay);
-    return selectedDayEvents.isEmpty
-        ? const SizedBox.shrink()
-        : Theme(
-            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-            child: ExpansionTile(
-              title: Row(
-                children: [
-                  const SizedBox(width: 5.0),
-                  Text(
-                    DateFormat('yyyy.MM.dd').format(controller.selectedDay),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
-              initiallyExpanded: false,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: selectedDayEvents.map((performance) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width * 0.95,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 12.0),
-                        margin: const EdgeInsets.only(bottom: 8.0),
-                        decoration: BoxDecoration(
-                          color: lavenderColor,
-                          border: Border.all(
-                              color: Colors.deepPurple.withOpacity(0.05)),
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              performance.name ?? '',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ],
-            ),
-          );
   }
 }
