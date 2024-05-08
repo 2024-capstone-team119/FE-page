@@ -37,21 +37,48 @@ class OlympicChaejo extends StatelessWidget {
       return Positioned(
         left: x + 50,
         top: y,
-        child: CustomPaint(
-          size: const Size(30, 45),
-          painter: TrapezoidCurvePainter(
-            color: secondFloor,
-            topStartX: 0, // topStartX부터 topEndX == 도형 높이
-            topEndX: 60,
-            topStartY: 49,
-            topEndY: 55,
-            bottomStartX: 0, // bottomStartX부터 bottomEndX == 도형 높이
-            bottomEndX: 60,
-            bottomStartY: 3,
-            bottomEndY: -3,
-            curveIntensity: 40,
-            rotationAngle: angle * 180 / math.pi,
-          ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            CustomPaint(
+              size: const Size(30, 45),
+              painter: TrapezoidCurvePainter(
+                color: secondFloor,
+                topStartX: 0, // topStartX부터 topEndX == 도형 높이
+                topEndX: 60,
+                topStartY: 49,
+                topEndY: 55,
+                bottomStartX: 0, // bottomStartX부터 bottomEndX == 도형 높이
+                bottomEndX: 60,
+                bottomStartY: 3,
+                bottomEndY: -3,
+                curveIntensity: 40,
+                rotationAngle: angle * 180 / math.pi,
+              ),
+            ),
+            if (index < 12)
+              Center(
+                child: Text(
+                  '${index + 41}구역',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            if (index >= 12)
+              Center(
+                child: Text(
+                  '${index + 11}구역',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+          ],
         ),
       );
     });

@@ -74,6 +74,17 @@ class Floor extends StatelessWidget {
               child: const SizedBox(
                 width: 80,
                 height: 120,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(19.0, 65.0, 0.0, 0.0),
+                  child: Text(
+                    '1구역',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
               ),
             ),
             const SizedBox(width: 8),
@@ -81,12 +92,32 @@ class Floor extends StatelessWidget {
               width: 140,
               height: 120,
               color: Ground,
+              child: const Center(
+                child: Text(
+                  '2구역',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(width: 8),
             Container(
               width: 140,
               height: 120,
               color: Ground,
+              child: const Center(
+                child: Text(
+                  '3구역',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(width: 8),
             CustomPaint(
@@ -100,6 +131,17 @@ class Floor extends StatelessWidget {
               child: const SizedBox(
                 width: 80,
                 height: 120,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(16.0, 65.0, 0.0, 0.0),
+                  child: Text(
+                    '4구역',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
@@ -111,24 +153,64 @@ class Floor extends StatelessWidget {
               width: 80,
               height: 80,
               color: secondFloor,
+              child: const Center(
+                child: Text(
+                  '5구역',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(width: 8),
             Container(
               width: 140,
               height: 80,
               color: Ground,
+              child: const Center(
+                child: Text(
+                  '6구역',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(width: 8),
             Container(
               width: 140,
               height: 80,
               color: Ground,
+              child: const Center(
+                child: Text(
+                  '7구역',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(width: 8),
             Container(
               width: 80,
               height: 80,
               color: secondFloor,
+              child: const Center(
+                child: Text(
+                  '8구역',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -139,6 +221,16 @@ class Floor extends StatelessWidget {
               width: 80,
               height: 50,
               color: secondFloor,
+              child: const Center(
+                child: Text(
+                  '9구역',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(width: 8),
             Column(
@@ -148,6 +240,16 @@ class Floor extends StatelessWidget {
                   width: 140,
                   height: 30,
                   color: secondFloor,
+                  child: const Center(
+                    child: Text(
+                      '10구역',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
                 ),
                 Container(
                   width: 60,
@@ -164,6 +266,16 @@ class Floor extends StatelessWidget {
                   width: 140,
                   height: 30,
                   color: secondFloor,
+                  child: const Center(
+                    child: Text(
+                      '11구역',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
                 ),
                 Container(
                   width: 60,
@@ -177,6 +289,16 @@ class Floor extends StatelessWidget {
               width: 80,
               height: 50,
               color: secondFloor,
+              child: const Center(
+                child: Text(
+                  '12구역',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

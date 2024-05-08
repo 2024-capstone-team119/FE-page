@@ -1,6 +1,7 @@
 import 'package:allcon/pages/review/layout/customFigure/Trapezoid.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class BlueSquareMasterCard extends StatelessWidget {
   const BlueSquareMasterCard({super.key});
@@ -56,12 +57,32 @@ Widget standing(BuildContext context) {
             width: 135,
             height: 120,
             color: Ground,
+            child: const Center(
+              child: Text(
+                '1구역',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
           ),
           const SizedBox(width: 40),
           Container(
             width: 135,
             height: 120,
             color: Ground,
+            child: const Center(
+              child: Text(
+                '2구역',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -69,27 +90,67 @@ Widget standing(BuildContext context) {
       Row(
         children: [
           Container(
-            width: 10,
+            width: 45,
             height: 50,
             color: secondFloor,
+            child: const Center(
+              child: Text(
+                '5구역',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
           ),
           const SizedBox(width: 25),
           Container(
             width: 85,
             height: 50,
             color: Ground,
+            child: const Center(
+              child: Text(
+                '3구역',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
           ),
           const SizedBox(width: 140),
           Container(
             width: 85,
             height: 50,
             color: Ground,
+            child: const Center(
+              child: Text(
+                '4구역',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
           ),
           const SizedBox(width: 25),
           Container(
-            width: 10,
+            width: 45,
             height: 50,
             color: secondFloor,
+            child: const Center(
+              child: Text(
+                '5구역',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -113,6 +174,17 @@ Widget second(BuildContext context) {
         child: const SizedBox(
           width: 140,
           height: 50,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(90.0, 13.5, 0.0, 0.0),
+            child: Text(
+              '6구역',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
         ),
       ),
       const SizedBox(width: 15),
@@ -129,6 +201,17 @@ Widget second(BuildContext context) {
         child: const SizedBox(
           width: 140,
           height: 50,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(53.0, 13.5, 0.0, 0.0),
+            child: Text(
+              '7구역',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
         ),
       ),
       const SizedBox(width: 10),
@@ -144,6 +227,17 @@ Widget second(BuildContext context) {
         child: const SizedBox(
           width: 140,
           height: 50,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(15.0, 13.5, 0.0, 0.0),
+            child: Text(
+              '8구역',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
         ),
       ),
     ],
