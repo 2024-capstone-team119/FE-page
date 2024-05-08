@@ -126,7 +126,7 @@ class _ContentUpdateState extends State<MyContentUpdate> {
                         date: widget.originContent.date,
                         isLike: widget.originContent.isLike,
                         likeCounts: widget.originContent.likeCounts,
-                        comment: widget.originContent.comment,
+                        commentCounts: widget.originContent.commentCounts,
                       );
 
                       // ContentController에 업데이트된 내용을 전달하여 업데이트합니다.

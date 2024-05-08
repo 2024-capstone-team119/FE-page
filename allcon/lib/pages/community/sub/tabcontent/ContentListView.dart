@@ -74,6 +74,7 @@ class _MyContentListViewState extends State<MyContentListView> {
     int index,
   ) {
     DateTime dateTime = DateFormat('yyyy-MM-dd').parse(content.date.toString());
+
     return GestureDetector(
       onTap: () {
         Get.to(() => MyContentDetail(
@@ -153,7 +154,7 @@ class _MyContentListViewState extends State<MyContentListView> {
                             const SizedBox(width: 4.0),
                             Obx(
                               () => Text(
-                                "${widget.contentController.contents[index].comment.length}",
+                                "${widget.contentController.contents[index].commentCounts}",
                                 style: const TextStyle(
                                   color: Colors.blueAccent,
                                 ),
