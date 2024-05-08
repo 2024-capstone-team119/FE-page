@@ -1,3 +1,4 @@
+import 'package:allcon/Data/Sample/content_sample.dart';
 import 'package:allcon/pages/community/controller/content_controller.dart';
 import 'package:allcon/pages/community/sub/Update.dart';
 import 'package:allcon/widget/app_bar.dart';
@@ -38,6 +39,8 @@ class _ContentDetailState extends State<MyContentDetail> {
   @override
   void initState() {
     super.initState();
+    widget.contentController
+        .setCommentList(commentsamples, widget.content.postId);
   }
 
   @override
@@ -192,7 +195,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              '${_contentController.getContent(widget.content.postId)?.comment.length ?? 0}',
+                              '${_contentController.comments.length}',
                               style: const TextStyle(
                                 color: Colors.blueAccent,
                               ),
@@ -207,8 +210,8 @@ class _ContentDetailState extends State<MyContentDetail> {
                     width: 450.0,
                     color: Colors.grey[300],
                   ),
-                  for (int i = 0; i < widget.content.comment.length; i++)
-                    commentBox(context, widget.content.comment[i], i),
+                  for (int i = 0; i < _contentController.comments.length; i++)
+                    commentBox(context, _contentController.comments[i], i),
                   const SizedBox(height: 65),
                 ],
               ),
@@ -287,11 +290,15 @@ class _ContentDetailState extends State<MyContentDetail> {
     );
   }
 
-  void addComment(String comment) {
-    if (comment.isNotEmpty) {
+  void addComment(String commentContent) {
+    if (commentContent.isNotEmpty) {
       setState(() {
         // Update content controller's state
-        _contentController.addComment(widget.content.postId, comment);
+        _contentController.addComment(
+          widget.content.postId,
+          widget.content.commentCounts,
+          commentContent,
+        );
         // Clear the input field
         _commentController.clear();
       });

@@ -155,7 +155,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
                             ),
                             const SizedBox(width: 4.0),
                             Text(
-                              "${content.comment.length}",
+                              "${_contentController.comments.length}",
                               style: const TextStyle(
                                 color: Colors.blueAccent,
                               ),

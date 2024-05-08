@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 class ContentController extends GetxController {
   RxList<Content> contents = <Content>[].obs;
+  RxList<Comment> comments = <Comment>[].obs;
   RxInt commentCount = 0.obs; // 댓글 수 추적하는 변수
 
   ContentController._internal();
@@ -28,40 +29,29 @@ class ContentController extends GetxController {
   // 글 업로드
   void addContent(Content content, int tabIdx, List<Content> contentsamples) {
     contentsamples.add(content);
-    // RxList에 변화가 있음을 감지하고 UI를 업데이트합니다.
     contents.refresh();
   }
 
   // 글 수정
   void updateContent(Content updatedContent, int postId) {
-    // 수정된 컨텐트 제거
     contentsamples
         .removeWhere((content) => content.postId == updatedContent.postId);
-
-    // 새로운 콘텐츠 추가할 위치 찾기
     int insertIndex =
         contentsamples.indexWhere((content) => content.postId < postId);
     if (insertIndex == -1) {
       insertIndex = contentsamples.length;
     }
-
-    // 목표 위치에 수정된 컨텐트 추가
     contentsamples.insert(insertIndex, updatedContent);
   }
 
   // 좋아요
   List<Content> getAllLikedContents(String category) {
-    // category와 동일한 이름을 가진 모든 Content 목록을 찾습니다.
     List<Content> categoryContents = contentsamples
         .where((content) => content.category == category)
         .toList();
-
-    // 만약 categoryContents가 비어있다면 빈 리스트를 반환합니다.
     if (categoryContents.isEmpty) {
       return [];
     }
-
-    // 해당 Category에서 isLike가 true인 Content 목록을 반환합니다.
     return categoryContents.where((content) => content.isLike == true).toList();
   }
 
@@ -81,33 +71,52 @@ class ContentController extends GetxController {
     }
   }
 
-  // 댓글
-  void addComment(int postId, String commentContent) {
+  // 댓글 목록
+  void setCommentList(List<Comment> initialComments, int postId) {
+    List<Comment> filteredComments =
+        initialComments.where((comment) => comment.postId == postId).toList();
+    comments.assignAll(filteredComments);
+  }
+
+  Comment? getComment(int index) {
+    return comments[index];
+  }
+
+// 댓글 추가
+  void addComment(int postId, int commentId, String commentContent) {
+    final Comment comment = Comment(
+        postId: postId, commentId: commentId, commentContent: commentContent);
+
+    // comments RxList에 댓글 추가
+    commentsamples.add(comment);
+    comments.add(comment);
+
+    // 해당 글의 댓글 수 업데이트
     final int index =
         contents.indexWhere((content) => content.postId == postId);
-
     if (index != -1) {
-      final Comment comment =
-          Comment(commentId: postId, commentContent: commentContent);
-      contents[index].comment.add(comment);
-      commentCount.value++;
-      // RxList에 변화가 있음을 감지하고 UI를 업데이트합니다.
+      contents[index].commentCounts++;
       contents.refresh();
     }
   }
 
+  // 댓글 수정
   void updateComment(int postId, int commentId, String commentContent) {
-    final int index =
-        contents.indexWhere((content) => content.postId == postId);
+    Comment updatedComment = Comment(
+        postId: postId, commentId: commentId, commentContent: commentContent);
 
-    final Comment updateComment =
-        Comment(commentId: commentId, commentContent: commentContent);
+    // commentsamples 리스트에서 수정된 댓글 업데이트
+    commentsamples.removeWhere((comment) => comment.commentId == commentId);
+    commentsamples.insert(commentId, updatedComment);
 
-    int existingIndex = contents[index]
-        .comment
-        .indexWhere((comment) => comment.commentId == updateComment.commentId);
+    // comments 리스트에서도 수정된 댓글 업데이트
+    int index =
+        comments.indexWhere((comment) => comment.commentId == commentId);
+    if (index != -1) {
+      comments[index] = updatedComment;
+    }
 
-    // 기존 댓글이 존재하는 경우 해당 위치에 댓글을 수정
-    contents[index].comment[existingIndex] = updateComment;
+    // 화면을 다시 그리기 위해 갱신
+    comments.refresh();
   }
 }

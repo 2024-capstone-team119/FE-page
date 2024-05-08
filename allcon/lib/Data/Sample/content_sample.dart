@@ -10,14 +10,7 @@ List<Content> contentsamples = [
     date: DateTime.now(),
     isLike: false,
     likeCounts: 0,
-    comment: [
-      Comment(commentId: 0, commentContent: "뭐하는 어플이야?"),
-      Comment(commentId: 1, commentContent: "올콘이야😂"),
-      Comment(commentId: 2, commentContent: "믿고 써볼게!!!"),
-      Comment(commentId: 3, commentContent: "댓글4"),
-      Comment(commentId: 4, commentContent: "댓글5"),
-      Comment(commentId: 5, commentContent: "댓글6"),
-    ],
+    commentCounts: 6,
   ),
   Content(
     category: '자유게시판',
@@ -28,10 +21,7 @@ List<Content> contentsamples = [
     date: DateTime.now(),
     isLike: false,
     likeCounts: 0,
-    comment: [
-      Comment(commentId: 0, commentContent: "뭐하는 어플이야?"),
-      Comment(commentId: 5, commentContent: "댓글6"),
-    ],
+    commentCounts: 2,
   ),
   Content(
     category: '자유게시판',
@@ -42,12 +32,7 @@ List<Content> contentsamples = [
     date: DateTime.now(),
     isLike: false,
     likeCounts: 0,
-    comment: [
-      Comment(commentId: 0, commentContent: "뭐하는 어플이야?"),
-      Comment(commentId: 1, commentContent: "올콘이야😂"),
-      Comment(commentId: 4, commentContent: "댓글5"),
-      Comment(commentId: 5, commentContent: "댓글6"),
-    ],
+    commentCounts: 4,
   ),
   Content(
     category: '자유게시판',
@@ -58,11 +43,7 @@ List<Content> contentsamples = [
     date: DateTime.now(),
     isLike: false,
     likeCounts: 0,
-    comment: [
-      Comment(commentId: 3, commentContent: "댓글4"),
-      Comment(commentId: 4, commentContent: "댓글5"),
-      Comment(commentId: 5, commentContent: "댓글6"),
-    ],
+    commentCounts: 3,
   ),
   Content(
     category: '자유게시판',
@@ -73,10 +54,7 @@ List<Content> contentsamples = [
     date: DateTime.now(),
     isLike: false,
     likeCounts: 0,
-    comment: [
-      Comment(commentId: 0, commentContent: "뭐하는 어플이야?"),
-      Comment(commentId: 1, commentContent: "올콘이야😂"),
-    ],
+    commentCounts: 4,
   ),
   Content(
     category: '자유게시판',
@@ -87,9 +65,7 @@ List<Content> contentsamples = [
     date: DateTime.now(),
     isLike: false,
     likeCounts: 0,
-    comment: [
-      Comment(commentId: 0, commentContent: "뭐하는 어플이야?"),
-    ],
+    commentCounts: 1,
   ),
   Content(
     category: '자유게시판',
@@ -100,11 +76,7 @@ List<Content> contentsamples = [
     date: DateTime.now(),
     isLike: false,
     likeCounts: 0,
-    comment: [
-      Comment(commentId: 0, commentContent: "뭐하는 어플이야?"),
-      Comment(commentId: 1, commentContent: "올콘이야😂"),
-      Comment(commentId: 2, commentContent: "믿고 써볼게!!!"),
-    ],
+    commentCounts: 3,
   ),
   Content(
     category: '자유게시판',
@@ -115,10 +87,7 @@ List<Content> contentsamples = [
     date: DateTime.now(),
     isLike: false,
     likeCounts: 0,
-    comment: [
-      Comment(commentId: 1, commentContent: "올콘이야😂"),
-      Comment(commentId: 2, commentContent: "믿고 써볼게!!!"),
-    ],
+    commentCounts: 2,
   ),
   Content(
     category: '자유게시판',
@@ -129,9 +98,7 @@ List<Content> contentsamples = [
     date: DateTime.now(),
     isLike: false,
     likeCounts: 0,
-    comment: [
-      Comment(commentId: 1, commentContent: "올콘이야😂"),
-    ],
+    commentCounts: 1,
   ),
   Content(
     category: '후기',
@@ -142,11 +109,7 @@ List<Content> contentsamples = [
     date: DateTime.now(),
     isLike: false,
     likeCounts: 0,
-    comment: [
-      Comment(commentId: 0, commentContent: "뭐하는 어플이야?"),
-      Comment(commentId: 1, commentContent: "올콘이야😂"),
-      Comment(commentId: 2, commentContent: "믿고 써볼게!!!"),
-    ],
+    commentCounts: 3,
   ),
   Content(
     category: '후기',
@@ -157,10 +120,7 @@ List<Content> contentsamples = [
     date: DateTime.now(),
     isLike: false,
     likeCounts: 0,
-    comment: [
-      Comment(commentId: 0, commentContent: "뭐하는 어플이야?"),
-      Comment(commentId: 2, commentContent: "믿고 써볼게!!!"),
-    ],
+    commentCounts: 0,
   ),
   Content(
     category: '후기',
@@ -171,7 +131,7 @@ List<Content> contentsamples = [
     date: DateTime.now(),
     isLike: false,
     likeCounts: 0,
-    comment: [],
+    commentCounts: 1,
   ),
   Content(
     category: '카풀',
@@ -182,11 +142,7 @@ List<Content> contentsamples = [
     date: DateTime.now(),
     isLike: false,
     likeCounts: 0,
-    comment: [
-      Comment(commentId: 0, commentContent: "뭐하는 어플이야?"),
-      Comment(commentId: 1, commentContent: "올콘이야😂"),
-      Comment(commentId: 2, commentContent: "믿고 써볼게!!!"),
-    ],
+    commentCounts: 3,
   ),
   Content(
     category: '카풀',
@@ -197,8 +153,43 @@ List<Content> contentsamples = [
     date: DateTime.now(),
     isLike: false,
     likeCounts: 0,
-    comment: [
-      Comment(commentId: 1, commentContent: "올콘이야😂"),
-    ],
+    commentCounts: 1,
   ),
+];
+
+List<Comment> commentsamples = [
+  Comment(postId: 0, commentId: 0, commentContent: "뭐하는 어플이야?"),
+  Comment(postId: 0, commentId: 1, commentContent: "올콘이야😂"),
+  Comment(postId: 0, commentId: 2, commentContent: "믿고 써볼게!!!"),
+  Comment(postId: 0, commentId: 3, commentContent: "댓글4"),
+  Comment(postId: 0, commentId: 4, commentContent: "댓글5"),
+  Comment(postId: 0, commentId: 5, commentContent: "댓글6"),
+  Comment(postId: 1, commentId: 6, commentContent: "뭐하는 어플이야?"),
+  Comment(postId: 1, commentId: 7, commentContent: "댓글6"),
+  Comment(postId: 2, commentId: 8, commentContent: "뭐하는 어플이야?"),
+  Comment(postId: 2, commentId: 9, commentContent: "올콘이야😂"),
+  Comment(postId: 2, commentId: 10, commentContent: "댓글5"),
+  Comment(postId: 2, commentId: 11, commentContent: "댓글6"),
+  Comment(postId: 3, commentId: 12, commentContent: "댓글4"),
+  Comment(postId: 3, commentId: 13, commentContent: "댓글5"),
+  Comment(postId: 3, commentId: 14, commentContent: "댓글6"),
+  Comment(postId: 4, commentId: 15, commentContent: "뭐하는 어플이야?"),
+  Comment(postId: 4, commentId: 16, commentContent: "믿고 써볼게!!!"),
+  Comment(postId: 4, commentId: 17, commentContent: "뭐하는 어플이야?"),
+  Comment(postId: 4, commentId: 18, commentContent: "올콘이야😂"),
+  Comment(postId: 5, commentId: 19, commentContent: "뭐하는 어플이야?"),
+  Comment(postId: 6, commentId: 20, commentContent: "뭐하는 어플이야?"),
+  Comment(postId: 6, commentId: 21, commentContent: "올콘이야😂"),
+  Comment(postId: 6, commentId: 22, commentContent: "믿고 써볼게!!!"),
+  Comment(postId: 7, commentId: 23, commentContent: "올콘이야😂"),
+  Comment(postId: 7, commentId: 24, commentContent: "믿고 써볼게!!!"),
+  Comment(postId: 8, commentId: 25, commentContent: "올콘이야😂"),
+  Comment(postId: 9, commentId: 26, commentContent: "뭐하는 어플이야?"),
+  Comment(postId: 9, commentId: 27, commentContent: "올콘이야😂"),
+  Comment(postId: 9, commentId: 28, commentContent: "믿고 써볼게!!!"),
+  Comment(postId: 11, commentId: 29, commentContent: "올콘이야😂"),
+  Comment(postId: 12, commentId: 30, commentContent: "뭐하는 어플이야?"),
+  Comment(postId: 12, commentId: 31, commentContent: "올콘이야😂"),
+  Comment(postId: 12, commentId: 32, commentContent: "믿고 써볼게!!!"),
+  Comment(postId: 13, commentId: 33, commentContent: "올콘이야😂"),
 ];

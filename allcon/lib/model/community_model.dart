@@ -9,7 +9,7 @@ class Content {
   final DateTime date;
   late bool isLike;
   late int likeCounts;
-  final List<Comment> comment;
+  late int commentCounts;
 
   Content({
     required this.category,
@@ -20,7 +20,7 @@ class Content {
     required this.date,
     required this.isLike,
     required this.likeCounts,
-    required this.comment,
+    required this.commentCounts,
   });
 
   factory Content.fromJson(Map<String, dynamic> json) {
@@ -33,19 +33,19 @@ class Content {
       date: DateTime.parse(json['date']),
       isLike: json['isLike'],
       likeCounts: json['likeCounts'],
-      comment: (json['comment'] as List<dynamic>)
-          .map((commentJson) => Comment.fromJson(commentJson))
-          .toList(),
+      commentCounts: json['commentCounts'],
     );
   }
 }
 
 class Comment {
+  int postId;
   int commentId;
   String commentWriter;
   String commentContent;
 
   Comment({
+    required this.postId,
     required this.commentId,
     this.commentWriter = '댓익명',
     required this.commentContent,
@@ -53,7 +53,9 @@ class Comment {
 
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
+      postId: json['postId'],
       commentId: json['commentId'],
+      commentWriter: json['commentWriter'],
       commentContent: json['commentContent'],
     );
   }

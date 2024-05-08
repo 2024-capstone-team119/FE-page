@@ -116,7 +116,7 @@ class _ContentWriteState extends State<MyContentWrite> {
                         date: DateTime.now(),
                         isLike: false,
                         likeCounts: 0,
-                        comment: [],
+                        commentCounts: 0,
                       );
                       // 선택된 카테고리의 인덱스 전달
                       ContentController().addContent(
