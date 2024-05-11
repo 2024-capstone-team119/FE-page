@@ -157,7 +157,7 @@ final seoulHall = [
   ),
   Hall(
     hallIdx: 2,
-    hallName: '예스24 라이브홀 (구.악스코리아)',
+    hallName: '예스24 라이브홀 (구. 악스코리아)',
     seatingChart: const Yes24LiveHall(),
     zone: [
       Zone(zoneIdx: 0, zoneName: 'A구역', review: [

@@ -1,4 +1,4 @@
-import 'package:allcon/Data/Sample/content_sample.dart';
+import 'package:allcon/Data/Sample/community_sample.dart';
 import 'package:allcon/pages/community/Home.dart';
 import 'package:allcon/utils/validator_util.dart';
 import 'package:allcon/widget/app_bar.dart';
@@ -107,20 +107,22 @@ class _ContentWriteState extends State<MyContentWrite> {
                   text: "업로드",
                   funPageRoute: () {
                     if (_formKey.currentState!.validate()) {
-                      Content newContent = Content(
+                      Post newContent = Post(
                         category: _selectedCategory,
-                        postId: contentsamples.length,
+                        postId: '${postsamples.length}',
+                        userId: '0',
                         title: _titleController.text,
-                        writer: '추가작성자',
-                        content: _contentController.text,
-                        date: DateTime.now(),
-                        isLike: false,
+                        nickname: '추가작성자',
+                        text: _contentController.text,
+                        createdAt: DateTime.now(),
+                        updatedAt: DateTime.now(),
+                        likes: [],
                         likeCounts: 0,
-                        commentCounts: 0,
+                        commentCount: 0,
                       );
                       // 선택된 카테고리의 인덱스 전달
                       ContentController().addContent(
-                          newContent, _selectedCategoryIndex, contentsamples);
+                          newContent, _selectedCategoryIndex, postsamples);
                       // 업로드 후 초기화
                       _titleController.clear();
                       _contentController.clear();

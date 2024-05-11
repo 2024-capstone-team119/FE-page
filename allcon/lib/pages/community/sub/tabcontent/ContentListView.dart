@@ -1,4 +1,4 @@
-import 'package:allcon/Data/Sample/content_sample.dart';
+import 'package:allcon/Data/Sample/community_sample.dart';
 import 'package:allcon/pages/community/sub/GetPost.dart';
 import 'package:allcon/pages/community/controller/content_controller.dart';
 import 'package:allcon/model/community_model.dart';
@@ -31,7 +31,7 @@ class _MyContentListViewState extends State<MyContentListView> {
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // initState 대신 build 메서드 외부에서 초기화
-      widget.contentController.setContentList(contentsamples, widget.category);
+      widget.contentController.setContentList(postsamples, widget.category);
     });
 
     return Scaffold(
@@ -40,14 +40,14 @@ class _MyContentListViewState extends State<MyContentListView> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Obx(() => ListView.builder(
-              itemCount: widget.contentController.contents.length,
+              itemCount: widget.contentController.posts.length,
               itemBuilder: (context, index) {
                 // 거꾸로 된 인덱스 계산
                 final reversedIndex =
-                    widget.contentController.contents.length - index - 1;
+                    widget.contentController.posts.length - index - 1;
                 return _buildContentItem(
                     context,
-                    widget.contentController.contents[reversedIndex],
+                    widget.contentController.posts[reversedIndex],
                     reversedIndex);
               },
               scrollDirection: Axis.vertical,
@@ -56,9 +56,9 @@ class _MyContentListViewState extends State<MyContentListView> {
     );
   }
 
-  Widget _buildContentItem(BuildContext context, Content content, int index) {
+  Widget _buildContentItem(BuildContext context, Post content, int index) {
     final lowercaseSearchText = widget.searchText.toLowerCase();
-    final lowercaseContent = content.content.toLowerCase();
+    final lowercaseContent = content.text.toLowerCase();
 
     if (widget.searchText.isNotEmpty &&
         !lowercaseContent.contains(lowercaseSearchText)) {
@@ -70,10 +70,11 @@ class _MyContentListViewState extends State<MyContentListView> {
 
   Widget createBox(
     BuildContext context,
-    Content content,
+    Post content,
     int index,
   ) {
-    DateTime dateTime = DateFormat('yyyy-MM-dd').parse(content.date.toString());
+    DateTime dateTime =
+        DateFormat('yyyy-MM-dd').parse(content.createdAt.toString());
 
     return GestureDetector(
       onTap: () {
@@ -100,7 +101,7 @@ class _MyContentListViewState extends State<MyContentListView> {
                       children: [
                         Obx(
                           () => Text(
-                            widget.contentController.contents[index].title,
+                            widget.contentController.posts[index].title,
                             style: const TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold,
@@ -111,7 +112,7 @@ class _MyContentListViewState extends State<MyContentListView> {
                         Row(
                           children: [
                             Text(
-                              widget.contentController.contents[index].writer,
+                              widget.contentController.posts[index].nickname,
                               style: const TextStyle(fontSize: 12.0),
                             ),
                             const SizedBox(width: 8.0),
@@ -139,7 +140,7 @@ class _MyContentListViewState extends State<MyContentListView> {
                             const SizedBox(width: 4.0),
                             Obx(
                               () => Text(
-                                "${widget.contentController.contents[index].likeCounts}",
+                                "${widget.contentController.posts[index].likeCounts}",
                                 style: TextStyle(
                                   color: Colors.red[300],
                                 ),
@@ -154,7 +155,7 @@ class _MyContentListViewState extends State<MyContentListView> {
                             const SizedBox(width: 4.0),
                             Obx(
                               () => Text(
-                                "${widget.contentController.contents[index].commentCounts}",
+                                "${widget.contentController.posts[index].commentCount}",
                                 style: const TextStyle(
                                   color: Colors.blueAccent,
                                 ),
@@ -168,17 +169,17 @@ class _MyContentListViewState extends State<MyContentListView> {
                   Obx(
                     () => IconButton(
                       iconSize: 30.0,
-                      icon: Icon(
-                        widget.contentController.contents[index].isLike
-                            ? CupertinoIcons.heart_fill
-                            : CupertinoIcons.heart,
-                        color: widget.contentController.contents[index].isLike
-                            ? Colors.redAccent
-                            : Colors.grey,
+                      icon: const Icon(
+                        // widget.contentController.posts[index].isLike
+                        //     ? CupertinoIcons.heart_fill
+                        CupertinoIcons.heart,
+                        // color: widget.contentController.posts[index].isLike
+                        //     ? Colors.redAccent
+                        //     : Colors.grey,
                       ),
                       onPressed: () {
-                        widget.contentController.toggleLike(content.postId);
-                        widget.contentController.update();
+                        // widget.contentController.toggleLike(content.postId);
+                        // widget.contentController.update();
                       },
                     ),
                   ),

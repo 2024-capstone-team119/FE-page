@@ -18,7 +18,7 @@ class MyContentUpdate extends StatefulWidget {
   final String? title;
   final String? content;
 
-  final Content originContent;
+  final Post originContent;
 
   const MyContentUpdate({
     super.key,
@@ -117,21 +117,23 @@ class _ContentUpdateState extends State<MyContentUpdate> {
                   funPageRoute: () {
                     if (_formKey.currentState!.validate()) {
                       // 수정된 컨텐트
-                      Content updatedContent = Content(
-                        category: _selectedCategory!,
+                      Post updatedContent = Post(
                         postId: widget.originContent.postId,
-                        writer: widget.originContent.writer,
+                        category: _selectedCategory!,
+                        userId: widget.originContent.userId,
+                        nickname: widget.originContent.nickname,
                         title: _titleController.text,
-                        content: _contentController.text,
-                        date: widget.originContent.date,
-                        isLike: widget.originContent.isLike,
+                        text: _contentController.text,
+                        createdAt: widget.originContent.createdAt,
+                        updatedAt: widget.originContent.updatedAt,
+                        likes: widget.originContent.likes,
                         likeCounts: widget.originContent.likeCounts,
-                        commentCounts: widget.originContent.commentCounts,
+                        commentCount: widget.originContent.commentCount,
                       );
 
                       // ContentController에 업데이트된 내용을 전달하여 업데이트합니다.
-                      ContentController().updateContent(
-                          updatedContent, _selectedCategoryIndex);
+                      // ContentController().updateContent(
+                      //     updatedContent, _selectedCategoryIndex);
 
                       // 수정된 내용을 반영한 MyCommunity 페이지로 이동합니다.
                       Get.to(() => MyCommunity(

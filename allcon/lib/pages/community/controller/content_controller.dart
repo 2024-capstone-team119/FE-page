@@ -1,9 +1,9 @@
-import 'package:allcon/Data/Sample/content_sample.dart';
+import 'package:allcon/Data/Sample/community_sample.dart';
 import 'package:allcon/model/community_model.dart';
 import 'package:get/get.dart';
 
 class ContentController extends GetxController {
-  RxList<Content> contents = <Content>[].obs;
+  RxList<Post> posts = <Post>[].obs;
   RxList<Comment> comments = <Comment>[].obs;
   RxInt commentCount = 0.obs; // 댓글 수 추적하는 변수
 
@@ -14,65 +14,62 @@ class ContentController extends GetxController {
   }
 
   // 글 목록
-  void setContentList(List<Content> initialContents, String category) {
-    List<Content> filteredContents = initialContents
-        .where((content) => content.category == category)
-        .toList();
+  void setContentList(List<Post> initialPosts, String category) {
+    List<Post> filteredPosts =
+        initialPosts.where((post) => post.category == category).toList();
 
-    contents.assignAll(filteredContents);
+    posts.assignAll(filteredPosts);
   }
 
-  Content? getContent(int postId) {
-    return contents.firstWhere((content) => content.postId == postId);
+  Post? getContent(String postId) {
+    return posts.firstWhere((post) => post.postId == postId);
   }
 
   // 글 업로드
-  void addContent(Content content, int tabIdx, List<Content> contentsamples) {
-    contentsamples.add(content);
-    contents.refresh();
+  void addContent(Post post, int tabIdx, List<Post> postsamples) {
+    postsamples.add(post);
+    posts.refresh();
   }
 
   // 글 수정
-  void updateContent(Content updatedContent, int postId) {
-    contentsamples
-        .removeWhere((content) => content.postId == updatedContent.postId);
-    int insertIndex =
-        contentsamples.indexWhere((content) => content.postId < postId);
-    if (insertIndex == -1) {
-      insertIndex = contentsamples.length;
-    }
-    contentsamples.insert(insertIndex, updatedContent);
-  }
+  // void updateContent(Post updatedPost, int postId) {
+  //   postsamples.removeWhere((post) => post.postId == updatedPost.postId);
+  //   int insertIndex = postsamples.indexWhere((post) => post.postId < postId);
+  //   if (insertIndex == -1) {
+  //     insertIndex = postsamples.length;
+  //   }
+  //   postsamples.insert(insertIndex, updatedPost);
+  // }
 
   // 좋아요
-  List<Content> getAllLikedContents(String category) {
-    List<Content> categoryContents = contentsamples
-        .where((content) => content.category == category)
-        .toList();
-    if (categoryContents.isEmpty) {
-      return [];
-    }
-    return categoryContents.where((content) => content.isLike == true).toList();
-  }
+  // List<Post> getAllLikedContents(String category) {
+  //   List<Post> categoryPosts = postsamples
+  //       .where((post) => post.category == category)
+  //       .toList();
+  //   if (categoryPosts.isEmpty) {
+  //     return [];
+  //   }
+  //   return categoryPosts.where((post) => post.isLike == true).toList();
+  // }
 
-  void toggleLike(int postId) {
-    final int index =
-        contents.indexWhere((content) => content.postId == postId);
+  // void toggleLike(int postId) {
+  //   final int index =
+  //       posts.indexWhere((post) => post.postId == postId);
 
-    if (index != -1) {
-      final Content content = contents[index];
+  //   if (index != -1) {
+  //     final Post post = posts[index];
 
-      final int currentLike = content.likeCounts;
-      content.isLike = !(content.isLike);
-      content.likeCounts = content.isLike ? currentLike + 1 : currentLike - 1;
+  //     final int currentLike = post.likeCounts;
+  //     post.isLike = !(post.isLike);
+  //     post.likeCounts = post.isLike ? currentLike + 1 : currentLike - 1;
 
-      contents[index] = content;
-      update();
-    }
-  }
+  //     posts[index] = post;
+  //     update();
+  //   }
+  // }
 
   // 댓글 목록
-  void setCommentList(List<Comment> initialComments, int postId) {
+  void setCommentList(List<Comment> initialComments, String postId) {
     List<Comment> filteredComments =
         initialComments.where((comment) => comment.postId == postId).toList();
     comments.assignAll(filteredComments);
@@ -83,7 +80,7 @@ class ContentController extends GetxController {
   }
 
 // 댓글 추가
-  void addComment(int postId, int commentId, String commentContent) {
+  void addComment(String postId, int commentId, String commentContent) {
     final Comment comment = Comment(
         postId: postId, commentId: commentId, commentContent: commentContent);
 
@@ -92,16 +89,15 @@ class ContentController extends GetxController {
     comments.add(comment);
 
     // 해당 글의 댓글 수 업데이트
-    final int index =
-        contents.indexWhere((content) => content.postId == postId);
+    final int index = posts.indexWhere((post) => post.postId == postId);
     if (index != -1) {
-      contents[index].commentCounts++;
-      contents.refresh();
+      posts[index].commentCount++;
+      posts.refresh();
     }
   }
 
   // 댓글 수정
-  void updateComment(int postId, int commentId, String commentContent) {
+  void updateComment(String postId, int commentId, String commentContent) {
     Comment updatedComment = Comment(
         postId: postId, commentId: commentId, commentContent: commentContent);
 

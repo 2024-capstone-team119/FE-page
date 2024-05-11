@@ -1,4 +1,4 @@
-import 'package:allcon/Data/Sample/content_sample.dart';
+import 'package:allcon/Data/Sample/community_sample.dart';
 import 'package:allcon/pages/community/controller/content_controller.dart';
 import 'package:allcon/pages/community/sub/Update.dart';
 import 'package:allcon/widget/app_bar.dart';
@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 class MyContentDetail extends StatefulWidget {
   final String? category;
   final int? tabIdx;
-  final Content content;
+  final Post content;
   final ContentController contentController;
 
   const MyContentDetail({
@@ -97,7 +97,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                                           .title,
                                       content: _contentController
                                           .getContent(widget.content.postId)!
-                                          .content,
+                                          .text,
                                     ));
                                   },
                                 ),
@@ -129,13 +129,13 @@ class _ContentDetailState extends State<MyContentDetail> {
                   const SizedBox(height: 6.0),
                   Row(
                     children: [
-                      Text(widget.content.writer),
+                      Text(widget.content.nickname),
                       const SizedBox(width: 10.0),
                       const Text('|'),
                       const SizedBox(width: 10.0),
                       Text(
                         DateFormat('yyyy-MM-dd HH:mm')
-                            .format(widget.content.date),
+                            .format(widget.content.createdAt),
                       ),
                     ],
                   ),
@@ -150,7 +150,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                     () => Text(
                       _contentController
                               .getContent(widget.content.postId)
-                              ?.content ??
+                              ?.text ??
                           '',
                     ),
                   ),
@@ -165,18 +165,18 @@ class _ContentDetailState extends State<MyContentDetail> {
                             Obx(
                               () => IconButton(
                                 iconSize: 30.0,
-                                icon: Icon(
-                                  _contentController
-                                              .getContent(widget.content.postId)
-                                              ?.isLike ??
-                                          false
-                                      ? CupertinoIcons.heart_fill
-                                      : CupertinoIcons.heart,
+                                icon: const Icon(
+                                  // _contentController
+                                  //             .getContent(widget.content.postId)
+                                  //             ?.isLike ??
+                                  //         false
+                                  //     ? CupertinoIcons.heart_fill
+                                  CupertinoIcons.heart,
                                   color: Colors.redAccent,
                                 ),
                                 onPressed: () {
-                                  _contentController
-                                      .toggleLike(widget.content.postId);
+                                  // _contentController
+                                  //     .toggleLike(widget.content.postId);
                                 },
                               ),
                             ),
@@ -296,7 +296,7 @@ class _ContentDetailState extends State<MyContentDetail> {
         // Update content controller's state
         _contentController.addComment(
           widget.content.postId,
-          widget.content.commentCounts,
+          widget.content.commentCount,
           commentContent,
         );
         // Clear the input field

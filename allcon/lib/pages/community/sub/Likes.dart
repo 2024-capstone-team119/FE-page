@@ -27,20 +27,20 @@ class MyContentLikes extends StatefulWidget {
 class _MyContentLikesState extends State<MyContentLikes> {
   late ContentController _contentController;
   late String _selectedCategory;
-  List<Content> likedContents = [];
+  List<Post> likedContents = [];
 
   @override
   void initState() {
     super.initState();
     _contentController = widget.contentController;
     _selectedCategory = widget.initialCategory;
-    _updateLikedContents();
+    // _updateLikedContents();
   }
 
   // 좋아요된 콘텐츠 목록을 업데이트하는 함수
-  void _updateLikedContents() {
-    likedContents = _contentController.getAllLikedContents(_selectedCategory);
-  }
+  // void _updateLikedContents() {
+  //   likedContents = _contentController.getAllLikedContents(_selectedCategory);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
               onChanged: (value) {
                 setState(() {
                   _selectedCategory = value.toString();
-                  _updateLikedContents();
+                  // _updateLikedContents();
                 });
               },
             ),
@@ -85,8 +85,8 @@ class _MyContentLikesState extends State<MyContentLikes> {
     }
   }
 
-  Widget _buildContentItem(Content content) {
-    DateTime dateTime = content.date;
+  Widget _buildContentItem(Post content) {
+    DateTime dateTime = content.createdAt;
     return GestureDetector(
       onTap: () {
         Get.to(() => MyContentDetail(
@@ -167,16 +167,16 @@ class _MyContentLikesState extends State<MyContentLikes> {
                   ),
                   IconButton(
                     iconSize: 30.0,
-                    icon: Icon(
-                      content.isLike
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      color: content.isLike ? Colors.redAccent : Colors.grey,
-                    ),
+                    icon: const Icon(
+                        // content.isLike
+                        //     ? CupertinoIcons.heart_fill
+                        CupertinoIcons.heart,
+                        // color: content.isLike ? Colors.redAccent : Colors.grey,
+                        color: Colors.redAccent),
                     onPressed: () {
-                      setState(() {
-                        _contentController.toggleLike(content.postId);
-                      });
+                      // setState(() {
+                      //   _contentController.toggleLike(content.postId);
+                      // });
                     },
                   ),
                   const SizedBox(width: 16.0),
