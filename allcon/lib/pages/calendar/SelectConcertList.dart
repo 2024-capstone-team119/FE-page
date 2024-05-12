@@ -48,7 +48,7 @@ class _SelectConcertListState extends State<SelectConcertList> {
                         ),
                         margin: const EdgeInsets.only(bottom: 8.0),
                         decoration: BoxDecoration(
-                          color: lavenderColor,
+                          color: Mint.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(40.0),
                         ),
                         child: Column(
