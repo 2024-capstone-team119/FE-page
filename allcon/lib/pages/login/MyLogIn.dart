@@ -28,15 +28,17 @@ class _MyMyLogInState extends State<MyLogIn> {
         child: Padding(
           padding: const EdgeInsets.all(30),
           child: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                WellcomText(),
-                SizedBox(height: 20),
-                SingInForm(),
-                SizedBox(height: 10),
-                IsntUser(),
-              ],
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  WellcomText(),
+                  SizedBox(height: 20),
+                  SingInForm(),
+                  SizedBox(height: 5),
+                  IsntUser(),
+                ],
+              ),
             ),
           ),
         ),
@@ -95,6 +97,9 @@ class _MyMyLogInState extends State<MyLogIn> {
                   if (_formKey.currentState!.validate()) {
                     bool isToken = await _accountController.login(
                         _userEmail.text.trim(), _userPwd.text.trim());
+                    print(
+                      'isToken : $isToken',
+                    );
                     if (isToken) {
                       print("토큰 받기 성공");
                       Get.snackbar('로그인 성공 😚', "반가워요!");

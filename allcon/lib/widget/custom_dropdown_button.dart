@@ -20,8 +20,7 @@ class CustomDropdownButton extends StatefulWidget {
 class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 95.0,
+    return Container(
       child: DropdownButton(
         menuMaxHeight: 250.0,
         iconEnabledColor: Colors.deepPurple,
@@ -34,6 +33,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
         value: widget.value,
         onChanged: widget.onChanged,
         elevation: 2,
+        underline: SizedBox(),
       ),
     );
   }
