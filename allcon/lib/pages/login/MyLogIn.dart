@@ -28,15 +28,17 @@ class _MyMyLogInState extends State<MyLogIn> {
         child: Padding(
           padding: const EdgeInsets.all(30),
           child: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                WellcomText(),
-                SizedBox(height: 20),
-                SingInForm(),
-                SizedBox(height: 10),
-                IsntUser(),
-              ],
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  WellcomText(),
+                  SizedBox(height: 20),
+                  SingInForm(),
+                  SizedBox(height: 5),
+                  IsntUser(),
+                ],
+              ),
             ),
           ),
         ),
