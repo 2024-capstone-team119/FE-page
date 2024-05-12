@@ -111,7 +111,7 @@ class _ReviewMainState extends State<ReviewMain> {
       child: Container(
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 8.0),
+          padding: const EdgeInsets.fromLTRB(16.0, 5.0, 16.0, 8.0),
           child: Column(
             children: [
               if (!mine)

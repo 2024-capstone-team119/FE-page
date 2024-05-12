@@ -23,7 +23,8 @@ class loginService {
         String? userId = jsonResponse['userId'];
 
         if (token == null || nickname == null || userId == null) {
-          throw Exception('응답에서 필요한 데이터가 없습니다.');
+          print('응답에서 필요한 데이터가 없습니다.');
+          return false;
         }
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -35,11 +36,13 @@ class loginService {
         return true;
       } catch (e) {
         // JSON 파싱 실패
-        throw Exception('JSON 파싱 오류: $e');
+        print('JSON 파싱 오류: $e');
+        return false;
       }
     } else {
       // JSON이 아닌 응답이 반환될 수 있음
-      throw Exception('서버 에러: ${response.body}');
+      print('서버 에러: ${response.body}');
+      return false;
     }
   }
 }
