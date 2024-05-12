@@ -12,9 +12,8 @@ class Post {
   final String text;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final int likeCounts;
-  final List<String> likes;
-  late int commentCount;
+  final int commentCount;
+  final int likesCount;
 
   Post({
     required this.postId,
@@ -25,9 +24,8 @@ class Post {
     required this.text,
     required this.createdAt,
     required this.updatedAt,
-    required this.likeCounts,
-    required this.likes,
     required this.commentCount,
+    required this.likesCount,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
@@ -40,13 +38,13 @@ class Post {
       nickname: json['nickname'],
       title: json['title'],
       text: json['text'],
+
       // UTC에서 한국 시간대로 변환
       createdAt: tz.TZDateTime.from(DateTime.parse(json['createdAt']), seoul),
       updatedAt: tz.TZDateTime.from(DateTime.parse(json['updatedAt']), seoul),
 
-      likeCounts: json['likeCounts'] ?? 0, // likeCounts가 null인 경우 0을 사용
-      likes: List<String>.from(json['likes'] ?? []), // likes가 null인 경우 빈 리스트 사용
       commentCount: json['commentCount'] ?? 0, // likeCounts가 null인 경우 0을 사용
+      likesCount: json['likesCount'] ?? 0, // likeCounts가 null인 경우 0을 사용
     );
   }
 }

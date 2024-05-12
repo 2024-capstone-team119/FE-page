@@ -13,12 +13,15 @@ class MyContentLikes extends StatefulWidget {
   final ContentController contentController;
   final String initialCategory;
   final int tabIdx;
+  final String userId;
 
-  const MyContentLikes(
-      {super.key,
-      required this.contentController,
-      required this.initialCategory,
-      required this.tabIdx});
+  const MyContentLikes({
+    super.key,
+    required this.contentController,
+    required this.initialCategory,
+    required this.tabIdx,
+    required this.userId,
+  });
 
   @override
   _MyContentLikesState createState() => _MyContentLikesState();
@@ -90,7 +93,8 @@ class _MyContentLikesState extends State<MyContentLikes> {
     return GestureDetector(
       onTap: () {
         Get.to(() => MyContentDetail(
-              content: content,
+              post: content,
+              userId: '12',
               contentController: _contentController,
             ));
       },
@@ -142,7 +146,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
                             ),
                             const SizedBox(width: 4.0),
                             Text(
-                              "${content.likeCounts}",
+                              "${content.likesCount}",
                               style: TextStyle(
                                 color: Colors.red[300],
                               ),

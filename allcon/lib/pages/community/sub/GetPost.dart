@@ -1,6 +1,8 @@
 import 'package:allcon/Data/Sample/community_sample.dart';
+import 'package:allcon/pages/community/Home.dart';
 import 'package:allcon/pages/community/controller/content_controller.dart';
 import 'package:allcon/pages/community/sub/Update.dart';
+import 'package:allcon/service/community/postService.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/model/community_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,14 +13,16 @@ import 'package:intl/intl.dart';
 class MyContentDetail extends StatefulWidget {
   final String? category;
   final int? tabIdx;
-  final Post content;
+  final Post post;
+  final String userId;
   final ContentController contentController;
 
   const MyContentDetail({
     super.key,
     this.category,
     this.tabIdx,
-    required this.content,
+    required this.post,
+    required this.userId,
     required this.contentController,
   });
 
@@ -33,14 +37,12 @@ class _ContentDetailState extends State<MyContentDetail> {
   final TextEditingController _commentController = TextEditingController();
   final FocusNode _commentFocusNode = FocusNode();
 
-  // _editingComment 변수를 추가하여 수정할 댓글을 저장합니다.
   Comment? _editingComment;
 
   @override
   void initState() {
     super.initState();
-    widget.contentController
-        .setCommentList(commentsamples, widget.content.postId);
+    widget.contentController.setCommentList(commentsamples, widget.post.postId);
   }
 
   @override
@@ -49,8 +51,16 @@ class _ContentDetailState extends State<MyContentDetail> {
     super.dispose();
   }
 
+  void _deletePost() async {
+    await PostService.deletePost(widget.post.postId);
+    Get.to(() => MyCommunity(initialTabIndex: widget.tabIdx ?? 0));
+    print(widget.tabIdx);
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool isOwner = widget.userId == widget.post.userId;
+
     return Scaffold(
       appBar: const MyAppBar(text: '커뮤니티'),
       body: SafeArea(
@@ -65,77 +75,70 @@ class _ContentDetailState extends State<MyContentDetail> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Obx(
-                        () => Text(
-                          _contentController
-                                  .getContent(widget.content.postId)
-                                  ?.title ??
-                              '',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 25,
+                      Text(
+                        widget.post.title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 25,
+                        ),
+                      ),
+                      if (isOwner) // owner 인 경우에만 수정/삭제 버튼 활성화
+                        GestureDetector(
+                          onTap: () {
+                            showCupertinoModalPopup(
+                              context: context,
+                              builder: (BuildContext sheetContext) =>
+                                  CupertinoActionSheet(
+                                title: const Text('옵션'),
+                                actions: <Widget>[
+                                  CupertinoActionSheetAction(
+                                    child: const Text('수정'),
+                                    onPressed: () {
+                                      Get.to(MyContentUpdate(
+                                        initialCategory: widget.tabIdx ?? 0,
+                                        category: widget.category,
+                                        originPost: widget.post,
+                                        title: widget.post.title,
+                                        text: widget.post.text,
+                                      ));
+                                    },
+                                  ),
+                                  CupertinoActionSheetAction(
+                                    child: const Text('삭제'),
+                                    onPressed: () {
+                                      _deletePost();
+                                      Navigator.pop(context, '삭제');
+                                    },
+                                  ),
+                                ],
+                                cancelButton: CupertinoActionSheetAction(
+                                  isDefaultAction: true,
+                                  onPressed: () {
+                                    Navigator.pop(context, '취소');
+                                  },
+                                  child: const Text('취소'),
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Icon(
+                            Icons.more_vert,
+                            size: 20,
+                            color: Colors.black54,
                           ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          showCupertinoModalPopup(
-                            context: context,
-                            builder: (BuildContext sheetContext) =>
-                                CupertinoActionSheet(
-                              title: const Text('옵션'),
-                              actions: <Widget>[
-                                CupertinoActionSheetAction(
-                                  child: const Text('수정'),
-                                  onPressed: () {
-                                    Get.to(MyContentUpdate(
-                                      initialCategory: widget.tabIdx ?? 0,
-                                      category: widget.category,
-                                      originContent: widget.content,
-                                      title: _contentController
-                                          .getContent(widget.content.postId)!
-                                          .title,
-                                      content: _contentController
-                                          .getContent(widget.content.postId)!
-                                          .text,
-                                    ));
-                                  },
-                                ),
-                                CupertinoActionSheetAction(
-                                  child: const Text('삭제'),
-                                  onPressed: () {
-                                    // You can handle content deletion
-                                  },
-                                ),
-                              ],
-                              cancelButton: CupertinoActionSheetAction(
-                                isDefaultAction: true,
-                                onPressed: () {
-                                  Navigator.pop(context, '취소');
-                                },
-                                child: const Text('취소'),
-                              ),
-                            ),
-                          );
-                        },
-                        child: const Icon(
-                          Icons.more_vert,
-                          size: 20,
-                          color: Colors.black54,
-                        ),
-                      ),
                     ],
                   ),
                   const SizedBox(height: 6.0),
                   Row(
                     children: [
-                      Text(widget.content.nickname),
+                      Text(widget.post.nickname),
                       const SizedBox(width: 10.0),
                       const Text('|'),
                       const SizedBox(width: 10.0),
                       Text(
                         DateFormat('yyyy-MM-dd HH:mm')
-                            .format(widget.content.createdAt),
+                            .format(widget.post.createdAt),
                       ),
                     ],
                   ),
@@ -146,13 +149,8 @@ class _ContentDetailState extends State<MyContentDetail> {
                     color: Colors.grey[300],
                   ),
                   const SizedBox(height: 16),
-                  Obx(
-                    () => Text(
-                      _contentController
-                              .getContent(widget.content.postId)
-                              ?.text ??
-                          '',
-                    ),
+                  Text(
+                    widget.post.text,
                   ),
                   const SizedBox(height: 5),
                   Padding(
@@ -162,30 +160,26 @@ class _ContentDetailState extends State<MyContentDetail> {
                       children: [
                         Row(
                           children: [
-                            Obx(
-                              () => IconButton(
-                                iconSize: 30.0,
-                                icon: const Icon(
-                                  // _contentController
-                                  //             .getContent(widget.content.postId)
-                                  //             ?.isLike ??
-                                  //         false
-                                  //     ? CupertinoIcons.heart_fill
-                                  CupertinoIcons.heart,
-                                  color: Colors.redAccent,
-                                ),
-                                onPressed: () {
-                                  // _contentController
-                                  //     .toggleLike(widget.content.postId);
-                                },
+                            IconButton(
+                              iconSize: 30.0,
+                              icon: const Icon(
+                                // _contentController
+                                //             .getContent(widget.content.postId)
+                                //             ?.isLike ??
+                                //         false
+                                //     ? CupertinoIcons.heart_fill
+                                CupertinoIcons.heart,
+                                color: Colors.redAccent,
                               ),
+                              onPressed: () {
+                                // _contentController
+                                //     .toggleLike(widget.content.postId);
+                              },
                             ),
-                            Obx(
-                              () => Text(
-                                '${_contentController.getContent(widget.content.postId)?.likeCounts ?? 0}',
-                                style: TextStyle(
-                                  color: Colors.red[300],
-                                ),
+                            Text(
+                              '${widget.post.likesCount}',
+                              style: TextStyle(
+                                color: Colors.red[300],
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -295,8 +289,8 @@ class _ContentDetailState extends State<MyContentDetail> {
       setState(() {
         // Update content controller's state
         _contentController.addComment(
-          widget.content.postId,
-          widget.content.commentCount,
+          widget.post.postId,
+          widget.post.commentCount,
           commentContent,
         );
         // Clear the input field
@@ -310,7 +304,7 @@ class _ContentDetailState extends State<MyContentDetail> {
       setState(() {
         // Update content controller's state
         _contentController.updateComment(
-          widget.content.postId,
+          widget.post.postId,
           comment.commentId,
           updatedContent,
         );

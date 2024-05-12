@@ -25,22 +25,6 @@ class ContentController extends GetxController {
     return posts.firstWhere((post) => post.postId == postId);
   }
 
-  // 글 업로드
-  void addContent(Post post, int tabIdx, List<Post> postsamples) {
-    postsamples.add(post);
-    posts.refresh();
-  }
-
-  // 글 수정
-  // void updateContent(Post updatedPost, int postId) {
-  //   postsamples.removeWhere((post) => post.postId == updatedPost.postId);
-  //   int insertIndex = postsamples.indexWhere((post) => post.postId < postId);
-  //   if (insertIndex == -1) {
-  //     insertIndex = postsamples.length;
-  //   }
-  //   postsamples.insert(insertIndex, updatedPost);
-  // }
-
   // 좋아요
   // List<Post> getAllLikedContents(String category) {
   //   List<Post> categoryPosts = postsamples
@@ -91,7 +75,7 @@ class ContentController extends GetxController {
     // 해당 글의 댓글 수 업데이트
     final int index = posts.indexWhere((post) => post.postId == postId);
     if (index != -1) {
-      posts[index].commentCount++;
+      posts[index].commentCount;
       posts.refresh();
     }
   }

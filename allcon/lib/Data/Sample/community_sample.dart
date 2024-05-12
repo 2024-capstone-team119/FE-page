@@ -10,8 +10,7 @@ List<Post> postsamples = [
     text: '밤 샜더니 너무 졸려ㅜㅜ',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
-    likeCounts: 0,
-    likes: [],
+    likesCount: 0,
     commentCount: 6,
   ),
   Post(
@@ -23,8 +22,7 @@ List<Post> postsamples = [
     text: '내 목표는 씨쁠',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
-    likeCounts: 0,
-    likes: [],
+    likesCount: 0,
     commentCount: 2,
   ),
   Post(
@@ -36,8 +34,7 @@ List<Post> postsamples = [
     text: '집중이 전혀 안된다',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
-    likeCounts: 0,
-    likes: [],
+    likesCount: 0,
     commentCount: 4,
   ),
   Post(
@@ -49,8 +46,7 @@ List<Post> postsamples = [
     text: '밤 샜더니 너무 졸려ㅜㅜ',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
-    likeCounts: 0,
-    likes: [],
+    likesCount: 0,
     commentCount: 3,
   ),
   Post(
@@ -62,8 +58,7 @@ List<Post> postsamples = [
     text: '내 목표는 씨쁠',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
-    likeCounts: 0,
-    likes: [],
+    likesCount: 0,
     commentCount: 4,
   ),
   Post(
@@ -75,8 +70,7 @@ List<Post> postsamples = [
     text: '집중이 전혀 안된다',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
-    likeCounts: 0,
-    likes: [],
+    likesCount: 0,
     commentCount: 1,
   ),
   Post(
@@ -88,8 +82,7 @@ List<Post> postsamples = [
     text: '밤 샜더니 너무 졸려ㅜㅜ',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
-    likeCounts: 0,
-    likes: [],
+    likesCount: 0,
     commentCount: 3,
   ),
   Post(
@@ -101,8 +94,7 @@ List<Post> postsamples = [
     text: '내 목표는 씨쁠',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
-    likeCounts: 0,
-    likes: [],
+    likesCount: 0,
     commentCount: 2,
   ),
   Post(
@@ -114,8 +106,7 @@ List<Post> postsamples = [
     text: '집중이 전혀 안된다',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
-    likeCounts: 0,
-    likes: [],
+    likesCount: 0,
     commentCount: 1,
   ),
   Post(
@@ -127,8 +118,7 @@ List<Post> postsamples = [
     text: '테일러 최고',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
-    likeCounts: 0,
-    likes: [],
+    likesCount: 0,
     commentCount: 3,
   ),
   Post(
@@ -140,8 +130,7 @@ List<Post> postsamples = [
     text: '아이유 콘서트 최고',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
-    likeCounts: 0,
-    likes: [],
+    likesCount: 0,
     commentCount: 0,
   ),
   Post(
@@ -153,8 +142,7 @@ List<Post> postsamples = [
     text: '찰푸 너무 좋아요',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
-    likeCounts: 0,
-    likes: [],
+    likesCount: 0,
     commentCount: 1,
   ),
   Post(
@@ -166,8 +154,7 @@ List<Post> postsamples = [
     text: '연락주세용',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
-    likeCounts: 0,
-    likes: [],
+    likesCount: 0,
     commentCount: 3,
   ),
   Post(
@@ -179,8 +166,7 @@ List<Post> postsamples = [
     text: '태워주세요.',
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
-    likeCounts: 0,
-    likes: [],
+    likesCount: 0,
     commentCount: 1,
   ),
 ];

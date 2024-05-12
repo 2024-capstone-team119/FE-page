@@ -1,15 +1,16 @@
-import 'package:allcon/Data/Sample/community_sample.dart';
 import 'package:allcon/pages/community/sub/GetPost.dart';
 import 'package:allcon/pages/community/controller/content_controller.dart';
 import 'package:allcon/model/community_model.dart';
+import 'package:allcon/service/community/postService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyContentListView extends StatefulWidget {
   final String category;
+  final int tabIdx;
   final String title;
   final String searchText;
   final ContentController contentController;
@@ -17,6 +18,7 @@ class MyContentListView extends StatefulWidget {
   const MyContentListView({
     super.key,
     required this.category,
+    required this.tabIdx,
     required this.contentController,
     this.title = '',
     this.searchText = '',
@@ -27,60 +29,86 @@ class MyContentListView extends StatefulWidget {
 }
 
 class _MyContentListViewState extends State<MyContentListView> {
+  late Future<List<Post>> _futurePosts;
+  String? loginUserId;
+
+  _loadInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    loginUserId = prefs.getString('userId');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _futurePosts = PostService.getPost(widget.category);
+    _loadInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      // initState 대신 build 메서드 외부에서 초기화
-      widget.contentController.setContentList(postsamples, widget.category);
-    });
-
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Obx(() => ListView.builder(
-              itemCount: widget.contentController.posts.length,
-              itemBuilder: (context, index) {
-                // 거꾸로 된 인덱스 계산
-                final reversedIndex =
-                    widget.contentController.posts.length - index - 1;
-                return _buildContentItem(
-                    context,
-                    widget.contentController.posts[reversedIndex],
-                    reversedIndex);
-              },
-              scrollDirection: Axis.vertical,
-            )),
+      body: FutureBuilder<List<Post>>(
+        future: _futurePosts,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text('오류가 발생했습니다: ${snapshot.error}'));
+          }
+          if (snapshot.hasData) {
+            List<Post> posts = snapshot.data!;
+
+            return SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: ListView.builder(
+                itemCount: posts.length,
+                itemBuilder: (context, index) {
+                  // 거꾸로 된 인덱스 계산
+                  final reversedIndex = posts.length - index - 1;
+                  return _buildContentItem(
+                      context, posts[reversedIndex], reversedIndex);
+                },
+                scrollDirection: Axis.vertical,
+              ),
+            );
+          }
+          return const Center(
+            child: Text('데이터가 없습니다.'),
+          );
+        },
       ),
     );
   }
 
-  Widget _buildContentItem(BuildContext context, Post content, int index) {
+  Widget _buildContentItem(BuildContext context, Post post, int index) {
     final lowercaseSearchText = widget.searchText.toLowerCase();
-    final lowercaseContent = content.text.toLowerCase();
+    final lowercaseContent = post.text.toLowerCase();
 
     if (widget.searchText.isNotEmpty &&
         !lowercaseContent.contains(lowercaseSearchText)) {
       return Container();
     } else {
-      return createBox(context, content, index);
+      return createBox(context, post);
     }
   }
 
   Widget createBox(
     BuildContext context,
-    Post content,
-    int index,
+    Post post,
   ) {
     DateTime dateTime =
-        DateFormat('yyyy-MM-dd').parse(content.createdAt.toString());
+        DateFormat('yyyy-MM-dd').parse(post.createdAt.toString());
 
     return GestureDetector(
       onTap: () {
         Get.to(() => MyContentDetail(
               category: widget.category,
-              content: content,
+              tabIdx: widget.tabIdx,
+              post: post,
+              userId: loginUserId ?? '',
               contentController: widget.contentController,
             ));
       },
@@ -99,20 +127,18 @@ class _MyContentListViewState extends State<MyContentListView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Obx(
-                          () => Text(
-                            widget.contentController.posts[index].title,
-                            style: const TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        Text(
+                          post.title,
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(height: 4.0),
                         Row(
                           children: [
                             Text(
-                              widget.contentController.posts[index].nickname,
+                              post.nickname,
                               style: const TextStyle(fontSize: 12.0),
                             ),
                             const SizedBox(width: 8.0),
@@ -138,12 +164,10 @@ class _MyContentListViewState extends State<MyContentListView> {
                               size: 16.0,
                             ),
                             const SizedBox(width: 4.0),
-                            Obx(
-                              () => Text(
-                                "${widget.contentController.posts[index].likeCounts}",
-                                style: TextStyle(
-                                  color: Colors.red[300],
-                                ),
+                            Text(
+                              "${post.likesCount}",
+                              style: TextStyle(
+                                color: Colors.red[300],
                               ),
                             ),
                             const SizedBox(width: 8.0),
@@ -153,12 +177,10 @@ class _MyContentListViewState extends State<MyContentListView> {
                               size: 16.0,
                             ),
                             const SizedBox(width: 4.0),
-                            Obx(
-                              () => Text(
-                                "${widget.contentController.posts[index].commentCount}",
-                                style: const TextStyle(
-                                  color: Colors.blueAccent,
-                                ),
+                            Text(
+                              "${post.commentCount}",
+                              style: const TextStyle(
+                                color: Colors.blueAccent,
                               ),
                             ),
                           ],
@@ -166,22 +188,20 @@ class _MyContentListViewState extends State<MyContentListView> {
                       ],
                     ),
                   ),
-                  Obx(
-                    () => IconButton(
-                      iconSize: 30.0,
-                      icon: const Icon(
-                        // widget.contentController.posts[index].isLike
-                        //     ? CupertinoIcons.heart_fill
-                        CupertinoIcons.heart,
-                        // color: widget.contentController.posts[index].isLike
-                        //     ? Colors.redAccent
-                        //     : Colors.grey,
-                      ),
-                      onPressed: () {
-                        // widget.contentController.toggleLike(content.postId);
-                        // widget.contentController.update();
-                      },
+                  IconButton(
+                    iconSize: 30.0,
+                    icon: const Icon(
+                      // widget.contentController.posts[index].isLike
+                      //     ? CupertinoIcons.heart_fill
+                      CupertinoIcons.heart,
+                      // color: widget.contentController.posts[index].isLike
+                      //     ? Colors.redAccent
+                      //     : Colors.grey,
                     ),
+                    onPressed: () {
+                      // widget.contentController.toggleLike(content.postId);
+                      // widget.contentController.update();
+                    },
                   ),
                   const SizedBox(width: 16.0),
                 ],
