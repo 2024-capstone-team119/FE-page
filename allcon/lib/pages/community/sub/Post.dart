@@ -1,18 +1,15 @@
-import 'package:allcon/Data/Sample/content_sample.dart';
 import 'package:allcon/pages/community/Home.dart';
+import 'package:allcon/service/community/postService.dart';
 import 'package:allcon/utils/validator_util.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
 import 'package:allcon/widget/custom_elevated_btn.dart';
 import 'package:allcon/widget/custom_text_area.dart';
 import 'package:allcon/widget/custom_text_form_field.dart';
-import 'package:allcon/model/community_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-
 import 'package:get/get.dart';
-import '../controller/content_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyContentWrite extends StatefulWidget {
   final String initialCategory;
@@ -35,12 +32,22 @@ class _ContentWriteState extends State<MyContentWrite> {
 
   late String _selectedCategory;
   late int _selectedCategoryIndex;
+  String? loginUserId;
+  String? loginUserNickname;
 
   @override
   void initState() {
     super.initState();
     _selectedCategory = widget.initialCategory;
     _selectedCategoryIndex = widget.tabIdx;
+    _loadInfo();
+  }
+
+  // 지금 로그인 된 유저의 정보 가져오기
+  _loadInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    loginUserNickname = prefs.getString('userNickname'); // 저장된 닉네임
+    loginUserId = prefs.getString('userId'); // 저장된 id
   }
 
   @override
@@ -48,7 +55,7 @@ class _ContentWriteState extends State<MyContentWrite> {
     return Scaffold(
       appBar: const MyAppBar(text: '커뮤니티'),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(15.0),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -88,64 +95,48 @@ class _ContentWriteState extends State<MyContentWrite> {
             bottom: max(MediaQuery.of(context).viewInsets.bottom * 0.05, 16.0),
           ),
           child: Container(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    onPressed: () {
-                      print('사진 첨부 클릭 성공');
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(CupertinoIcons.camera_viewfinder),
-                        SizedBox(width: 10),
-                        const Text(
-                          '사진 첨부',
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                      ],
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  CustomElevatedBtn(
-                    text: "업로드",
-                    funPageRoute: () {
-                      if (_formKey.currentState!.validate()) {
-                        Content newContent = Content(
-                          category: _selectedCategory,
-                          postId: contentsamples.length,
-                          title: _titleController.text,
-                          writer: '추가작성자',
-                          content: _contentController.text,
-                          date: DateTime.now(),
-                          isLike: false,
-                          likeCounts: 0,
-                          commentCounts: 0,
-                        );
-                        // 선택된 카테고리의 인덱스 전달
-                        ContentController().addContent(
-                            newContent, _selectedCategoryIndex, contentsamples);
-                        // 업로드 후 초기화
-                        _titleController.clear();
-                        _contentController.clear();
-                        // 홈 페이지로 이동
-                        Get.to(() => MyCommunity(
-                              initialTabIndex: _selectedCategoryIndex,
-                            ));
-                      }
-                    },
-                  ),
-                ],
-              ),
+                  onPressed: () {
+                    print('사진 첨부 클릭 성공');
+                  },
+                  child: const Text('사진 첨부하기'),
+                ),
+                const SizedBox(height: 8),
+                CustomElevatedBtn(
+                  text: "업로드",
+                  funPageRoute: () async {
+                    if (_formKey.currentState!.validate()) {
+                      var newContent = {
+                        'category': _selectedCategory,
+                        'userId': loginUserId,
+                        'nickname': loginUserNickname,
+                        'title': _titleController.text,
+                        'text': _contentController.text,
+                      };
+
+                      await PostService.addPost(newContent);
+
+                      // 업로드 후 초기화
+                      _titleController.clear();
+                      _contentController.clear();
+
+                      // 홈 페이지로 이동
+                      Get.to(() => MyCommunity(
+                            initialTabIndex: _selectedCategoryIndex,
+                          ));
+                    }
+                  },
+                ),
+              ],
             ),
           ),
         ),

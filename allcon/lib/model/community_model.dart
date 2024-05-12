@@ -1,45 +1,56 @@
 // 커뮤니티 글 모델
 
-class Content {
-  final String category;
-  final int postId;
-  final String writer;
-  final String title;
-  final String content;
-  final DateTime date;
-  late bool isLike;
-  late int likeCounts;
-  late int commentCounts;
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
-  Content({
-    required this.category,
+class Post {
+  final String postId;
+  final String category;
+  final String userId;
+  final String nickname;
+  final String title;
+  final String text;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final int commentCount;
+  final int likesCount;
+
+  Post({
     required this.postId,
-    required this.writer,
+    required this.category,
+    required this.userId,
+    required this.nickname,
     required this.title,
-    required this.content,
-    required this.date,
-    required this.isLike,
-    required this.likeCounts,
-    required this.commentCounts,
+    required this.text,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.commentCount,
+    required this.likesCount,
   });
 
-  factory Content.fromJson(Map<String, dynamic> json) {
-    return Content(
+  factory Post.fromJson(Map<String, dynamic> json) {
+    tz.initializeTimeZones(); // 시간대 데이터 초기화
+    var seoul = tz.getLocation('Asia/Seoul'); // 'Asia/Seoul' 위치 객체 가져오기
+    return Post(
+      postId: json['_id'], // MongoDB의 _id 필드를 postId로 사용
       category: json['category'],
-      postId: json['postId'],
-      writer: json['writer'],
+      userId: json['userId'],
+      nickname: json['nickname'],
       title: json['title'],
-      content: json['content'],
-      date: DateTime.parse(json['date']),
-      isLike: json['isLike'],
-      likeCounts: json['likeCounts'],
-      commentCounts: json['commentCounts'],
+      text: json['text'],
+
+      // UTC에서 한국 시간대로 변환
+      createdAt: tz.TZDateTime.from(DateTime.parse(json['createdAt']), seoul),
+      updatedAt: tz.TZDateTime.from(DateTime.parse(json['updatedAt']), seoul),
+
+      commentCount: json['commentCount'] ?? 0, // likeCounts가 null인 경우 0을 사용
+      likesCount: json['likesCount'] ?? 0, // likeCounts가 null인 경우 0을 사용
     );
   }
 }
 
 class Comment {
-  int postId;
+  String postId;
   int commentId;
   String commentWriter;
   String commentContent;

@@ -9,6 +9,7 @@ import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyCommunity extends StatefulWidget {
   final int initialTabIndex;
@@ -23,7 +24,14 @@ class _MyCommunityState extends State<MyCommunity>
   final List<String> categoryList = ['자유게시판', '후기', '카풀'];
   late final TabController _tabController;
   late final ContentController _contentController;
+
   String searchText = '';
+  String? loginUserId;
+
+  _loadInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    loginUserId = prefs.getString('userId');
+  }
 
   @override
   void initState() {
@@ -33,6 +41,7 @@ class _MyCommunityState extends State<MyCommunity>
         vsync: this,
         initialIndex: widget.initialTabIndex);
     _contentController = ContentController();
+    _loadInfo();
   }
 
   @override
@@ -59,6 +68,7 @@ class _MyCommunityState extends State<MyCommunity>
             contentController: _contentController,
             tabIdx: _tabController.index,
             initialCategory: categoryList[_tabController.index],
+            userId: loginUserId!,
           ));
         },
       ),
@@ -141,6 +151,7 @@ class _MyCommunityState extends State<MyCommunity>
               children: categoryList.map((category) {
                 return MyContentListView(
                   category: category,
+                  tabIdx: _tabController.index,
                   contentController: _contentController,
                   searchText: searchText,
                 );
