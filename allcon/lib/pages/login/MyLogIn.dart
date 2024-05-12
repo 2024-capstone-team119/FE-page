@@ -97,6 +97,9 @@ class _MyMyLogInState extends State<MyLogIn> {
                   if (_formKey.currentState!.validate()) {
                     bool isToken = await _accountController.login(
                         _userEmail.text.trim(), _userPwd.text.trim());
+                    print(
+                      'isToken : $isToken',
+                    );
                     if (isToken) {
                       print("토큰 받기 성공");
                       Get.snackbar('로그인 성공 😚', "반가워요!");
