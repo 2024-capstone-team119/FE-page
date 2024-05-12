@@ -154,7 +154,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                           '',
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.only(right: 10.5),
                     child: Row(
@@ -205,6 +205,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                       ],
                     ),
                   ),
+                  SizedBox(height: 8),
                   Container(
                     height: 1.0,
                     width: 450.0,
