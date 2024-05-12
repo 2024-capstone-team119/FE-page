@@ -61,6 +61,7 @@ dependencies:
   flutter_native_splash: ^2.4.0
   validators: ^3.0.0
   flutter_secure_storage: ^9.0.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -87,8 +88,8 @@ flutter:
   assets:
     - assets/img/avatar.png
     - assets/img/splash-icon.png
-    #   - images/a_dot_burr.jpeg
-    #   - images/a_dot_ham.jpeg
+    - assets/img/allcon_icon.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
