@@ -1,5 +1,4 @@
 // 커뮤니티 글 모델
-
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -50,24 +49,38 @@ class Post {
 }
 
 class Comment {
-  String postId;
-  int commentId;
-  String commentWriter;
-  String commentContent;
+  final String commentId;
+  final String postId;
+  final String userId;
+  final String nickname;
+  final String text;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   Comment({
-    required this.postId,
     required this.commentId,
-    this.commentWriter = '댓익명',
-    required this.commentContent,
+    required this.postId,
+    required this.userId,
+    required this.nickname,
+    required this.text,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory Comment.fromJson(Map<String, dynamic> json) {
+    tz.initializeTimeZones(); // 시간대 데이터 초기화
+    var seoul = tz.getLocation('Asia/Seoul'); // 'Asia/Seoul' 위치 객체 가져오기
+
     return Comment(
+      commentId: json['_id'], // MongoDB의 _id 필드를 postId로 사용
       postId: json['postId'],
-      commentId: json['commentId'],
-      commentWriter: json['commentWriter'],
-      commentContent: json['commentContent'],
+      userId: json['userId'],
+      nickname: json['nickname'],
+      text: json['text'],
+
+      // UTC에서 한국 시간대로 변환
+      createdAt: tz.TZDateTime.from(DateTime.parse(json['createdAt']), seoul),
+      updatedAt: tz.TZDateTime.from(DateTime.parse(json['updatedAt']), seoul),
     );
   }
 }

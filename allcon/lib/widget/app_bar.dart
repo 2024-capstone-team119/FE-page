@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String text;
+  final Function()? onLeadingPressed;
   final Widget? actions;
   final Function()? onActionPressed;
   final String? textFontFamily;
@@ -11,6 +13,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({
     super.key,
     required this.text,
+    this.onLeadingPressed,
     this.actions,
     this.onActionPressed,
     this.textFontFamily,
@@ -29,6 +32,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           fontWeight: FontWeight.w600,
         ),
       ),
+      leading: onLeadingPressed != null
+          ? IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: onLeadingPressed,
+            )
+          : null,
       centerTitle: true,
       backgroundColor: Colors.white,
       elevation: 0,
