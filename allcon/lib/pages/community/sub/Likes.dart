@@ -1,5 +1,4 @@
 import 'package:allcon/pages/community/sub/GetPost.dart';
-import 'package:allcon/pages/community/controller/content_controller.dart';
 import 'package:allcon/utils/Preparing.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
@@ -10,14 +9,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class MyContentLikes extends StatefulWidget {
-  final ContentController contentController;
   final String initialCategory;
   final int tabIdx;
   final String userId;
 
   const MyContentLikes({
     super.key,
-    required this.contentController,
     required this.initialCategory,
     required this.tabIdx,
     required this.userId,
@@ -28,14 +25,12 @@ class MyContentLikes extends StatefulWidget {
 }
 
 class _MyContentLikesState extends State<MyContentLikes> {
-  late ContentController _contentController;
   late String _selectedCategory;
   List<Post> likedContents = [];
 
   @override
   void initState() {
     super.initState();
-    _contentController = widget.contentController;
     _selectedCategory = widget.initialCategory;
     // _updateLikedContents();
   }
@@ -95,7 +90,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
         Get.to(() => MyContentDetail(
               post: content,
               userId: '12',
-              contentController: _contentController,
+              nickname: '임시',
             ));
       },
       child: Column(
@@ -159,7 +154,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
                             ),
                             const SizedBox(width: 4.0),
                             Text(
-                              "${_contentController.comments.length}",
+                              "${content.commentCount}",
                               style: const TextStyle(
                                 color: Colors.blueAccent,
                               ),

@@ -1,9 +1,9 @@
+import 'package:allcon/pages/community/controller/post_controller.dart';
 import 'package:allcon/pages/community/sub/GetPost.dart';
-import 'package:allcon/pages/community/controller/content_controller.dart';
 import 'package:allcon/model/community_model.dart';
-import 'package:allcon/service/community/postService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,13 +13,11 @@ class MyContentListView extends StatefulWidget {
   final int tabIdx;
   final String title;
   final String searchText;
-  final ContentController contentController;
 
   const MyContentListView({
     super.key,
     required this.category,
     required this.tabIdx,
-    required this.contentController,
     this.title = '',
     this.searchText = '',
   });
@@ -29,56 +27,42 @@ class MyContentListView extends StatefulWidget {
 }
 
 class _MyContentListViewState extends State<MyContentListView> {
-  late Future<List<Post>> _futurePosts;
+  final PostController _postController = PostController();
   String? loginUserId;
+  String? loginUserNickname;
 
   _loadInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     loginUserId = prefs.getString('userId');
+    loginUserNickname = prefs.getString('userNickname');
   }
 
   @override
   void initState() {
     super.initState();
-    _futurePosts = PostService.getPost(widget.category);
     _loadInfo();
   }
 
   @override
   Widget build(BuildContext context) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _postController.fetchPosts(widget.category);
+      setState(() {});
+    });
     return Scaffold(
       backgroundColor: Colors.white,
-      body: FutureBuilder<List<Post>>(
-        future: _futurePosts,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('오류가 발생했습니다: ${snapshot.error}'));
-          }
-          if (snapshot.hasData) {
-            List<Post> posts = snapshot.data!;
-
-            return SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: ListView.builder(
-                itemCount: posts.length,
-                itemBuilder: (context, index) {
-                  // 거꾸로 된 인덱스 계산
-                  final reversedIndex = posts.length - index - 1;
-                  return _buildContentItem(
-                      context, posts[reversedIndex], reversedIndex);
-                },
-                scrollDirection: Axis.vertical,
-              ),
-            );
-          }
-          return const Center(
-            child: Text('데이터가 없습니다.'),
-          );
-        },
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: ListView.builder(
+          itemCount: _postController.posts.length,
+          itemBuilder: (context, index) {
+            // 거꾸로 된 인덱스 계산
+            final reversedIndex = _postController.posts.length - index - 1;
+            return _buildContentItem(
+                context, _postController.posts[reversedIndex], reversedIndex);
+          },
+        ),
       ),
     );
   }
@@ -109,7 +93,7 @@ class _MyContentListViewState extends State<MyContentListView> {
               tabIdx: widget.tabIdx,
               post: post,
               userId: loginUserId ?? '',
-              contentController: widget.contentController,
+              nickname: loginUserNickname ?? '',
             ));
       },
       child: Column(

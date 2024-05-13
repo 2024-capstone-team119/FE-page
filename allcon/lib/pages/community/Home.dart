@@ -2,7 +2,6 @@ import 'package:allcon/pages/community/sub/Likes.dart';
 import 'package:allcon/pages/community/sub/Post.dart';
 import 'package:allcon/pages/community/sub/Search.dart';
 import 'package:allcon/pages/community/sub/tabcontent/ContentListView.dart';
-import 'package:allcon/pages/community/controller/content_controller.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
@@ -23,7 +22,6 @@ class _MyCommunityState extends State<MyCommunity>
     with TickerProviderStateMixin {
   final List<String> categoryList = ['자유게시판', '후기', '카풀'];
   late final TabController _tabController;
-  late final ContentController _contentController;
 
   String searchText = '';
   String? loginUserId;
@@ -40,7 +38,6 @@ class _MyCommunityState extends State<MyCommunity>
         length: categoryList.length,
         vsync: this,
         initialIndex: widget.initialTabIndex);
-    _contentController = ContentController();
     _loadInfo();
   }
 
@@ -65,7 +62,6 @@ class _MyCommunityState extends State<MyCommunity>
         ),
         onActionPressed: () {
           Get.to(MyContentLikes(
-            contentController: _contentController,
             tabIdx: _tabController.index,
             initialCategory: categoryList[_tabController.index],
             userId: loginUserId!,
@@ -152,7 +148,6 @@ class _MyCommunityState extends State<MyCommunity>
                 return MyContentListView(
                   category: category,
                   tabIdx: _tabController.index,
-                  contentController: _contentController,
                   searchText: searchText,
                 );
               }).toList(),
