@@ -80,8 +80,8 @@ class _CalendarState extends State<Calendar> {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  CalendarDate(),
-                  SizedBox(height: 20),
+                  const CalendarDate(),
+                  const SizedBox(height: 20),
                   SelectConcertList(),
                   // if (upcomingPerformancesCache.isNotEmpty)
                   //   CalendarUpcoming(performances: upcomingPerformancesCache),

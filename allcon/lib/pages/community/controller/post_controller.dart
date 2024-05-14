@@ -19,31 +19,4 @@ class PostController extends GetxController {
       print('PostController 에러');
     }
   }
-
-  // 좋아요
-  // List<Post> getAllLikedContents(String category) {
-  //   List<Post> categoryPosts = postsamples
-  //       .where((post) => post.category == category)
-  //       .toList();
-  //   if (categoryPosts.isEmpty) {
-  //     return [];
-  //   }
-  //   return categoryPosts.where((post) => post.isLike == true).toList();
-  // }
-
-  // void toggleLike(int postId) {
-  //   final int index =
-  //       posts.indexWhere((post) => post.postId == postId);
-
-  //   if (index != -1) {
-  //     final Post post = posts[index];
-
-  //     final int currentLike = post.likeCounts;
-  //     post.isLike = !(post.isLike);
-  //     post.likeCounts = post.isLike ? currentLike + 1 : currentLike - 1;
-
-  //     posts[index] = post;
-  //     update();
-  //   }
-  // }
 }
