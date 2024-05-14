@@ -48,7 +48,8 @@ class _ContentDetailState extends State<MyContentDetail> {
       appBar: MyAppBar(
           text: '커뮤니티',
           onLeadingPressed: () {
-            Get.off(() => MyCommunity(initialTabIndex: widget.tabIdx ?? 0));
+            Get.back(); // 댓글 팝업 닫기
+            Get.back(); // 페이지 이동
           }),
       body: SafeArea(
         child: SingleChildScrollView(

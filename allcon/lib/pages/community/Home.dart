@@ -25,10 +25,12 @@ class _MyCommunityState extends State<MyCommunity>
 
   String searchText = '';
   String? loginUserId;
+  String? loginUserNickname;
 
   _loadInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     loginUserId = prefs.getString('userId');
+    loginUserNickname = prefs.getString('userNickname');
   }
 
   @override
@@ -64,7 +66,8 @@ class _MyCommunityState extends State<MyCommunity>
           Get.to(MyContentLikes(
             tabIdx: _tabController.index,
             initialCategory: categoryList[_tabController.index],
-            userId: loginUserId!,
+            userId: loginUserId ?? '',
+            nickname: loginUserNickname ?? '',
           ));
         },
       ),
