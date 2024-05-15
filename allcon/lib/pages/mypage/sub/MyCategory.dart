@@ -16,7 +16,7 @@ class MyCategory extends StatelessWidget {
     final AccountController _accountController = Get.put(AccountController());
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 6.0),
+      padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
       child: Column(
         children: [
           Card(
@@ -37,10 +37,11 @@ class MyCategory extends StatelessWidget {
               ),
               onTap: () {
                 print('관심 공연 목록 is clicked');
-                Get.to(const MyConcertLikes());
+                Get.to(MyConcertLikes());
               },
             ),
           ),
+          SizedBox(height: 4),
           Card(
             color: Colors.white,
             elevation: 0,
@@ -62,6 +63,7 @@ class MyCategory extends StatelessWidget {
               },
             ),
           ),
+          SizedBox(height: 4),
           Card(
             color: Colors.white,
             elevation: 0,
@@ -84,6 +86,7 @@ class MyCategory extends StatelessWidget {
               },
             ),
           ),
+          SizedBox(height: 4),
           Card(
             color: Colors.white,
             elevation: 0,
