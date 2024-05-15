@@ -6,7 +6,10 @@ import 'package:allcon/pages/concerthall/HallMap.dart';
 class PlaceInfo extends StatefulWidget {
   final Place placeDetail;
 
-  const PlaceInfo({super.key, required this.placeDetail});
+  const PlaceInfo({
+    super.key,
+    required this.placeDetail,
+  });
 
   @override
   State<PlaceInfo> createState() => _PlaceInfoState();

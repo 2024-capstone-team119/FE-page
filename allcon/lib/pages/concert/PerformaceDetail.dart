@@ -78,9 +78,10 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
         height: 50,
         child: FloatingActionButton(
           onPressed: () {
+            // 예매처 이동
             Get.snackbar(
-              '죄송합니다 🙌',
-              '해당 서비스는 준비중입니다!\n조금만 기다려주세요~',
+              '예매처 이동 서비스',
+              '해당 서비스는 준비중입니다. 조금만 기다려주세요! 😊',
             );
           },
           backgroundColor: Mint,

@@ -1,5 +1,6 @@
+import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/concerthall/PlaceInfo.dart';
-import 'package:allcon/pages/seat/seat_main.dart';
+import 'package:allcon/pages/review/ReviewMain.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
@@ -15,8 +16,14 @@ import 'PerformanceList.dart';
 class HallMain extends StatefulWidget {
   final String title;
   final String id;
+  final List<Hall> hallList;
 
-  const HallMain({super.key, required this.title, required this.id});
+  const HallMain({
+    super.key,
+    required this.title,
+    required this.id,
+    required this.hallList,
+  });
 
   @override
   State<HallMain> createState() => _HallMainState();
@@ -45,7 +52,9 @@ class _HallMainState extends State<HallMain> {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  PlaceInfo(placeDetail: placeDetail),
+                  PlaceInfo(
+                    placeDetail: placeDetail,
+                  ),
                   const SizedBox(height: 5.0),
                   reviewBtn(context),
                   const SizedBox(height: 5.0),
@@ -76,7 +85,10 @@ class _HallMainState extends State<HallMain> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => SeatMain(title: widget.title)),
+                builder: (context) => ReviewMain(
+                      title: widget.title,
+                      hallList: widget.hallList,
+                    )),
           );
         },
       ),

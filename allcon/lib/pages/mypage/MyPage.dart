@@ -25,21 +25,12 @@ class _MyPageState extends State<MyPage> {
         currentIndex: 0,
       ),
       body: Container(
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.white,
-              lightGray,
-            ],
-            stops: [0.0, 0.75],
-          ),
-        ),
+        color: Colors.white, // 이 부분을 수정해서 배경색을 지정합니다.
         child: SafeArea(
           child: SingleChildScrollView(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 MyProfile(),
                 const MyCategory(),

@@ -17,7 +17,8 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: hint == "비밀번호를 입력해주세요" ? true : false,
+      obscureText:
+          hint == "비밀번호를 입력해주세요" || hint == '비밀번호를 다시 입력해주세요' ? true : false,
       controller: controller,
       initialValue: value,
       validator: funValidator,

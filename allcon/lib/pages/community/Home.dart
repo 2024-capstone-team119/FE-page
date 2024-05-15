@@ -1,15 +1,14 @@
-import 'package:allcon/Data/Sample/content_sample.dart';
 import 'package:allcon/pages/community/sub/Likes.dart';
 import 'package:allcon/pages/community/sub/Post.dart';
 import 'package:allcon/pages/community/sub/Search.dart';
 import 'package:allcon/pages/community/sub/tabcontent/ContentListView.dart';
-import 'package:allcon/pages/community/controller/content_controller.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyCommunity extends StatefulWidget {
   final int initialTabIndex;
@@ -21,18 +20,27 @@ class MyCommunity extends StatefulWidget {
 
 class _MyCommunityState extends State<MyCommunity>
     with TickerProviderStateMixin {
+  final List<String> categoryList = ['자유게시판', '후기', '카풀'];
   late final TabController _tabController;
+
   String searchText = '';
-  late final ContentController _contentController;
+  String? loginUserId;
+  String? loginUserNickname;
+
+  _loadInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    loginUserId = prefs.getString('userId');
+    loginUserNickname = prefs.getString('userNickname');
+  }
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(
-        length: contentsamples.length,
+        length: categoryList.length,
         vsync: this,
         initialIndex: widget.initialTabIndex);
-    _contentController = ContentController();
+    _loadInfo();
   }
 
   @override
@@ -56,9 +64,10 @@ class _MyCommunityState extends State<MyCommunity>
         ),
         onActionPressed: () {
           Get.to(MyContentLikes(
-            contentController: _contentController,
             tabIdx: _tabController.index,
-            initialCategory: contentsamples[_tabController.index].name,
+            initialCategory: categoryList[_tabController.index],
+            userId: loginUserId ?? '',
+            nickname: loginUserNickname ?? '',
           ));
         },
       ),
@@ -76,8 +85,8 @@ class _MyCommunityState extends State<MyCommunity>
               backgroundColor: lavenderColor,
               onPressed: () {
                 Get.to(MyContentWrite(
-                  initialCategory: contentsamples[_tabController.index]
-                      .name, // 현재 선택된 탭의 이름 전달
+                  initialCategory:
+                      categoryList[_tabController.index], // 현재 선택된 탭의 이름 전달
                   tabIdx: _tabController.index,
                 ));
               },
@@ -128,25 +137,23 @@ class _MyCommunityState extends State<MyCommunity>
 
   Widget tabBar(BuildContext context, TabController tabController) {
     return DefaultTabController(
-      length: contentsamples.length,
+      length: categoryList.length,
       child: Column(
         children: [
           TabBar(
             controller: tabController,
-            tabs:
-                contentsamples.map((sample) => Tab(text: sample.name)).toList(),
+            tabs: categoryList.map((category) => Tab(text: category)).toList(),
           ),
           Expanded(
             child: TabBarView(
               controller: tabController,
-              children: contentsamples
-                  .map((sample) => MyContentListView(
-                        tabIdx: sample.tabIdx,
-                        category: sample.name,
-                        contentController: _contentController,
-                        searchText: searchText,
-                      ))
-                  .toList(),
+              children: categoryList.map((category) {
+                return MyContentListView(
+                  category: category,
+                  tabIdx: _tabController.index,
+                  searchText: searchText,
+                );
+              }).toList(),
             ),
           ),
         ],

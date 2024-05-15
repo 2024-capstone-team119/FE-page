@@ -1,79 +1,86 @@
 // 커뮤니티 글 모델
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
-class Category {
-  int tabIdx;
-  String name;
-  List<Content> content;
-
-  Category({
-    required this.tabIdx,
-    required this.name,
-    required this.content,
-  });
-
-  factory Category.fromJson(Map<String, dynamic> json) {
-    return Category(
-      tabIdx: json['tabIdx'],
-      name: json['name'],
-      content: (json['content'] as List<dynamic>)
-          .map((contentJson) => Content.fromJson(contentJson))
-          .toList(),
-    );
-  }
-}
-
-class Content {
-  final int postId;
-  final String writer;
+class Post {
+  final String postId;
+  final String category;
+  final String userId;
+  final String nickname;
   final String title;
-  final String content;
-  final DateTime date;
-  late bool isLike;
-  late int likeCounts;
-  final List<Comment> comment;
+  final String text;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final int commentCount;
+  final int likesCount;
 
-  Content({
+  Post({
     required this.postId,
-    required this.writer,
+    required this.category,
+    required this.userId,
+    required this.nickname,
     required this.title,
-    required this.content,
-    required this.date,
-    required this.isLike,
-    required this.likeCounts,
-    required this.comment,
+    required this.text,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.commentCount,
+    required this.likesCount,
   });
 
-  factory Content.fromJson(Map<String, dynamic> json) {
-    return Content(
-      postId: json['postId'],
-      writer: json['writer'],
+  factory Post.fromJson(Map<String, dynamic> json) {
+    tz.initializeTimeZones(); // 시간대 데이터 초기화
+    var seoul = tz.getLocation('Asia/Seoul'); // 'Asia/Seoul' 위치 객체 가져오기
+    return Post(
+      postId: json['_id'], // MongoDB의 _id 필드를 postId로 사용
+      category: json['category'],
+      userId: json['userId'],
+      nickname: json['nickname'],
       title: json['title'],
-      content: json['content'],
-      date: DateTime.parse(json['date']),
-      isLike: json['isLike'],
-      likeCounts: json['likeCounts'],
-      comment: (json['comment'] as List<dynamic>)
-          .map((commentJson) => Comment.fromJson(commentJson))
-          .toList(),
+      text: json['text'],
+
+      // UTC에서 한국 시간대로 변환
+      createdAt: tz.TZDateTime.from(DateTime.parse(json['createdAt']), seoul),
+      updatedAt: tz.TZDateTime.from(DateTime.parse(json['updatedAt']), seoul),
+
+      commentCount: json['commentCount'] ?? 0, // likeCounts가 null인 경우 0을 사용
+      likesCount: json['likesCount'] ?? 0, // likeCounts가 null인 경우 0을 사용
     );
   }
 }
 
 class Comment {
-  int commentId;
-  String commentWriter;
-  String commentContent;
+  final String commentId;
+  final String postId;
+  final String userId;
+  final String nickname;
+  final String text;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   Comment({
     required this.commentId,
-    this.commentWriter = '댓익명',
-    required this.commentContent,
+    required this.postId,
+    required this.userId,
+    required this.nickname,
+    required this.text,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory Comment.fromJson(Map<String, dynamic> json) {
+    tz.initializeTimeZones(); // 시간대 데이터 초기화
+    var seoul = tz.getLocation('Asia/Seoul'); // 'Asia/Seoul' 위치 객체 가져오기
+
     return Comment(
-      commentId: json['commentId'],
-      commentContent: json['commentContent'],
+      commentId: json['_id'], // MongoDB의 _id 필드를 postId로 사용
+      postId: json['postId'],
+      userId: json['userId'],
+      nickname: json['nickname'],
+      text: json['text'],
+
+      // UTC에서 한국 시간대로 변환
+      createdAt: tz.TZDateTime.from(DateTime.parse(json['createdAt']), seoul),
+      updatedAt: tz.TZDateTime.from(DateTime.parse(json['updatedAt']), seoul),
     );
   }
 }

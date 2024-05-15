@@ -1,6 +1,6 @@
 import 'package:allcon/model/community_model.dart';
 import 'package:allcon/pages/community/Home.dart';
-import 'package:allcon/pages/community/controller/content_controller.dart';
+import 'package:allcon/service/community/postService.dart';
 import 'package:allcon/utils/validator_util.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
@@ -16,17 +16,17 @@ class MyContentUpdate extends StatefulWidget {
   final int initialCategory;
   final String? category;
   final String? title;
-  final String? content;
+  final String? text;
 
-  final Content originContent;
+  final Post originPost;
 
   const MyContentUpdate({
     super.key,
     required this.initialCategory,
     this.category,
     this.title,
-    this.content,
-    required this.originContent,
+    this.text,
+    required this.originPost,
   });
 
   @override
@@ -45,7 +45,7 @@ class _ContentUpdateState extends State<MyContentUpdate> {
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.title);
-    _contentController = TextEditingController(text: widget.content);
+    _contentController = TextEditingController(text: widget.text);
   }
 
   @override
@@ -114,23 +114,17 @@ class _ContentUpdateState extends State<MyContentUpdate> {
                 const SizedBox(height: 5.0),
                 CustomElevatedBtn(
                   text: "수정완료",
-                  funPageRoute: () {
+                  funPageRoute: () async {
                     if (_formKey.currentState!.validate()) {
                       // 수정된 컨텐트
-                      Content updatedContent = Content(
-                        postId: widget.originContent.postId,
-                        writer: widget.originContent.writer,
-                        title: _titleController.text,
-                        content: _contentController.text,
-                        date: widget.originContent.date,
-                        isLike: widget.originContent.isLike,
-                        likeCounts: widget.originContent.likeCounts,
-                        comment: widget.originContent.comment,
-                      );
+                      var updatedPost = {
+                        'category': _selectedCategory!,
+                        'title': _titleController.text,
+                        'text': _contentController.text,
+                      };
 
-                      // ContentController에 업데이트된 내용을 전달하여 업데이트합니다.
-                      ContentController().updateContent(updatedContent,
-                          _selectedCategoryIndex, widget.category);
+                      await PostService.updatePost(
+                          widget.originPost.postId, updatedPost);
 
                       // 수정된 내용을 반영한 MyCommunity 페이지로 이동합니다.
                       Get.to(() => MyCommunity(

@@ -1,6 +1,7 @@
-import 'package:allcon/controller/user_controller.dart';
+import 'package:allcon/pages/login/controller/account_controller.dart';
 import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/pages/mypage/sub/MyConcertLikes.dart';
+import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/utils/jwt.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class MyCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserController u = Get.put(UserController());
+    final AccountController _accountController = Get.put(AccountController());
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 6.0),
@@ -22,8 +23,8 @@ class MyCategory extends StatelessWidget {
             color: Colors.white,
             elevation: 0,
             shape: RoundedRectangleBorder(
-              side: const BorderSide(color: Colors.black12, width: 0.5),
-              borderRadius: BorderRadius.circular(20),
+              side: const BorderSide(color: Colors.deepPurple, width: 0.5),
+              borderRadius: BorderRadius.circular(50),
             ),
             child: ListTile(
               leading: Icon(
@@ -44,8 +45,8 @@ class MyCategory extends StatelessWidget {
             color: Colors.white,
             elevation: 0,
             shape: RoundedRectangleBorder(
-              side: const BorderSide(color: Colors.black12, width: 0.5),
-              borderRadius: BorderRadius.circular(20),
+              side: const BorderSide(color: Colors.deepPurple, width: 0.5),
+              borderRadius: BorderRadius.circular(50),
             ),
             child: ListTile(
               leading: Icon(
@@ -65,8 +66,8 @@ class MyCategory extends StatelessWidget {
             color: Colors.white,
             elevation: 0,
             shape: RoundedRectangleBorder(
-              side: const BorderSide(color: Colors.black12, width: 0.5),
-              borderRadius: BorderRadius.circular(20),
+              side: const BorderSide(color: Colors.deepPurple, width: 0.5),
+              borderRadius: BorderRadius.circular(50),
             ),
             child: ListTile(
               leading: Icon(
@@ -78,7 +79,7 @@ class MyCategory extends StatelessWidget {
                 style: TextStyle(fontSize: 20.0),
               ),
               onTap: () {
-                u.logout();
+                _accountController.logout();
                 Get.to(MyLogIn());
               },
             ),
@@ -87,8 +88,8 @@ class MyCategory extends StatelessWidget {
             color: Colors.white,
             elevation: 0,
             shape: RoundedRectangleBorder(
-              side: const BorderSide(color: Colors.black12, width: 0.5),
-              borderRadius: BorderRadius.circular(20),
+              side: const BorderSide(color: Colors.deepPurple, width: 0.5),
+              borderRadius: BorderRadius.circular(50),
             ),
             child: ListTile(
               leading: Icon(
