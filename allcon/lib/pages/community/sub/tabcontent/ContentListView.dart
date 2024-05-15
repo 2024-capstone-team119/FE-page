@@ -30,6 +30,8 @@ class _MyContentListViewState extends State<MyContentListView> {
   final PostController _postController = PostController();
   String? loginUserId;
   String? loginUserNickname;
+  late bool anonymous = true;
+  final bool likeToDetail = false;
 
   _loadInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -96,6 +98,11 @@ class _MyContentListViewState extends State<MyContentListView> {
     DateTime dateTime =
         DateFormat('yyyy-MM-dd').parse(post.createdAt.toString());
 
+    // 카풀 카테고리 익명 처리
+    if (widget.category == '카풀') {
+      anonymous = false;
+    }
+
     return FutureBuilder<bool>(
       future: LikesService.isPostLiked(loginUserId!, post.postId),
       builder: (context, snapshot) {
@@ -114,6 +121,8 @@ class _MyContentListViewState extends State<MyContentListView> {
                     post: post,
                     userId: loginUserId ?? '',
                     nickname: loginUserNickname ?? '',
+                    anonymous: anonymous,
+                    likeToDetail: false,
                   ));
             },
             child: Column(
@@ -142,7 +151,7 @@ class _MyContentListViewState extends State<MyContentListView> {
                               Row(
                                 children: [
                                   Text(
-                                    post.nickname,
+                                    anonymous ? '익명' : post.nickname,
                                     style: const TextStyle(fontSize: 12.0),
                                   ),
                                   const SizedBox(width: 8.0),

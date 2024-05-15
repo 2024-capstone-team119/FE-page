@@ -10,12 +10,14 @@ class GetComment extends StatefulWidget {
   final Post post;
   final String userId;
   final String nickname;
+  final bool anonymous;
 
   const GetComment({
     super.key,
     required this.post,
     required this.userId,
     required this.nickname,
+    required this.anonymous,
   });
 
   @override
@@ -138,6 +140,7 @@ class _GetCommentState extends State<GetComment> {
           itemBuilder: (context, index) {
             Comment comment = comments[index];
             bool isOwner = widget.userId == comment.userId;
+            int reverseIndex = comments.length - index;
 
             return Padding(
               padding: const EdgeInsets.only(left: 6, top: 10),
@@ -151,7 +154,9 @@ class _GetCommentState extends State<GetComment> {
                     children: [
                       Row(children: [
                         Text(
-                          comment.nickname,
+                          widget.anonymous
+                              ? '익명$reverseIndex'
+                              : comment.nickname,
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16.0,

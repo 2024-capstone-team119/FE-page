@@ -1,5 +1,6 @@
 import 'package:allcon/pages/community/Home.dart';
 import 'package:allcon/pages/community/sub/GetComment.dart';
+import 'package:allcon/pages/community/sub/Likes.dart';
 import 'package:allcon/pages/community/sub/Update.dart';
 import 'package:allcon/service/community/postService.dart';
 import 'package:allcon/widget/app_bar.dart';
@@ -10,19 +11,23 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class MyContentDetail extends StatefulWidget {
-  final String? category;
-  final int? tabIdx;
+  final String category;
+  final int tabIdx;
   final Post post;
   final String userId;
   final String nickname;
+  final bool anonymous;
+  final bool likeToDetail; // 이전 페이지 이동을 위한 불린
 
   const MyContentDetail({
     super.key,
-    this.category,
-    this.tabIdx,
+    required this.category,
+    required this.tabIdx,
     required this.post,
     required this.userId,
     required this.nickname,
+    required this.anonymous,
+    required this.likeToDetail,
   });
 
   @override
@@ -37,7 +42,7 @@ class _ContentDetailState extends State<MyContentDetail> {
 
   void _deletePost() async {
     await PostService.deletePost(widget.post.postId);
-    Get.to(() => MyCommunity(initialTabIndex: widget.tabIdx ?? 0));
+    Get.to(() => MyCommunity(initialTabIndex: widget.tabIdx));
   }
 
   @override
@@ -49,7 +54,17 @@ class _ContentDetailState extends State<MyContentDetail> {
           text: '커뮤니티',
           onLeadingPressed: () {
             Get.back(); // 댓글 팝업 닫기
-            Get.back(); // 페이지 이동
+            // 좋아요 목록에서 넘어왔는지 확인
+            if (widget.likeToDetail == true) {
+              Get.to(MyContentLikes(
+                tabIdx: widget.tabIdx,
+                initialCategory: widget.category,
+                userId: widget.userId,
+                nickname: widget.nickname,
+              ));
+            } else {
+              Get.to(MyCommunity(initialTabIndex: widget.tabIdx));
+            }
           }),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -83,7 +98,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                                     child: const Text('수정'),
                                     onPressed: () {
                                       Get.to(MyContentUpdate(
-                                        initialCategory: widget.tabIdx ?? 0,
+                                        initialCategory: widget.tabIdx,
                                         category: widget.category,
                                         originPost: widget.post,
                                         title: widget.post.title,
@@ -120,7 +135,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                   const SizedBox(height: 6.0),
                   Row(
                     children: [
-                      Text(widget.post.nickname),
+                      Text(widget.anonymous ? '익명' : widget.post.nickname),
                       const SizedBox(width: 10.0),
                       const Text('|'),
                       const SizedBox(width: 10.0),
@@ -145,6 +160,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                     post: widget.post,
                     userId: widget.userId,
                     nickname: widget.nickname,
+                    anonymous: widget.anonymous,
                   ),
                   const SizedBox(height: 65),
                 ],
