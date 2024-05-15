@@ -31,6 +31,8 @@ class MyContentLikes extends StatefulWidget {
 class _MyContentLikesState extends State<MyContentLikes> {
   late String _selectedCategory;
   late Future<List<Map<String, dynamic>>> _likedListFuture;
+  late bool anonymous = true;
+  final bool likeToDetail = true;
 
   @override
   void initState() {
@@ -87,6 +89,11 @@ class _MyContentLikesState extends State<MyContentLikes> {
             }
           }
 
+          // 카풀 카테고리 익명 처리
+          if (_selectedCategory == '카풀') {
+            anonymous = false;
+          }
+
           return ListView.builder(
             itemCount: posts.length,
             itemBuilder: (context, index) {
@@ -116,9 +123,13 @@ class _MyContentLikesState extends State<MyContentLikes> {
           return GestureDetector(
             onTap: () {
               Get.to(() => MyContentDetail(
+                    tabIdx: widget.tabIdx,
+                    category: _selectedCategory,
                     post: post,
                     userId: widget.userId,
                     nickname: widget.nickname,
+                    anonymous: anonymous,
+                    likeToDetail: true,
                   ));
             },
             child: Column(
@@ -145,18 +156,12 @@ class _MyContentLikesState extends State<MyContentLikes> {
                               const SizedBox(height: 4.0),
                               Row(
                                 children: [
+                                  Text(anonymous ? '익명' : post.nickname),
+                                  const SizedBox(width: 10.0),
+                                  const Text('|'),
+                                  const SizedBox(width: 10.0),
                                   Text(
                                     DateFormat('yyyy-MM-dd').format(dateTime),
-                                    style: const TextStyle(
-                                      fontSize: 12.0,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8.0),
-                                  Text(
-                                    DateFormat('HH:mm').format(dateTime),
-                                    style: const TextStyle(
-                                      fontSize: 12.0,
-                                    ),
                                   ),
                                 ],
                               ),
