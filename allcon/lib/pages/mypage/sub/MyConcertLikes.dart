@@ -20,12 +20,13 @@ class _MyConcertLikesState extends State<MyConcertLikes> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(text: '관심공연 목록'),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors
+          .white, /*
       body: FutureBuilder<ConcertLikes?>(
           future: concertLikesService.fetchConcertLikes(client, userId),
           builder: (context, snapshot) {
             return Container();
-            /*ListView.builder(
+            ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, imgIndex) {
                 return Padding(
@@ -97,8 +98,8 @@ class _MyConcertLikesState extends State<MyConcertLikes> {
                   ),
                 );
               },
-            );*/
-          }),
+            );
+          }),*/
     );
   }
 }

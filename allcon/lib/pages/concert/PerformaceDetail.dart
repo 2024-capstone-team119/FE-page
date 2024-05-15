@@ -1,59 +1,65 @@
 import 'dart:ui';
-import 'package:allcon/pages/concert/controller/concertLiket_controller.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:allcon/model/concertLikes_model.dart';
 import 'package:allcon/service/concertLikesService.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:allcon/model/performance_model.dart';
-import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PerformanceDetail extends StatefulWidget {
   final Performance performance;
 
-  const PerformanceDetail({super.key, required this.performance});
+  const PerformanceDetail({Key? key, required this.performance})
+      : super(key: key);
 
   @override
   State<PerformanceDetail> createState() => _PerformanceDetailState();
 }
 
 class _PerformanceDetailState extends State<PerformanceDetail> {
-  final concertLikesController = Get.put(concertLikedController());
-  late bool isMyLikesConcert;
-  late ConcertLikes? concertLikes;
-  final client = http.Client();
+  String? loginUserId;
+  String? loginUserNickname;
+
+  bool isFavorited = false;
 
   @override
   void initState() {
     super.initState();
-    isMyLikesConcert = concertLikesController.likes;
-    fetchConcertLikesData();
+    _loadUserInfo();
   }
 
-  // 사용자의 좋아요 상태를 가져와서 UI를 업데이트
-  Future<void> fetchConcertLikesData() async {
-    concertLikes =
-        await ConcertLikesService().fetchConcertLikes(client, 'userId');
+  void _loadUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    loginUserId = prefs.getString('userId');
+    loginUserNickname = prefs.getString('userNickname');
+
+    if (loginUserId != null) {
+      _checkFavoriteStatus(loginUserId!, widget.performance.mid.toString());
+    }
+  }
+
+  Future<void> _checkFavoriteStatus(String userId, String performanceId) async {
+    bool favorited =
+        await ConcertLikesService.isFavorited(userId, performanceId);
     setState(() {
-      isMyLikesConcert =
-          concertLikes?.concertId.contains(widget.performance.id) ?? false;
+      isFavorited = favorited;
     });
   }
 
-  // 사용자의 좋아요 상태를 업데이트
-  Future<void> updateConcertLikesData() async {
-    concertLikes ??= ConcertLikes('', 'userId', []);
-    final updatedConcertIds = isMyLikesConcert
-        ? [...concertLikes!.concertId, widget.performance.id]
-        : concertLikes!.concertId
-            .where((id) => id != widget.performance.id)
-            .toList();
-    concertLikes = ConcertLikes(concertLikes!.id, concertLikes!.userId,
-        updatedConcertIds.cast<String>());
-    await ConcertLikesService().updateConcertLikes(client, concertLikes!);
+  Future<void> _toggleFavorite() async {
+    var result = await ConcertLikesService.toggleFavorite(
+      loginUserId.toString(),
+      widget.performance.mid.toString(),
+    );
+
+    if (result['favorited'] != null) {
+      setState(() {
+        isFavorited = result['favorited'];
+      });
+    }
   }
 
   @override
@@ -160,20 +166,14 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
               top: 186,
               right: 15,
               child: IconButton(
-                icon: GetBuilder<concertLikedController>(
-                  builder: (controller) => Icon(
-                    controller.likes
-                        ? CupertinoIcons.heart_fill
-                        : CupertinoIcons.heart,
-                    color: controller.likes ? Colors.redAccent : Colors.black26,
-                    size: 30.0,
-                  ),
+                icon: Icon(
+                  isFavorited
+                      ? CupertinoIcons.heart_fill
+                      : CupertinoIcons.heart,
+                  color: isFavorited ? Colors.redAccent : Colors.black26,
+                  size: 30.0,
                 ),
-                onPressed: () async {
-                  // 버튼 클릭 시 수행할 작업
-                  concertLikesController.getLiked();
-                  await updateConcertLikesData();
-                },
+                onPressed: _toggleFavorite,
               ),
             ),
           ],
