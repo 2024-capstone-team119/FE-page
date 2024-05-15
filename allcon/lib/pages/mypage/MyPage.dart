@@ -25,7 +25,7 @@ class _MyPageState extends State<MyPage> {
         currentIndex: 0,
       ),
       body: Container(
-        color: Colors.white, // 이 부분을 수정해서 배경색을 지정합니다.
+        color: Colors.white,
         child: SafeArea(
           child: SingleChildScrollView(
             child: Column(

@@ -1,51 +1,62 @@
 import 'dart:convert';
 import 'package:allcon/model/concertLikes_model.dart';
+import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/service/baseUrl.dart';
 import 'package:http/http.dart' as http;
 
 class ConcertLikesService {
-  // 등록한 좋아요한 콘서트 정보 요청
-  Future<ConcertLikes?> fetchConcertLikes(
-      http.Client client, String userId) async {
-    // http://inu-allcon/concertLikes?userId=-NIVCK7LmyT6E1bumyAQ
-    var url = Uri.http(BaseUrl.baseUrl, '/concertLikes', {'userId': userId});
-
-    final response = await client.get(url);
-    if (response.statusCode == 200) {
-      final concertLikesMap = jsonDecode(response.body);
-      if (concertLikesMap.containsKey("rows")) {
-        if (concertLikesMap["rows"].length <= 0) return null;
-        var concertLikes = ConcertLikes.fromJson(concertLikesMap["rows"][0]);
-        return concertLikes;
+  // 1. 공연 상세 페이지에서 좋아요 상태 확인 API (얘로 하트버튼 초기화!)
+  static Future<bool> isFavorited(String userId, String performanceId) async {
+    var url = Uri.parse("${BaseUrl.baseUrl}isFavorited/$userId/$performanceId");
+    try {
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        return data['isFavorited']; // 서버에서 반환된 좋아요 상태 (true or false)
       } else {
-        throw Exception('No concert Likes data');
+        print('API 호출 실패: ${response.body}');
+        return false; // API 호출 실패 시 기본적으로 false 반환
       }
-    } else {
-      throw Exception('Unable to fetch concertLikes from the REST API');
+    } catch (e) {
+      print('API 호출 중 에러 발생: $e');
+      return false; // 네트워크 에러 시 false 반환
     }
   }
 
-  // 좋아요 콘서트 정보 업데이트
-  Future<bool> updateConcertLikes(
-      http.Client client, ConcertLikes concertLikes) async {
-    Uri url;
-    if (concertLikes.id != "") {
-      print('콘서트 좋아요 정보 업데이트');
-      // http://inu-allcon/SetConcertLikes/{ItemFavorites ID}
-      url = Uri.http(BaseUrl.baseUrl, '/SetConcertLikes/${concertLikes.id}');
-    } else {
-      print('콘서트 좋아요 최초 등록');
-      // http://inu-allcon/AddConcertLikes
-      url = Uri.http(BaseUrl.baseUrl, '/AddConcertLikes');
-    }
-    final body = json.encode(concertLikes.toJson());
-    final response = await client.post(url,
-        headers: {"Content-Type": "application/json"}, body: body);
-
+  // 2. 관심 공연 toggle API
+  static Future<Map<String, dynamic>> toggleFavorite(
+      String userId, String performanceId) async {
+    var url = Uri.parse("${BaseUrl.baseUrl}favorite/$performanceId");
+    var response = await http.post(url, body: {'userId': userId});
     if (response.statusCode == 200) {
-      return true;
+      var data = jsonDecode(response.body);
+      return {
+        'message': data['message'],
+        'favorited': data['favorited'],
+      };
     } else {
-      return false;
+      // 요청 실패 시, 오류 메시지와 함께 빈 결과 반환
+      print('API 호출 실패: ${response.body}');
+      return {
+        'message': 'API 호출에 실패했습니다',
+        'favorited': null,
+      };
+    }
+  }
+
+  // 3.관심공연 리스트 조회 api
+  static Future<List<Performance>> getFavoritePerformances(
+      String userId) async {
+    var url = Uri.parse("${BaseUrl.baseUrl}favoriteList/$userId");
+    print(userId);
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body)['favorites'];
+      return data
+          .map((json) => Performance.fromJson(json['performance']))
+          .toList();
+    } else {
+      throw Exception('Failed to load favorite performances');
     }
   }
 }
