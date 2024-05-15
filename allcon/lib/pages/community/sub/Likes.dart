@@ -94,6 +94,11 @@ class _MyContentLikesState extends State<MyContentLikes> {
             anonymous = false;
           }
 
+          if (posts.isEmpty) {
+            return const Preparing(
+              text: "좋아요 목록이 비었습니다.\n 채워주세요 :)",
+            );
+          }
           return ListView.builder(
             itemCount: posts.length,
             itemBuilder: (context, index) {
@@ -102,9 +107,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
             scrollDirection: Axis.vertical,
           );
         } else {
-          return const Preparing(
-            text: "좋아요 목록이 비었습니다.\n 채워주세요 :)",
-          );
+          return const Center(child: Text('No posts found'));
         }
       },
     );
