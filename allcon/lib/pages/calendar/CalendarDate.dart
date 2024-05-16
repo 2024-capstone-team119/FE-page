@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'controller/selecetedDay_controller.dart';
 
@@ -30,9 +29,11 @@ class _CalendarDateState extends State<CalendarDate> {
           focusedDay: selectedDay,
           onDaySelected: (selectedDay, focusedDay) {
             _dayController.setSelectedDay(selectedDay);
+            _dayController.fetchPerformancesByDate(selectedDay);
           },
           selectedDayPredicate: (day) => isSameDay(day, selectedDay),
           daysOfWeekHeight: 32,
+          daysOfWeekVisible: false,
           headerStyle: const HeaderStyle(
             titleCentered: true,
             formatButtonVisible: false,
@@ -79,53 +80,6 @@ class _CalendarDateState extends State<CalendarDate> {
               borderRadius: BorderRadius.zero,
             ),
           ),
-          calendarBuilders: CalendarBuilders(
-            markerBuilder: (context, day, events) => events.isNotEmpty
-                ? Positioned(
-                    bottom: 0,
-                    child: Container(
-                      width: 80,
-                      height: 16,
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: lavenderColor,
-                        borderRadius: BorderRadius.all(Radius.circular(0.0)),
-                      ),
-                      child: Text(
-                        '${events.length}',
-                        style: const TextStyle(
-                          color: Colors.deepPurple,
-                          fontSize: 12.0,
-                        ),
-                      ),
-                    ),
-                  )
-                : null,
-            dowBuilder: (context, date) {
-              switch (date.weekday) {
-                case 1:
-                  return const Center(child: Text('월'));
-                case 2:
-                  return const Center(child: Text('화'));
-                case 3:
-                  return const Center(child: Text('수'));
-                case 4:
-                  return const Center(child: Text('목'));
-                case 5:
-                  return const Center(child: Text('금'));
-                case 6:
-                  return const Center(
-                      child:
-                          Text('토', style: TextStyle(color: Colors.redAccent)));
-                case 7:
-                  return const Center(
-                      child:
-                          Text('일', style: TextStyle(color: Colors.redAccent)));
-              }
-              return null;
-            },
-          ),
-          eventLoader: (day) => _dayController.getEventsForDay(day),
         );
       },
     );
