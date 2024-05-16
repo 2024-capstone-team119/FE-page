@@ -26,7 +26,7 @@ class _SelectConcertListState extends State<SelectConcertList> {
         }
 
         final displayedEvents =
-            _showMore ? selectedDayEvents : selectedDayEvents.take(3).toList();
+            _showMore ? selectedDayEvents : selectedDayEvents.take(5).toList();
 
         return Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -73,7 +73,7 @@ class _SelectConcertListState extends State<SelectConcertList> {
                     }).toList(),
                   ),
                 ),
-                if (selectedDayEvents.length > 3)
+                if (selectedDayEvents.length > 5)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
