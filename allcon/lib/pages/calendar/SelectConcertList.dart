@@ -1,4 +1,3 @@
-// SelectConcertList.dart
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -20,8 +19,7 @@ class _SelectConcertListState extends State<SelectConcertList> {
   Widget build(BuildContext context) {
     return GetBuilder<SelectedDayController>(
       builder: (_) {
-        final selectedDayEvents =
-            _dayController.getEventsForDay(_dayController.selectedDay);
+        final selectedDayEvents = _dayController.performances;
 
         if (selectedDayEvents.isEmpty) {
           return const SizedBox.shrink();

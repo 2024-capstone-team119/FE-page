@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:allcon/model/performance_model.dart';
+import 'package:allcon/service/concertService.dart';
 
 class SelectedDayController extends GetxController {
   late DateTime _selectedDay = DateTime.now();
@@ -18,13 +19,10 @@ class SelectedDayController extends GetxController {
     update();
   }
 
-  List<Performance> getEventsForDay(DateTime day) {
-    return performances.where((performance) {
-      DateTime startDate =
-          DateFormat("yyyy.MM.dd").parse(performance.startDate!);
-      DateTime endDate = DateFormat("yyyy.MM.dd").parse(performance.endDate!);
-      return (startDate.isBefore(day) || startDate.isAtSameMomentAs(day)) &&
-          (endDate.isAfter(day) || endDate.isAtSameMomentAs(day));
-    }).toList();
+  Future<void> fetchPerformancesByDate(DateTime date) async {
+    String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+    List<Performance> performances =
+        await ConcertService.getPerformanceByDate(formattedDate);
+    setPerformances(performances);
   }
 }
