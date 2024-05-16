@@ -1,7 +1,7 @@
 import 'package:allcon/pages/community/controller/post_controller.dart';
 import 'package:allcon/pages/community/sub/GetPost.dart';
 import 'package:allcon/model/community_model.dart';
-import 'package:allcon/service/community/likesService.dart';
+import 'package:allcon/pages/community/sub/LikeButton.dart';
 import 'package:allcon/service/community/postService.dart';
 import 'package:allcon/utils/Loading.dart';
 import 'package:flutter/cupertino.dart';
@@ -103,131 +103,103 @@ class _MyContentListViewState extends State<MyContentListView> {
       anonymous = false;
     }
 
-    return FutureBuilder<bool>(
-      future: LikesService.isPostLiked(loginUserId!, post.postId),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (snapshot.hasData) {
-          bool isLike = snapshot.data!;
-
-          return GestureDetector(
-            onTap: () {
-              Get.to(() => MyContentDetail(
-                    category: widget.category,
-                    tabIdx: widget.tabIdx,
-                    post: post,
-                    userId: loginUserId ?? '',
-                    nickname: loginUserNickname ?? '',
-                    anonymous: anonymous,
-                    likeToDetail: false,
-                  ));
-            },
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    color: Colors.white,
-                    height: 80.0,
-                    child: Row(
+    return GestureDetector(
+      onTap: () {
+        Get.to(() => MyContentDetail(
+              category: widget.category,
+              tabIdx: widget.tabIdx,
+              post: post,
+              userId: loginUserId ?? '',
+              nickname: loginUserNickname ?? '',
+              anonymous: anonymous,
+              likeToDetail: false,
+            ));
+      },
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              color: Colors.white,
+              height: 80.0,
+              child: Row(
+                children: [
+                  const SizedBox(width: 20.0),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(width: 20.0),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                post.title,
-                                style: const TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 4.0),
-                              Row(
-                                children: [
-                                  Text(
-                                    anonymous ? '익명' : post.nickname,
-                                    style: const TextStyle(fontSize: 12.0),
-                                  ),
-                                  const SizedBox(width: 8.0),
-                                  const Text(
-                                    '|',
-                                    style: TextStyle(fontSize: 12.0),
-                                  ),
-                                  const SizedBox(width: 8.0),
-                                  Text(
-                                    DateFormat('yyyy-MM-dd').format(dateTime),
-                                    style: const TextStyle(
-                                      fontSize: 12.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 4.0),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.favorite,
-                                    color: Colors.red[300],
-                                    size: 16.0,
-                                  ),
-                                  const SizedBox(width: 4.0),
-                                  Text(
-                                    "${post.likesCount}",
-                                    style: TextStyle(
-                                      color: Colors.red[300],
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8.0),
-                                  const Icon(
-                                    CupertinoIcons.chat_bubble,
-                                    color: Colors.blueAccent,
-                                    size: 16.0,
-                                  ),
-                                  const SizedBox(width: 4.0),
-                                  Text(
-                                    "${post.commentCount}",
-                                    style: const TextStyle(
-                                      color: Colors.blueAccent,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                        Text(
+                          post.title,
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        IconButton(
-                          iconSize: 30.0,
-                          icon: Icon(
-                            isLike
-                                ? CupertinoIcons.heart_fill
-                                : CupertinoIcons.heart,
-                            color: isLike ? Colors.redAccent : Colors.grey,
-                          ),
-                          onPressed: () async {
-                            await LikesService.likePost(
-                                post.postId, loginUserId ?? '');
-                            setState(() {});
-                          },
+                        const SizedBox(height: 4.0),
+                        Row(
+                          children: [
+                            Text(
+                              anonymous ? '익명' : post.nickname,
+                              style: const TextStyle(fontSize: 12.0),
+                            ),
+                            const SizedBox(width: 8.0),
+                            const Text(
+                              '|',
+                              style: TextStyle(fontSize: 12.0),
+                            ),
+                            const SizedBox(width: 8.0),
+                            Text(
+                              DateFormat('yyyy-MM-dd').format(dateTime),
+                              style: const TextStyle(
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 16.0),
+                        const SizedBox(height: 4.0),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.favorite,
+                              color: Colors.red[300],
+                              size: 16.0,
+                            ),
+                            const SizedBox(width: 4.0),
+                            Text(
+                              "${post.likesCount}",
+                              style: TextStyle(
+                                color: Colors.red[300],
+                              ),
+                            ),
+                            const SizedBox(width: 8.0),
+                            const Icon(
+                              CupertinoIcons.chat_bubble,
+                              color: Colors.blueAccent,
+                              size: 16.0,
+                            ),
+                            const SizedBox(width: 4.0),
+                            Text(
+                              "${post.commentCount}",
+                              style: const TextStyle(
+                                color: Colors.blueAccent,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
-                ),
-                Container(height: 1.0, color: Colors.grey[300]),
-              ],
+                  LikeButton(userId: loginUserId!, postId: post.postId),
+                  const SizedBox(width: 16.0),
+                ],
+              ),
             ),
-          );
-        } else {
-          return const Center(child: Text('No comments found'));
-        }
-      },
+          ),
+          Container(height: 1.0, color: Colors.grey[300]),
+        ],
+      ),
     );
   }
 }
