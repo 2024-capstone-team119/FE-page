@@ -1,4 +1,3 @@
-// SelectConcertList.dart
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -20,15 +19,14 @@ class _SelectConcertListState extends State<SelectConcertList> {
   Widget build(BuildContext context) {
     return GetBuilder<SelectedDayController>(
       builder: (_) {
-        final selectedDayEvents =
-            _dayController.getEventsForDay(_dayController.selectedDay);
+        final selectedDayEvents = _dayController.performances;
 
         if (selectedDayEvents.isEmpty) {
           return const SizedBox.shrink();
         }
 
         final displayedEvents =
-            _showMore ? selectedDayEvents : selectedDayEvents.take(3).toList();
+            _showMore ? selectedDayEvents : selectedDayEvents.take(5).toList();
 
         return Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -75,7 +73,7 @@ class _SelectConcertListState extends State<SelectConcertList> {
                     }).toList(),
                   ),
                 ),
-                if (selectedDayEvents.length > 3)
+                if (selectedDayEvents.length > 5)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

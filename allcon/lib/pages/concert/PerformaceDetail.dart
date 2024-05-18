@@ -1,63 +1,24 @@
 import 'dart:ui';
-import 'package:allcon/pages/concert/controller/concertLiket_controller.dart';
+import 'package:allcon/model/performance_model.dart';
+import 'package:allcon/pages/concert/concert_likes_controller.dart';
 import 'package:allcon/utils/Colors.dart';
+import 'package:allcon/widget/app_bar.dart';
+import 'package:allcon/widget/bottom_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:allcon/model/concertLikes_model.dart';
-import 'package:allcon/service/concertLikesService.dart';
-import 'package:allcon/widget/bottom_navigation_bar.dart';
-import 'package:allcon/widget/app_bar.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:allcon/model/performance_model.dart';
-import 'package:http/http.dart' as http;
 
-class PerformanceDetail extends StatefulWidget {
+class PerformanceDetail extends StatelessWidget {
   final Performance performance;
 
-  const PerformanceDetail({super.key, required this.performance});
-
-  @override
-  State<PerformanceDetail> createState() => _PerformanceDetailState();
-}
-
-class _PerformanceDetailState extends State<PerformanceDetail> {
-  final _concertLikesController = Get.put(concertLikedController());
-  late bool isMyLikesConcert;
-  late ConcertLikes? concertLikes;
-  final client = http.Client();
-
-  @override
-  void initState() {
-    super.initState();
-    isMyLikesConcert = _concertLikesController.likes;
-    fetchConcertLikesData();
-  }
-
-  // 사용자의 좋아요 상태를 가져와서 UI를 업데이트
-  Future<void> fetchConcertLikesData() async {
-    concertLikes =
-        await ConcertLikesService().fetchConcertLikes(client, 'userId');
-    setState(() {
-      isMyLikesConcert =
-          concertLikes?.concertId.contains(widget.performance.id) ?? false;
-    });
-  }
-
-  // 사용자의 좋아요 상태를 업데이트
-  Future<void> updateConcertLikesData() async {
-    concertLikes ??= ConcertLikes('', 'userId', []);
-    final updatedConcertIds = isMyLikesConcert
-        ? [...concertLikes!.concertId, widget.performance.id]
-        : concertLikes!.concertId
-            .where((id) => id != widget.performance.id)
-            .toList();
-    concertLikes = ConcertLikes(concertLikes!.id, concertLikes!.userId,
-        updatedConcertIds.cast<String>());
-    await ConcertLikesService().updateConcertLikes(client, concertLikes!);
-  }
+  const PerformanceDetail({Key? key, required this.performance})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final ConcertLikesController _concertLikesController =
+        Get.find<ConcertLikesController>();
+
     return Scaffold(
       appBar: const MyAppBar(
         text: "상세 정보",
@@ -66,8 +27,8 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              InfoHeader(context),
-              InfoDetailImgs(),
+              InfoHeader(context, _concertLikesController),
+              InfoDetailImgs(context),
               const SizedBox(height: 70),
             ],
           ),
@@ -107,7 +68,8 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
     );
   }
 
-  Widget InfoHeader(BuildContext context) {
+  Widget InfoHeader(
+      BuildContext context, ConcertLikesController _concertLikesController) {
     return Column(
       children: [
         Stack(
@@ -115,34 +77,36 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
             Column(
               children: [
                 Container(
-                    child: Stack(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 180,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(widget.performance.poster ?? ""),
-                          fit: BoxFit.cover,
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 180,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(performance.poster ?? ""),
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      child: BackdropFilter(
+                        child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
                           child: Container(
                             color: Colors.black.withOpacity(0),
-                          )),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 180,
-                      color: Colors.black.withOpacity(0.2),
-                    ),
-                  ],
-                )),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 180,
+                        color: Colors.black.withOpacity(0.2),
+                      ),
+                    ],
+                  ),
+                ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 50,
-                )
+                ),
               ],
             ),
             Positioned(
@@ -150,7 +114,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
               left: 25,
               child: Expanded(
                 child: Image.network(
-                  widget.performance.poster ?? "",
+                  performance.poster ?? "",
                   height: 200,
                   fit: BoxFit.contain,
                 ),
@@ -159,22 +123,21 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
             Positioned(
               top: 186,
               right: 15,
-              child: IconButton(
-                icon: GetBuilder<concertLikedController>(
-                  builder: (controller) => Icon(
-                    controller.likes
+              child: Obx(() {
+                final isFavorited = _concertLikesController.favoritePerformances
+                    .any((p) => p.mid == performance.mid);
+                return IconButton(
+                  icon: Icon(
+                    isFavorited
                         ? CupertinoIcons.heart_fill
                         : CupertinoIcons.heart,
-                    color: controller.likes ? Colors.redAccent : Colors.black26,
+                    color: isFavorited ? Colors.redAccent : Colors.black26,
                     size: 30.0,
                   ),
-                ),
-                onPressed: () async {
-                  // 버튼 클릭 시 수행할 작업
-                  _concertLikesController.getLiked();
-                  await updateConcertLikesData();
-                },
-              ),
+                  onPressed: () => _concertLikesController
+                      .toggleFavorite(performance.mid.toString()),
+                );
+              }),
             ),
           ],
         ),
@@ -185,7 +148,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                widget.performance.name ?? 'Unknown',
+                performance.name ?? 'Unknown',
                 style: const TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.w600,
@@ -197,31 +160,31 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
               Row(
                 children: [
                   Text(
-                    widget.performance.genre ?? "",
+                    performance.genre ?? "",
                     style: const TextStyle(color: Colors.black54, fontSize: 12),
                   ),
                   const SizedBox(width: 5),
                   Text(
-                    widget.performance.area ?? "",
+                    performance.area ?? "",
                     style: const TextStyle(color: Colors.black54, fontSize: 12),
                   ),
                   const SizedBox(width: 5),
                   Text(
-                    widget.performance.age ?? "",
+                    performance.age ?? "",
                     style: const TextStyle(color: Colors.black54, fontSize: 12),
                   ),
                 ],
               ),
               const SizedBox(height: 10.0),
-              if (widget.performance.cast != null &&
-                  widget.performance.cast!.trim().isNotEmpty)
+              if (performance.cast != null &&
+                  performance.cast!.trim().isNotEmpty)
                 Row(
                   children: [
                     const Icon(CupertinoIcons.music_mic, size: 18),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        widget.performance.cast ?? 'Unknown',
+                        performance.cast ?? 'Unknown',
                         style: const TextStyle(
                           fontSize: 15.0,
                           color: Colors.black,
@@ -238,7 +201,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      widget.performance.place ?? 'Unknown',
+                      performance.place ?? 'Unknown',
                       style: const TextStyle(
                         fontSize: 15.0,
                         color: Colors.black,
@@ -253,11 +216,10 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                 children: [
                   const Icon(CupertinoIcons.calendar, size: 18),
                   const SizedBox(width: 8),
-                  if (widget.performance.startDate ==
-                      widget.performance.endDate)
+                  if (performance.startDate == performance.endDate)
                     Expanded(
                       child: Text(
-                        '${widget.performance.startDate}' ?? 'Unknown',
+                        '${performance.startDate}' ?? 'Unknown',
                         style: const TextStyle(
                           fontSize: 15.0,
                           color: Colors.black,
@@ -268,7 +230,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                   else
                     Expanded(
                       child: Text(
-                        '${widget.performance.startDate} ~ ${widget.performance.endDate}' ??
+                        '${performance.startDate} ~ ${performance.endDate}' ??
                             'Unknown',
                         style: const TextStyle(
                           fontSize: 15.0,
@@ -281,14 +243,14 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }
 
-  Widget InfoDetailImgs() {
-    List<String>? imgUrls = widget.performance.imgs;
-    String poster = widget.performance.poster.toString() ?? "";
+  Widget InfoDetailImgs(BuildContext context) {
+    List<String>? imgUrls = performance.imgs;
+    String poster = performance.poster.toString() ?? "";
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

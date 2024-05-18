@@ -391,11 +391,11 @@ class ConcertService {
     return performances;
   }
 
-  // 6. 공연 get method 날짜로 조회 - 이건 쓸 일이 없을 거 같아
-  static Future<List<Performance>> getPerformanceByDate(
-      String st, String ed) async {
+  // 달력에서 선택한 날짜에 대한 공연 리스트를 불러옴
+  static Future<List<Performance>> getPerformanceByDate(String st) async {
     List<Performance> performances = [];
-    var url = Uri.parse("${BaseUrl.baseUrl}get_performance/$st/$ed");
+    print(st);
+    var url = Uri.parse("${BaseUrl.baseUrl}get_performance_by_date/$st");
     final res = await http.get(url);
     try {
       if (res.statusCode == 200) {
@@ -412,7 +412,6 @@ class ConcertService {
     }
     return performances;
   }
-
   // --
 
   // 1. 선택한 지역권의 시설목록 조회
