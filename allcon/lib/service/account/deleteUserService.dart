@@ -7,7 +7,7 @@ class DeleteUserService {
     var url = Uri.parse("${BaseUrl.baseUrl}delete_user/$userId");
 
     try {
-      final response = await http.get(url);
+      final response = await http.delete(url);
 
       if (response.statusCode == 200) {
         print("User has been deactivated successfully.");

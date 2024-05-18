@@ -1,19 +1,38 @@
 import 'package:allcon/pages/login/controller/account_controller.dart';
 import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/pages/mypage/sub/MyConcertLikes.dart';
+import 'package:allcon/service/account/tokenService.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/utils/jwt.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class MyCategory extends StatelessWidget {
+class MyCategory extends StatefulWidget {
   const MyCategory({super.key});
 
   @override
+  State<MyCategory> createState() => _MyCategoryState();
+}
+
+class _MyCategoryState extends State<MyCategory> {
+  @override
   Widget build(BuildContext context) {
     final AccountController _accountController = Get.put(AccountController());
+
+    String? loginUserId;
+    void _loadUserInfo() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      loginUserId = prefs.getString('userId');
+    }
+
+    @override
+    void initState() {
+      super.initState();
+      _loadUserInfo();
+    }
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
@@ -103,7 +122,20 @@ class MyCategory extends StatelessWidget {
                 '회원탈퇴',
                 style: TextStyle(fontSize: 20.0),
               ),
-              onTap: () {},
+              onTap: () {
+                if (loginUserId != null) {
+                  _accountController.deleteUser(loginUserId!).then((isDelete) {
+                    if (isDelete) {
+                      Get.snackbar('회원탈퇴 성공✔', "다음에 또 만나요~!");
+                      Get.to(MyLogIn());
+                    } else {
+                      Get.snackbar('회원탈퇴 실패', "");
+                      print(
+                          'User ID is null. Cannot proceed with user deletion.');
+                    }
+                  });
+                }
+              },
             ),
           ),
         ],
