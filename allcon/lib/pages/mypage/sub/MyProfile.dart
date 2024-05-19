@@ -1,16 +1,49 @@
+import 'dart:html';
+import 'dart:io';
 import 'package:allcon/pages/mypage/sub/EditNickDailog.dart';
 import 'package:allcon/pages/mypage/controller/img_crop_controller.dart';
 import 'package:allcon/pages/mypage/controller/profile_controller.dart';
+import 'package:allcon/service/account/profileService.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class MyProfile extends StatelessWidget {
+class MyProfile extends StatefulWidget {
   MyProfile({super.key});
 
+  @override
+  State<MyProfile> createState() => _MyProfileState();
+}
+
+class _MyProfileState extends State<MyProfile> {
   final ProfileController _pcon = Get.put(ProfileController());
   final ImgController _icon = Get.put(ImgController());
+
+  String? loginUserId;
+  String? loginUserNickname;
+  String? profileImageBase64;
+  bool isEditing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? loginUserId = prefs.getString('userId');
+    String? loginUserNickname = prefs.getString('userNickname');
+
+    if (loginUserId != null) {
+      _pcon.originMyProfile.userName = loginUserNickname;
+      _pcon.myProfile.value.userName = loginUserNickname;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

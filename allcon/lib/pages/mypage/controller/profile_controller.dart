@@ -5,12 +5,16 @@ import 'dart:io';
 
 class ProfileController extends GetxController {
   RxBool isEditMyProfile = false.obs;
+
   User originMyProfile = User(
-    userId: 1,
-    userName: "일일구",
-    email: "allcon119@inu.ac.kr",
+    userName: '',
+    email: '',
   );
-  Rx<User> myProfile = User().obs;
+
+  Rx<User> myProfile = User(
+    userName: '',
+    email: '',
+  ).obs;
 
   @override
   void onInit() {
