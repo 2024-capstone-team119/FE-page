@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'controller/selecetedDay_controller.dart';
@@ -26,7 +25,7 @@ class _SelectConcertListState extends State<SelectConcertList> {
         }
 
         final displayedEvents =
-            _showMore ? selectedDayEvents : selectedDayEvents.take(5).toList();
+            _showMore ? selectedDayEvents : selectedDayEvents.take(4).toList();
 
         return Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -37,7 +36,12 @@ class _SelectConcertListState extends State<SelectConcertList> {
                   padding: const EdgeInsets.only(left: 12.0, right: 12.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: displayedEvents.map((performance) {
+                    children: displayedEvents.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final performance = entry.value;
+                      final backgroundColor =
+                          index.isEven ? lavenderColor : Mint.withOpacity(0.1);
+
                       return Container(
                         width: MediaQuery.of(context).size.width * 0.93,
                         padding: const EdgeInsets.symmetric(
@@ -46,7 +50,7 @@ class _SelectConcertListState extends State<SelectConcertList> {
                         ),
                         margin: const EdgeInsets.only(bottom: 8.0),
                         decoration: BoxDecoration(
-                          color: Mint.withOpacity(0.1),
+                          color: backgroundColor,
                           borderRadius: BorderRadius.circular(40.0),
                         ),
                         child: Column(
@@ -73,7 +77,7 @@ class _SelectConcertListState extends State<SelectConcertList> {
                     }).toList(),
                   ),
                 ),
-                if (selectedDayEvents.length > 5)
+                if (selectedDayEvents.length > 4)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
