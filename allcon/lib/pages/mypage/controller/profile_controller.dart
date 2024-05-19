@@ -1,5 +1,6 @@
 import 'package:allcon/model/user_model.dart';
 import 'package:allcon/pages/mypage/controller/img_crop_controller.dart';
+import 'package:allcon/service/account/profileService.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 
@@ -30,6 +31,7 @@ class ProfileController extends GetxController {
     _loadUserData();
   }
 
+  // 유저 데이터 불러옴 조회
   Future<void> _loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userId = prefs.getString('userId');
@@ -48,6 +50,26 @@ class ProfileController extends GetxController {
     }
   }
 
+  // 유저 닉네임 수정
+  Future<void> updateProfile() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userId = prefs.getString('userId');
+
+    if (userId != null) {
+      bool success =
+          await ProfileService.updateNickname(userId, myProfile.value.nickname);
+      if (success) {
+        await prefs.setString('userNickname', myProfile.value.nickname);
+        originMyProfile.value.nickname = myProfile.value.nickname;
+        toggleEditBtn();
+        print(myProfile.value.nickname);
+      } else {
+        // 닉네임 변경 실패 처리
+        print('Failed to update nickname');
+      }
+    }
+  }
+
   void toggleEditBtn() {
     isEditMyProfile(!isEditMyProfile.value);
   }
@@ -60,7 +82,7 @@ class ProfileController extends GetxController {
 
   void updateName(String updateName) {
     myProfile.update((my) {
-      // my?.nickname = updateName;
+      my?.nickname = updateName;
     });
   }
 

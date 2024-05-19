@@ -64,7 +64,7 @@ class _MyProfileState extends State<MyProfile> {
                             ),
                           ),
                           onPressed: () {
-                            _pcon.toggleEditBtn();
+                            _pcon.updateProfile();
                           },
                         ),
                       ],
