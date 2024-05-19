@@ -95,48 +95,30 @@ class _ContentWriteState extends State<MyContentWrite> {
             bottom: max(MediaQuery.of(context).viewInsets.bottom * 0.05, 16.0),
           ),
           child: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  onPressed: () {
-                    print('사진 첨부 클릭 성공');
-                  },
-                  child: const Text('사진 첨부하기'),
-                ),
-                const SizedBox(height: 8),
-                CustomElevatedBtn(
-                  text: "업로드",
-                  funPageRoute: () async {
-                    if (_formKey.currentState!.validate()) {
-                      var newContent = {
-                        'category': _selectedCategory,
-                        'userId': loginUserId,
-                        'nickname': loginUserNickname,
-                        'title': _titleController.text,
-                        'text': _contentController.text,
-                      };
+            child: CustomElevatedBtn(
+              text: "업로드",
+              funPageRoute: () async {
+                if (_formKey.currentState!.validate()) {
+                  var newContent = {
+                    'category': _selectedCategory,
+                    'userId': loginUserId,
+                    'nickname': loginUserNickname,
+                    'title': _titleController.text,
+                    'text': _contentController.text,
+                  };
 
-                      await PostService.addPost(newContent);
+                  await PostService.addPost(newContent);
 
-                      // 업로드 후 초기화
-                      _titleController.clear();
-                      _contentController.clear();
+                  // 업로드 후 초기화
+                  _titleController.clear();
+                  _contentController.clear();
 
-                      // 홈 페이지로 이동
-                      Get.to(() => MyCommunity(
-                            initialTabIndex: _selectedCategoryIndex,
-                          ));
-                    }
-                  },
-                ),
-              ],
+                  // 홈 페이지로 이동
+                  Get.to(() => MyCommunity(
+                        initialTabIndex: _selectedCategoryIndex,
+                      ));
+                }
+              },
             ),
           ),
         ),
