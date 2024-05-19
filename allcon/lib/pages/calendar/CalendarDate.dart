@@ -23,6 +23,7 @@ class _CalendarDateState extends State<CalendarDate> {
       return Padding(
         padding: const EdgeInsets.only(right: 8.0, left: 8.0),
         child: TableCalendar(
+          availableGestures: AvailableGestures.none,
           focusedDay: selectedDay,
           firstDay: DateTime.utc(2024, 01, 01),
           lastDay: DateTime.utc(2024, 12, 31),
