@@ -1,7 +1,8 @@
-import 'package:allcon/utils/validator_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:allcon/utils/validator_util.dart';
+import 'package:allcon/service/account/registService.dart';
 
 class EditUserName extends StatefulWidget {
   final String? text;
@@ -14,6 +15,7 @@ class EditUserName extends StatefulWidget {
 class _EditUserNameState extends State<EditUserName> {
   final TextEditingController _textEditingController = TextEditingController();
   final _userNickFormKey = GlobalKey<FormState>();
+  final _registService = RegistService();
 
   @override
   void initState() {
@@ -90,11 +92,6 @@ class _EditUserNameState extends State<EditUserName> {
                     borderSide: BorderSide(color: Colors.white),
                   ),
                 ),
-                onFieldSubmitted: (_) {
-                  if (_userNickFormKey.currentState!.validate()) {
-                    Get.back(result: _textEditingController.text);
-                  }
-                },
               ),
             ),
           ],
@@ -109,18 +106,28 @@ class _EditUserNameState extends State<EditUserName> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ElevatedButton(
-              onPressed: () {
-                Get.back();
-              },
-              child: const Text('취소')),
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('취소'),
+          ),
           const SizedBox(width: 8),
           ElevatedButton(
-              onPressed: () {
-                if (_userNickFormKey.currentState!.validate()) {
+            onPressed: () async {
+              if (_userNickFormKey.currentState!.validate()) {
+                final isNickExists = await _registService
+                    .checkNicknameExists(_textEditingController.text);
+                if (isNickExists) {
+                  Get.snackbar('닉네임 수정 실패 😱', '이미 등록된 닉네임입니다.',
+                      backgroundColor: Colors.redAccent,
+                      colorText: Colors.white);
+                } else {
                   Get.back(result: _textEditingController.text);
                 }
-              },
-              child: const Text('완료')),
+              }
+            },
+            child: const Text('완료'),
+          ),
         ],
       ),
     );

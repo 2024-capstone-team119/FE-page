@@ -34,9 +34,9 @@ class ProfileController extends GetxController {
   // 유저 데이터 불러옴 조회
   Future<void> _loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? userId = prefs.getString('userId');
-    String? userEmail = prefs.getString('loginUserEmail');
-    String? userNickname = prefs.getString('userNickname');
+    String? userId = prefs.getString('userId') ?? '';
+    String? userEmail = prefs.getString('loginUserEmail') ?? '';
+    String? userNickname = prefs.getString('userNickname') ?? '';
 
     if (userId != null && userNickname != null) {
       originMyProfile.value = User(
@@ -44,6 +44,15 @@ class ProfileController extends GetxController {
         email: userEmail ?? '',
         password: '',
         nickname: userNickname,
+        deleted: false,
+      );
+      myProfile.value = User.clone(originMyProfile.value);
+    } else {
+      originMyProfile.value = User(
+        id: '',
+        email: '',
+        password: '',
+        nickname: '',
         deleted: false,
       );
       myProfile.value = User.clone(originMyProfile.value);

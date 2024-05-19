@@ -25,13 +25,19 @@ class _MyCategoryState extends State<MyCategory> {
     String? loginUserId;
     void _loadUserInfo() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      loginUserId = prefs.getString('userId');
+      if (_accountController.isLogin.value) {
+        loginUserId = prefs.getString('userId');
+      } else {
+        loginUserId = null;
+      }
     }
 
     @override
     void initState() {
       super.initState();
-      _loadUserInfo();
+      if (_accountController.isLogin.value) {
+        _loadUserInfo();
+      }
     }
 
     return Padding(
@@ -101,7 +107,7 @@ class _MyCategoryState extends State<MyCategory> {
               ),
               onTap: () {
                 _accountController.logout();
-                Get.to(MyLogIn());
+                Get.offAll(MyLogIn());
               },
             ),
           ),
@@ -127,7 +133,7 @@ class _MyCategoryState extends State<MyCategory> {
                   _accountController.deleteUser(loginUserId!).then((isDelete) {
                     if (isDelete) {
                       Get.snackbar('회원탈퇴 성공✔', "다음에 또 만나요~!");
-                      Get.to(MyLogIn());
+                      Get.offAll(MyLogIn());
                     } else {
                       Get.snackbar('회원탈퇴 실패', "");
                       print(

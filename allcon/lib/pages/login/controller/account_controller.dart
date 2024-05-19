@@ -2,6 +2,7 @@ import 'package:allcon/service/account/deleteUserService.dart';
 import 'package:allcon/service/account/loginService.dart';
 import 'package:allcon/service/account/tokenService.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountController extends GetxController {
   RxBool isLogin = false.obs;
@@ -12,9 +13,12 @@ class AccountController extends GetxController {
     return isToken;
   }
 
-  void logout() {
+  void logout() async {
     isLogin.value = false;
-    TokenService.removeToken();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('userId');
+    await prefs.remove('loginUserEmail');
+    await prefs.remove('userNickname');
   }
 
   Future<bool> deleteUser(String userId) async {
