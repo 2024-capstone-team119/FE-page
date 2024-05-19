@@ -71,4 +71,30 @@ class PostService {
       print("failed to update,,,,");
     }
   }
+
+  // 글 검색 API
+  static Future<List<Post>> searchPosts(String searchText) async {
+    var url = Uri.parse("${BaseUrl.baseUrl}search_posts");
+    try {
+      print(searchText);
+      var response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'searchText': searchText}),
+      );
+
+      if (response.statusCode == 200) {
+        print(response.body);
+        List<dynamic> jsonData = jsonDecode(response.body);
+        return jsonData.map((data) => Post.fromJson(data)).toList();
+      } else if (response.statusCode == 404) {
+        return []; // 검색 결과가 없을 경우 빈 리스트 반환
+      } else {
+        throw Exception('Failed to load posts');
+      }
+    } catch (e) {
+      print('Error occurred while searching posts: $e');
+      throw Exception('Error occurred while searching posts');
+    }
+  }
 }
