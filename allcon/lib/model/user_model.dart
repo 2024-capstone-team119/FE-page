@@ -1,19 +1,17 @@
-import 'dart:ffi';
-
 class User {
   final String id;
   final String email;
   final String password;
   final String nickname;
-  final String profileImage;
-  final Bool deleted;
+  String? profileImage;
+  final bool deleted;
 
   User({
     required this.id,
     required this.email,
     required this.password,
     required this.nickname,
-    required this.profileImage,
+    this.profileImage,
     required this.deleted,
   });
 
@@ -26,5 +24,19 @@ class User {
       profileImage: json['profileImage'],
       deleted: json['deleted'],
     );
+  }
+
+  User.clone(User user)
+      : this(
+          id: user.id,
+          email: user.email,
+          password: user.password,
+          nickname: user.nickname,
+          profileImage: user.profileImage,
+          deleted: user.deleted,
+        );
+
+  void initImgFile() {
+    profileImage = null;
   }
 }
