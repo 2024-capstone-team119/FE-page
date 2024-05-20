@@ -39,11 +39,13 @@ class ProfileController extends GetxController {
     String? userNickname = prefs.getString('userNickname') ?? '';
 
     if (userId != null && userNickname != null) {
+      String? profileImage = await ProfileService.getProfileImage(userId);
       originMyProfile.value = User(
         id: userId,
         email: userEmail ?? '',
         password: '',
         nickname: userNickname,
+        profileImage: profileImage,
         deleted: false,
       );
       myProfile.value = User.clone(originMyProfile.value);
@@ -84,7 +86,6 @@ class ProfileController extends GetxController {
   }
 
   void rollback() {
-    myProfile.value.initImgFile();
     myProfile(User.clone(originMyProfile.value));
     toggleEditBtn();
   }
