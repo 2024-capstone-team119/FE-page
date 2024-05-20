@@ -124,7 +124,8 @@ class _MyCommunityState extends State<MyCommunity>
               onSearch: (value) {
                 setState(() {
                   _searchText = value;
-                  _searchResults = PostService.searchPosts(_searchText);
+                  _searchResults = PostService.searchPosts(
+                      _searchText, categoryList[_tabController.index]);
                 });
               },
             ),

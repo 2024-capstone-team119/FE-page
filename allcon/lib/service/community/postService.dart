@@ -73,14 +73,15 @@ class PostService {
   }
 
   // 글 검색 API
-  static Future<List<Post>> searchPosts(String searchText) async {
+  static Future<List<Post>> searchPosts(
+      String searchText, String category) async {
     var url = Uri.parse("${BaseUrl.baseUrl}search_posts");
     try {
       print(searchText);
       var response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'searchText': searchText}),
+        body: jsonEncode({'searchText': searchText, 'category': category}),
       );
 
       if (response.statusCode == 200) {
