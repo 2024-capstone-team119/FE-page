@@ -38,7 +38,7 @@ class ReviewController extends GetxController {
 
   // 좋아요 수 변화 감지
   void incrementGoodCount(int reviewId) {
-    reviews[reviewId].goodCount++;
+    reviews[reviewId].likeCount;
     good.value++;
 
     reviews.refresh();
@@ -93,43 +93,5 @@ class ReviewController extends GetxController {
         );
       },
     );
-  }
-
-  // 리뷰 수정 함수
-  void updateReview(Review updateReview, Review originReview, String originZone,
-      List<Zone> zoneList, int selectedIdx) {
-    // 옮길 구역의 리뷰 리스트
-    List<Review> targetZoneReviews = zoneList[selectedIdx].review;
-
-    // 수정된 리뷰의 목표 위치
-    int targetIndex = 0;
-    for (int i = 0; i < targetZoneReviews.length; i++) {
-      if (targetZoneReviews[i].reviewId > updateReview.reviewId) {
-        targetIndex = i;
-        break;
-      }
-    }
-
-    // 수정된 리뷰 제거
-    int oldZoneIndex =
-        zoneList.indexWhere((zone) => zone.zoneName == originZone);
-    zoneList[oldZoneIndex]
-        .review
-        .removeWhere((review) => review.reviewId == updateReview.reviewId);
-
-    // 목표 위치에 수정된 리뷰 추가
-    zoneList[selectedIdx].review.insert(
-          targetIndex,
-          updateReview,
-        );
-
-    // 리뷰 업데이트
-    final int index = reviews
-        .indexWhere((review) => review.reviewId == updateReview.reviewId);
-
-    if (index != -1) {
-      reviews[index] = updateReview;
-      update();
-    }
   }
 }

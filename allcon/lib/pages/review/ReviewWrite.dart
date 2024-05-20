@@ -1,9 +1,7 @@
 import 'package:allcon/model/review_model.dart';
-import 'package:allcon/pages/review/controller/review_controller.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
@@ -30,7 +28,6 @@ class _ReviewWriteState extends State<ReviewWrite> {
 
   late String currentTime;
   final TextEditingController _textController = TextEditingController();
-  late final ReviewController _reviewController;
 
   late FToast fToast;
 
@@ -43,7 +40,6 @@ class _ReviewWriteState extends State<ReviewWrite> {
   void initState() {
     super.initState();
     reviewId = widget.reviewId;
-    _reviewController = Get.put(ReviewController());
     fToast = FToast();
     fToast.init(context);
   }
@@ -151,19 +147,6 @@ class _ReviewWriteState extends State<ReviewWrite> {
                       uploadButton(
                         onPressed: isButtonEnabled
                             ? () {
-                                _reviewController.submitReview(
-                                  Review(
-                                    reviewId: reviewId,
-                                    writer: 'noname$reviewId',
-                                    content: _textController.text,
-                                    image: '',
-                                    starCount: selectedStar,
-                                    goodCount: 0,
-                                    badCount: 0,
-                                    dateTime: DateTime.now(),
-                                  ),
-                                  widget.reviewList,
-                                );
                                 Navigator.of(context).pop();
                               }
                             : () {

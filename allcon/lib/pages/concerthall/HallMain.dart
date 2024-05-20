@@ -1,4 +1,3 @@
-import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/concerthall/PlaceInfo.dart';
 import 'package:allcon/pages/review/ReviewMain.dart';
 import 'package:allcon/utils/Colors.dart';
@@ -16,14 +15,8 @@ import 'PerformanceList.dart';
 class HallMain extends StatefulWidget {
   final String title;
   final String id;
-  final List<Hall> hallList;
 
-  const HallMain({
-    super.key,
-    required this.title,
-    required this.id,
-    required this.hallList,
-  });
+  const HallMain({super.key, required this.title, required this.id});
 
   @override
   State<HallMain> createState() => _HallMainState();
@@ -87,7 +80,7 @@ class _HallMainState extends State<HallMain> {
             MaterialPageRoute(
                 builder: (context) => ReviewMain(
                       title: widget.title,
-                      hallList: widget.hallList,
+                      hallId: widget.id,
                     )),
           );
         },
