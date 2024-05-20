@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:allcon/pages/mypage/sub/EditNickDailog.dart';
 import 'package:allcon/pages/mypage/controller/img_crop_controller.dart';
 import 'package:allcon/pages/mypage/controller/profile_controller.dart';
 import 'package:allcon/utils/Colors.dart';
@@ -185,48 +186,74 @@ Widget EditUserInfo(
                         child: const Icon(
                           CupertinoIcons.photo_camera_solid,
                           size: 15,
-                          color: Color.fromARGB(255, 255, 255, 255),
                         ),
                       ),
                     ),
                   )
-                : const SizedBox(),
+                : Container(),
           ]),
         ),
       ),
       const SizedBox(height: 8.0),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 60.0),
-        child: Column(
-          children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: TextFormField(
-                  initialValue: pcon.myProfile.value.nickname,
-                  decoration: const InputDecoration(
-                    hintText: '닉네임',
-                  ),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  onChanged: (text) {
-                    pcon.updateName(text);
-                  },
+        child: Obx(
+          () => Column(
+            children: [
+              EditNameInfo(pcon.myProfile.value.nickname, () async {
+                String value = await Get.dialog(EditUserName(
+                  text: pcon.myProfile.value.nickname,
+                ));
+                pcon.updateName(value);
+              }),
+              const SizedBox(height: 2.0),
+              Text(
+                pcon.myProfile.value.email,
+                style: const TextStyle(
+                  fontSize: 20.0,
                 ),
               ),
-            ),
-            Text(
-              pcon.myProfile.value.email,
-              style: const TextStyle(
-                fontSize: 20.0,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     ],
+  );
+}
+
+Widget EditNameInfo(String value, VoidCallback onTap) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Stack(children: [
+      Container(
+        height: 56,
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(width: 1, color: Colors.black12),
+          ),
+        ),
+      ),
+      Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: Text(
+            value,
+            style: const TextStyle(
+              fontSize: 30.0,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
+      const Positioned(
+        right: 2,
+        bottom: 16,
+        child: Icon(
+          CupertinoIcons.pencil,
+          color: Colors.black,
+          size: 18,
+        ),
+      ),
+    ]),
   );
 }

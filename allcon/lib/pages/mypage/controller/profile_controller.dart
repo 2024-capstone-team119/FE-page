@@ -32,7 +32,7 @@ class ProfileController extends GetxController {
     _loadUserData();
   }
 
-  // Fetch user data from SharedPreferences and the API
+  // 유저 데이터 불러옴 조회
   Future<void> _loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userId = prefs.getString('userId');
@@ -64,7 +64,7 @@ class ProfileController extends GetxController {
     }
   }
 
-  // Update user nickname
+  // 유저 닉네임 수정
   Future<void> updateProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userId = prefs.getString('userId');
@@ -78,12 +78,12 @@ class ProfileController extends GetxController {
         toggleEditBtn();
         print(myProfile.value.nickname);
       } else {
+        // 닉네임 변경 실패 처리
         print('Failed to update nickname');
       }
     }
   }
 
-  // Update profile image
   Future<void> updateProfileImage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userId = prefs.getString('userId');
@@ -93,7 +93,7 @@ class ProfileController extends GetxController {
           userId, File(myProfile.value.profileImage!));
       if (success) {
         originMyProfile.value.profileImage = myProfile.value.profileImage;
-        toggleEditBtn();
+        toggleEditBtn(); // Ensure this is called to return to view mode
         print('Profile image updated');
       } else {
         print('Failed to update profile image');
