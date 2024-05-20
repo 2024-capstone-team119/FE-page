@@ -1,24 +1,69 @@
 import 'dart:ui';
-import 'package:allcon/model/performance_model.dart';
-import 'package:allcon/pages/concert/concert_likes_controller.dart';
 import 'package:allcon/utils/Colors.dart';
-import 'package:allcon/widget/app_bar.dart';
-import 'package:allcon/widget/bottom_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:allcon/service/concertLikesService.dart';
+import 'package:allcon/widget/bottom_navigation_bar.dart';
+import 'package:allcon/widget/app_bar.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:allcon/model/performance_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class PerformanceDetail extends StatelessWidget {
+class PerformanceDetail extends StatefulWidget {
   final Performance performance;
 
   const PerformanceDetail({Key? key, required this.performance})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final ConcertLikesController _concertLikesController =
-        Get.find<ConcertLikesController>();
+  State<PerformanceDetail> createState() => _PerformanceDetailState();
+}
 
+class _PerformanceDetailState extends State<PerformanceDetail> {
+  String? loginUserId;
+  String? loginUserNickname;
+
+  bool isFavorited = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserInfo();
+  }
+
+  void _loadUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    loginUserId = prefs.getString('userId');
+    loginUserNickname = prefs.getString('userNickname');
+
+    if (loginUserId != null) {
+      _checkFavoriteStatus(loginUserId!, widget.performance.mid.toString());
+    }
+  }
+
+  Future<void> _checkFavoriteStatus(String userId, String performanceId) async {
+    bool favorited =
+        await ConcertLikesService.isFavorited(userId, performanceId);
+    setState(() {
+      isFavorited = favorited;
+    });
+  }
+
+  Future<void> _toggleFavorite() async {
+    var result = await ConcertLikesService.toggleFavorite(
+      loginUserId.toString(),
+      widget.performance.mid.toString(),
+    );
+
+    if (result['favorited'] != null) {
+      setState(() {
+        isFavorited = result['favorited'];
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(
         text: "상세 정보",
@@ -27,8 +72,8 @@ class PerformanceDetail extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              InfoHeader(context, _concertLikesController),
-              InfoDetailImgs(context),
+              InfoHeader(context),
+              InfoDetailImgs(),
               const SizedBox(height: 70),
             ],
           ),
@@ -68,8 +113,7 @@ class PerformanceDetail extends StatelessWidget {
     );
   }
 
-  Widget InfoHeader(
-      BuildContext context, ConcertLikesController _concertLikesController) {
+  Widget InfoHeader(BuildContext context) {
     return Column(
       children: [
         Stack(
@@ -77,36 +121,34 @@ class PerformanceDetail extends StatelessWidget {
             Column(
               children: [
                 Container(
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 180,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(performance.poster ?? ""),
-                            fit: BoxFit.cover,
-                          ),
+                    child: Stack(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 180,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(widget.performance.poster ?? ""),
+                          fit: BoxFit.cover,
                         ),
-                        child: BackdropFilter(
+                      ),
+                      child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
                           child: Container(
                             color: Colors.black.withOpacity(0),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 180,
-                        color: Colors.black.withOpacity(0.2),
-                      ),
-                    ],
-                  ),
-                ),
+                          )),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 180,
+                      color: Colors.black.withOpacity(0.2),
+                    ),
+                  ],
+                )),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 50,
-                ),
+                )
               ],
             ),
             Positioned(
@@ -114,7 +156,7 @@ class PerformanceDetail extends StatelessWidget {
               left: 25,
               child: Expanded(
                 child: Image.network(
-                  performance.poster ?? "",
+                  widget.performance.poster ?? "",
                   height: 200,
                   fit: BoxFit.contain,
                 ),
@@ -123,21 +165,16 @@ class PerformanceDetail extends StatelessWidget {
             Positioned(
               top: 186,
               right: 15,
-              child: Obx(() {
-                final isFavorited = _concertLikesController.favoritePerformances
-                    .any((p) => p.mid == performance.mid);
-                return IconButton(
-                  icon: Icon(
-                    isFavorited
-                        ? CupertinoIcons.heart_fill
-                        : CupertinoIcons.heart,
-                    color: isFavorited ? Colors.redAccent : Colors.black26,
-                    size: 30.0,
-                  ),
-                  onPressed: () => _concertLikesController
-                      .toggleFavorite(performance.mid.toString()),
-                );
-              }),
+              child: IconButton(
+                icon: Icon(
+                  isFavorited
+                      ? CupertinoIcons.heart_fill
+                      : CupertinoIcons.heart,
+                  color: isFavorited ? Colors.redAccent : Colors.black26,
+                  size: 30.0,
+                ),
+                onPressed: _toggleFavorite,
+              ),
             ),
           ],
         ),
@@ -148,7 +185,7 @@ class PerformanceDetail extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                performance.name ?? 'Unknown',
+                widget.performance.name ?? 'Unknown',
                 style: const TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.w600,
@@ -160,31 +197,31 @@ class PerformanceDetail extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    performance.genre ?? "",
+                    widget.performance.genre ?? "",
                     style: const TextStyle(color: Colors.black54, fontSize: 12),
                   ),
                   const SizedBox(width: 5),
                   Text(
-                    performance.area ?? "",
+                    widget.performance.area ?? "",
                     style: const TextStyle(color: Colors.black54, fontSize: 12),
                   ),
                   const SizedBox(width: 5),
                   Text(
-                    performance.age ?? "",
+                    widget.performance.age ?? "",
                     style: const TextStyle(color: Colors.black54, fontSize: 12),
                   ),
                 ],
               ),
               const SizedBox(height: 10.0),
-              if (performance.cast != null &&
-                  performance.cast!.trim().isNotEmpty)
+              if (widget.performance.cast != null &&
+                  widget.performance.cast!.trim().isNotEmpty)
                 Row(
                   children: [
                     const Icon(CupertinoIcons.music_mic, size: 18),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        performance.cast ?? 'Unknown',
+                        widget.performance.cast ?? 'Unknown',
                         style: const TextStyle(
                           fontSize: 15.0,
                           color: Colors.black,
@@ -201,7 +238,7 @@ class PerformanceDetail extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      performance.place ?? 'Unknown',
+                      widget.performance.place ?? 'Unknown',
                       style: const TextStyle(
                         fontSize: 15.0,
                         color: Colors.black,
@@ -216,10 +253,11 @@ class PerformanceDetail extends StatelessWidget {
                 children: [
                   const Icon(CupertinoIcons.calendar, size: 18),
                   const SizedBox(width: 8),
-                  if (performance.startDate == performance.endDate)
+                  if (widget.performance.startDate ==
+                      widget.performance.endDate)
                     Expanded(
                       child: Text(
-                        '${performance.startDate}' ?? 'Unknown',
+                        '${widget.performance.startDate}' ?? 'Unknown',
                         style: const TextStyle(
                           fontSize: 15.0,
                           color: Colors.black,
@@ -230,7 +268,7 @@ class PerformanceDetail extends StatelessWidget {
                   else
                     Expanded(
                       child: Text(
-                        '${performance.startDate} ~ ${performance.endDate}' ??
+                        '${widget.performance.startDate} ~ ${widget.performance.endDate}' ??
                             'Unknown',
                         style: const TextStyle(
                           fontSize: 15.0,
@@ -243,14 +281,14 @@ class PerformanceDetail extends StatelessWidget {
               ),
             ],
           ),
-        ),
+        )
       ],
     );
   }
 
-  Widget InfoDetailImgs(BuildContext context) {
-    List<String>? imgUrls = performance.imgs;
-    String poster = performance.poster.toString() ?? "";
+  Widget InfoDetailImgs() {
+    List<String>? imgUrls = widget.performance.imgs;
+    String poster = widget.performance.poster.toString() ?? "";
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
