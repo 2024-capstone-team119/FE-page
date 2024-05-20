@@ -1,5 +1,5 @@
+import 'dart:convert';
 import 'dart:io';
-import 'package:allcon/pages/mypage/sub/EditNickDailog.dart';
 import 'package:allcon/pages/mypage/controller/img_crop_controller.dart';
 import 'package:allcon/pages/mypage/controller/profile_controller.dart';
 import 'package:allcon/utils/Colors.dart';
@@ -99,9 +99,9 @@ Widget userInfo(BuildContext context, ProfileController pcon) {
         height: 120,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(50),
-          child: pcon.myProfile.value.profileImage != null
-              ? Image.file(
-                  File(pcon.myProfile.value.profileImage!),
+          child: pcon.profileImageBase64.value.isNotEmpty
+              ? Image.memory(
+                  base64Decode(pcon.profileImageBase64.value),
                   fit: BoxFit.cover,
                 )
               : Image.asset(
@@ -158,13 +158,13 @@ Widget EditUserInfo(
                 child: SizedBox(
                   width: 100,
                   height: 100,
-                  child: pcon.myProfile.value.profileImage == null
+                  child: pcon.profileImageBase64.value.isEmpty
                       ? Image.asset(
                           'assets/img/avatar.png',
                           fit: BoxFit.cover,
                         )
-                      : Image.file(
-                          File(pcon.myProfile.value.profileImage!),
+                      : Image.memory(
+                          base64Decode(pcon.profileImageBase64.value),
                           fit: BoxFit.cover,
                         ),
                 ),
@@ -185,74 +185,48 @@ Widget EditUserInfo(
                         child: const Icon(
                           CupertinoIcons.photo_camera_solid,
                           size: 15,
+                          color: Color.fromARGB(255, 255, 255, 255),
                         ),
                       ),
                     ),
                   )
-                : Container(),
+                : const SizedBox(),
           ]),
         ),
       ),
       const SizedBox(height: 8.0),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 60.0),
-        child: Obx(
-          () => Column(
-            children: [
-              EditNameInfo(pcon.myProfile.value.nickname, () async {
-                String value = await Get.dialog(EditUserName(
-                  text: pcon.myProfile.value.nickname,
-                ));
-                pcon.updateName(value);
-              }),
-              const SizedBox(height: 2.0),
-              Text(
-                pcon.myProfile.value.email,
-                style: const TextStyle(
-                  fontSize: 20.0,
+        child: Column(
+          children: [
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: TextFormField(
+                  initialValue: pcon.myProfile.value.nickname,
+                  decoration: const InputDecoration(
+                    hintText: '닉네임',
+                  ),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  onChanged: (text) {
+                    pcon.updateName(text);
+                  },
                 ),
               ),
-            ],
-          ),
+            ),
+            Text(
+              pcon.myProfile.value.email,
+              style: const TextStyle(
+                fontSize: 20.0,
+              ),
+            ),
+          ],
         ),
       ),
     ],
-  );
-}
-
-Widget EditNameInfo(String value, VoidCallback onTap) {
-  return GestureDetector(
-    onTap: onTap,
-    child: Stack(children: [
-      Container(
-        height: 56,
-        decoration: const BoxDecoration(
-          border: Border(
-            bottom: BorderSide(width: 1, color: Colors.black12),
-          ),
-        ),
-      ),
-      Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: Text(
-            value,
-            style: const TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      ),
-      const Positioned(
-        right: 2,
-        bottom: 16,
-        child: Icon(
-          CupertinoIcons.pencil,
-          color: Colors.black,
-          size: 18,
-        ),
-      ),
-    ]),
   );
 }
