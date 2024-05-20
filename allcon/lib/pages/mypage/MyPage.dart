@@ -33,7 +33,9 @@ class _MyPageState extends State<MyPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 MyProfile(),
+                SizedBox(height: 20),
                 const MyCategory(),
+                SizedBox(height: 10),
               ],
             ),
           ),
