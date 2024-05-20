@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:allcon/model/concertLikes_model.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/service/baseUrl.dart';
 import 'package:http/http.dart' as http;
