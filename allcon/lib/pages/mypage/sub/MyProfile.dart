@@ -1,14 +1,23 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:allcon/pages/mypage/sub/EditNickDailog.dart';
 import 'package:allcon/pages/mypage/controller/img_crop_controller.dart';
 import 'package:allcon/pages/mypage/controller/profile_controller.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class MyProfile extends StatelessWidget {
+class MyProfile extends StatefulWidget {
   MyProfile({super.key});
 
+  @override
+  State<MyProfile> createState() => _MyProfileState();
+}
+
+class _MyProfileState extends State<MyProfile> {
   final ProfileController _pcon = Get.put(ProfileController());
   final ImgController _icon = Get.put(ImgController());
 
@@ -55,8 +64,11 @@ class MyProfile extends StatelessWidget {
                               fontSize: 16.0,
                             ),
                           ),
-                          onPressed: () {
-                            _pcon.toggleEditBtn();
+                          onPressed: () async {
+                            await _pcon.updateProfile();
+                            await _pcon.updateProfileImage();
+                            _pcon
+                                .toggleEditBtn(); // Ensure this is called to return to view mode
                           },
                         ),
                       ],
@@ -87,12 +99,18 @@ Widget userInfo(BuildContext context, ProfileController pcon) {
         width: 120,
         height: 120,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(50),
-          child: Image.asset(
-            'assets/img/avatar.png',
-            fit: BoxFit.cover,
-          ),
-        ),
+            borderRadius: BorderRadius.circular(50),
+            child: Obx(() {
+              return pcon.profileImageBase64.value.isNotEmpty
+                  ? Image.memory(
+                      base64Decode(pcon.profileImageBase64.value),
+                      fit: BoxFit.cover,
+                    )
+                  : Image.asset(
+                      'assets/img/avatar.png',
+                      fit: BoxFit.cover,
+                    );
+            })),
       ),
       const SizedBox(height: 8.0),
       Padding(
@@ -103,7 +121,7 @@ Widget userInfo(BuildContext context, ProfileController pcon) {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: Text(
-                  pcon.myProfile.value.userName ?? "",
+                  pcon.myProfile.value.nickname,
                   style: const TextStyle(
                     fontSize: 30.0,
                     fontWeight: FontWeight.w600,
@@ -112,7 +130,7 @@ Widget userInfo(BuildContext context, ProfileController pcon) {
               ),
             ),
             Text(
-              pcon.myProfile.value.email ?? "",
+              pcon.myProfile.value.email,
               style: const TextStyle(
                 fontSize: 20.0,
               ),
@@ -140,18 +158,19 @@ Widget EditUserInfo(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(40),
                 child: SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: pcon.myProfile.value.profileImg == null
-                      ? Image.asset(
-                          'assets/img/avatar.png',
-                          fit: BoxFit.cover,
-                        )
-                      : Image.file(
-                          pcon.myProfile.value.profileImg!,
-                          fit: BoxFit.cover,
-                        ),
-                ),
+                    width: 100,
+                    height: 100,
+                    child: Obx(() {
+                      return pcon.profileImageBase64.value.isEmpty
+                          ? Image.asset(
+                              'assets/img/avatar.png',
+                              fit: BoxFit.cover,
+                            )
+                          : Image.memory(
+                              base64Decode(pcon.profileImageBase64.value),
+                              fit: BoxFit.cover,
+                            );
+                    })),
               ),
             ),
             pcon.isEditMyProfile.value
@@ -183,15 +202,15 @@ Widget EditUserInfo(
         child: Obx(
           () => Column(
             children: [
-              EditNameInfo(pcon.myProfile.value.userName ?? "", () async {
+              EditNameInfo(pcon.myProfile.value.nickname, () async {
                 String value = await Get.dialog(EditUserName(
-                  text: pcon.myProfile.value.userName,
+                  text: pcon.myProfile.value.nickname,
                 ));
                 pcon.updateName(value);
               }),
               const SizedBox(height: 2.0),
               Text(
-                pcon.myProfile.value.email ?? "",
+                pcon.myProfile.value.email,
                 style: const TextStyle(
                   fontSize: 20.0,
                 ),
@@ -233,7 +252,7 @@ Widget EditNameInfo(String value, VoidCallback onTap) {
         bottom: 16,
         child: Icon(
           CupertinoIcons.pencil,
-          color: Colors.white,
+          color: Colors.black,
           size: 18,
         ),
       ),
