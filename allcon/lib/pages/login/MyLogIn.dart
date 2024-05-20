@@ -26,23 +26,21 @@ class _MyMyLogInState extends State<MyLogIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Expanded(
+      body: SingleChildScrollView(
         child: Container(
+          height: MediaQuery.of(context).size.height,
           child: Padding(
             padding: const EdgeInsets.all(30),
-            child: SafeArea(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    WellcomText(),
-                    SizedBox(height: 20),
-                    SingInForm(),
-                    SizedBox(height: 5),
-                    IsntUser(),
-                  ],
-                ),
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                WellcomText(),
+                SizedBox(height: 20),
+                SingInForm(),
+                SizedBox(height: 5),
+                IsntUser(),
+              ],
             ),
           ),
         ),
@@ -94,7 +92,7 @@ class _MyMyLogInState extends State<MyLogIn> {
               funValidator: validatePwd(),
               controller: _userPwd,
             ),
-            SizedBox(height: 32),
+            SizedBox(height: 24),
             CustomElevatedBtn(
                 text: "로그인",
                 funPageRoute: () async {
@@ -112,14 +110,13 @@ class _MyMyLogInState extends State<MyLogIn> {
                       Get.snackbar('로그인 실패 😭', "다시 시도해주세요!");
                     }
                   }
-                })
+                }),
           ],
         ));
   }
 
   Widget IsntUser() {
-    return Expanded(
-        child: Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
@@ -142,6 +139,6 @@ class _MyMyLogInState extends State<MyLogIn> {
           ),
         ),
       ],
-    ));
+    );
   }
 }
