@@ -1,9 +1,9 @@
+import 'package:allcon/pages/home/Home.dart';
 import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/pages/login/controller/account_controller.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -21,14 +21,6 @@ void main() async {
 
   Get.put(AccountController());
 
-  // 앱 실행 전 secure storage 에서 토큰 읽어옴
-  const secureStorage = FlutterSecureStorage();
-  String? token = await secureStorage.read(key: 'jwt_token');
-
-  if (token != null) {
-    Get.find<AccountController>().isLogin.value = true;
-  }
-
   runApp(const MyApp());
 }
 
@@ -37,11 +29,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLoggedIn = Get.find<AccountController>().isLogin.value;
+    bool isLoggedIn = Get.find<AccountController>().isLogin.value;
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: isLoggedIn ? const MyHome() : const MyLogIn(),
-      home: const MyLogIn(),
+      home: isLoggedIn ? const MyHome() : const MyLogIn(),
       theme: ThemeData(fontFamily: 'Pretendard'),
       themeMode: ThemeMode.system,
     );
