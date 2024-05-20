@@ -3,7 +3,6 @@ import 'package:allcon/pages/mypage/controller/img_crop_controller.dart';
 import 'package:allcon/service/account/profileService.dart';
 import 'package:get/get.dart';
 import 'dart:io';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileController extends GetxController {
@@ -25,6 +24,8 @@ class ProfileController extends GetxController {
     deleted: false,
   ).obs;
 
+  RxString profileImageBase64 = ''.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -34,18 +35,20 @@ class ProfileController extends GetxController {
   // 유저 데이터 불러옴 조회
   Future<void> _loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? userId = prefs.getString('userId') ?? '';
-    String? userEmail = prefs.getString('loginUserEmail') ?? '';
-    String? userNickname = prefs.getString('userNickname') ?? '';
+    String? userId = prefs.getString('userId');
+    String? userEmail = prefs.getString('loginUserEmail');
+    String? userNickname = prefs.getString('userNickname');
 
     if (userId != null && userNickname != null) {
-      String? profileImage = await ProfileService.getProfileImage(userId);
+      String? imageBase64 = await ProfileService.getProfileImage(userId);
+      profileImageBase64.value = imageBase64 ?? '';
+
       originMyProfile.value = User(
         id: userId,
         email: userEmail ?? '',
         password: '',
         nickname: userNickname,
-        profileImage: profileImage,
+        profileImage: imageBase64,
         deleted: false,
       );
       myProfile.value = User.clone(originMyProfile.value);
@@ -77,6 +80,23 @@ class ProfileController extends GetxController {
       } else {
         // 닉네임 변경 실패 처리
         print('Failed to update nickname');
+      }
+    }
+  }
+
+  Future<void> updateProfileImage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userId = prefs.getString('userId');
+
+    if (userId != null && myProfile.value.profileImage != null) {
+      bool success = await ProfileService.uploadProfileImage(
+          userId, File(myProfile.value.profileImage!));
+      if (success) {
+        originMyProfile.value.profileImage = myProfile.value.profileImage;
+        toggleEditBtn(); // Ensure this is called to return to view mode
+        print('Profile image updated');
+      } else {
+        print('Failed to update profile image');
       }
     }
   }

@@ -63,8 +63,11 @@ class _MyProfileState extends State<MyProfile> {
                               fontSize: 16.0,
                             ),
                           ),
-                          onPressed: () {
-                            _pcon.updateProfile();
+                          onPressed: () async {
+                            await _pcon.updateProfile();
+                            await _pcon.updateProfileImage();
+                            _pcon
+                                .toggleEditBtn(); // Ensure this is called to return to view mode
                           },
                         ),
                       ],
