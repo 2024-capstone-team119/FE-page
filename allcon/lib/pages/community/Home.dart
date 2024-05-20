@@ -1,7 +1,9 @@
+import 'package:allcon/model/community_model.dart';
 import 'package:allcon/pages/community/sub/Likes.dart';
 import 'package:allcon/pages/community/sub/Post.dart';
 import 'package:allcon/pages/community/sub/Search.dart';
 import 'package:allcon/pages/community/sub/tabcontent/ContentListView.dart';
+import 'package:allcon/service/community/postService.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
@@ -23,9 +25,11 @@ class _MyCommunityState extends State<MyCommunity>
   final List<String> categoryList = ['자유게시판', '후기', '카풀'];
   late final TabController _tabController;
 
-  String searchText = '';
   String? loginUserId;
   String? loginUserNickname;
+
+  Future<List<Post>>? _searchResults;
+  late String _searchText = '';
 
   _loadInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -119,7 +123,9 @@ class _MyCommunityState extends State<MyCommunity>
             child: MyContentSearch(
               onSearch: (value) {
                 setState(() {
-                  searchText = value;
+                  _searchText = value;
+                  _searchResults = PostService.searchPosts(
+                      _searchText, categoryList[_tabController.index]);
                 });
               },
             ),
@@ -151,7 +157,8 @@ class _MyCommunityState extends State<MyCommunity>
                 return MyContentListView(
                   category: category,
                   tabIdx: _tabController.index,
-                  searchText: searchText,
+                  searchText: _searchText,
+                  searchPosts: _searchResults,
                 );
               }).toList(),
             ),

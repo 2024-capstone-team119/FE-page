@@ -14,12 +14,14 @@ class MyContentListView extends StatefulWidget {
   final String category;
   final int tabIdx;
   final String searchText;
+  final Future<List<Post>>? searchPosts;
 
   const MyContentListView({
     super.key,
     required this.category,
     required this.tabIdx,
     this.searchText = '',
+    this.searchPosts,
   });
 
   @override
@@ -32,6 +34,15 @@ class _MyContentListViewState extends State<MyContentListView> {
   String? loginUserNickname;
   late bool anonymous = true;
   final bool likeToDetail = false;
+
+  late List<Post> postsFuture;
+  late List<Post>? searchPostFuture;
+
+  Future<List<List<Post>>> fetchFuturePosts() async {
+    postsFuture = await PostService.getPost(widget.category);
+    searchPostFuture = await widget.searchPosts;
+    return [postsFuture, searchPostFuture ?? []];
+  }
 
   _loadInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,48 +58,79 @@ class _MyContentListViewState extends State<MyContentListView> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Post>>(
-      future: PostService.getPost(widget.category),
+    return FutureBuilder<List<List<Post>>>(
+      future: fetchFuturePosts(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Loading();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          List<Post> posts = snapshot.data!;
+          List<Post> posts = snapshot.data![0];
+          List<Post>? searchPosts = snapshot.data![1];
 
-          return Scaffold(
-            backgroundColor: Colors.white,
-            body: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: ListView.builder(
-                itemCount: posts.length,
-                itemBuilder: (context, index) {
-                  final reversedIndex = posts.length - index - 1;
-                  return _buildContentItem(
-                      context, posts[reversedIndex], reversedIndex);
-                },
+          print('검색어: ${widget.searchText}');
+          if (widget.searchText.isNotEmpty) {
+            if (searchPosts.isNotEmpty) {
+              return Scaffold(
+                backgroundColor: Colors.white,
+                body: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: ListView.builder(
+                    itemCount: searchPosts.length,
+                    itemBuilder: (context, index) {
+                      final reversedIndex = searchPosts.length - index - 1;
+                      return createBox(context, searchPosts[reversedIndex]);
+                    },
+                  ),
+                ),
+              );
+            } else {
+              return Center(
+                child: Column(
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+                    const Text(
+                      'O',
+                      style: TextStyle(
+                        fontSize: 120.0,
+                        fontFamily: 'Cafe24Moyamoya',
+                        color: Color(0xFFff66a1),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const Text(
+                      '검색 결과가 없습니다.\n 다시 입력해주세요 :)',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              );
+            }
+          } else {
+            return Scaffold(
+              backgroundColor: Colors.white,
+              body: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: ListView.builder(
+                  itemCount: posts.length,
+                  itemBuilder: (context, index) {
+                    final reversedIndex = posts.length - index - 1;
+                    return createBox(context, posts[reversedIndex]);
+                  },
+                ),
               ),
-            ),
-          );
+            );
+          }
         }
       },
     );
-  }
-
-  Widget _buildContentItem(BuildContext context, Post post, int index) {
-    final lowercaseSearchText = widget.searchText.toLowerCase();
-    final lowercaseContent = post.text.toLowerCase();
-
-    if (widget.searchText.isNotEmpty &&
-        !lowercaseContent.contains(lowercaseSearchText)) {
-      return Container();
-    } else {
-      return createBox(context, post);
-    }
   }
 
   Widget createBox(
