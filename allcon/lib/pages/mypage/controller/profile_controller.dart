@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:allcon/model/user_model.dart';
 import 'package:allcon/pages/mypage/controller/img_crop_controller.dart';
 import 'package:allcon/service/account/profileService.dart';
@@ -8,11 +10,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ProfileController extends GetxController {
   RxBool isEditMyProfile = false.obs;
 
+  RxString profileImageBase64 = ''.obs;
+
   Rx<User> originMyProfile = User(
     id: '',
     email: '',
     password: '',
     nickname: '',
+    profileImage: '',
     deleted: false,
   ).obs;
 
@@ -21,10 +26,9 @@ class ProfileController extends GetxController {
     email: '',
     password: '',
     nickname: '',
+    profileImage: '',
     deleted: false,
   ).obs;
-
-  RxString profileImageBase64 = ''.obs;
 
   @override
   void onInit() {
@@ -58,6 +62,7 @@ class ProfileController extends GetxController {
         email: '',
         password: '',
         nickname: '',
+        profileImage: '',
         deleted: false,
       );
       myProfile.value = User.clone(originMyProfile.value);
@@ -93,7 +98,9 @@ class ProfileController extends GetxController {
           userId, File(myProfile.value.profileImage!));
       if (success) {
         originMyProfile.value.profileImage = myProfile.value.profileImage;
-        toggleEditBtn(); // Ensure this is called to return to view mode
+        profileImageBase64.value =
+            base64Encode(File(myProfile.value.profileImage!).readAsBytesSync());
+        toggleEditBtn();
         print('Profile image updated');
       } else {
         print('Failed to update profile image');
@@ -121,6 +128,7 @@ class ProfileController extends GetxController {
       File? file = await ImgController.to.selectImg();
       if (file != null) {
         myProfile.update((my) => my?.profileImage = file.path);
+        profileImageBase64.value = base64Encode(file.readAsBytesSync());
       }
     }
   }

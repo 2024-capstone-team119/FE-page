@@ -99,17 +99,18 @@ Widget userInfo(BuildContext context, ProfileController pcon) {
         width: 120,
         height: 120,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(50),
-          child: pcon.profileImageBase64.value.isNotEmpty
-              ? Image.memory(
-                  base64Decode(pcon.profileImageBase64.value),
-                  fit: BoxFit.cover,
-                )
-              : Image.asset(
-                  'assets/img/avatar.png',
-                  fit: BoxFit.cover,
-                ),
-        ),
+            borderRadius: BorderRadius.circular(50),
+            child: Obx(() {
+              return pcon.profileImageBase64.value.isNotEmpty
+                  ? Image.memory(
+                      base64Decode(pcon.profileImageBase64.value),
+                      fit: BoxFit.cover,
+                    )
+                  : Image.asset(
+                      'assets/img/avatar.png',
+                      fit: BoxFit.cover,
+                    );
+            })),
       ),
       const SizedBox(height: 8.0),
       Padding(
@@ -157,18 +158,19 @@ Widget EditUserInfo(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(40),
                 child: SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: pcon.profileImageBase64.value.isEmpty
-                      ? Image.asset(
-                          'assets/img/avatar.png',
-                          fit: BoxFit.cover,
-                        )
-                      : Image.memory(
-                          base64Decode(pcon.profileImageBase64.value),
-                          fit: BoxFit.cover,
-                        ),
-                ),
+                    width: 100,
+                    height: 100,
+                    child: Obx(() {
+                      return pcon.profileImageBase64.value.isEmpty
+                          ? Image.asset(
+                              'assets/img/avatar.png',
+                              fit: BoxFit.cover,
+                            )
+                          : Image.memory(
+                              base64Decode(pcon.profileImageBase64.value),
+                              fit: BoxFit.cover,
+                            );
+                    })),
               ),
             ),
             pcon.isEditMyProfile.value
