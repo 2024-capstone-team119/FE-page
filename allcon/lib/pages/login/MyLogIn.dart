@@ -26,20 +26,22 @@ class _MyMyLogInState extends State<MyLogIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(30),
-          child: SafeArea(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  WellcomText(),
-                  SizedBox(height: 20),
-                  SingInForm(),
-                  SizedBox(height: 5),
-                  IsntUser(),
-                ],
+      body: Expanded(
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(30),
+            child: SafeArea(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    WellcomText(),
+                    SizedBox(height: 20),
+                    SingInForm(),
+                    SizedBox(height: 5),
+                    IsntUser(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -116,7 +118,8 @@ class _MyMyLogInState extends State<MyLogIn> {
   }
 
   Widget IsntUser() {
-    return Row(
+    return Expanded(
+        child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
@@ -139,6 +142,6 @@ class _MyMyLogInState extends State<MyLogIn> {
           ),
         ),
       ],
-    );
+    ));
   }
 }
