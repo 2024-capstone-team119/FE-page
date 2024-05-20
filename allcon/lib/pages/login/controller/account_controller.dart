@@ -25,7 +25,6 @@ class AccountController extends GetxController {
     bool isDelete = await DeleteUserService.deleteUser(userId);
     if (isDelete) {
       isLogin.value = false;
-      TokenService.removeToken();
     }
     return isDelete;
   }

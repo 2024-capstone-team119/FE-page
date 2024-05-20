@@ -1,5 +1,6 @@
 import 'package:allcon/pages/login/controller/account_controller.dart';
 import 'package:allcon/pages/login/MyLogIn.dart';
+import 'package:allcon/pages/mypage/sub/ConfirmDelete.dart';
 import 'package:allcon/pages/mypage/sub/MyConcertLikes.dart';
 import 'package:allcon/service/account/tokenService.dart';
 import 'package:allcon/utils/Colors.dart';
@@ -23,21 +24,15 @@ class _MyCategoryState extends State<MyCategory> {
     final AccountController _accountController = Get.put(AccountController());
 
     String? loginUserId;
-    void _loadUserInfo() async {
+    Future<void> _loadUserInfo() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      if (_accountController.isLogin.value) {
-        loginUserId = prefs.getString('userId');
-      } else {
-        loginUserId = null;
-      }
+      loginUserId = prefs.getString('userId');
     }
 
     @override
     void initState() {
       super.initState();
-      if (_accountController.isLogin.value) {
-        _loadUserInfo();
-      }
+      _loadUserInfo();
     }
 
     return Padding(
@@ -128,19 +123,8 @@ class _MyCategoryState extends State<MyCategory> {
                 '회원탈퇴',
                 style: TextStyle(fontSize: 20.0),
               ),
-              onTap: () {
-                if (loginUserId != null) {
-                  _accountController.deleteUser(loginUserId!).then((isDelete) {
-                    if (isDelete) {
-                      Get.snackbar('회원탈퇴 성공✔', "다음에 또 만나요~!");
-                      Get.offAll(MyLogIn());
-                    } else {
-                      Get.snackbar('회원탈퇴 실패', "");
-                      print(
-                          'User ID is null. Cannot proceed with user deletion.');
-                    }
-                  });
-                }
+              onTap: () async {
+                await showDeleteDialog(context, _accountController);
               },
             ),
           ),
