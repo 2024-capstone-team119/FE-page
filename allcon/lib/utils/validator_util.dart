@@ -1,3 +1,4 @@
+import 'package:allcon/service/account/registService.dart';
 import 'package:validators/validators.dart';
 
 Function validateTitle() {
@@ -68,6 +69,7 @@ Function validateUserName() {
 }
 
 // 유저닉네임 수정시 유효성 검사
+
 String? validateEditNick(String? value) {
   if (value!.isEmpty) {
     return "공백이 들어갈 수 없습니다.";

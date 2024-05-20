@@ -1,19 +1,39 @@
 import 'package:allcon/pages/login/controller/account_controller.dart';
 import 'package:allcon/pages/login/MyLogIn.dart';
+import 'package:allcon/pages/mypage/sub/ConfirmDelete.dart';
 import 'package:allcon/pages/mypage/sub/MyConcertLikes.dart';
+import 'package:allcon/service/account/tokenService.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/utils/jwt.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class MyCategory extends StatelessWidget {
+class MyCategory extends StatefulWidget {
   const MyCategory({super.key});
 
   @override
+  State<MyCategory> createState() => _MyCategoryState();
+}
+
+class _MyCategoryState extends State<MyCategory> {
+  @override
   Widget build(BuildContext context) {
     final AccountController _accountController = Get.put(AccountController());
+
+    String? loginUserId;
+    Future<void> _loadUserInfo() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      loginUserId = prefs.getString('userId');
+    }
+
+    @override
+    void initState() {
+      super.initState();
+      _loadUserInfo();
+    }
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
@@ -82,7 +102,7 @@ class MyCategory extends StatelessWidget {
               ),
               onTap: () {
                 _accountController.logout();
-                Get.to(MyLogIn());
+                Get.offAll(MyLogIn());
               },
             ),
           ),
@@ -103,7 +123,9 @@ class MyCategory extends StatelessWidget {
                 '회원탈퇴',
                 style: TextStyle(fontSize: 20.0),
               ),
-              onTap: () {},
+              onTap: () async {
+                await showDeleteDialog(context, _accountController);
+              },
             ),
           ),
         ],

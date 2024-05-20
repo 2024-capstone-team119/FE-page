@@ -21,8 +21,12 @@ class loginService {
         String? token = jsonResponse['token'];
         String? nickname = jsonResponse['nickname'];
         String? userId = jsonResponse['userId'];
+        String? userEmail = jsonResponse['userEmail'];
 
-        if (token == null || nickname == null || userId == null) {
+        if (token == null ||
+            nickname == null ||
+            userId == null ||
+            userEmail == null) {
           print('응답에서 필요한 데이터가 없습니다.');
           return false;
         }
@@ -31,6 +35,8 @@ class loginService {
         await prefs.setString('token', token);
         await prefs.setString('userNickname', nickname);
         await prefs.setString('userId', userId);
+        await prefs.setString('loginUserEmail', userEmail);
+
         print("로그인한 유저의 정보");
         print("$token\n$nickname\n$userId");
         return true;
