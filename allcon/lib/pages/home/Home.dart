@@ -8,6 +8,7 @@ import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/service/concertService.dart';
+import 'package:allcon/widget/copyRight_ALLCON.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -97,7 +98,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(height: 15.0),
                       DeadConcertCard(performances: DeadPerformances),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
+                      copyRightAllCon(),
+                      const SizedBox(height: 18.0),
                     ],
                   );
                 }

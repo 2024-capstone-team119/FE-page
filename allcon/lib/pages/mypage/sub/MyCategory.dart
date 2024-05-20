@@ -2,12 +2,8 @@ import 'package:allcon/pages/login/controller/account_controller.dart';
 import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/pages/mypage/sub/ConfirmDelete.dart';
 import 'package:allcon/pages/mypage/sub/MyConcertLikes.dart';
-import 'package:allcon/service/account/tokenService.dart';
-import 'package:allcon/utils/Colors.dart';
-import 'package:allcon/utils/jwt.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
