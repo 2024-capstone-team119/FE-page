@@ -1,6 +1,7 @@
 import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/review/ReviewUpdate.dart';
 import 'package:allcon/pages/review/ReviewWrite.dart';
+import 'package:allcon/service/review/myReviewService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import 'package:get/get_rx/get_rx.dart';
 
 class ReviewController extends GetxController {
   RxList<Review> reviews = <Review>[].obs;
+  RxList<Review> myReviews = <Review>[].obs;
 
   ReviewController._internal();
 
@@ -15,9 +17,26 @@ class ReviewController extends GetxController {
     return ReviewController._internal();
   }
 
-  // 리뷰 목록
+  // 일반 리뷰 목록
   void setReviewList(List<Review> initialReviews) {
     reviews.assignAll(initialReviews);
+  }
+
+  // 내 리뷰 목록
+  Future<void> setMyReviewList(
+      List<Review> initialReviews, String? userId) async {
+    if (userId != '') {
+      try {
+        List<Review> fetchedReviews =
+            await MyReviewService.getMyReviews(userId!);
+
+        myReviews.assignAll(fetchedReviews);
+      } catch (error) {
+        print('Error fetching reviews: $error');
+      }
+    } else {
+      print('Loading');
+    }
   }
 
   // 별점 표시
@@ -52,36 +71,19 @@ class ReviewController extends GetxController {
     );
   }
 
-  // 리뷰 작성 함수
-  void submitReview(Review newReview, List<Review> reviewList) {
-    reviewList.add(newReview);
-    reviews.refresh();
-  }
-
   // 리뷰 수정 모달
   void showUpdateModalSheet(
     BuildContext context,
-    List<Review> reviewList,
-    List<Zone> zoneList,
-    List<String> zoneTotal,
-    String zone,
     Review review,
-    String text,
-    int star,
+    List<Zone> zones,
   ) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
         return ReviewUpdate(
-          reviewList: reviewList,
-          zoneList: zoneList,
-          zoneTotal: zoneTotal,
-          zone: zone,
-          selectedReview: review,
-          reviewId: reviews.length,
-          text: text,
-          star: star,
+          review: review,
+          zones: zones,
         );
       },
     );

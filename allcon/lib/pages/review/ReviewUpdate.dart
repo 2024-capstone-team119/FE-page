@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:allcon/model/review_model.dart';
+import 'package:allcon/service/review/myReviewService.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,25 +11,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ReviewUpdate extends StatefulWidget {
-  final List<Review> reviewList;
-  final List<Zone> zoneList;
-  final List<String> zoneTotal;
-  final String zone;
-  final Review selectedReview;
-  final int reviewId;
-  final String text;
-  final int star;
+  final Review review;
+  final List<Zone> zones;
 
   const ReviewUpdate({
     super.key,
-    required this.reviewList,
-    required this.zoneList,
-    required this.zoneTotal,
-    required this.zone,
-    required this.selectedReview,
-    required this.reviewId,
-    required this.text,
-    required this.star,
+    required this.review,
+    required this.zones,
   });
 
   @override
@@ -34,9 +25,9 @@ class ReviewUpdate extends StatefulWidget {
 }
 
 class _ReviewUpdateState extends State<ReviewUpdate> {
-  late int reviewId;
-  late String selectedZone;
-  late int selectedZoneIdx = 0;
+  late String reviewId;
+  String? selectedZoneId;
+  String? selectedZoneName;
   late int selectedStar;
 
   late String currentTime;
@@ -45,25 +36,51 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
   late FToast fToast;
 
   final picker = ImagePicker();
-  List<XFile?> multiImage = []; // 갤러리에서 여러 장의 사진을 선택해서 저장할 변수
-  List<XFile?> images = []; // 가져온 사진들을 보여주기 위한 변수
+  Uint8List? _imageBytes;
+
+  Future<void> _fetchImage() async {
+    if (widget.review.image != null && widget.review.image!.isNotEmpty) {
+      setState(() {
+        _imageBytes = base64Decode(widget.review.image!);
+      });
+    }
+  }
+
+  Future<void> _pickImage() async {
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _imageBytes = File(image.path).readAsBytesSync();
+      });
+    }
+  }
 
   @override
-  // 초기화
   void initState() {
     super.initState();
-    reviewId = widget.reviewId;
-    selectedZone = widget.zone;
-    selectedStar = widget.star;
-    _textController = TextEditingController(text: widget.text);
+    reviewId = widget.review.reviewId;
+    selectedZoneId = widget.review.zoneId;
+    selectedStar = widget.review.rating;
+    _textController = TextEditingController(text: widget.review.text);
     fToast = FToast();
     fToast.init(context);
+    _fetchImage();
   }
 
   @override
   Widget build(BuildContext context) {
     bool isButtonEnabled =
         selectedStar > 0 && _textController.text.length >= 10;
+
+    List<String> zoneNames =
+        widget.zones.map((zone) => zone.zoneName!).toList();
+
+    if (selectedZoneName == null && zoneNames.isNotEmpty) {
+      selectedZoneName = zoneNames.first;
+      selectedZoneId = widget.zones
+          .firstWhere((zone) => zone.zoneName == selectedZoneName)
+          .zoneId;
+    }
 
     return Container(
       decoration: const BoxDecoration(
@@ -91,15 +108,18 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomDropdownButton(
-                          items: widget.zoneTotal,
-                          value: selectedZone,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedZone = value.toString();
-                              // 선택된 구역의 인덱스 찾기
-                              selectedZoneIdx = widget.zoneTotal
-                                  .indexWhere((zone) => zone == value);
-                            });
+                          items: zoneNames,
+                          value: selectedZoneName ?? '',
+                          onChanged: (String? newValue) async {
+                            if (newValue != null) {
+                              setState(() {
+                                selectedZoneName = newValue;
+                                selectedZoneId = widget.zones
+                                    .firstWhere(
+                                        (zone) => zone.zoneName == newValue)
+                                    .zoneId;
+                              });
+                            }
                           },
                         ),
                         Row(
@@ -114,7 +134,7 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
                                 icon: Icon(
                                   CupertinoIcons.star_fill,
                                   color: i <= selectedStar
-                                      ? lightMint
+                                      ? Colors.amberAccent
                                       : Colors.black12,
                                 ),
                                 visualDensity: VisualDensity.compact,
@@ -152,24 +172,21 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
                   const SizedBox(
                     height: 3.0,
                   ),
-                  uploadPhoto(),
+                  updatePhoto(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       uploadButton(
-                        onPressed: () async {
-                          multiImage = await picker.pickMultiImage();
-                          setState(() {
-                            //multiImage를 통해 갤러리에서 가지고 온 사진들은 리스트 변수에 저장되므로 addAll()을 사용해서 images와 multiImage 리스트를 합쳐줍니다.
-                            images.addAll(multiImage);
-                          });
-                        },
+                        onPressed: _pickImage,
                         icon: Icons.add_photo_alternate,
                         label: '사진 수정하기',
                       ),
                       uploadButton(
                         onPressed: isButtonEnabled
-                            ? () {
+                            ? () async {
+                                await MyReviewService.updateReview(
+                                    widget.review.reviewId,
+                                    _textController.text);
                                 Navigator.of(context).pop();
                               }
                             : () {
@@ -222,58 +239,47 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
     );
   }
 
-  Widget uploadPhoto() {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      child: GridView.builder(
-        padding: const EdgeInsets.all(0),
-        shrinkWrap: true,
-        itemCount: images.length, // 보여줄 item 개수. images 리스트 변수에 담겨있는 사진 수 만큼.
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 5, // 한 행에 보여줄 사진 개수
-          childAspectRatio: 1 / 1, // 사진의 가로 세로 비율
-          mainAxisSpacing: 10, // 수평 Padding
-          crossAxisSpacing: 10, // 수직 Padding
-        ),
-        itemBuilder: (BuildContext context, int index) {
-          // 사진 삭제 버튼을 표시하기 위해 Stack을 사용함
-          return Stack(
-            alignment: Alignment.topRight,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: FileImage(
-                      File(images[index]!
-                              .path // images 리스트 변수 안에 있는 사진들을 순서대로 표시함
-                          ),
+  Widget updatePhoto() {
+    return _imageBytes == null
+        ? const SizedBox.shrink()
+        : Container(
+            margin: const EdgeInsets.all(10),
+            child: Stack(
+              alignment: Alignment.topRight,
+              children: [
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: MemoryImage(_imageBytes!),
                     ),
                   ),
                 ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(5),
+                Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    icon:
+                        const Icon(Icons.close, color: Colors.white, size: 15),
+                    onPressed: () {
+                      setState(() {
+                        _imageBytes = null; // 이미지 삭제
+                      });
+                    },
+                  ),
                 ),
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  icon: const Icon(Icons.close, color: Colors.white, size: 15),
-                  onPressed: () {
-                    setState(() {
-                      images.remove(images[index]);
-                    });
-                  },
-                ), //삭제 버튼
-              ),
-            ],
+              ],
+            ),
           );
-        },
-      ),
-    );
   }
 
   _showToast(String alert) {

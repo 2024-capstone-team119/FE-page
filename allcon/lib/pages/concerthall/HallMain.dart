@@ -81,7 +81,7 @@ class _HallMainState extends State<HallMain> {
             MaterialPageRoute(
                 builder: (context) => ReviewMain(
                       title: widget.title,
-                      hallId: widget.id,
+                      placeId: widget.id,
                     )),
           );
         },

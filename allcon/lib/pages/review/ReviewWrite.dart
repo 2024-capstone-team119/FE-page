@@ -27,7 +27,7 @@ class ReviewWrite extends StatefulWidget {
 class _ReviewWriteState extends State<ReviewWrite> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _textController = TextEditingController();
-  late int _rating = 0;
+  late int _rating = 3;
 
   late FToast fToast;
 
@@ -128,7 +128,7 @@ class _ReviewWriteState extends State<ReviewWrite> {
                                   icon: Icon(
                                     CupertinoIcons.star_fill,
                                     color: i <= _rating
-                                        ? lightMint
+                                        ? Colors.amberAccent
                                         : Colors.black12,
                                   ),
                                   visualDensity: VisualDensity.compact,
@@ -237,7 +237,7 @@ class _ReviewWriteState extends State<ReviewWrite> {
 
   Widget uploadPhoto() {
     return _imageFile == null
-        ? SizedBox.shrink()
+        ? const SizedBox.shrink()
         : Container(
             margin: const EdgeInsets.all(10),
             child: Stack(
