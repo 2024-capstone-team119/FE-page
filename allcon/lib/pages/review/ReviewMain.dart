@@ -5,10 +5,13 @@ import 'package:allcon/pages/review/MyReview.dart';
 import 'package:allcon/service/review/hallService.dart';
 import 'package:allcon/service/review/reviewService.dart';
 import 'package:allcon/service/review/zoneService.dart';
+import 'package:allcon/utils/Loading.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:snapping_sheet/snapping_sheet.dart';
 
 class ReviewMain extends StatefulWidget {
   final String title;
@@ -52,77 +55,13 @@ class _ReviewMainState extends State<ReviewMain> {
   bool reviewWrite = true;
   bool mine = false;
 
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<Hall?>(
-      future: HallService.getHall(widget.hallId),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data == null) {
-          return const Center(child: Text('Hall not found.'));
-        } else {
-          Hall hall = snapshot.data!;
-          return GetBuilder<ReviewController>(
-            init: ReviewController(),
-            builder: (controller) {
-              return Scaffold(
-                appBar: AppBar(
-                  title: Text(widget.title),
-                  centerTitle: true,
-                ),
-                body: Column(
-                  children: [
-                    Image.network(
-                      hall.hallImage ?? "",
-                      fit: BoxFit.cover,
-                      height: 300,
-                    ),
-                    const SizedBox(height: 5),
-                    Expanded(
-                      child: DefaultTabController(
-                        length: 3,
-                        child: Column(
-                          children: [
-                            const TabBar(
-                              tabs: [
-                                Tab(text: '추천순'),
-                                Tab(text: '최신순'),
-                                Tab(text: '내 리뷰'),
-                              ],
-                            ),
-                            Expanded(
-                              child: TabBarView(
-                                children: [
-                                  reviewTab(context, hall, true, false),
-                                  reviewTab(context, hall, false, false),
-                                  reviewTab(context, hall, false, true)
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        }
-      },
-    );
-  }
-
   Widget reviewTab(
       BuildContext context, Hall hall, bool isRecommend, bool mine) {
     return FutureBuilder<List<Zone>?>(
       future: ZoneService.getZone(hall.hallId ?? ''),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return Loading();
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data == null) {
@@ -152,7 +91,7 @@ class _ReviewMainState extends State<ReviewMain> {
                         children: [
                           Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 3.0),
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: CustomDropdownButton(
                               items: zoneNames,
                               value: selectedZoneName ?? '',
@@ -188,7 +127,7 @@ class _ReviewMainState extends State<ReviewMain> {
                               }
                             },
                             child: const Text(
-                              '리뷰 작성하기',
+                              '리뷰 작성',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15.0,
@@ -244,7 +183,7 @@ class _ReviewMainState extends State<ReviewMain> {
                                 textAlign: TextAlign.center,
                               ),
                               const Text(
-                                '아직 등록된 리뷰가 없습니다.',
+                                '리뷰를 채워주세요~💖',
                                 style: TextStyle(
                                   fontSize: 20.0,
                                 ),
@@ -265,5 +204,152 @@ class _ReviewMainState extends State<ReviewMain> {
         }
       },
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<Hall?>(
+        future: HallService.getHall(widget.hallId),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Loading();
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data == null) {
+            return const Center(child: Text('Hall not found.'));
+          } else {
+            Hall hall = snapshot.data!;
+            return GetBuilder<ReviewController>(
+              init: ReviewController(),
+              builder: (controller) {
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text(
+                      widget.title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    centerTitle: true,
+                  ),
+                  backgroundColor: Color(0xFFF6F4F5),
+                  body: Stack(
+                    children: [
+                      Positioned(
+                          bottom: 60.0,
+                          left: 0,
+                          right: 0,
+                          child: Center(
+                            child: Text(
+                              '끝까지 내려주셨군요!\n이걸 본 당신은 올콘입니다 🍀 ',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                              ),
+                            ),
+                          )),
+                      Positioned.fill(
+                        child: SnappingSheet(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: SingleChildScrollView(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 8.0, left: 8.0),
+                                    child: Image.network(
+                                      hall.hallImage ?? "",
+                                      fit: BoxFit.cover,
+                                      height: 360,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          snappingPositions: [
+                            SnappingPosition.factor(
+                              positionFactor: 0.52,
+                              snappingCurve: Curves.easeOutExpo,
+                              snappingDuration: Duration(milliseconds: 500),
+                              grabbingContentOffset: GrabbingContentOffset.top,
+                            ),
+                            SnappingPosition.factor(
+                              positionFactor: 1.0,
+                              snappingCurve: Curves.easeOutExpo,
+                              snappingDuration: Duration(milliseconds: 500),
+                              grabbingContentOffset: GrabbingContentOffset.top,
+                            ),
+                          ],
+                          grabbing: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(45)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 45,
+                                  spreadRadius: 5,
+                                ),
+                              ],
+                            ),
+                          ),
+                          sheetBelow: SnappingSheetContent(
+                            draggable: true,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(45),
+                                ),
+                              ),
+                              child: DefaultTabController(
+                                length: 3,
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 10.0),
+                                    TabBar(
+                                      labelColor: Colors.black,
+                                      unselectedLabelColor: Colors.grey,
+                                      indicatorColor: Colors.deepPurple,
+                                      labelStyle: TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.w500),
+                                      unselectedLabelStyle:
+                                          TextStyle(fontSize: 16.0),
+                                      tabs: [
+                                        Tab(text: '추천순'),
+                                        Tab(text: '최신순'),
+                                        Tab(text: '내 리뷰'),
+                                      ],
+                                    ),
+                                    Expanded(
+                                      child: TabBarView(
+                                        children: [
+                                          reviewTab(context, hall, true, false),
+                                          reviewTab(
+                                              context, hall, false, false),
+                                          reviewTab(context, hall, false, true)
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          }
+        });
   }
 }

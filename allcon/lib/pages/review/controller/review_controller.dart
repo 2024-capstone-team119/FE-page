@@ -28,7 +28,8 @@ class ReviewController extends GetxController {
 
     for (int i = 0; i < 5; i++) {
       if (i < starCount) {
-        starIcons.add(const Icon(CupertinoIcons.star_fill, color: lightMint));
+        starIcons.add(
+            const Icon(CupertinoIcons.star_fill, color: Colors.amberAccent));
       } else {
         starIcons.add(const Icon(CupertinoIcons.star, color: Colors.black12));
       }

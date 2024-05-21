@@ -40,15 +40,14 @@ class _ReviewListState extends State<ReviewList> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   widget.review.nickname,
                   style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15.0,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.0,
                   ),
                 ),
                 Row(
@@ -56,14 +55,22 @@ class _ReviewListState extends State<ReviewList> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 15.0,
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+              child: Text(widget.review.text),
             ),
-            Text(widget.review.text),
             Container(
               child: imageBytes != null
-                  ? Image.memory(imageBytes, width: 50, height: 50)
-                  : null,
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.memory(
+                        imageBytes,
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : SizedBox.shrink(),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -74,11 +81,11 @@ class _ReviewListState extends State<ReviewList> {
                       'Helpful ?',
                       style: TextStyle(
                         color: Colors.black38,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     const SizedBox(
-                      width: 10.0,
+                      width: 8.0,
                     ),
                     TextButton(
                       onPressed: () {
@@ -108,7 +115,6 @@ class _ReviewListState extends State<ReviewList> {
                 ),
               ],
             ),
-            const SizedBox(height: 10.0),
             const Divider(color: Colors.black12),
           ],
         ),
