@@ -27,7 +27,7 @@ class _ReviewWriteState extends State<ReviewWrite> {
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _textController = TextEditingController();
-  late int _rating = 3;
+  late int _rating = 0;
 
   late FToast fToast;
 
@@ -175,6 +175,14 @@ class _ReviewWriteState extends State<ReviewWrite> {
                     const SizedBox(
                       height: 3.0,
                     ),
+                    _imageFile == null
+                        ? const Text('No image selected.')
+                        : Image.file(
+                            File(_imageFile!.path),
+                            width: 300,
+                            height: 200,
+                            fit: BoxFit.cover,
+                          ),
                     uploadPhoto(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

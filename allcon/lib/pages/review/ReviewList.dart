@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/review/controller/review_controller.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +30,10 @@ class _ReviewListState extends State<ReviewList> {
 
   @override
   Widget build(BuildContext context) {
+    Uint8List? imageBytes;
+    if (widget.review.image != null && widget.review.image!.isNotEmpty) {
+      imageBytes = base64Decode(widget.review.image!);
+    }
     return Padding(
       padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 8.0),
       child: Container(
@@ -53,6 +60,11 @@ class _ReviewListState extends State<ReviewList> {
               height: 15.0,
             ),
             Text(widget.review.text),
+            Container(
+              child: imageBytes != null
+                  ? Image.memory(imageBytes, width: 50, height: 50)
+                  : null,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
