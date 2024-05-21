@@ -237,7 +237,7 @@ class _ReviewWriteState extends State<ReviewWrite> {
 
   Widget uploadPhoto() {
     return _imageFile == null
-        ? const Text('이미지가 없습니다.')
+        ? SizedBox.shrink()
         : Container(
             margin: const EdgeInsets.all(10),
             child: Stack(

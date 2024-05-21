@@ -148,7 +148,8 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.78,
+                  width: MediaQuery.of(context).size.width * 0.76,
+                  height: 128,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -160,6 +161,7 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
                         child: Image.network(
                           performance.poster ?? '',
                           width: 90,
+                          height: 128,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -171,7 +173,6 @@ class _DeadConcertCardState extends State<DeadConcertCard> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const SizedBox(height: 12.0),
                               Text(
                                 performance.name ?? '',
                                 style: const TextStyle(

@@ -38,7 +38,7 @@ class CustomElevatedBtn extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           if (icon != null) Icon(icon, color: iconColor),
-          if (icon != null) const SizedBox(width: 8),
+          if (icon != null) const SizedBox(width: 16),
           Text(
             text,
             style: TextStyle(

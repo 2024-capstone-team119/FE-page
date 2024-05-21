@@ -2,14 +2,11 @@ import 'package:allcon/pages/login/controller/account_controller.dart';
 import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/pages/mypage/sub/ConfirmDelete.dart';
 import 'package:allcon/pages/mypage/sub/MyConcertLikes.dart';
-import 'package:allcon/service/account/tokenService.dart';
-import 'package:allcon/utils/Colors.dart';
-import 'package:allcon/utils/jwt.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyCategory extends StatefulWidget {
   const MyCategory({super.key});
@@ -33,6 +30,14 @@ class _MyCategoryState extends State<MyCategory> {
     void initState() {
       super.initState();
       _loadUserInfo();
+    }
+
+    Future<void> _launchURL(String url) async {
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
     }
 
     return Padding(
@@ -80,6 +85,7 @@ class _MyCategoryState extends State<MyCategory> {
               ),
               onTap: () {
                 print('문의사항 is clicked');
+                _launchURL('https://open.kakao.com/o/srZYQSsg');
               },
             ),
           ),

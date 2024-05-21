@@ -1,11 +1,13 @@
 import 'package:allcon/pages/community/Home.dart';
 import 'package:allcon/service/community/postService.dart';
+import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/utils/validator_util.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
 import 'package:allcon/widget/custom_elevated_btn.dart';
 import 'package:allcon/widget/custom_text_area.dart';
 import 'package:allcon/widget/custom_text_form_field.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:get/get.dart';
@@ -95,30 +97,37 @@ class _ContentWriteState extends State<MyContentWrite> {
             bottom: max(MediaQuery.of(context).viewInsets.bottom * 0.05, 16.0),
           ),
           child: Container(
-            child: CustomElevatedBtn(
-              text: "업로드",
-              funPageRoute: () async {
-                if (_formKey.currentState!.validate()) {
-                  var newContent = {
-                    'category': _selectedCategory,
-                    'userId': loginUserId,
-                    'nickname': loginUserNickname,
-                    'title': _titleController.text,
-                    'text': _contentController.text,
-                  };
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10, right: 12.0, left: 12.0),
+              child: CustomElevatedBtn(
+                icon: CupertinoIcons.paperplane,
+                iconColor: Colors.white,
+                textColor: Colors.white,
+                buttonColor: lightMint,
+                text: "업로드",
+                funPageRoute: () async {
+                  if (_formKey.currentState!.validate()) {
+                    var newContent = {
+                      'category': _selectedCategory,
+                      'userId': loginUserId,
+                      'nickname': loginUserNickname,
+                      'title': _titleController.text,
+                      'text': _contentController.text,
+                    };
 
-                  await PostService.addPost(newContent);
+                    await PostService.addPost(newContent);
 
-                  // 업로드 후 초기화
-                  _titleController.clear();
-                  _contentController.clear();
+                    // 업로드 후 초기화
+                    _titleController.clear();
+                    _contentController.clear();
 
-                  // 홈 페이지로 이동
-                  Get.to(() => MyCommunity(
-                        initialTabIndex: _selectedCategoryIndex,
-                      ));
-                }
-              },
+                    // 홈 페이지로 이동
+                    Get.to(() => MyCommunity(
+                          initialTabIndex: _selectedCategoryIndex,
+                        ));
+                  }
+                },
+              ),
             ),
           ),
         ),

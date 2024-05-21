@@ -1,7 +1,6 @@
 import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/review/ReviewUpdate.dart';
 import 'package:allcon/pages/review/ReviewWrite.dart';
-import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,7 +26,8 @@ class ReviewController extends GetxController {
 
     for (int i = 0; i < 5; i++) {
       if (i < starCount) {
-        starIcons.add(const Icon(CupertinoIcons.star_fill, color: lightMint));
+        starIcons.add(
+            const Icon(CupertinoIcons.star_fill, color: Colors.amberAccent));
       } else {
         starIcons.add(const Icon(CupertinoIcons.star, color: Colors.black12));
       }

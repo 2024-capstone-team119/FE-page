@@ -96,7 +96,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
 
           if (posts.isEmpty) {
             return const Preparing(
-              text: "좋아요 목록이 비었습니다.\n 채워주세요 :)",
+              text: "좋아요 목록이 비었습니다!\n 채워주세요💖",
             );
           }
           return ListView.builder(
