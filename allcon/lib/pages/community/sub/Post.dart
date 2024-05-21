@@ -100,7 +100,7 @@ class _ContentWriteState extends State<MyContentWrite> {
             child: Padding(
               padding: const EdgeInsets.only(top: 10, right: 12.0, left: 12.0),
               child: CustomElevatedBtn(
-                icon: CupertinoIcons.airplane,
+                icon: CupertinoIcons.paperplane,
                 iconColor: Colors.white,
                 textColor: Colors.white,
                 buttonColor: lightMint,

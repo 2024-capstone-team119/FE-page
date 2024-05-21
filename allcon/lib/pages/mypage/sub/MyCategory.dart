@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyCategory extends StatefulWidget {
   const MyCategory({super.key});
@@ -29,6 +30,14 @@ class _MyCategoryState extends State<MyCategory> {
     void initState() {
       super.initState();
       _loadUserInfo();
+    }
+
+    Future<void> _launchURL(String url) async {
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
     }
 
     return Padding(
@@ -76,6 +85,7 @@ class _MyCategoryState extends State<MyCategory> {
               ),
               onTap: () {
                 print('문의사항 is clicked');
+                _launchURL('https://open.kakao.com/o/srZYQSsg');
               },
             ),
           ),

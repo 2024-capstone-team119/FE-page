@@ -56,24 +56,52 @@ class _MyCommunityState extends State<MyCommunity>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(
-        text: "커뮤니티",
-        automaticallyImplyLeading: false,
-        actions: const Padding(
-          padding: EdgeInsets.only(right: 8.0, top: 5.0),
-          child: Icon(
-            CupertinoIcons.heart_circle,
-            size: 30.0,
+      appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(top: 12.0),
+          child: Text(
+            '커뮤니티',
+            style: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
-        onActionPressed: () {
-          Get.to(MyContentLikes(
-            tabIdx: _tabController.index,
-            initialCategory: categoryList[_tabController.index],
-            userId: loginUserId ?? '',
-            nickname: loginUserNickname ?? '',
-          ));
-        },
+        titleSpacing: -26.0,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: SizedBox(),
+        actions: <Widget>[
+          IconButton(
+            icon: Padding(
+              padding: EdgeInsets.only(top: 6.0),
+              child: Icon(
+                CupertinoIcons.square_stack_3d_down_right,
+                size: 30.0,
+              ),
+            ),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Padding(
+              padding: EdgeInsets.only(right: 20.0, top: 6.0),
+              child: Icon(
+                CupertinoIcons.heart_circle,
+                size: 30.0,
+              ),
+            ),
+            onPressed: () {
+              Get.to(
+                MyContentLikes(
+                  tabIdx: _tabController.index,
+                  initialCategory: categoryList[_tabController.index],
+                  userId: loginUserId ?? '',
+                  nickname: loginUserNickname ?? '',
+                ),
+              );
+            },
+          )
+        ],
       ),
       bottomNavigationBar: const MyBottomNavigationBar(
         currentIndex: 3,
