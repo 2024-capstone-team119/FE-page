@@ -9,6 +9,7 @@ import 'package:allcon/widget/custom_dropdown_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ReviewMain extends StatefulWidget {
   final String title;
@@ -30,6 +31,17 @@ class _ReviewMainState extends State<ReviewMain> {
   String? selectedZoneName;
   List<Review> reviews = [];
 
+  String? loginUserId;
+  String? loginUserNickname;
+
+  _loadInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      loginUserId = prefs.getString('userId');
+      loginUserNickname = prefs.getString('userNickname');
+    });
+  }
+
   Future<void> _fetchReviews(String zoneId) async {
     try {
       List<Review> fetchedReviews = await ReviewService.getReviews(zoneId);
@@ -46,6 +58,7 @@ class _ReviewMainState extends State<ReviewMain> {
   void initState() {
     super.initState();
     _reviewController = Get.put(ReviewController());
+    _loadInfo();
   }
 
   bool recommend = false;
@@ -181,6 +194,8 @@ class _ReviewMainState extends State<ReviewMain> {
                                 context,
                                 selectedZoneId ?? '',
                                 selectedZoneName ?? '',
+                                loginUserId ?? '',
+                                loginUserNickname ?? '',
                               );
 
                               if (result == true) {
@@ -221,9 +236,11 @@ class _ReviewMainState extends State<ReviewMain> {
                               : isRecommend
                                   ? ReviewList(
                                       review: sortedReviews[index],
+                                      userId: loginUserId ?? '',
                                     )
                                   : ReviewList(
                                       review: reviews[reversedIndex],
+                                      userId: loginUserId ?? '',
                                     );
                         },
                       );

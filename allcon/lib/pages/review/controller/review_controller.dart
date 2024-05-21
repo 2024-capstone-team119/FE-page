@@ -9,7 +9,6 @@ import 'package:get/get_rx/get_rx.dart';
 
 class ReviewController extends GetxController {
   RxList<Review> reviews = <Review>[].obs;
-  RxInt good = 0.obs;
 
   ReviewController._internal();
 
@@ -36,17 +35,9 @@ class ReviewController extends GetxController {
     return starIcons;
   }
 
-  // 좋아요 수 변화 감지
-  void incrementGoodCount(int reviewId) {
-    reviews[reviewId].goodCount;
-    good.value++;
-
-    reviews.refresh();
-  }
-
   // 리뷰 작성 모달
-  Future<bool?> showWriteModalSheet(
-      BuildContext context, String zoneId, String zoneName) async {
+  Future<bool?> showWriteModalSheet(BuildContext context, String zoneId,
+      String zoneName, String userId, String userNickname) async {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -54,6 +45,8 @@ class ReviewController extends GetxController {
         return ReviewWrite(
           zoneId: zoneId,
           zoneName: zoneName,
+          userId: userId,
+          userNickname: userNickname,
         );
       },
     );

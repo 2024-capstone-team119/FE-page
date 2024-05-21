@@ -5,16 +5,19 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ReviewWrite extends StatefulWidget {
   final String zoneId;
   final String zoneName;
+  final String userId;
+  final String userNickname;
 
   const ReviewWrite({
     super.key,
     required this.zoneId,
     required this.zoneName,
+    required this.userId,
+    required this.userNickname,
   });
 
   @override
@@ -22,9 +25,6 @@ class ReviewWrite extends StatefulWidget {
 }
 
 class _ReviewWriteState extends State<ReviewWrite> {
-  String? loginUserId;
-  String? loginUserNickname;
-
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _textController = TextEditingController();
   late int _rating = 0;
@@ -36,20 +36,11 @@ class _ReviewWriteState extends State<ReviewWrite> {
   List<XFile?> images = []; // 가져온 사진들을 보여주기 위한 변수
   XFile? _imageFile;
 
-  _loadInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      loginUserId = prefs.getString('userId');
-      loginUserNickname = prefs.getString('userNickname');
-    });
-  }
-
   @override
   void initState() {
     super.initState();
     fToast = FToast();
     fToast.init(context);
-    _loadInfo();
   }
 
   Future<void> _pickImage() async {
@@ -70,18 +61,19 @@ class _ReviewWriteState extends State<ReviewWrite> {
       String zoneId = widget.zoneId;
       int rating = _rating;
 
-      if (loginUserId == null || loginUserNickname == null) {
+      if (widget.userId == '' || widget.userNickname == '') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('User not logged in')),
         );
         return;
       }
 
-      bool success = await ReviewService.addReview(loginUserId!,
-          loginUserNickname!, reviewText, rating, zoneId, _imageFile);
+      bool success = await ReviewService.addReview(widget.userId,
+          widget.userNickname, reviewText, rating, zoneId, _imageFile);
       if (success) {
-        Navigator.pop(context, true);
+        Navigator.pop(context);
       } else {
+        // Handle submission failure
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to submit review')),
         );

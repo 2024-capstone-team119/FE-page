@@ -79,4 +79,26 @@ class ReviewService {
       throw Exception('Failed to load reviews');
     }
   }
+
+  // 리뷰 좋아요
+  static Future<bool> toggleGoodReview(String reviewId, String userId) async {
+    final url = Uri.parse('${BaseUrl.baseUrl}review_good/$reviewId');
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'userId': userId,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      print('Failed to toggle review good: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      return false;
+    }
+  }
 }
