@@ -1,12 +1,10 @@
 import 'dart:io';
 import 'package:allcon/model/review_model.dart';
-import 'package:allcon/pages/review/controller/review_controller.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ReviewUpdate extends StatefulWidget {
@@ -43,7 +41,6 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
 
   late String currentTime;
   late TextEditingController _textController;
-  late final ReviewController _reviewController;
 
   late FToast fToast;
 
@@ -58,7 +55,6 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
     reviewId = widget.reviewId;
     selectedZone = widget.zone;
     selectedStar = widget.star;
-    _reviewController = Get.put(ReviewController());
     _textController = TextEditingController(text: widget.text);
     fToast = FToast();
     fToast.init(context);
@@ -174,22 +170,6 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
                       uploadButton(
                         onPressed: isButtonEnabled
                             ? () {
-                                _reviewController.updateReview(
-                                  Review(
-                                    reviewId: widget.selectedReview.reviewId,
-                                    writer: widget.selectedReview.writer,
-                                    content: _textController.text,
-                                    image: widget.selectedReview.image,
-                                    starCount: selectedStar,
-                                    goodCount: widget.selectedReview.goodCount,
-                                    badCount: widget.selectedReview.badCount,
-                                    dateTime: widget.selectedReview.dateTime,
-                                  ),
-                                  widget.selectedReview,
-                                  widget.zone,
-                                  widget.zoneList,
-                                  selectedZoneIdx,
-                                );
                                 Navigator.of(context).pop();
                               }
                             : () {

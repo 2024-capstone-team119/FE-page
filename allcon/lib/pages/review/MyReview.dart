@@ -6,9 +6,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class MyReview extends StatefulWidget {
-  final int index;
+  final String index;
   final List<Review> reviewList;
-  final List<Zone> zoneList;
   final String zone;
   final List<String> zoneTotal;
 
@@ -16,7 +15,6 @@ class MyReview extends StatefulWidget {
     super.key,
     required this.index,
     required this.reviewList,
-    required this.zoneList,
     required this.zone,
     required this.zoneTotal,
   });
@@ -36,6 +34,8 @@ class _MyReviewState extends State<MyReview> {
 
   @override
   Widget build(BuildContext context) {
+    int reviewId = int.parse(widget.index);
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 8.0),
       child: Container(
@@ -57,17 +57,7 @@ class _MyReviewState extends State<MyReview> {
                             child: const Text('수정'),
                             onPressed: () {
                               Get.back();
-                              setState(() {
-                                _reviewController.showUpdateModalSheet(
-                                    context,
-                                    widget.reviewList,
-                                    widget.zoneList,
-                                    widget.zoneTotal,
-                                    widget.zone,
-                                    widget.reviewList[widget.index],
-                                    widget.reviewList[widget.index].content,
-                                    widget.reviewList[widget.index].starCount);
-                              });
+                              setState(() {});
                             },
                           ),
                           CupertinoActionSheetAction(
@@ -107,15 +97,15 @@ class _MyReviewState extends State<MyReview> {
                   ),
                 ),
                 Row(
-                  children: _reviewController.starCounts(
-                      _reviewController.reviews[widget.index].starCount),
+                  children: _reviewController
+                      .starCounts(_reviewController.reviews[reviewId].rating),
                 ),
               ],
             ),
             const SizedBox(
               height: 15.0,
             ),
-            Text(_reviewController.reviews[widget.index].content),
+            Text(_reviewController.reviews[reviewId].text),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -134,30 +124,30 @@ class _MyReviewState extends State<MyReview> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          _reviewController.reviews[widget.index].goodCount++;
+                          _reviewController.reviews[reviewId].goodCount;
                         });
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.blue),
                       child: Text(
-                        'Good (${_reviewController.reviews[widget.index].goodCount})',
+                        'Good (${_reviewController.reviews[reviewId].goodCount})',
                       ),
                     ),
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          _reviewController.reviews[widget.index].badCount++;
+                          _reviewController.reviews[reviewId].badCount;
                         });
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.red),
                       child: Text(
-                        'Bad (${_reviewController.reviews[widget.index].badCount})',
+                        'Bad (${_reviewController.reviews[reviewId].badCount})',
                       ),
                     ),
                   ],
                 ),
                 Text(
                   DateFormat('yyyy-MM-dd')
-                      .format(_reviewController.reviews[widget.index].dateTime),
+                      .format(_reviewController.reviews[reviewId].createdAt),
                 ),
               ],
             ),

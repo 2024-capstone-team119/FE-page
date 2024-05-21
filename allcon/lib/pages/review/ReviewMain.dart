@@ -1,22 +1,23 @@
 import 'package:allcon/model/review_model.dart';
-import 'package:allcon/pages/review/controller/hall_controller.dart';
 import 'package:allcon/pages/review/controller/review_controller.dart';
 import 'package:allcon/pages/review/ReviewList.dart';
 import 'package:allcon/pages/review/MyReview.dart';
+import 'package:allcon/service/review/hallService.dart';
+import 'package:allcon/service/review/reviewService.dart';
+import 'package:allcon/service/review/zoneService.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 
 class ReviewMain extends StatefulWidget {
   final String title;
-  final List<Hall> hallList;
+  final String hallId;
 
   const ReviewMain({
     super.key,
     required this.title,
-    required this.hallList,
+    required this.hallId,
   });
 
   @override
@@ -25,14 +26,26 @@ class ReviewMain extends StatefulWidget {
 
 class _ReviewMainState extends State<ReviewMain> {
   late final ReviewController _reviewController;
-  late final HallController _hallController;
-  late int selectedZoneIdx = 0;
+  String? selectedZoneId;
+  String? selectedZoneName;
+  List<Review> reviews = [];
+
+  Future<void> _fetchReviews(String zoneId) async {
+    try {
+      List<Review> fetchedReviews = await ReviewService.getReviews(zoneId);
+      setState(() {
+        reviews = fetchedReviews;
+        _reviewController.setReviewList(reviews);
+      });
+    } catch (error) {
+      print('Error fetching reviews: $error');
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     _reviewController = Get.put(ReviewController());
-    _hallController = Get.put(HallController());
   }
 
   bool recommend = false;
@@ -41,159 +54,216 @@ class _ReviewMainState extends State<ReviewMain> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ReviewController>(
-      init: ReviewController(),
-      builder: (controller) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(widget.title),
-            centerTitle: true,
-          ),
-          body: Column(
-            children: [
-              SizedBox(
-                  height: 300,
-                  child: _hallController.getSeatingChartByHallName(
-                      widget.title, widget.hallList)),
-              const SizedBox(height: 5),
-              Expanded(
-                child: DefaultTabController(
-                  length: 3,
-                  child: Column(
-                    children: [
-                      const TabBar(
-                        tabs: [
-                          Tab(text: '추천순'),
-                          Tab(text: '최신순'),
-                          Tab(text: '내 리뷰'),
-                        ],
-                      ),
-                      Expanded(
-                        child: TabBarView(
-                          children: [
-                            reviewTab(context, true, false),
-                            reviewTab(context, false, false),
-                            reviewTab(context, false, true)
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+    return FutureBuilder<Hall?>(
+      future: HallService.getHall(widget.hallId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data == null) {
+          return const Center(child: Text('Hall not found.'));
+        } else {
+          Hall hall = snapshot.data!;
+          return GetBuilder<ReviewController>(
+            init: ReviewController(),
+            builder: (controller) {
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text(widget.title),
+                  centerTitle: true,
                 ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget reviewTab(BuildContext context, bool isRecommend, bool mine) {
-    List<String> zoneTotal =
-        _hallController.getZoneNames(widget.title, widget.hallList);
-    late String selectedZone = zoneTotal[selectedZoneIdx];
-
-    List<Review> reviewList = widget
-        .hallList[_hallController.getHallIdx(widget.title, widget.hallList)]
-        .zone[selectedZoneIdx]
-        .review;
-
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      // initState 대신 build 메서드 외부에서 초기화
-      _reviewController.setReviewList(reviewList);
-    });
-
-    List<Zone> zoneList = widget
-        .hallList[_hallController.getHallIdx(widget.title, widget.hallList)]
-        .zone;
-
-    return SingleChildScrollView(
-      child: Container(
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16.0, 5.0, 16.0, 8.0),
-          child: Column(
-            children: [
-              if (!mine)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                body: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                      child: CustomDropdownButton(
-                        items: zoneTotal,
-                        value: selectedZone,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedZone = value.toString();
-                            // 선택된 구역의 인덱스 찾기
-                            selectedZoneIdx =
-                                zoneTotal.indexWhere((zone) => zone == value);
-                          });
-                        },
-                      ),
+                    Image.network(
+                      hall.hallImage ?? "",
+                      fit: BoxFit.cover,
+                      height: 300,
                     ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _reviewController.showWriteModalSheet(
-                              context, reviewList, selectedZone);
-                        });
-                      },
-                      child: const Text(
-                        '리뷰 작성하기',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.0,
-                          color: Colors.deepPurple,
+                    const SizedBox(height: 5),
+                    Expanded(
+                      child: DefaultTabController(
+                        length: 3,
+                        child: Column(
+                          children: [
+                            const TabBar(
+                              tabs: [
+                                Tab(text: '추천순'),
+                                Tab(text: '최신순'),
+                                Tab(text: '내 리뷰'),
+                              ],
+                            ),
+                            Expanded(
+                              child: TabBarView(
+                                children: [
+                                  reviewTab(context, hall, true, false),
+                                  reviewTab(context, hall, false, false),
+                                  reviewTab(context, hall, false, true)
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ],
                 ),
-              const SizedBox(height: 10.0),
-              Obx(() {
-                List<Widget> reviewWidgets = List.generate(
-                  _reviewController.reviews.length,
-                  (index) {
-                    int reversedIndex =
-                        _reviewController.reviews.length - 1 - index;
+              );
+            },
+          );
+        }
+      },
+    );
+  }
 
-                    // goodCount가 높은 순으로 정렬합니다.
-                    List<Review> sortedReviews = List.from(reviewList);
-                    sortedReviews
-                        .sort((a, b) => b.goodCount.compareTo(a.goodCount));
+  Widget reviewTab(
+      BuildContext context, Hall hall, bool isRecommend, bool mine) {
+    return FutureBuilder<List<Zone>?>(
+      future: ZoneService.getZone(hall.hallId ?? ''),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data == null) {
+          return const Center(child: Text('Zones not found.'));
+        } else {
+          List<Zone> zones = snapshot.data!;
+          List<String> zoneNames = zones.map((zone) => zone.zoneName!).toList();
 
-                    return mine
-                        ? MyReview(
-                            index: _reviewController
-                                .reviews[reversedIndex].reviewId,
-                            reviewList: reviewList,
-                            zoneList: zoneList,
-                            zone: selectedZone,
-                            zoneTotal: zoneTotal,
-                          )
-                        : isRecommend
-                            ? ReviewList(
-                                review: sortedReviews[index],
-                              )
-                            : ReviewList(
-                                review: reviewList[reversedIndex],
+          if (selectedZoneName == null && zoneNames.isNotEmpty) {
+            selectedZoneName = zoneNames.first;
+            selectedZoneId = zones
+                .firstWhere((zone) => zone.zoneName == selectedZoneName)
+                .zoneId;
+            _fetchReviews(selectedZoneId!);
+          }
+
+          return SingleChildScrollView(
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 5.0, 16.0, 8.0),
+                child: Column(
+                  children: [
+                    if (!mine)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 3.0),
+                            child: CustomDropdownButton(
+                              items: zoneNames,
+                              value: selectedZoneName ?? '',
+                              onChanged: (String? newValue) async {
+                                if (newValue != null) {
+                                  setState(() {
+                                    selectedZoneName = newValue;
+                                    selectedZoneId = zones
+                                        .firstWhere(
+                                            (zone) => zone.zoneName == newValue)
+                                        .zoneId;
+                                  });
+                                  await _fetchReviews(selectedZoneId!);
+                                }
+                              },
+                            ),
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              padding:
+                                  const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+                            ),
+                            onPressed: () async {
+                              final result =
+                                  await _reviewController.showWriteModalSheet(
+                                context,
+                                selectedZoneId ?? '',
+                                selectedZoneName ?? '',
                               );
-                  },
-                );
 
-                return Column(
-                  children: reviewWidgets,
-                );
-              }),
-            ],
-          ),
-        ),
-      ),
+                              if (result == true) {
+                                await _fetchReviews(selectedZoneId!);
+                              }
+                            },
+                            child: const Text(
+                              '리뷰 작성하기',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15.0,
+                                color: Colors.deepPurple,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    const SizedBox(height: 10.0),
+                    Obx(() {
+                      List<Widget> reviewWidgets = List.generate(
+                        _reviewController.reviews.length,
+                        (index) {
+                          int reversedIndex =
+                              _reviewController.reviews.length - 1 - index;
+
+                          // goodCount가 높은 순으로 정렬합니다.
+                          List<Review> sortedReviews = List.from(reviews);
+                          sortedReviews.sort(
+                              (a, b) => b.goodCount.compareTo(a.goodCount));
+
+                          return mine
+                              ? MyReview(
+                                  index: reviews[reversedIndex].reviewId,
+                                  reviewList: reviews,
+                                  zone: selectedZoneName!,
+                                  zoneTotal: zoneNames,
+                                )
+                              : isRecommend
+                                  ? ReviewList(
+                                      review: sortedReviews[index],
+                                    )
+                                  : ReviewList(
+                                      review: reviews[reversedIndex],
+                                    );
+                        },
+                      );
+                      if (_reviewController.reviews.isEmpty) {
+                        return Center(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.05),
+                              const Text(
+                                'O',
+                                style: TextStyle(
+                                  fontSize: 120.0,
+                                  fontFamily: 'Cafe24Moyamoya',
+                                  color: Color(0xFFff66a1),
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const Text(
+                                '아직 등록된 리뷰가 없습니다.',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return Column(children: reviewWidgets);
+                      }
+                    }),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }

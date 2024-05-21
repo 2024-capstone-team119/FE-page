@@ -1,87 +1,92 @@
-import 'package:flutter/material.dart';
-// 공연장 시야 리뷰
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 // 공연장
 class Hall {
-  int hallIdx;
-  String hallName;
-  Widget? seatingChart; // 좌석 배치도
-  List<Zone> zone;
+  final String? hallId;
+  final String? placeId;
+  final String? hallImage; // 우리가 넣는 image! URL 형태!
 
   Hall({
-    required this.hallIdx,
-    required this.hallName,
-    required this.seatingChart,
-    required this.zone,
+    required this.hallId,
+    required this.placeId,
+    required this.hallImage,
   });
 
   factory Hall.fromJson(Map<String, dynamic> json) {
     return Hall(
-      hallIdx: json['hallIdx'],
-      hallName: json['hallName'],
-      seatingChart: json['seatingChart'],
-      zone: (json['zone'] as List<dynamic>)
-          .map((zoneJson) => Zone.fromJson(zoneJson))
-          .toList(),
+      hallId: json['_id'],
+      placeId: json['placeId'],
+      hallImage: json['image'],
     );
   }
 }
 
 // 공연장 구역
 class Zone {
-  int zoneIdx;
-  String zoneName;
-  List<Review> review;
+  final String? hallId;
+  final String? zoneId;
+  final String? zoneName;
 
   Zone({
-    required this.zoneIdx,
+    required this.hallId,
+    required this.zoneId,
     required this.zoneName,
-    required this.review,
   });
 
   factory Zone.fromJson(Map<String, dynamic> json) {
     return Zone(
-      zoneIdx: json['zoneIdx'],
+      hallId: json['hallId'],
+      zoneId: json['_id'],
       zoneName: json['zoneName'],
-      review: (json['review'] as List<dynamic>)
-          .map((reviewJson) => Review.fromJson(reviewJson))
-          .toList(),
     );
   }
 }
 
 // 리뷰
 class Review {
-  int reviewId;
-  String writer;
-  String content;
-  String image;
-  int starCount;
-  int goodCount;
-  int badCount;
-  DateTime dateTime;
+  final String reviewId;
+  final String zoneId;
+  final String userId;
+  final String nickname;
+  final String text;
+  final String? image; // null을 허용하도록 수정
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final int goodCount;
+  final int badCount;
+  final int rating; // rating 필드 추가
 
   Review({
     required this.reviewId,
-    required this.writer,
-    required this.content,
-    required this.image,
-    required this.starCount,
+    required this.zoneId,
+    required this.userId,
+    required this.nickname,
+    required this.text,
+    this.image, // null을 허용하도록 수정
+    required this.createdAt,
+    required this.updatedAt,
     required this.goodCount,
     required this.badCount,
-    required this.dateTime,
+    required this.rating,
   });
 
   factory Review.fromJson(Map<String, dynamic> json) {
+    tz.initializeTimeZones(); // 시간대 데이터 초기화
+    var seoul = tz.getLocation('Asia/Seoul'); // 'Asia/Seoul' 위치 객체 가져오기
     return Review(
-      reviewId: json['reviewId'],
-      writer: json['writer'],
-      content: json['content'],
-      image: json['image'],
-      starCount: json['startCount'],
+      reviewId: json['_id'], // MongoDB의 _id 필드를 reviewId로 사용
+      zoneId: json['zoneId'],
+      userId: json['userId'],
+      nickname: json['userNickname'],
+      text: json['reviewText'],
+      image: json['image'], // null을 허용하도록 수정
+      createdAt: tz.TZDateTime.from(DateTime.parse(json['createdAt']), seoul),
+      updatedAt: tz.TZDateTime.from(DateTime.parse(json['updatedAt']), seoul),
       goodCount: json['goodCount'],
       badCount: json['badCount'],
-      dateTime: json['dateTime'],
+      rating:
+          json['rating'] is int ? json['rating'] : int.parse(json['rating']),
     );
   }
 }

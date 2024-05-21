@@ -38,22 +38,21 @@ class _ReviewListState extends State<ReviewList> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.review.writer,
+                  widget.review.nickname,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 15.0,
                   ),
                 ),
                 Row(
-                  children:
-                      _reviewController.starCounts(widget.review.starCount),
+                  children: _reviewController.starCounts(widget.review.rating),
                 ),
               ],
             ),
             const SizedBox(
               height: 15.0,
             ),
-            Text(widget.review.content),
+            Text(widget.review.text),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -71,8 +70,8 @@ class _ReviewListState extends State<ReviewList> {
                     ),
                     TextButton(
                       onPressed: () {
-                        _reviewController
-                            .incrementGoodCount(widget.review.reviewId);
+                        _reviewController.incrementGoodCount(
+                            int.parse(widget.review.reviewId));
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.blue),
                       child: Text(
@@ -82,7 +81,7 @@ class _ReviewListState extends State<ReviewList> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          widget.review.badCount++;
+                          widget.review.badCount;
                         });
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.red),
@@ -93,7 +92,7 @@ class _ReviewListState extends State<ReviewList> {
                   ],
                 ),
                 Text(
-                  DateFormat('yyyy-MM-dd').format(widget.review.dateTime),
+                  DateFormat('yyyy-MM-dd').format(widget.review.createdAt),
                 ),
               ],
             ),
