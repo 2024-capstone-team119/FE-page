@@ -75,7 +75,7 @@ class _ReviewListState extends State<ReviewList> {
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.blue),
                       child: Text(
-                        'Good (${widget.review.likeCount})',
+                        'Good (${widget.review.goodCount})',
                       ),
                     ),
                     TextButton(

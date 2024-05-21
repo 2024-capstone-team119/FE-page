@@ -68,7 +68,7 @@ class ReviewService {
         print('Image: ${review.image}');
         print('Created At: ${review.createdAt}');
         print('Updated At: ${review.updatedAt}');
-        print('Like Count: ${review.likeCount}');
+        print('Good Count: ${review.goodCount}');
         print('Bad Count: ${review.badCount}');
         print('Rating: ${review.rating}');
         print('---');

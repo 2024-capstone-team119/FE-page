@@ -124,12 +124,12 @@ class _MyReviewState extends State<MyReview> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          _reviewController.reviews[reviewId].likeCount;
+                          _reviewController.reviews[reviewId].goodCount;
                         });
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.blue),
                       child: Text(
-                        'Good (${_reviewController.reviews[reviewId].likeCount})',
+                        'Good (${_reviewController.reviews[reviewId].goodCount})',
                       ),
                     ),
                     TextButton(

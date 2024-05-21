@@ -10,9 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6fcfba98-4a14-4a43-a863-a4760934986e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/pages/community/Home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/community/Home.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/community/sub/tabcontent/ContentListView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/community/sub/tabcontent/ContentListView.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/service/community/postService.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/service/community/postService.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/concerthall/HallMain.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/concerthall/HallMain.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/review/ReviewMain.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/review/ReviewMain.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/review/ReviewWrite.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/review/ReviewWrite.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/review/controller/review_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/review/controller/review_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/service/baseUrl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/service/baseUrl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widget/custom_dropdown_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widget/custom_dropdown_button.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

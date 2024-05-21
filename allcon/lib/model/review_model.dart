@@ -53,7 +53,7 @@ class Review {
   final String? image; // null을 허용하도록 수정
   final DateTime createdAt;
   final DateTime updatedAt;
-  final int likeCount;
+  final int goodCount;
   final int badCount;
   final int rating; // rating 필드 추가
 
@@ -66,7 +66,7 @@ class Review {
     this.image, // null을 허용하도록 수정
     required this.createdAt,
     required this.updatedAt,
-    required this.likeCount,
+    required this.goodCount,
     required this.badCount,
     required this.rating,
   });
@@ -83,7 +83,7 @@ class Review {
       image: json['image'], // null을 허용하도록 수정
       createdAt: tz.TZDateTime.from(DateTime.parse(json['createdAt']), seoul),
       updatedAt: tz.TZDateTime.from(DateTime.parse(json['updatedAt']), seoul),
-      likeCount: json['likeCount'],
+      goodCount: json['goodCount'],
       badCount: json['badCount'],
       rating:
           json['rating'] is int ? json['rating'] : int.parse(json['rating']),

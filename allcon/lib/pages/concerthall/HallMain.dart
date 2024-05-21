@@ -75,6 +75,7 @@ class _HallMainState extends State<HallMain> {
         textColor: Colors.white,
         icon: CupertinoIcons.eyeglasses,
         funPageRoute: () {
+          print(widget.id);
           Navigator.push(
             context,
             MaterialPageRoute(

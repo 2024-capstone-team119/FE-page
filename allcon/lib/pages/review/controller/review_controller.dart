@@ -38,23 +38,22 @@ class ReviewController extends GetxController {
 
   // 좋아요 수 변화 감지
   void incrementGoodCount(int reviewId) {
-    reviews[reviewId].likeCount;
+    reviews[reviewId].goodCount;
     good.value++;
 
     reviews.refresh();
   }
 
   // 리뷰 작성 모달
-  void showWriteModalSheet(
-      BuildContext context, List<Review> reviewList, String zone) {
-    showModalBottomSheet(
+  Future<bool?> showWriteModalSheet(
+      BuildContext context, String zoneId, String zoneName) async {
+    return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
         return ReviewWrite(
-          reviewList: reviewList,
-          zone: zone,
-          reviewId: reviews.length,
+          zoneId: zoneId,
+          zoneName: zoneName,
         );
       },
     );
