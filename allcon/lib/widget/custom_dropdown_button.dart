@@ -33,7 +33,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
         value: widget.value,
         onChanged: widget.onChanged,
         elevation: 2,
-        underline: SizedBox(),
+        underline: const SizedBox(),
       ),
     );
   }

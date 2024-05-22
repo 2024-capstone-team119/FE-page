@@ -1,15 +1,21 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/review/controller/review_controller.dart';
+import 'package:allcon/service/review/reviewService.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class ReviewList extends StatefulWidget {
   final Review review;
+  final String userId;
 
   const ReviewList({
     super.key,
     required this.review,
+    required this.userId,
   });
 
   @override
@@ -18,6 +24,30 @@ class ReviewList extends StatefulWidget {
 
 class _ReviewListState extends State<ReviewList> {
   late final ReviewController _reviewController;
+  late bool isToggleGood;
+  late bool isToggleBad;
+
+  // 좋아요
+  Future<void> _toggleGood() async {
+    try {
+      bool result = await ReviewService.toggleGoodReview(
+          widget.review.reviewId, widget.userId);
+      isToggleGood = result;
+    } catch (error) {
+      print('Error fetching reviews: $error');
+    }
+  }
+
+  // 싫어요
+  Future<void> _toggleBad() async {
+    try {
+      bool result = await ReviewService.toggleBadReview(
+          widget.review.reviewId, widget.userId);
+      isToggleBad = result;
+    } catch (error) {
+      print('Error fetching reviews: $error');
+    }
+  }
 
   @override
   void initState() {
@@ -27,33 +57,49 @@ class _ReviewListState extends State<ReviewList> {
 
   @override
   Widget build(BuildContext context) {
+    Uint8List? imageBytes;
+    if (widget.review.image != null && widget.review.image!.isNotEmpty) {
+      imageBytes = base64Decode(widget.review.image!);
+    }
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 8.0),
       child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.review.writer,
+                  widget.review.nickname,
                   style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15.0,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.0,
                   ),
                 ),
                 Row(
-                  children:
-                      _reviewController.starCounts(widget.review.starCount),
+                  children: _reviewController.starCounts(widget.review.rating),
                 ),
               ],
             ),
-            const SizedBox(
-              height: 15.0,
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+              child: Text(widget.review.text),
             ),
-            Text(widget.review.content),
+            Container(
+              child: imageBytes != null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.memory(
+                        imageBytes,
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -63,16 +109,15 @@ class _ReviewListState extends State<ReviewList> {
                       'Helpful ?',
                       style: TextStyle(
                         color: Colors.black38,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     const SizedBox(
-                      width: 10.0,
+                      width: 8.0,
                     ),
                     TextButton(
-                      onPressed: () {
-                        _reviewController
-                            .incrementGoodCount(widget.review.reviewId);
+                      onPressed: () async {
+                        _toggleGood();
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.blue),
                       child: Text(
@@ -82,7 +127,7 @@ class _ReviewListState extends State<ReviewList> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          widget.review.badCount++;
+                          _toggleBad();
                         });
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.red),
@@ -93,11 +138,10 @@ class _ReviewListState extends State<ReviewList> {
                   ],
                 ),
                 Text(
-                  DateFormat('yyyy-MM-dd').format(widget.review.dateTime),
+                  DateFormat('yyyy-MM-dd').format(widget.review.createdAt),
                 ),
               ],
             ),
-            const SizedBox(height: 10.0),
             const Divider(color: Colors.black12),
           ],
         ),

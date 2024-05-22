@@ -1,7 +1,7 @@
 import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/review/ReviewUpdate.dart';
 import 'package:allcon/pages/review/ReviewWrite.dart';
-import 'package:allcon/utils/Colors.dart';
+import 'package:allcon/service/review/myReviewService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +9,7 @@ import 'package:get/get_rx/get_rx.dart';
 
 class ReviewController extends GetxController {
   RxList<Review> reviews = <Review>[].obs;
-  RxInt good = 0.obs;
+  RxList<Review> myReviews = <Review>[].obs;
 
   ReviewController._internal();
 
@@ -17,9 +17,26 @@ class ReviewController extends GetxController {
     return ReviewController._internal();
   }
 
-  // 리뷰 목록
+  // 일반 리뷰 목록
   void setReviewList(List<Review> initialReviews) {
     reviews.assignAll(initialReviews);
+  }
+
+  // 내 리뷰 목록
+  Future<void> setMyReviewList(
+      List<Review> initialReviews, String? userId) async {
+    if (userId != '') {
+      try {
+        List<Review> fetchedReviews =
+            await MyReviewService.getMyReviews(userId!);
+
+        myReviews.assignAll(fetchedReviews);
+      } catch (error) {
+        print('Error fetching reviews: $error');
+      }
+    } else {
+      print('Loading');
+    }
   }
 
   // 별점 표시
@@ -28,7 +45,8 @@ class ReviewController extends GetxController {
 
     for (int i = 0; i < 5; i++) {
       if (i < starCount) {
-        starIcons.add(const Icon(CupertinoIcons.star_fill, color: lightMint));
+        starIcons.add(
+            const Icon(CupertinoIcons.star_fill, color: Colors.amberAccent));
       } else {
         starIcons.add(const Icon(CupertinoIcons.star, color: Colors.black12));
       }
@@ -36,100 +54,42 @@ class ReviewController extends GetxController {
     return starIcons;
   }
 
-  // 좋아요 수 변화 감지
-  void incrementGoodCount(int reviewId) {
-    reviews[reviewId].goodCount++;
-    good.value++;
-
-    reviews.refresh();
-  }
-
   // 리뷰 작성 모달
-  void showWriteModalSheet(
-      BuildContext context, List<Review> reviewList, String zone) {
-    showModalBottomSheet(
+  Future<bool?> showWriteModalSheet(BuildContext context, String zoneId,
+      String zoneName, String userId, String userNickname) async {
+    return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
         return ReviewWrite(
-          reviewList: reviewList,
-          zone: zone,
-          reviewId: reviews.length,
+          zoneId: zoneId,
+          zoneName: zoneName,
+          userId: userId,
+          userNickname: userNickname,
         );
       },
     );
   }
 
-  // 리뷰 작성 함수
-  void submitReview(Review newReview, List<Review> reviewList) {
-    reviewList.add(newReview);
-    reviews.refresh();
-  }
-
   // 리뷰 수정 모달
   void showUpdateModalSheet(
     BuildContext context,
-    List<Review> reviewList,
-    List<Zone> zoneList,
-    List<String> zoneTotal,
-    String zone,
+    String userId,
     Review review,
-    String text,
-    int star,
+    List<Zone> zones,
+    VoidCallback reloadCallback,
   ) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
         return ReviewUpdate(
-          reviewList: reviewList,
-          zoneList: zoneList,
-          zoneTotal: zoneTotal,
-          zone: zone,
-          selectedReview: review,
-          reviewId: reviews.length,
-          text: text,
-          star: star,
+          userId: userId,
+          review: review,
+          zones: zones,
+          reloadCallback: reloadCallback,
         );
       },
     );
-  }
-
-  // 리뷰 수정 함수
-  void updateReview(Review updateReview, Review originReview, String originZone,
-      List<Zone> zoneList, int selectedIdx) {
-    // 옮길 구역의 리뷰 리스트
-    List<Review> targetZoneReviews = zoneList[selectedIdx].review;
-
-    // 수정된 리뷰의 목표 위치
-    int targetIndex = 0;
-    for (int i = 0; i < targetZoneReviews.length; i++) {
-      if (targetZoneReviews[i].reviewId > updateReview.reviewId) {
-        targetIndex = i;
-        break;
-      }
-    }
-
-    // 수정된 리뷰 제거
-    int oldZoneIndex =
-        zoneList.indexWhere((zone) => zone.zoneName == originZone);
-    zoneList[oldZoneIndex]
-        .review
-        .removeWhere((review) => review.reviewId == updateReview.reviewId);
-
-    // 목표 위치에 수정된 리뷰 추가
-    zoneList[selectedIdx].review.insert(
-          targetIndex,
-          updateReview,
-        );
-
-    // 리뷰 업데이트
-    final int index = reviews
-        .indexWhere((review) => review.reviewId == updateReview.reviewId);
-
-    if (index != -1) {
-      reviews[index] = updateReview;
-      update();
-    }
   }
 }

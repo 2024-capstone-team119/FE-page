@@ -164,72 +164,47 @@ class _GetCommentState extends State<GetComment> {
                           ),
                         ),
                       ]),
-                      Row(
-                        children: [
-                          Container(
-                            height: 25,
-                            width: 32,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade100,
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SizedBox(width: 3),
-                                Icon(
-                                  CupertinoIcons.chat_bubble,
-                                  size: 15,
-                                  color: Colors.grey,
-                                ),
-                                SizedBox(width: 3),
-                              ],
-                            ),
-                          ),
-                          if (isOwner)
-                            GestureDetector(
-                              onTap: () {
-                                showCupertinoModalPopup(
-                                  context: context,
-                                  builder: (BuildContext sheetContext) =>
-                                      CupertinoActionSheet(
-                                    title: const Text('옵션'),
-                                    actions: <Widget>[
-                                      CupertinoActionSheetAction(
-                                        child: const Text('수정'),
-                                        onPressed: () {
-                                          Get.back();
-                                          editComment(comment);
-                                        },
-                                      ),
-                                      CupertinoActionSheetAction(
-                                        child: const Text('삭제'),
-                                        onPressed: () {
-                                          Get.back();
-                                          deleteComment(widget.post.postId,
-                                              comment.commentId);
-                                        },
-                                      ),
-                                    ],
-                                    cancelButton: CupertinoActionSheetAction(
-                                      isDefaultAction: true,
-                                      onPressed: () {
-                                        Navigator.pop(context, '취소');
-                                      },
-                                      child: const Text('취소'),
-                                    ),
+                      if (isOwner)
+                        GestureDetector(
+                          onTap: () {
+                            showCupertinoModalPopup(
+                              context: context,
+                              builder: (BuildContext sheetContext) =>
+                                  CupertinoActionSheet(
+                                title: const Text('옵션'),
+                                actions: <Widget>[
+                                  CupertinoActionSheetAction(
+                                    child: const Text('수정'),
+                                    onPressed: () {
+                                      Get.back();
+                                      editComment(comment);
+                                    },
                                   ),
-                                );
-                              },
-                              child: const Icon(
-                                Icons.more_vert,
-                                size: 20,
-                                color: Colors.black54,
+                                  CupertinoActionSheetAction(
+                                    child: const Text('삭제'),
+                                    onPressed: () {
+                                      Get.back();
+                                      deleteComment(widget.post.postId,
+                                          comment.commentId);
+                                    },
+                                  ),
+                                ],
+                                cancelButton: CupertinoActionSheetAction(
+                                  isDefaultAction: true,
+                                  onPressed: () {
+                                    Navigator.pop(context, '취소');
+                                  },
+                                  child: const Text('취소'),
+                                ),
                               ),
-                            ),
-                        ],
-                      ),
+                            );
+                          },
+                          child: const Icon(
+                            Icons.more_vert,
+                            size: 20,
+                            color: Colors.black54,
+                          ),
+                        ),
                     ],
                   ),
                   Text(

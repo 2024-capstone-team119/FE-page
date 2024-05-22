@@ -1,4 +1,3 @@
-import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/concerthall/HallMain.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/model/place_model.dart';
@@ -11,12 +10,10 @@ import 'package:flutter/cupertino.dart';
 
 class HallSearch extends StatefulWidget {
   final String area;
-  final List<Hall> hallList;
 
   const HallSearch({
     super.key,
     required this.area,
-    required this.hallList,
   });
 
   @override
@@ -92,7 +89,6 @@ class _HallSearchPageState extends State<HallSearch> {
             builder: (context) => HallMain(
                   title: content,
                   id: id,
-                  hallList: widget.hallList,
                 )),
       );
     }
