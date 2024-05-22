@@ -1,5 +1,6 @@
 import 'package:allcon/model/community_model.dart';
 import 'package:allcon/pages/community/sub/Likes.dart';
+import 'package:allcon/pages/community/sub/MyContent.dart';
 import 'package:allcon/pages/community/sub/Post.dart';
 import 'package:allcon/pages/community/sub/Search.dart';
 import 'package:allcon/pages/community/sub/tabcontent/ContentListView.dart';
@@ -80,7 +81,9 @@ class _MyCommunityState extends State<MyCommunity>
                 size: 30.0,
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Get.to(MyContent());
+            },
           ),
           IconButton(
             icon: const Padding(
