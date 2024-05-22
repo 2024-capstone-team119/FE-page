@@ -1,22 +1,30 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:allcon/model/review_model.dart';
+import 'package:allcon/pages/review/ReviewMain.dart';
 import 'package:allcon/pages/review/controller/review_controller.dart';
+import 'package:allcon/service/review/myReviewService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class MyReview extends StatefulWidget {
-  final String index;
-  final List<Review> reviewList;
-  final String zone;
-  final List<String> zoneTotal;
+  final String placeTitle;
+  final String placeId;
+  final Hall hall;
+  final String userId;
+  final Review review;
+  final List<Zone> zones;
 
   const MyReview({
     super.key,
-    required this.index,
-    required this.reviewList,
-    required this.zone,
-    required this.zoneTotal,
+    required this.placeTitle,
+    required this.placeId,
+    required this.hall,
+    required this.userId,
+    required this.review,
+    required this.zones,
   });
 
   @override
@@ -25,6 +33,17 @@ class MyReview extends StatefulWidget {
 
 class _MyReviewState extends State<MyReview> {
   late final ReviewController _reviewController;
+  String? zoneName;
+
+  void _reloadMyReview() {
+    Get.off(ReviewMain(
+      title: widget.placeTitle,
+      placeId: widget.placeId,
+      initialTab: 2,
+    ));
+
+    print('이동');
+  }
 
   @override
   void initState() {
@@ -34,7 +53,14 @@ class _MyReviewState extends State<MyReview> {
 
   @override
   Widget build(BuildContext context) {
-    int reviewId = int.parse(widget.index);
+    Uint8List? imageBytes;
+    if (widget.review.image != null && widget.review.image!.isNotEmpty) {
+      imageBytes = base64Decode(widget.review.image!);
+    }
+
+    zoneName = widget.zones
+        .firstWhere((zone) => zone.zoneId == widget.review.zoneId)
+        .zoneName;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 8.0),
@@ -45,6 +71,27 @@ class _MyReviewState extends State<MyReview> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                // 수정 버튼
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _reviewController.showUpdateModalSheet(
+                        context,
+                        widget.userId,
+                        widget.review,
+                        widget.zones,
+                        _reloadMyReview,
+                      );
+                    });
+                  },
+                  child: const Icon(
+                    Icons.edit,
+                    size: 20,
+                    color: Colors.black54,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                // 삭제 버튼
                 GestureDetector(
                   onTap: () {
                     showCupertinoModalPopup(
@@ -54,16 +101,12 @@ class _MyReviewState extends State<MyReview> {
                         title: const Text('옵션'),
                         actions: <Widget>[
                           CupertinoActionSheetAction(
-                            child: const Text('수정'),
+                            child: const Text('리뷰 삭제'),
                             onPressed: () {
+                              MyReviewService.deleteReview(
+                                  widget.review.reviewId, widget.review.zoneId);
                               Get.back();
-                              setState(() {});
-                            },
-                          ),
-                          CupertinoActionSheetAction(
-                            child: const Text('삭제'),
-                            onPressed: () {
-                              // You can handle content deletion
+                              _reloadMyReview();
                             },
                           ),
                         ],
@@ -78,7 +121,7 @@ class _MyReviewState extends State<MyReview> {
                     );
                   },
                   child: const Icon(
-                    Icons.more_vert,
+                    Icons.delete,
                     size: 20,
                     color: Colors.black54,
                   ),
@@ -89,23 +132,35 @@ class _MyReviewState extends State<MyReview> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  '1구역',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15.0,
+                Text(
+                  '$zoneName구역',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.0,
                   ),
                 ),
                 Row(
-                  children: _reviewController
-                      .starCounts(_reviewController.reviews[reviewId].rating),
+                  children: _reviewController.starCounts(widget.review.rating),
                 ),
               ],
             ),
-            const SizedBox(
-              height: 15.0,
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+              child: Text(widget.review.text),
             ),
-            Text(_reviewController.reviews[reviewId].text),
+            Container(
+              child: imageBytes != null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.memory(
+                        imageBytes,
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -124,30 +179,29 @@ class _MyReviewState extends State<MyReview> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          _reviewController.reviews[reviewId].goodCount;
+                          widget.review.goodCount;
                         });
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.blue),
                       child: Text(
-                        'Good (${_reviewController.reviews[reviewId].goodCount})',
+                        'Good (${widget.review.goodCount})',
                       ),
                     ),
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          _reviewController.reviews[reviewId].badCount;
+                          widget.review.badCount;
                         });
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.red),
                       child: Text(
-                        'Bad (${_reviewController.reviews[reviewId].badCount})',
+                        'Bad (${widget.review.badCount})',
                       ),
                     ),
                   ],
                 ),
                 Text(
-                  DateFormat('yyyy-MM-dd')
-                      .format(_reviewController.reviews[reviewId].createdAt),
+                  DateFormat('yyyy-MM-dd').format(widget.review.createdAt),
                 ),
               ],
             ),
