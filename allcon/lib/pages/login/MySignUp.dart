@@ -1,4 +1,5 @@
 import 'package:allcon/pages/home/Home.dart';
+import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/service/account/registService.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/utils/validator_util.dart';
@@ -181,7 +182,7 @@ class _MySignUpState extends State<MySignUp> {
                   if (req is Exception) {
                     Get.snackbar('회원가입 실패', '회원가입에 실패하였습니다😭');
                   } else {
-                    Get.offAll(MyHome());
+                    Get.offAll(MyLogIn());
                   }
                 } else {
                   Get.snackbar('회원가입 실패', '이미 등록된 닉네임입니다.');

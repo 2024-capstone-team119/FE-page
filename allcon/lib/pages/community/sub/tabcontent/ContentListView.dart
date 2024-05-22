@@ -173,6 +173,8 @@ class _MyContentListViewState extends State<MyContentListView> {
                       children: [
                         Text(
                           post.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
