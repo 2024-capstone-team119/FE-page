@@ -13,6 +13,7 @@ class MyReview extends StatefulWidget {
   final String placeTitle;
   final String placeId;
   final Hall hall;
+  final String userId;
   final Review review;
   final List<Zone> zones;
 
@@ -21,6 +22,7 @@ class MyReview extends StatefulWidget {
     required this.placeTitle,
     required this.placeId,
     required this.hall,
+    required this.userId,
     required this.review,
     required this.zones,
   });
@@ -32,6 +34,16 @@ class MyReview extends StatefulWidget {
 class _MyReviewState extends State<MyReview> {
   late final ReviewController _reviewController;
   String? zoneName;
+
+  void _reloadMyReview() {
+    Get.off(ReviewMain(
+      title: widget.placeTitle,
+      placeId: widget.placeId,
+      initialTab: 2,
+    ));
+
+    print('이동');
+  }
 
   @override
   void initState() {
@@ -65,8 +77,10 @@ class _MyReviewState extends State<MyReview> {
                     setState(() {
                       _reviewController.showUpdateModalSheet(
                         context,
+                        widget.userId,
                         widget.review,
                         widget.zones,
+                        _reloadMyReview,
                       );
                     });
                   },
@@ -92,11 +106,7 @@ class _MyReviewState extends State<MyReview> {
                               MyReviewService.deleteReview(
                                   widget.review.reviewId, widget.review.zoneId);
                               Get.back();
-                              Get.off(ReviewMain(
-                                title: widget.placeTitle,
-                                placeId: widget.placeId,
-                                initialTab: 2,
-                              ));
+                              _reloadMyReview;
                             },
                           ),
                         ],

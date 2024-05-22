@@ -18,13 +18,17 @@ class MyReviewService {
   }
 
   // 리뷰 수정
-  static Future<void> updateReview(
-      String reviewId, String reviewToUpdate) async {
+  static Future<void> updateReview(String reviewId, String userId,
+      String reviewToUpdate, int ratingToUpdate) async {
     var url = Uri.parse('${BaseUrl.baseUrl}modify_review/$reviewId');
     var headers = {
       'Content-Type': 'application/json',
     };
-    var body = jsonEncode({'text': reviewToUpdate}); // 본문 데이터를 JSON 문자열로 인코딩
+    var body = jsonEncode({
+      'userId': userId,
+      'reviewText': reviewToUpdate,
+      'rating': ratingToUpdate,
+    }); // 본문 데이터를 JSON 문자열로 인코딩
 
     final res = await http.put(url,
         headers: headers, body: body); // headers와 body를 put 요청에 추가

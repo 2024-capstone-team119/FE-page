@@ -74,16 +74,20 @@ class ReviewController extends GetxController {
   // 리뷰 수정 모달
   void showUpdateModalSheet(
     BuildContext context,
+    String userId,
     Review review,
     List<Zone> zones,
+    VoidCallback reloadCallback,
   ) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
         return ReviewUpdate(
+          userId: userId,
           review: review,
           zones: zones,
+          reloadCallback: reloadCallback,
         );
       },
     );

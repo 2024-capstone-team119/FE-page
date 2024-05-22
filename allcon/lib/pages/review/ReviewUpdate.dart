@@ -11,13 +11,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ReviewUpdate extends StatefulWidget {
+  final String userId;
   final Review review;
   final List<Zone> zones;
+  final VoidCallback reloadCallback;
 
   const ReviewUpdate({
     super.key,
+    required this.userId,
     required this.review,
     required this.zones,
+    required this.reloadCallback,
   });
 
   @override
@@ -186,8 +190,11 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
                             ? () async {
                                 await MyReviewService.updateReview(
                                     widget.review.reviewId,
-                                    _textController.text);
-                                Navigator.of(context).pop();
+                                    widget.userId,
+                                    _textController.text,
+                                    selectedStar);
+                                Navigator.pop(context);
+                                widget.reloadCallback();
                               }
                             : () {
                                 FocusScope.of(context).unfocus(); // 키보드 숨기기

@@ -165,6 +165,7 @@ class _ReiviewTabState extends State<ReiviewTab> {
                                   placeTitle: widget.placeTitle,
                                   placeId: widget.placeId,
                                   hall: widget.hall,
+                                  userId: widget.userId,
                                   review: _reviewController.myReviews[index],
                                   zones: zones,
                                 );
