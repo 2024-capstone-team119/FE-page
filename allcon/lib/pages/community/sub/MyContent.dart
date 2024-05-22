@@ -1,3 +1,4 @@
+import 'package:allcon/pages/community/sub/GetPost.dart';
 import 'package:allcon/service/community/myContentService.dart';
 import 'package:allcon/utils/Loading.dart';
 import 'package:allcon/utils/Preparing.dart';
@@ -5,6 +6,7 @@ import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/model/community_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +19,7 @@ class MyContent extends StatefulWidget {
 
 class _MyContentState extends State<MyContent> {
   String? loginUserId;
+  String? userNickname;
   Future<List<Post>>? futurePosts;
 
   @override
@@ -29,6 +32,7 @@ class _MyContentState extends State<MyContent> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       loginUserId = prefs.getString('userId');
+      userNickname = prefs.getString('userNickname');
       if (loginUserId != null) {
         futurePosts = MyContentService.getMyPost(loginUserId!);
       } else {
@@ -75,7 +79,17 @@ class _MyContentState extends State<MyContent> {
   Widget _buildContentItem(Post post) {
     DateTime dateTime = post.createdAt;
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Get.to(() => MyContentDetail(
+              post: post,
+              userId: loginUserId!,
+              category: '',
+              likeToDetail: false,
+              nickname: userNickname!,
+              tabIdx: 0,
+              anonymous: false,
+            ));
+      },
       child: Column(
         children: [
           Padding(
