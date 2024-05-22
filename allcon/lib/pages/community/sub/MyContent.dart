@@ -59,7 +59,7 @@ class _MyContentState extends State<MyContent> {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return const Preparing(
-                    text: "작성한 게시글이 없습니다!\n 마구마구 작성해서 올콜러들과 공유해주세요!\n😚",
+                    text: "작성한 게시글이 없습니다\n 마구마구 작성해서\n 올콜러들과 공유해주세요! 😚",
                   );
                 } else {
                   List<Post> posts = snapshot.data!;
