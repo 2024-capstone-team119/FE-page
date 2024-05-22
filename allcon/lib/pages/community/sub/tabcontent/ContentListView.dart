@@ -70,7 +70,6 @@ class _MyContentListViewState extends State<MyContentListView> {
           List<Post> posts = snapshot.data![0];
           List<Post>? searchPosts = snapshot.data![1];
 
-          print('검색어: ${widget.searchText}');
           if (widget.searchText.isNotEmpty) {
             if (searchPosts.isNotEmpty) {
               return Scaffold(

@@ -1,20 +1,23 @@
 import 'package:allcon/service/review/reviewService.dart';
-import 'package:allcon/utils/Colors.dart';
+import 'package:allcon/widget/review/custom_show_toast.dart';
+import 'package:allcon/widget/review/review_upload_button.dart';
+import 'package:allcon/widget/review/review_upload_photo.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ReviewWrite extends StatefulWidget {
   final String zoneId;
   final String zoneName;
+  final String userId;
+  final String userNickname;
 
   const ReviewWrite({
     super.key,
     required this.zoneId,
     required this.zoneName,
+    required this.userId,
+    required this.userNickname,
   });
 
   @override
@@ -22,34 +25,18 @@ class ReviewWrite extends StatefulWidget {
 }
 
 class _ReviewWriteState extends State<ReviewWrite> {
-  String? loginUserId;
-  String? loginUserNickname;
-
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _textController = TextEditingController();
-  late int _rating = 0;
-
-  late FToast fToast;
+  late int _rating = 3;
 
   final picker = ImagePicker();
   List<XFile?> multiImage = []; // 갤러리에서 여러 장의 사진을 선택해서 저장할 변수
   List<XFile?> images = []; // 가져온 사진들을 보여주기 위한 변수
   XFile? _imageFile;
 
-  _loadInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      loginUserId = prefs.getString('userId');
-      loginUserNickname = prefs.getString('userNickname');
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    fToast = FToast();
-    fToast.init(context);
-    _loadInfo();
   }
 
   Future<void> _pickImage() async {
@@ -70,18 +57,19 @@ class _ReviewWriteState extends State<ReviewWrite> {
       String zoneId = widget.zoneId;
       int rating = _rating;
 
-      if (loginUserId == null || loginUserNickname == null) {
+      if (widget.userId == '' || widget.userNickname == '') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('User not logged in')),
         );
         return;
       }
 
-      bool success = await ReviewService.addReview(loginUserId!,
-          loginUserNickname!, reviewText, rating, zoneId, _imageFile);
+      bool success = await ReviewService.addReview(widget.userId,
+          widget.userNickname, reviewText, rating, zoneId, _imageFile);
       if (success) {
-        Navigator.pop(context, true);
+        Navigator.pop(context);
       } else {
+        // Handle submission failure
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to submit review')),
         );
@@ -136,7 +124,7 @@ class _ReviewWriteState extends State<ReviewWrite> {
                                   icon: Icon(
                                     CupertinoIcons.star_fill,
                                     color: i <= _rating
-                                        ? lightMint
+                                        ? Colors.amberAccent
                                         : Colors.black12,
                                   ),
                                   visualDensity: VisualDensity.compact,
@@ -175,19 +163,22 @@ class _ReviewWriteState extends State<ReviewWrite> {
                     const SizedBox(
                       height: 15.0,
                     ),
-                    uploadPhoto(),
+                    ReviewUploadPhoto(
+                      imageFile: _imageFile,
+                      isUpdate: false,
+                    ),
                     const SizedBox(
                       height: 10.0,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        uploadButton(
+                        ReviewUploadButton(
                           onPressed: _pickImage,
                           icon: Icons.add_photo_alternate,
                           label: '사진 첨부하기',
                         ),
-                        uploadButton(
+                        ReviewUploadButton(
                           onPressed: isButtonEnabled
                               ? () {
                                   _submitReview();
@@ -195,9 +186,10 @@ class _ReviewWriteState extends State<ReviewWrite> {
                               : () {
                                   FocusScope.of(context).unfocus(); // 키보드 숨기기
                                   if (_rating == 0) {
-                                    _showToast('별점을 남겨주세요 ');
+                                    customShowToast('별점을 남겨주세요 ', context);
                                   } else {
-                                    _showToast('10글자 이상의 리뷰를 작성해주세요');
+                                    customShowToast(
+                                        '10글자 이상의 리뷰를 작성해주세요', context);
                                   }
                                 }, // 버튼 비활성화
                           icon: CupertinoIcons.pen,
@@ -213,79 +205,6 @@ class _ReviewWriteState extends State<ReviewWrite> {
         ),
       ),
     );
-  }
-
-  Widget uploadButton({
-    required VoidCallback onPressed,
-    required IconData icon,
-    required String label,
-  }) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: OutlinedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25.0),
-        ),
-        backgroundColor: lightlavenderColor,
-        elevation: 0.5,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 25.0),
-          const SizedBox(width: 8),
-          Text(
-            label,
-            style: const TextStyle(fontSize: 16.0),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget uploadPhoto() {
-    return _imageFile == null
-        ? SizedBox.shrink()
-        : Container(
-            margin: const EdgeInsets.all(10),
-            child: Stack(
-              alignment: Alignment.topRight,
-              children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: FileImage(
-                        File(_imageFile!.path),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 20,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    icon:
-                        const Icon(Icons.close, color: Colors.white, size: 15),
-                    onPressed: () {
-                      setState(() {
-                        _imageFile = null; // 이미지 삭제
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-          );
   }
 
   // Widget uploadPhoto() {
@@ -341,37 +260,4 @@ class _ReviewWriteState extends State<ReviewWrite> {
   //     ),
   //   );
   // }
-
-  _showToast(String alert) {
-    Widget toast = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.0),
-        color: Colors.deepPurpleAccent,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(
-            size: 20.0,
-            CupertinoIcons.exclamationmark,
-            color: Colors.white,
-          ),
-          Text(
-            alert,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16.0,
-            ),
-          ),
-        ],
-      ),
-    );
-
-    fToast.showToast(
-      child: toast,
-      toastDuration: const Duration(seconds: 2),
-      gravity: ToastGravity.BOTTOM,
-    );
-  }
 }

@@ -175,7 +175,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
                               Row(
                                 children: [
                                   Icon(
-                                    Icons.favorite,
+                                    CupertinoIcons.heart_fill,
                                     color: Colors.red[300],
                                     size: 16.0,
                                   ),

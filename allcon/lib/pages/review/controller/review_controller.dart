@@ -1,7 +1,7 @@
 import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/review/ReviewUpdate.dart';
 import 'package:allcon/pages/review/ReviewWrite.dart';
-import 'package:allcon/utils/Colors.dart';
+import 'package:allcon/service/review/myReviewService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +9,7 @@ import 'package:get/get_rx/get_rx.dart';
 
 class ReviewController extends GetxController {
   RxList<Review> reviews = <Review>[].obs;
-  RxInt good = 0.obs;
+  RxList<Review> myReviews = <Review>[].obs;
 
   ReviewController._internal();
 
@@ -17,9 +17,26 @@ class ReviewController extends GetxController {
     return ReviewController._internal();
   }
 
-  // 리뷰 목록
+  // 일반 리뷰 목록
   void setReviewList(List<Review> initialReviews) {
     reviews.assignAll(initialReviews);
+  }
+
+  // 내 리뷰 목록
+  Future<void> setMyReviewList(
+      List<Review> initialReviews, String? userId) async {
+    if (userId != '') {
+      try {
+        List<Review> fetchedReviews =
+            await MyReviewService.getMyReviews(userId!);
+
+        myReviews.assignAll(fetchedReviews);
+      } catch (error) {
+        print('Error fetching reviews: $error');
+      }
+    } else {
+      print('Loading');
+    }
   }
 
   // 별점 표시
@@ -37,17 +54,9 @@ class ReviewController extends GetxController {
     return starIcons;
   }
 
-  // 좋아요 수 변화 감지
-  void incrementGoodCount(int reviewId) {
-    reviews[reviewId].goodCount;
-    good.value++;
-
-    reviews.refresh();
-  }
-
   // 리뷰 작성 모달
-  Future<bool?> showWriteModalSheet(
-      BuildContext context, String zoneId, String zoneName) async {
+  Future<bool?> showWriteModalSheet(BuildContext context, String zoneId,
+      String zoneName, String userId, String userNickname) async {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -55,41 +64,30 @@ class ReviewController extends GetxController {
         return ReviewWrite(
           zoneId: zoneId,
           zoneName: zoneName,
+          userId: userId,
+          userNickname: userNickname,
         );
       },
     );
   }
 
-  // 리뷰 작성 함수
-  void submitReview(Review newReview, List<Review> reviewList) {
-    reviewList.add(newReview);
-    reviews.refresh();
-  }
-
   // 리뷰 수정 모달
   void showUpdateModalSheet(
     BuildContext context,
-    List<Review> reviewList,
-    List<Zone> zoneList,
-    List<String> zoneTotal,
-    String zone,
+    String userId,
     Review review,
-    String text,
-    int star,
+    List<Zone> zones,
+    VoidCallback reloadCallback,
   ) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
         return ReviewUpdate(
-          reviewList: reviewList,
-          zoneList: zoneList,
-          zoneTotal: zoneTotal,
-          zone: zone,
-          selectedReview: review,
-          reviewId: reviews.length,
-          text: text,
-          star: star,
+          userId: userId,
+          review: review,
+          zones: zones,
+          reloadCallback: reloadCallback,
         );
       },
     );

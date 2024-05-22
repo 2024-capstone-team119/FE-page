@@ -17,7 +17,7 @@ class MyContentDetail extends StatefulWidget {
   final Post post;
   final String userId;
   final String nickname;
-  final bool anonymous;
+  final bool? anonymous;
   final bool likeToDetail; // 이전 페이지 이동을 위한 불린
 
   const MyContentDetail({
@@ -27,7 +27,7 @@ class MyContentDetail extends StatefulWidget {
     required this.post,
     required this.userId,
     required this.nickname,
-    required this.anonymous,
+    this.anonymous,
     required this.likeToDetail,
   });
 
@@ -140,7 +140,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                   const SizedBox(height: 6.0),
                   Row(
                     children: [
-                      Text(widget.anonymous ? '익명' : widget.post.nickname),
+                      Text(widget.anonymous! ? '익명' : widget.post.nickname),
                       const SizedBox(width: 10.0),
                       const Text('|'),
                       const SizedBox(width: 10.0),
@@ -165,7 +165,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                     post: widget.post,
                     userId: widget.userId,
                     nickname: widget.nickname,
-                    anonymous: widget.anonymous,
+                    anonymous: widget.anonymous!,
                   ),
                   const SizedBox(height: 65),
                 ],
