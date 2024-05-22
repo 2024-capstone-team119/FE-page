@@ -101,4 +101,26 @@ class ReviewService {
       return false;
     }
   }
+
+  // 리뷰 싫어요
+  static Future<bool> toggleBadReview(String reviewId, String userId) async {
+    final url = Uri.parse('${BaseUrl.baseUrl}review_bad/$reviewId');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({'userId': userId}),
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> jsonResponse = json.decode(response.body);
+      bool isBad = jsonResponse[0];
+      return isBad;
+    } else {
+      print('Failed to toggle review bad: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      return false;
+    }
+  }
 }

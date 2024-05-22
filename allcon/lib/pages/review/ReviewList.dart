@@ -25,12 +25,25 @@ class ReviewList extends StatefulWidget {
 class _ReviewListState extends State<ReviewList> {
   late final ReviewController _reviewController;
   late bool isToggleGood;
+  late bool isToggleBad;
 
+  // 좋아요
   Future<void> _toggleGood() async {
     try {
       bool result = await ReviewService.toggleGoodReview(
           widget.review.reviewId, widget.userId);
       isToggleGood = result;
+    } catch (error) {
+      print('Error fetching reviews: $error');
+    }
+  }
+
+  // 싫어요
+  Future<void> _toggleBad() async {
+    try {
+      bool result = await ReviewService.toggleBadReview(
+          widget.review.reviewId, widget.userId);
+      isToggleBad = result;
     } catch (error) {
       print('Error fetching reviews: $error');
     }
@@ -114,7 +127,7 @@ class _ReviewListState extends State<ReviewList> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          widget.review.badCount;
+                          _toggleBad();
                         });
                       },
                       style: TextButton.styleFrom(foregroundColor: Colors.red),
