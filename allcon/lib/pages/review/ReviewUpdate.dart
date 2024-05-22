@@ -3,11 +3,12 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:allcon/model/review_model.dart';
 import 'package:allcon/service/review/myReviewService.dart';
-import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
+import 'package:allcon/widget/review/custom_show_toast.dart';
+import 'package:allcon/widget/review/review_upload_button.dart';
+import 'package:allcon/widget/review/review_upload_photo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ReviewUpdate extends StatefulWidget {
@@ -37,8 +38,6 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
   late String currentTime;
   late TextEditingController _textController;
 
-  late FToast fToast;
-
   final picker = ImagePicker();
   Uint8List? _imageBytes;
 
@@ -66,8 +65,6 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
     selectedZoneId = widget.review.zoneId;
     selectedStar = widget.review.rating;
     _textController = TextEditingController(text: widget.review.text);
-    fToast = FToast();
-    fToast.init(context);
     _fetchImage();
   }
 
@@ -176,16 +173,19 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
                   const SizedBox(
                     height: 3.0,
                   ),
-                  updatePhoto(),
+                  ReviewUploadPhoto(
+                    imageBytes: _imageBytes,
+                    isUpdate: true,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      uploadButton(
+                      ReviewUploadButton(
                         onPressed: _pickImage,
                         icon: Icons.add_photo_alternate,
                         label: '사진 수정하기',
                       ),
-                      uploadButton(
+                      ReviewUploadButton(
                         onPressed: isButtonEnabled
                             ? () async {
                                 await MyReviewService.updateReview(
@@ -199,9 +199,10 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
                             : () {
                                 FocusScope.of(context).unfocus(); // 키보드 숨기기
                                 if (selectedStar == 0) {
-                                  _showToast('별점을 남겨주세요 ');
+                                  customShowToast('별점을 남겨주세요 ', context);
                                 } else {
-                                  _showToast('10글자 이상의 리뷰를 작성해주세요');
+                                  customShowToast(
+                                      '10글자 이상의 리뷰를 작성해주세요', context);
                                 }
                               }, // 버튼 비활성화
                         icon: CupertinoIcons.pen,
@@ -215,110 +216,6 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget uploadButton({
-    required VoidCallback onPressed,
-    required IconData icon,
-    required String label,
-  }) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: OutlinedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25.0),
-        ),
-        backgroundColor: lightlavenderColor,
-        elevation: 0.5,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 25.0),
-          const SizedBox(width: 8),
-          Text(
-            label,
-            style: const TextStyle(fontSize: 16.0),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget updatePhoto() {
-    return _imageBytes == null
-        ? const SizedBox.shrink()
-        : Container(
-            margin: const EdgeInsets.all(10),
-            child: Stack(
-              alignment: Alignment.topRight,
-              children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: MemoryImage(_imageBytes!),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 20,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    icon:
-                        const Icon(Icons.close, color: Colors.white, size: 15),
-                    onPressed: () {
-                      setState(() {
-                        _imageBytes = null; // 이미지 삭제
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-          );
-  }
-
-  _showToast(String alert) {
-    Widget toast = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.0),
-        color: Colors.deepPurpleAccent,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(
-            size: 20.0,
-            CupertinoIcons.exclamationmark,
-            color: Colors.white,
-          ),
-          Text(
-            alert,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16.0,
-            ),
-          ),
-        ],
-      ),
-    );
-
-    fToast.showToast(
-      child: toast,
-      toastDuration: const Duration(seconds: 2),
-      gravity: ToastGravity.BOTTOM,
     );
   }
 }

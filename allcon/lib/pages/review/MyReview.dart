@@ -106,7 +106,7 @@ class _MyReviewState extends State<MyReview> {
                               MyReviewService.deleteReview(
                                   widget.review.reviewId, widget.review.zoneId);
                               Get.back();
-                              _reloadMyReview;
+                              _reloadMyReview();
                             },
                           ),
                         ],
