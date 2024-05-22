@@ -7,6 +7,7 @@ import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/model/community_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -78,11 +79,15 @@ class _ContentDetailState extends State<MyContentDetail> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        widget.post.title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 25,
+                      Expanded(
+                        child: Text(
+                          widget.post.title,
+                          maxLines: 5,
+                          overflow: TextOverflow.fade,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 25,
+                          ),
                         ),
                       ),
                       if (isOwner) // owner 인 경우에만 수정/삭제 버튼 활성화
