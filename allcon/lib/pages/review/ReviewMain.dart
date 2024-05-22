@@ -75,21 +75,43 @@ class _ReviewMainState extends State<ReviewMain> {
                   backgroundColor: const Color(0xFFF6F4F5),
                   body: Stack(
                     children: [
-                      const Positioned(
+                      Positioned(
                           bottom: 60.0,
                           left: 0,
                           right: 0,
                           child: Center(
-                            child: Text(
-                              '끝까지 내려주셨군요!\n이걸 본 당신은 올콘입니다 🍀 ',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
+                              child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Image.asset(
+                                  'assets/img/lucky.png',
+                                  width: 45,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                            ),
-                          )),
+                              SizedBox(width: 10),
+                              Text(
+                                '끝까지 내려주셨군요!\n이걸 본 당신은 올콘입니당 🍀 ',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Image.asset(
+                                  'assets/img/lucky.png',
+                                  width: 45,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ],
+                          ))),
                       Positioned.fill(
                         child: SnappingSheet(
                           snappingPositions: const [
