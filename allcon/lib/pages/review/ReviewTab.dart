@@ -5,6 +5,7 @@ import 'package:allcon/pages/review/controller/review_controller.dart';
 import 'package:allcon/service/review/reviewService.dart';
 import 'package:allcon/service/review/zoneService.dart';
 import 'package:allcon/utils/Loading.dart';
+import 'package:allcon/utils/Preparing.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class _ReiviewTabState extends State<ReiviewTab> {
   String? selectedZoneName;
 
   List<Review> reviews = [];
+  List<Review> recommendReviews = [];
   List<Review> myReviews = [];
   bool isLoading = true;
 
@@ -48,9 +50,19 @@ class _ReiviewTabState extends State<ReiviewTab> {
   Future<void> _fetchReviews(String zoneId) async {
     try {
       List<Review> fetchedReviews = await ReviewService.getReviews(zoneId);
+
       setState(() {
         reviews = fetchedReviews;
         _reviewController.setReviewList(reviews);
+      });
+
+      // 추천순 리뷰
+      List<Review> sortedReviews = List.from(reviews);
+      sortedReviews.sort((a, b) => b.goodCount.compareTo(a.goodCount));
+
+      setState(() {
+        recommendReviews = sortedReviews;
+        _reviewController.setRecommendReviewList(recommendReviews);
       });
     } catch (error) {
       print('Error fetching reviews: $error');
@@ -172,32 +184,9 @@ class _ReiviewTabState extends State<ReiviewTab> {
                               },
                             );
                             if (_reviewController.myReviews.isEmpty) {
-                              return Center(
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.05,
-                                    ),
-                                    const Text(
-                                      'O',
-                                      style: TextStyle(
-                                        fontSize: 120.0,
-                                        fontFamily: 'Cafe24Moyamoya',
-                                        color: Color(0xFFff66a1),
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    const Text(
-                                      '리뷰를 채워주세요~💖',
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
+                              return const Preparing(
+                                text: '리뷰를 채워주세요~💖',
+                                size: 0.05,
                               );
                             } else {
                               return Column(children: myReviewWidgets);
@@ -212,48 +201,23 @@ class _ReiviewTabState extends State<ReiviewTab> {
                                         1 -
                                         index;
 
-                                List<Review> sortedReviews = List.from(reviews);
-                                sortedReviews.sort((a, b) =>
-                                    b.goodCount.compareTo(a.goodCount));
-
                                 return widget.isRecommend
                                     ? ReviewList(
-                                        review: sortedReviews[index],
+                                        review: _reviewController
+                                            .recommendReviews[index],
                                         userId: widget.userId,
                                       )
                                     : ReviewList(
-                                        review: reviews[reversedIndex],
+                                        review: _reviewController
+                                            .reviews[reversedIndex],
                                         userId: widget.userId,
                                       );
                               },
                             );
                             if (_reviewController.reviews.isEmpty) {
-                              return Center(
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.005,
-                                    ),
-                                    const Text(
-                                      'O',
-                                      style: TextStyle(
-                                        fontSize: 120.0,
-                                        fontFamily: 'Cafe24Moyamoya',
-                                        color: Color(0xFFff66a1),
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    const Text(
-                                      '리뷰를 채워주세요~💖',
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
+                              return const Preparing(
+                                text: '리뷰를 채워주세요~💖',
+                                size: 0.005,
                               );
                             } else {
                               return Column(children: reviewWidgets);

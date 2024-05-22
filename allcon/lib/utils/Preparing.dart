@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 
 class Preparing extends StatelessWidget {
   final String text;
+  final double size;
 
-  const Preparing({super.key, required this.text});
+  const Preparing({
+    super.key,
+    required this.text,
+    this.size = 0.2,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         children: [
-          SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+          SizedBox(height: MediaQuery.of(context).size.height * size),
           const Text(
             'O',
             style: TextStyle(

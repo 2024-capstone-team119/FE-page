@@ -91,8 +91,8 @@ class _ReviewMainState extends State<ReviewMain> {
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                              SizedBox(width: 10),
-                              Text(
+                              const SizedBox(width: 10),
+                              const Text(
                                 '끝까지 내려주셨군요!\n이걸 본 당신은 올콘입니당 🍀 ',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -101,7 +101,7 @@ class _ReviewMainState extends State<ReviewMain> {
                                   fontSize: 14,
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              const SizedBox(width: 10),
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Image.asset(
