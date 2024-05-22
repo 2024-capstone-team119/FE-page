@@ -4,6 +4,7 @@ import 'package:allcon/model/community_model.dart';
 import 'package:allcon/pages/community/sub/LikeButton.dart';
 import 'package:allcon/service/community/postService.dart';
 import 'package:allcon/utils/Loading.dart';
+import 'package:allcon/utils/Preparing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -87,28 +88,9 @@ class _MyContentListViewState extends State<MyContentListView> {
                 ),
               );
             } else {
-              return Center(
-                child: Column(
-                  children: [
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.15),
-                    const Text(
-                      'O',
-                      style: TextStyle(
-                        fontSize: 120.0,
-                        fontFamily: 'Cafe24Moyamoya',
-                        color: Color(0xFFff66a1),
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const Text(
-                      '검색 결과가 없습니다.\n 다시 입력해주세요 :)',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
+              return const Preparing(
+                text: '검색 결과가 없습니다.\n 다시 입력해주세요 :)',
+                size: 0.15,
               );
             }
           } else {
