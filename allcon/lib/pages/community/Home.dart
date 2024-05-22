@@ -57,8 +57,8 @@ class _MyCommunityState extends State<MyCommunity>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(top: 12.0),
+        title: const Padding(
+          padding: EdgeInsets.only(top: 12.0),
           child: Text(
             '커뮤니티',
             style: TextStyle(
@@ -70,10 +70,10 @@ class _MyCommunityState extends State<MyCommunity>
         titleSpacing: -26.0,
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: SizedBox(),
+        leading: const SizedBox(),
         actions: <Widget>[
           IconButton(
-            icon: Padding(
+            icon: const Padding(
               padding: EdgeInsets.only(top: 6.0),
               child: Icon(
                 CupertinoIcons.square_stack_3d_down_right,
@@ -83,7 +83,7 @@ class _MyCommunityState extends State<MyCommunity>
             onPressed: () {},
           ),
           IconButton(
-            icon: Padding(
+            icon: const Padding(
               padding: EdgeInsets.only(right: 20.0, top: 6.0),
               child: Icon(
                 CupertinoIcons.heart_circle,
