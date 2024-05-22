@@ -92,7 +92,6 @@ class _MyContentState extends State<MyContent> {
               post: post,
               userId: loginUserId!,
               category: '',
-              likeToDetail: false,
               nickname: userNickname!,
               tabIdx: 0,
               anonymous: isAnonymous,

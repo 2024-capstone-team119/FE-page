@@ -153,7 +153,6 @@ class _MyContentListViewState extends State<MyContentListView> {
               userId: loginUserId ?? '',
               nickname: loginUserNickname ?? '',
               anonymous: anonymous,
-              likeToDetail: false,
             ));
       },
       child: Column(
