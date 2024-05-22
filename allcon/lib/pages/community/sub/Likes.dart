@@ -132,7 +132,6 @@ class _MyContentLikesState extends State<MyContentLikes> {
                     userId: widget.userId,
                     nickname: widget.nickname,
                     anonymous: anonymous,
-                    likeToDetail: true,
                   ));
             },
             child: Column(

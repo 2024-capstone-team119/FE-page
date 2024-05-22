@@ -44,17 +44,17 @@ class _MyContentState extends State<MyContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(
+      appBar: const MyAppBar(
         text: '내 게시글',
       ),
       backgroundColor: Colors.white,
       body: futurePosts == null
-          ? Container(child: Text('Fetching Error'))
+          ? Container(child: const Text('Fetching Error'))
           : FutureBuilder<List<Post>>(
               future: futurePosts,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Loading();
+                  return const Loading();
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -78,16 +78,23 @@ class _MyContentState extends State<MyContent> {
 
   Widget _buildContentItem(Post post) {
     DateTime dateTime = post.createdAt;
+    late bool isAnonymous;
+
+    if (post.category == '후기') {
+      isAnonymous = false;
+    } else {
+      isAnonymous = true;
+    }
+
     return GestureDetector(
       onTap: () {
         Get.to(() => MyContentDetail(
               post: post,
               userId: loginUserId!,
               category: '',
-              likeToDetail: false,
               nickname: userNickname!,
               tabIdx: 0,
-              anonymous: false,
+              anonymous: isAnonymous,
             ));
       },
       child: Column(

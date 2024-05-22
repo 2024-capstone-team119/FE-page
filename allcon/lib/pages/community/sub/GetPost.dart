@@ -1,6 +1,5 @@
 import 'package:allcon/pages/community/Home.dart';
 import 'package:allcon/pages/community/sub/GetComment.dart';
-import 'package:allcon/pages/community/sub/Likes.dart';
 import 'package:allcon/pages/community/sub/Update.dart';
 import 'package:allcon/service/community/postService.dart';
 import 'package:allcon/widget/app_bar.dart';
@@ -18,7 +17,6 @@ class MyContentDetail extends StatefulWidget {
   final String userId;
   final String nickname;
   final bool? anonymous;
-  final bool likeToDetail; // 이전 페이지 이동을 위한 불린
 
   const MyContentDetail({
     super.key,
@@ -28,7 +26,6 @@ class MyContentDetail extends StatefulWidget {
     required this.userId,
     required this.nickname,
     this.anonymous,
-    required this.likeToDetail,
   });
 
   @override
@@ -55,17 +52,7 @@ class _ContentDetailState extends State<MyContentDetail> {
           text: '커뮤니티',
           onLeadingPressed: () {
             Get.back(); // 댓글 팝업 닫기
-            // 좋아요 목록에서 넘어왔는지 확인
-            if (widget.likeToDetail == true) {
-              Get.to(MyContentLikes(
-                tabIdx: widget.tabIdx,
-                initialCategory: widget.category,
-                userId: widget.userId,
-                nickname: widget.nickname,
-              ));
-            } else {
-              Get.to(MyCommunity(initialTabIndex: widget.tabIdx));
-            }
+            Get.back(); // 이전 페이지 이동
           }),
       body: SafeArea(
         child: SingleChildScrollView(
