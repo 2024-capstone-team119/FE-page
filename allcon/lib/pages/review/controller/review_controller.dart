@@ -9,6 +9,7 @@ import 'package:get/get_rx/get_rx.dart';
 
 class ReviewController extends GetxController {
   RxList<Review> reviews = <Review>[].obs;
+  RxList<Review> recommendReviews = <Review>[].obs;
   RxList<Review> myReviews = <Review>[].obs;
 
   ReviewController._internal();
@@ -20,6 +21,11 @@ class ReviewController extends GetxController {
   // 일반 리뷰 목록
   void setReviewList(List<Review> initialReviews) {
     reviews.assignAll(initialReviews);
+  }
+
+  // 추천순 리뷰 목록
+  void setRecommendReviewList(List<Review> initialReviews) {
+    recommendReviews.assignAll(initialReviews);
   }
 
   // 내 리뷰 목록
