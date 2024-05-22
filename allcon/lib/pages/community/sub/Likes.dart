@@ -152,9 +152,12 @@ class _MyContentLikesState extends State<MyContentLikes> {
                             children: [
                               Text(
                                 post.title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold),
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               const SizedBox(height: 4.0),
                               Row(
