@@ -284,13 +284,7 @@ class _GetCommentState extends State<GetComment> {
                       _commentController.text,
                     );
                   } else {
-                    await showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        addComment(_commentController.text);
-                        return const AlertDialog();
-                      },
-                    );
+                    addComment(_commentController.text);
                   }
 
                   _commentController.clear();
