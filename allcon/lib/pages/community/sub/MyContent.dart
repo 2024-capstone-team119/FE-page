@@ -27,29 +27,25 @@ class _MyContentState extends State<MyContent> {
 
   Future<void> _loadInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    loginUserId = prefs.getString('loginUserId');
-    if (loginUserId != null) {
-      setState(() {
+    setState(() {
+      loginUserId = prefs.getString('userId');
+      if (loginUserId != null) {
         futurePosts = MyContentService.getMyPost(loginUserId!);
-      });
-    }
+      } else {
+        futurePosts = Future.error('User ID is null');
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        text: '내가 작성한 게시글',
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(40.0),
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20.0),
-          ),
-        ),
+        text: '내 게시글',
       ),
       backgroundColor: Colors.white,
       body: futurePosts == null
-          ? Loading()
+          ? Container(child: Text('Fetching Error'))
           : FutureBuilder<List<Post>>(
               future: futurePosts,
               builder: (context, snapshot) {
@@ -103,18 +99,14 @@ class _MyContentState extends State<MyContent> {
                           ),
                         ),
                         const SizedBox(height: 4.0),
-                        Row(
-                          children: [
-                            Text(
-                              DateFormat('yyyy-MM-dd').format(dateTime),
-                            ),
-                          ],
+                        Text(
+                          DateFormat('yyyy-MM-dd').format(dateTime),
                         ),
                         const SizedBox(height: 4.0),
                         Row(
                           children: [
                             const Icon(
-                              Icons.favorite,
+                              CupertinoIcons.heart_fill,
                               color: Colors.red,
                               size: 16.0,
                             ),
