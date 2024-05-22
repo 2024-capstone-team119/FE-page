@@ -85,16 +85,16 @@ class ReviewService {
     final url = Uri.parse('${BaseUrl.baseUrl}review_good/$reviewId');
     final response = await http.post(
       url,
-      headers: <String, String>{
+      headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        'userId': userId,
-      }),
+      body: jsonEncode({'userId': userId}),
     );
 
     if (response.statusCode == 200) {
-      return true;
+      List<dynamic> jsonResponse = json.decode(response.body);
+      bool isGood = jsonResponse[0];
+      return isGood;
     } else {
       print('Failed to toggle review good: ${response.statusCode}');
       print('Response body: ${response.body}');
