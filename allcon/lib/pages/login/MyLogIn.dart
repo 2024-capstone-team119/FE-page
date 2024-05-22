@@ -105,7 +105,7 @@ class _MyMyLogInState extends State<MyLogIn> {
                     if (isToken) {
                       print("토큰 받기 성공");
                       Get.snackbar('로그인 성공 😚', "반가워요!");
-                      Get.to(() => MyHome());
+                      Get.offAll(MyHome());
                     } else {
                       Get.snackbar('로그인 실패 😭', "다시 시도해주세요!");
                     }
