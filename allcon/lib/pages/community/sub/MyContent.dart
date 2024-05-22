@@ -80,7 +80,7 @@ class _MyContentState extends State<MyContent> {
     DateTime dateTime = post.createdAt;
     late bool isAnonymous;
 
-    if (post.category == '후기') {
+    if (post.category == '카풀') {
       isAnonymous = false;
     } else {
       isAnonymous = true;
