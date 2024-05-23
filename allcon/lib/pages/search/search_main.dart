@@ -88,7 +88,11 @@ class _SearchPageState extends State<Search> {
   Widget listTab(BuildContext context, List<Performance>? searchList) {
     return searchList != null && searchList.isNotEmpty
         ? Expanded(
-            child: ListView.builder(
+            child: ListView.separated(
+              separatorBuilder: (context, index) => const Divider(
+                color: Colors.black12,
+                thickness: 0.25,
+              ),
               itemCount: searchList.length,
               itemBuilder: (BuildContext context, int index) {
                 final concert = searchList[index];
@@ -102,41 +106,88 @@ class _SearchPageState extends State<Search> {
                             .toLowerCase()
                             .contains(searchText.toLowerCase()))) {
                   return Padding(
-                    padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                    padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
                     child: GestureDetector(
-                      onTap: () {
-                        Get.to(
-                          PerformanceDetail(performance: concert),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: Text(
-                              concert.name ?? '',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  fontSize: 18.0, fontWeight: FontWeight.w400),
-                            ),
-                            subtitle: Text(
-                              concert.cast ?? '',
-                              style: const TextStyle(fontSize: 15.0),
-                            ),
-                            leading: ClipRRect(
-                              borderRadius: BorderRadius.circular(3.0),
-                              child: Image.network(
-                                concert.poster ?? '',
-                                fit: BoxFit.cover,
+                        onTap: () {
+                          Get.to(
+                            PerformanceDetail(performance: concert),
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 20),
+                            SizedBox(
+                              width: 56,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child: Image.network(
+                                    concert.poster ?? '',
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                          Divider(
-                            color: Colors.grey[200],
-                          ),
-                        ],
-                      ),
-                    ),
+                            SizedBox(width: 20),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    concert.name ?? '',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 3),
+                                  if (concert.cast != null &&
+                                      concert.cast!.isNotEmpty &&
+                                      concert.cast!.trim().isNotEmpty)
+                                    Text(
+                                      concert.cast ?? '',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontSize: 10),
+                                    ),
+                                  const SizedBox(height: 2),
+                                  if (concert.startDate == concert.endDate)
+                                    Text(
+                                      '${concert.startDate}',
+                                      style: const TextStyle(fontSize: 10),
+                                    )
+                                  else
+                                    Text(
+                                      '${concert.startDate} ~ ${concert.endDate}',
+                                      style: const TextStyle(fontSize: 10),
+                                    ),
+                                  Text(
+                                    '${concert.place}',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                          ],
+                        )),
                   );
                 } else {
                   return const SizedBox.shrink();
@@ -145,7 +196,7 @@ class _SearchPageState extends State<Search> {
             ),
           )
         : const Expanded(
-            child: Preparing(text: '검색 결과가 없습니다.'),
+            child: Preparing(text: '검색 결과가 없습니다🔍'),
           );
   }
 }
