@@ -72,7 +72,8 @@ class _ReiviewTabState extends State<ReiviewTab> {
   // 내 리뷰
   Future<void> _fetchMyReviews() async {
     setState(() {
-      _reviewController.setMyReviewList(myReviews, widget.userId);
+      _reviewController.setMyReviewList(
+          myReviews, widget.userId, widget.hall.hallId);
     });
   }
 
@@ -170,6 +171,7 @@ class _ReiviewTabState extends State<ReiviewTab> {
                     const SizedBox(height: 10.0),
                     widget.mine
                         ? Obx(() {
+                            print('길이:${_reviewController.myReviews.length}');
                             List<Widget> myReviewWidgets = List.generate(
                               _reviewController.myReviews.length,
                               (index) {

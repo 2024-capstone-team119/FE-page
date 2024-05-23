@@ -36,8 +36,10 @@ class _ReviewListState extends State<ReviewList> {
       setState(() {
         if (result == 1) {
           isToggleGood = true;
+          _reviewController.goodCounts.value++;
         } else if (result == 0) {
           isToggleGood = false;
+          _reviewController.goodCounts.value--;
         } else if (result == 2) {
           customShowToast('이미 Bad로 표시된 리뷰입니다', context);
         }
@@ -78,6 +80,7 @@ class _ReviewListState extends State<ReviewList> {
     if (widget.review.image != null && widget.review.image!.isNotEmpty) {
       imageBytes = base64Decode(widget.review.image!);
     }
+    print('존아이디: ${widget.review.zoneId}');
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 8.0),
@@ -132,15 +135,16 @@ class _ReviewListState extends State<ReviewList> {
                     const SizedBox(
                       width: 8.0,
                     ),
-                    TextButton(
-                      onPressed: () async {
-                        _toggleGood();
-                      },
-                      style: TextButton.styleFrom(foregroundColor: Colors.blue),
-                      child: Text(
-                        'Good (${widget.review.goodCount})',
-                      ),
-                    ),
+                    Obx(() => TextButton(
+                          onPressed: () async {
+                            _toggleGood();
+                          },
+                          style: TextButton.styleFrom(
+                              foregroundColor: Colors.blue),
+                          child: Text(
+                            'Good (${widget.review.goodCount + _reviewController.goodCounts.value})',
+                          ),
+                        )),
                     TextButton(
                       onPressed: () {
                         setState(() {
