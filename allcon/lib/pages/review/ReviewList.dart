@@ -46,44 +46,36 @@ class _ReviewListState extends State<ReviewList> {
 
   // 좋아요 토글
   Future<void> _toggleGood() async {
-    try {
-      int result = await ReviewService.toggleGoodReview(
-          widget.review.reviewId, widget.userId);
-      setState(() {
-        if (result == 1) {
-          isGood = true;
-          goodCount++;
-        } else if (result == 0) {
-          isGood = false;
-          goodCount--;
-        } else if (result == 2) {
-          customShowToast('이미 Bad로 표시된 리뷰입니다', context);
-        }
-      });
-    } catch (error) {
-      print('Error toggling good review: $error');
-    }
+    int result = await ReviewService.toggleGoodReview(
+        widget.review.reviewId, widget.userId);
+    setState(() {
+      if (result == 1) {
+        isGood = true;
+        goodCount++;
+      } else if (result == 0) {
+        isGood = false;
+        goodCount--;
+      } else if (result == 2) {
+        customShowToast('이미 Bad로 표시된 리뷰입니다', context);
+      }
+    });
   }
 
   // 싫어요 토글
   Future<void> _toggleBad() async {
-    try {
-      int result = await ReviewService.toggleBadReview(
-          widget.review.reviewId, widget.userId);
-      setState(() {
-        if (result == 1) {
-          isBad = true;
-          badCount++;
-        } else if (result == 0) {
-          isBad = false;
-          badCount--;
-        } else if (result == 2) {
-          customShowToast('이미 Good으로 표시된 리뷰입니다', context);
-        }
-      });
-    } catch (error) {
-      print('Error toggling bad review: $error');
-    }
+    int result = await ReviewService.toggleBadReview(
+        widget.review.reviewId, widget.userId);
+    setState(() {
+      if (result == 1) {
+        isBad = true;
+        badCount++;
+      } else if (result == 0) {
+        isBad = false;
+        badCount--;
+      } else if (result == 2) {
+        customShowToast('이미 Good으로 표시된 리뷰입니다', context);
+      }
+    });
   }
 
   @override
