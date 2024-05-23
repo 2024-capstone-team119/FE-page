@@ -18,10 +18,10 @@ class MyCategory extends StatefulWidget {
 class _MyCategoryState extends State<MyCategory> {
   @override
   Widget build(BuildContext context) {
-    final AccountController _accountController = Get.put(AccountController());
+    final AccountController accountController = Get.put(AccountController());
 
     String? loginUserId;
-    Future<void> _loadUserInfo() async {
+    Future<void> loadUserInfo() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       loginUserId = prefs.getString('userId');
     }
@@ -29,10 +29,10 @@ class _MyCategoryState extends State<MyCategory> {
     @override
     void initState() {
       super.initState();
-      _loadUserInfo();
+      loadUserInfo();
     }
 
-    Future<void> _launchURL(String url) async {
+    Future<void> launchURL(String url) async {
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -62,11 +62,11 @@ class _MyCategoryState extends State<MyCategory> {
               ),
               onTap: () {
                 print('관심 공연 목록 is clicked');
-                Get.to(MyConcertLikes());
+                Get.to(const MyConcertLikes());
               },
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Card(
             color: Colors.white,
             elevation: 0,
@@ -85,11 +85,11 @@ class _MyCategoryState extends State<MyCategory> {
               ),
               onTap: () {
                 print('문의사항 is clicked');
-                _launchURL('https://open.kakao.com/o/srZYQSsg');
+                launchURL('https://open.kakao.com/o/srZYQSsg');
               },
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Card(
             color: Colors.white,
             elevation: 0,
@@ -107,12 +107,12 @@ class _MyCategoryState extends State<MyCategory> {
                 style: TextStyle(fontSize: 20.0),
               ),
               onTap: () {
-                _accountController.logout();
-                Get.offAll(MyLogIn());
+                accountController.logout();
+                Get.offAll(const MyLogIn());
               },
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Card(
             color: Colors.white,
             elevation: 0,
@@ -130,7 +130,7 @@ class _MyCategoryState extends State<MyCategory> {
                 style: TextStyle(fontSize: 20.0),
               ),
               onTap: () async {
-                await showDeleteDialog(context, _accountController);
+                await showDeleteDialog(context, accountController);
               },
             ),
           ),

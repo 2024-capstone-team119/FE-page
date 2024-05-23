@@ -7,12 +7,12 @@ import 'package:allcon/pages/login/MyLogIn.dart';
 Future<void> showDeleteDialog(
     BuildContext context, AccountController accountController) async {
   String? loginUserId;
-  Future<void> _loadUserInfo() async {
+  Future<void> loadUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     loginUserId = prefs.getString('userId');
   }
 
-  await _loadUserInfo();
+  await loadUserInfo();
 
   return showDialog<void>(
     context: context,
@@ -20,9 +20,9 @@ Future<void> showDeleteDialog(
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Text('회원탈퇴'),
-        content: SingleChildScrollView(
+        content: const SingleChildScrollView(
           child: ListBody(
-            children: const <Widget>[
+            children: <Widget>[
               Text('같은 이메일로 재가입이 불가능합니다.'),
               Text(
                 '회원 탈퇴하겠습니까? 😭',
@@ -48,10 +48,10 @@ Future<void> showDeleteDialog(
                     bool isDeleted =
                         await accountController.deleteUser(loginUserId!);
                     Navigator.of(context).pop();
-                    Get.offAll(MyLogIn());
+                    Get.offAll(const MyLogIn());
                     if (isDeleted) {
                       Get.snackbar('회원탈퇴 성공✔', "다음에 또 만나요!");
-                      Get.offAll(MyLogIn());
+                      Get.offAll(const MyLogIn());
                     } else {
                       Get.snackbar('회원탈퇴 실패', "회원 탈퇴에 실패하였습니다.");
                     }

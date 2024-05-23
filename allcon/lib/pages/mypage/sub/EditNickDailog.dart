@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:allcon/utils/validator_util.dart';
@@ -49,7 +48,7 @@ class _EditUserNameState extends State<EditUserName> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             editTextField(),
-            SizedBox(height: 18),
+            const SizedBox(height: 18),
             Buttons(),
           ],
         ),

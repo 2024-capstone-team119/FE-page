@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:allcon/pages/calendar/SelectConcertList.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/model/performance_model.dart';
@@ -36,20 +35,20 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const MyAppBar(
+    return const Scaffold(
+      appBar: MyAppBar(
         text: "달력",
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const CalendarDate(),
-            const SizedBox(height: 20),
+            CalendarDate(),
+            SizedBox(height: 20),
             SelectConcertList(),
           ],
         ),
       ),
-      bottomNavigationBar: const MyBottomNavigationBar(currentIndex: 1),
+      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 1),
     );
   }
 }

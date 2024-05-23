@@ -5,6 +5,8 @@ import 'package:allcon/utils/Colors.dart';
 import 'controller/selecetedDay_controller.dart';
 
 class SelectConcertList extends StatefulWidget {
+  const SelectConcertList({super.key});
+
   @override
   State<SelectConcertList> createState() => _SelectConcertListState();
 }
@@ -88,8 +90,8 @@ class _SelectConcertListState extends State<SelectConcertList> {
                           });
                         },
                         icon: _showMore
-                            ? Icon(CupertinoIcons.chevron_compact_up)
-                            : Icon(CupertinoIcons.chevron_compact_down),
+                            ? const Icon(CupertinoIcons.chevron_compact_up)
+                            : const Icon(CupertinoIcons.chevron_compact_down),
                       ),
                     ],
                   ),

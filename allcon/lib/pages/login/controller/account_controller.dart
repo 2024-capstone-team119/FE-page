@@ -1,6 +1,5 @@
 import 'package:allcon/service/account/deleteUserService.dart';
 import 'package:allcon/service/account/loginService.dart';
-import 'package:allcon/service/account/tokenService.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

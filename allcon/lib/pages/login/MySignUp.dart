@@ -1,4 +1,3 @@
-import 'package:allcon/pages/home/Home.dart';
 import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/service/account/registService.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,7 @@ import 'package:allcon/widget/custom_text_form_field.dart';
 import 'package:get/get.dart';
 
 class MySignUp extends StatefulWidget {
-  const MySignUp({Key? key}) : super(key: key);
+  const MySignUp({super.key});
 
   @override
   State<MySignUp> createState() => _MySignUpState();
@@ -47,7 +46,7 @@ class _MySignUpState extends State<MySignUp> {
   }
 
   Widget WellcomText() {
-    return Row(
+    return const Row(
       children: [
         Row(
           children: [
@@ -80,11 +79,11 @@ class _MySignUpState extends State<MySignUp> {
       child: Stepper(
         type: StepperType.vertical,
         currentStep: _currentStep,
-        physics: ScrollPhysics(),
+        physics: const ScrollPhysics(),
         elevation: 0,
         steps: [
           Step(
-            title: Text('이메일'),
+            title: const Text('이메일'),
             content: Column(
               children: <Widget>[
                 Form(
@@ -99,7 +98,7 @@ class _MySignUpState extends State<MySignUp> {
             ),
           ),
           Step(
-            title: Text('비밀번호'),
+            title: const Text('비밀번호'),
             content: Column(
               children: <Widget>[
                 Form(
@@ -128,7 +127,7 @@ class _MySignUpState extends State<MySignUp> {
             ),
           ),
           Step(
-            title: Text('닉네임'),
+            title: const Text('닉네임'),
             content: Column(
               children: <Widget>[
                 Form(
@@ -182,7 +181,7 @@ class _MySignUpState extends State<MySignUp> {
                   if (req is Exception) {
                     Get.snackbar('회원가입 실패', '회원가입에 실패하였습니다😭');
                   } else {
-                    Get.offAll(MyLogIn());
+                    Get.offAll(const MyLogIn());
                   }
                 } else {
                   Get.snackbar('회원가입 실패', '이미 등록된 닉네임입니다.');
@@ -193,10 +192,11 @@ class _MySignUpState extends State<MySignUp> {
         },
         onStepCancel: () {
           setState(() {
-            if (_currentStep <= 0)
+            if (_currentStep <= 0) {
               Get.back();
-            else
+            } else {
               _currentStep -= 1;
+            }
           });
         },
       ),
