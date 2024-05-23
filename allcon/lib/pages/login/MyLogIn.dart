@@ -1,13 +1,11 @@
 import 'package:allcon/pages/login/controller/account_controller.dart';
 import 'package:allcon/pages/home/Home.dart';
 import 'package:allcon/pages/login/MySignUp.dart';
-import 'package:allcon/service/account/tokenService.dart';
 import 'package:allcon/utils/validator_util.dart';
 import 'package:allcon/widget/custom_elevated_btn.dart';
 import 'package:allcon/widget/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MyLogIn extends StatefulWidget {
   const MyLogIn({super.key});
@@ -27,7 +25,7 @@ class _MyMyLogInState extends State<MyLogIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Padding(
             padding: const EdgeInsets.all(30),
@@ -36,9 +34,9 @@ class _MyMyLogInState extends State<MyLogIn> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 WellcomText(),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 SingInForm(),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 IsntUser(),
               ],
             ),
@@ -49,7 +47,7 @@ class _MyMyLogInState extends State<MyLogIn> {
   }
 
   Widget WellcomText() {
-    return Column(
+    return const Column(
       children: [
         Row(
           children: [
@@ -86,13 +84,13 @@ class _MyMyLogInState extends State<MyLogIn> {
               funValidator: validateEmail(),
               controller: _userEmail,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             CustomTextFormField(
               hint: "비밀번호를 입력해주세요",
               funValidator: validatePwd(),
               controller: _userPwd,
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             CustomElevatedBtn(
                 text: "로그인",
                 funPageRoute: () async {
@@ -105,7 +103,7 @@ class _MyMyLogInState extends State<MyLogIn> {
                     if (isToken) {
                       print("토큰 받기 성공");
                       Get.snackbar('로그인 성공 😚', "반가워요!");
-                      Get.offAll(MyHome());
+                      Get.offAll(const MyHome());
                     } else {
                       Get.snackbar('로그인 실패 😭', "다시 시도해주세요!");
                     }
@@ -119,7 +117,7 @@ class _MyMyLogInState extends State<MyLogIn> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           '아직 올콘러가 아니세요?',
           style: TextStyle(
             color: Colors.black54,
@@ -128,9 +126,9 @@ class _MyMyLogInState extends State<MyLogIn> {
         ),
         TextButton(
           onPressed: () {
-            Get.to(MySignUp());
+            Get.to(const MySignUp());
           },
-          child: Text(
+          child: const Text(
             '회원가입',
             style: TextStyle(
               color: Colors.deepPurple,

@@ -47,11 +47,11 @@ class _MyConcertLikesState extends State<MyConcertLikes> {
               return const Center(child: Text('Loading...'));
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Loading();
+              return const Loading();
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (snapshot.data!.isEmpty) {
-              return Preparing(text: '관심공연을\n채워주세요! 💖');
+              return const Preparing(text: '관심공연을\n채워주세요! 💖');
             } else {
               return RefreshIndicator(
                 onRefresh: () async {

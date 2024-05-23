@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -20,7 +19,7 @@ class ImgController extends GetxController {
       aspectRatioPresets: [
         CropAspectRatioPreset.square,
       ],
-      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
       cropStyle: CropStyle.circle,
     );
 

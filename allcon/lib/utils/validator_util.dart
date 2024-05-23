@@ -1,4 +1,3 @@
-import 'package:allcon/service/account/registService.dart';
 import 'package:validators/validators.dart';
 
 Function validateTitle() {
