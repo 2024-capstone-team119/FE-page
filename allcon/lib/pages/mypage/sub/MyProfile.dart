@@ -1,17 +1,14 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:allcon/pages/mypage/sub/EditNickDailog.dart';
 import 'package:allcon/pages/mypage/controller/img_crop_controller.dart';
 import 'package:allcon/pages/mypage/controller/profile_controller.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class MyProfile extends StatefulWidget {
-  MyProfile({super.key});
+  const MyProfile({super.key});
 
   @override
   State<MyProfile> createState() => _MyProfileState();
