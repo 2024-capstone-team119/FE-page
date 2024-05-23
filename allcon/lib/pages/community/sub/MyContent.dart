@@ -66,7 +66,8 @@ class _MyContentState extends State<MyContent> {
                   return ListView.builder(
                     itemCount: posts.length,
                     itemBuilder: (context, index) {
-                      Post post = posts[index];
+                      int revserIndex = posts.length - 1 - index;
+                      Post post = posts[revserIndex];
                       return _buildContentItem(post);
                     },
                   );
