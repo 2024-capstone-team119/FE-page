@@ -7,7 +7,6 @@ import 'package:allcon/service/review/zoneService.dart';
 import 'package:allcon/utils/Loading.dart';
 import 'package:allcon/utils/Preparing.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

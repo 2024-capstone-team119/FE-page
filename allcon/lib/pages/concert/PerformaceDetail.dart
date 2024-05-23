@@ -12,8 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PerformanceDetail extends StatefulWidget {
   final Performance performance;
 
-  const PerformanceDetail({Key? key, required this.performance})
-      : super(key: key);
+  const PerformanceDetail({super.key, required this.performance});
 
   @override
   State<PerformanceDetail> createState() => _PerformanceDetailState();

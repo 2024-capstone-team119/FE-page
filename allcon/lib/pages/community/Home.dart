@@ -6,7 +6,6 @@ import 'package:allcon/pages/community/sub/Search.dart';
 import 'package:allcon/pages/community/sub/tabcontent/ContentListView.dart';
 import 'package:allcon/service/community/postService.dart';
 import 'package:allcon/utils/Colors.dart';
-import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +81,7 @@ class _MyCommunityState extends State<MyCommunity>
               ),
             ),
             onPressed: () {
-              Get.to(MyContent());
+              Get.to(const MyContent());
             },
           ),
           IconButton(

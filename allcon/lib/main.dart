@@ -1,7 +1,6 @@
 import 'package:allcon/pages/home/Home.dart';
 import 'package:allcon/pages/login/MyLogIn.dart';
 import 'package:allcon/pages/login/controller/account_controller.dart';
-import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
@@ -61,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
             splashTransition: SplashTransition.fadeTransition,
             backgroundColor: Colors.white,
           ),
-          Positioned(
+          const Positioned(
             bottom: 40,
             left: 0,
             right: 0,

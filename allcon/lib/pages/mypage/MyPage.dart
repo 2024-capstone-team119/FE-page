@@ -1,6 +1,5 @@
 import 'package:allcon/pages/mypage/sub/MyCategory.dart';
 import 'package:allcon/pages/mypage/sub/MyProfile.dart';
-import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/Widget/app_bar.dart';
 import 'package:allcon/Widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,7 @@ class _MyPageState extends State<MyPage> {
       ),
       body: Container(
         color: Colors.white,
-        child: SafeArea(
+        child: const SafeArea(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -34,7 +33,7 @@ class _MyPageState extends State<MyPage> {
               children: [
                 MyProfile(),
                 SizedBox(height: 20),
-                const MyCategory(),
+                MyCategory(),
                 SizedBox(height: 10),
               ],
             ),

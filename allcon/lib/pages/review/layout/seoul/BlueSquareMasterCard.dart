@@ -1,7 +1,6 @@
 import 'package:allcon/pages/review/layout/customFigure/Trapezoid.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class BlueSquareMasterCard extends StatelessWidget {
   const BlueSquareMasterCard({super.key});
