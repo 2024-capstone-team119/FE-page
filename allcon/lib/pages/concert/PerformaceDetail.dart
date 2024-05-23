@@ -153,12 +153,10 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
             Positioned(
               bottom: 10,
               left: 25,
-              child: Expanded(
-                child: Image.network(
-                  widget.performance.poster ?? "",
-                  height: 200,
-                  fit: BoxFit.contain,
-                ),
+              child: Image.network(
+                widget.performance.poster ?? "",
+                height: 200,
+                fit: BoxFit.contain,
               ),
             ),
             Positioned(
@@ -256,7 +254,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                       widget.performance.endDate)
                     Expanded(
                       child: Text(
-                        '${widget.performance.startDate}' ?? 'Unknown',
+                        '${widget.performance.startDate}',
                         style: const TextStyle(
                           fontSize: 15.0,
                           color: Colors.black,
@@ -267,8 +265,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                   else
                     Expanded(
                       child: Text(
-                        '${widget.performance.startDate} ~ ${widget.performance.endDate}' ??
-                            'Unknown',
+                        '${widget.performance.startDate} ~ ${widget.performance.endDate}',
                         style: const TextStyle(
                           fontSize: 15.0,
                           color: Colors.black,
@@ -287,7 +284,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
 
   Widget InfoDetailImgs() {
     List<String>? imgUrls = widget.performance.imgs;
-    String poster = widget.performance.poster.toString() ?? "";
+    String poster = widget.performance.poster.toString();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
