@@ -80,24 +80,26 @@ class ReviewService {
     }
   }
 
-  // 리뷰 좋아요 조회
-  static Future<bool> setGoodReview(String reviewId, String userId) async {
-    final url = Uri.parse('${BaseUrl.baseUrl}review_good/$reviewId');
-    final response = await http.post(
+  // 리뷰 좋아요 싫어요 조회
+  static Future<List<bool>> fetchReactionReview(
+      String reviewId, String userId) async {
+    final url = Uri.parse('${BaseUrl.baseUrl}review_status/$reviewId/$userId');
+    final response = await http.get(
       url,
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode({'userId': userId}),
     );
+
     if (response.statusCode == 200) {
-      List<dynamic> jsonResponse = json.decode(response.body);
-      bool isGood = jsonResponse[0];
-      return isGood;
+      final Map<String, dynamic> data = json.decode(response.body);
+      bool isGood = data['isGood'] ?? false;
+      bool isBad = data['isBad'] ?? false;
+      return [isGood, isBad];
     } else {
-      print('Failed to toggle review good: ${response.statusCode}');
+      print('Failed to fetch review reaction: ${response.statusCode}');
       print('Response body: ${response.body}');
-      return false;
+      return [false, false];
     }
   }
 

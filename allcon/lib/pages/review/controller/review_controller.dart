@@ -47,6 +47,10 @@ class ReviewController extends GetxController {
     }
   }
 
+  void setGoodCounts() {
+    goodCounts = 0.obs;
+  }
+
   // 별점 표시
   List<Widget> starCounts(int starCount) {
     List<Widget> starIcons = [];

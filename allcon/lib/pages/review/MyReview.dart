@@ -169,7 +169,7 @@ class _MyReviewState extends State<MyReview> {
                     const Text(
                       'Helpful ?',
                       style: TextStyle(
-                        color: Colors.black38,
+                        color: Colors.deepPurple,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

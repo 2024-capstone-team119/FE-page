@@ -1,12 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:allcon/model/review_model.dart';
-import 'package:allcon/pages/review/controller/review_controller.dart';
 import 'package:allcon/service/review/reviewService.dart';
 import 'package:allcon/widget/review/custom_show_toast.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class ReviewList extends StatefulWidget {
@@ -24,54 +21,69 @@ class ReviewList extends StatefulWidget {
 }
 
 class _ReviewListState extends State<ReviewList> {
-  late final ReviewController _reviewController;
-  late bool isToggleGood;
-  late bool isToggleBad;
+  late bool isGood = false;
+  late bool isBad = false;
+  late int goodCount;
+  late int badCount;
 
-  // 좋아요
+  @override
+  void initState() {
+    super.initState();
+    goodCount = widget.review.goodCount;
+    badCount = widget.review.badCount;
+    _fetchGoodNBad();
+  }
+
+  // 좋아요 싫어요 조회
+  Future<void> _fetchGoodNBad() async {
+    List<bool> result = await ReviewService.fetchReactionReview(
+        widget.review.reviewId, widget.userId);
+    setState(() {
+      isGood = result[0];
+      isBad = result[1];
+    });
+  }
+
+  // 좋아요 토글
   Future<void> _toggleGood() async {
     try {
       int result = await ReviewService.toggleGoodReview(
           widget.review.reviewId, widget.userId);
       setState(() {
         if (result == 1) {
-          isToggleGood = true;
-          _reviewController.goodCounts.value++;
+          isGood = true;
+          goodCount++;
         } else if (result == 0) {
-          isToggleGood = false;
-          _reviewController.goodCounts.value--;
+          isGood = false;
+          goodCount--;
         } else if (result == 2) {
           customShowToast('이미 Bad로 표시된 리뷰입니다', context);
         }
       });
     } catch (error) {
-      print('Error fetching reviews: $error');
+      print('Error toggling good review: $error');
     }
   }
 
-  // 싫어요
+  // 싫어요 토글
   Future<void> _toggleBad() async {
     try {
       int result = await ReviewService.toggleBadReview(
           widget.review.reviewId, widget.userId);
       setState(() {
         if (result == 1) {
-          isToggleBad = true;
+          isBad = true;
+          badCount++;
         } else if (result == 0) {
-          isToggleBad = false;
+          isBad = false;
+          badCount--;
         } else if (result == 2) {
           customShowToast('이미 Good으로 표시된 리뷰입니다', context);
         }
       });
     } catch (error) {
-      print('Error fetching reviews: $error');
+      print('Error toggling bad review: $error');
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _reviewController = Get.put(ReviewController());
   }
 
   @override
@@ -80,7 +92,6 @@ class _ReviewListState extends State<ReviewList> {
     if (widget.review.image != null && widget.review.image!.isNotEmpty) {
       imageBytes = base64Decode(widget.review.image!);
     }
-    print('존아이디: ${widget.review.zoneId}');
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 8.0),
@@ -99,7 +110,10 @@ class _ReviewListState extends State<ReviewList> {
                   ),
                 ),
                 Row(
-                  children: _reviewController.starCounts(widget.review.rating),
+                  children: [
+                    for (int i = 0; i < widget.review.rating; i++)
+                      const Icon(Icons.star, color: Colors.amber),
+                  ],
                 ),
               ],
             ),
@@ -107,53 +121,47 @@ class _ReviewListState extends State<ReviewList> {
               padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
               child: Text(widget.review.text),
             ),
-            Container(
-              child: imageBytes != null
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: Image.memory(
-                        imageBytes,
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                  : const SizedBox.shrink(),
-            ),
+            if (imageBytes != null)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Image.memory(
+                  imageBytes,
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                ),
+              ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
                     const Text(
-                      'Helpful ?',
+                      'Helpful?',
                       style: TextStyle(
-                        color: Colors.black38,
+                        color: Colors.deepPurple,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(
-                      width: 8.0,
-                    ),
-                    Obx(() => TextButton(
-                          onPressed: () async {
-                            _toggleGood();
-                          },
-                          style: TextButton.styleFrom(
-                              foregroundColor: Colors.blue),
-                          child: Text(
-                            'Good (${widget.review.goodCount + _reviewController.goodCounts.value})',
-                          ),
-                        )),
+                    const SizedBox(width: 8.0),
                     TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _toggleBad();
-                        });
+                      onPressed: () async {
+                        await _toggleGood();
                       },
-                      style: TextButton.styleFrom(foregroundColor: Colors.red),
+                      style: TextButton.styleFrom(
+                          foregroundColor: isGood ? Colors.blue : Colors.grey),
                       child: Text(
-                        'Bad (${widget.review.badCount})',
+                        'Good ($goodCount)',
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        await _toggleBad();
+                      },
+                      style: TextButton.styleFrom(
+                          foregroundColor: isBad ? Colors.red : Colors.grey),
+                      child: Text(
+                        'Bad ($badCount)',
                       ),
                     ),
                   ],
