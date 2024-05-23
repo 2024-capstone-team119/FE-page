@@ -5,8 +5,9 @@ import 'package:allcon/service/baseUrl.dart';
 
 class MyReviewService {
   // 내 리뷰 조회
-  static Future<List<Review>> getMyReviews(String userId) async {
-    final url = Uri.parse('${BaseUrl.baseUrl}my_review/$userId');
+  static Future<List<Review>> getMyReviews(String userId, String hallId) async {
+    final url =
+        Uri.parse('${BaseUrl.baseUrl}my_review_thiszone/$userId/$hallId');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {

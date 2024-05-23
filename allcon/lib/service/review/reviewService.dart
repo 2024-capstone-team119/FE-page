@@ -80,8 +80,8 @@ class ReviewService {
     }
   }
 
-  // 리뷰 좋아요
-  static Future<bool> toggleGoodReview(String reviewId, String userId) async {
+  // 리뷰 좋아요 조회
+  static Future<bool> setGoodReview(String reviewId, String userId) async {
     final url = Uri.parse('${BaseUrl.baseUrl}review_good/$reviewId');
     final response = await http.post(
       url,
@@ -90,7 +90,6 @@ class ReviewService {
       },
       body: jsonEncode({'userId': userId}),
     );
-
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);
       bool isGood = jsonResponse[0];
@@ -102,8 +101,34 @@ class ReviewService {
     }
   }
 
-  // 리뷰 싫어요
-  static Future<bool> toggleBadReview(String reviewId, String userId) async {
+  // 리뷰 좋아요 토글
+  static Future<int> toggleGoodReview(String reviewId, String userId) async {
+    final url = Uri.parse('${BaseUrl.baseUrl}review_good/$reviewId');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({'userId': userId}),
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      bool isGood = jsonResponse['isGood'];
+      return isGood ? 1 : 0;
+    } else if (response.statusCode == 400) {
+      if (response.body.contains("이미 Bad로 표시된 리뷰입니다")) {
+        return 2;
+      }
+    }
+
+    print('Failed to toggle review good: ${response.statusCode}');
+    print('Response body: ${response.body}');
+    return -1;
+  }
+
+  // 리뷰 싫어요 토글
+  static Future<int> toggleBadReview(String reviewId, String userId) async {
     final url = Uri.parse('${BaseUrl.baseUrl}review_bad/$reviewId');
     final response = await http.post(
       url,
@@ -114,13 +139,17 @@ class ReviewService {
     );
 
     if (response.statusCode == 200) {
-      List<dynamic> jsonResponse = json.decode(response.body);
-      bool isBad = jsonResponse[0];
-      return isBad;
-    } else {
-      print('Failed to toggle review bad: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      return false;
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      bool isBad = jsonResponse['isBad'];
+      return isBad ? 1 : 0;
+    } else if (response.statusCode == 400) {
+      if (response.body.contains("이미 Good으로 표시된 리뷰입니다")) {
+        return 2;
+      }
     }
+
+    print('Failed to toggle review good: ${response.statusCode}');
+    print('Response body: ${response.body}');
+    return -1;
   }
 }

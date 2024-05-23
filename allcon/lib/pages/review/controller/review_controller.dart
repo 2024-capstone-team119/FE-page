@@ -11,6 +11,8 @@ class ReviewController extends GetxController {
   RxList<Review> recommendReviews = <Review>[].obs;
   RxList<Review> myReviews = <Review>[].obs;
 
+  RxInt goodCounts = 0.obs;
+
   ReviewController._internal();
 
   factory ReviewController() {
@@ -29,11 +31,11 @@ class ReviewController extends GetxController {
 
   // 내 리뷰 목록
   Future<void> setMyReviewList(
-      List<Review> initialReviews, String? userId) async {
+      List<Review> initialReviews, String? userId, String? hallId) async {
     if (userId != '') {
       try {
         List<Review> fetchedReviews =
-            await MyReviewService.getMyReviews(userId!);
+            await MyReviewService.getMyReviews(userId!, hallId!);
 
         myReviews.assignAll(fetchedReviews);
       } catch (error) {

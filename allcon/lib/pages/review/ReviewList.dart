@@ -3,6 +3,9 @@ import 'dart:typed_data';
 import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/review/controller/review_controller.dart';
 import 'package:allcon/service/review/reviewService.dart';
+import 'package:allcon/widget/review/custom_show_toast.dart';
+import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -29,9 +32,19 @@ class _ReviewListState extends State<ReviewList> {
   // 좋아요
   Future<void> _toggleGood() async {
     try {
-      bool result = await ReviewService.toggleGoodReview(
+      int result = await ReviewService.toggleGoodReview(
           widget.review.reviewId, widget.userId);
-      isToggleGood = result;
+      setState(() {
+        if (result == 1) {
+          isToggleGood = true;
+          _reviewController.goodCounts.value++;
+        } else if (result == 0) {
+          isToggleGood = false;
+          _reviewController.goodCounts.value--;
+        } else if (result == 2) {
+          customShowToast('이미 Bad로 표시된 리뷰입니다', context);
+        }
+      });
     } catch (error) {
       print('Error fetching reviews: $error');
     }
@@ -40,9 +53,17 @@ class _ReviewListState extends State<ReviewList> {
   // 싫어요
   Future<void> _toggleBad() async {
     try {
-      bool result = await ReviewService.toggleBadReview(
+      int result = await ReviewService.toggleBadReview(
           widget.review.reviewId, widget.userId);
-      isToggleBad = result;
+      setState(() {
+        if (result == 1) {
+          isToggleBad = true;
+        } else if (result == 0) {
+          isToggleBad = false;
+        } else if (result == 2) {
+          customShowToast('이미 Good으로 표시된 리뷰입니다', context);
+        }
+      });
     } catch (error) {
       print('Error fetching reviews: $error');
     }
@@ -60,6 +81,7 @@ class _ReviewListState extends State<ReviewList> {
     if (widget.review.image != null && widget.review.image!.isNotEmpty) {
       imageBytes = base64Decode(widget.review.image!);
     }
+    print('존아이디: ${widget.review.zoneId}');
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 8.0),
@@ -114,15 +136,16 @@ class _ReviewListState extends State<ReviewList> {
                     const SizedBox(
                       width: 8.0,
                     ),
-                    TextButton(
-                      onPressed: () async {
-                        _toggleGood();
-                      },
-                      style: TextButton.styleFrom(foregroundColor: Colors.blue),
-                      child: Text(
-                        'Good (${widget.review.goodCount})',
-                      ),
-                    ),
+                    Obx(() => TextButton(
+                          onPressed: () async {
+                            _toggleGood();
+                          },
+                          style: TextButton.styleFrom(
+                              foregroundColor: Colors.blue),
+                          child: Text(
+                            'Good (${widget.review.goodCount + _reviewController.goodCounts.value})',
+                          ),
+                        )),
                     TextButton(
                       onPressed: () {
                         setState(() {
