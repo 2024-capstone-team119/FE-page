@@ -41,7 +41,6 @@ class _ReiviewTabState extends State<ReiviewTab> {
   String? selectedZoneName;
 
   List<Review> reviews = [];
-  List<Review> recommendReviews = [];
   List<Review> myReviews = [];
   bool isLoading = true;
 
@@ -60,8 +59,7 @@ class _ReiviewTabState extends State<ReiviewTab> {
       sortedReviews.sort((a, b) => b.goodCount.compareTo(a.goodCount));
 
       setState(() {
-        recommendReviews = sortedReviews;
-        _reviewController.setRecommendReviewList(recommendReviews);
+        _reviewController.setRecommendReviewList(sortedReviews);
       });
     } catch (error) {
       print('Error fetching reviews: $error');
@@ -170,7 +168,6 @@ class _ReiviewTabState extends State<ReiviewTab> {
                     const SizedBox(height: 10.0),
                     widget.mine
                         ? Obx(() {
-                            print('길이:${_reviewController.myReviews.length}');
                             List<Widget> myReviewWidgets = List.generate(
                               _reviewController.myReviews.length,
                               (index) {

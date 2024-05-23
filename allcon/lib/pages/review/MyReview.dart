@@ -4,6 +4,8 @@ import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/review/ReviewMain.dart';
 import 'package:allcon/pages/review/controller/review_controller.dart';
 import 'package:allcon/service/review/myReviewService.dart';
+import 'package:allcon/service/review/reviewService.dart';
+import 'package:allcon/widget/review/custom_show_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,6 +36,10 @@ class MyReview extends StatefulWidget {
 class _MyReviewState extends State<MyReview> {
   late final ReviewController _reviewController;
   String? zoneName;
+  late bool isGood = false;
+  late bool isBad = false;
+  late int goodCount;
+  late int badCount;
 
   void _reloadMyReview() {
     Get.off(ReviewMain(
@@ -41,14 +47,59 @@ class _MyReviewState extends State<MyReview> {
       placeId: widget.placeId,
       initialTab: 2,
     ));
-
-    print('이동');
   }
 
   @override
   void initState() {
     super.initState();
     _reviewController = Get.put(ReviewController());
+    goodCount = widget.review.goodCount;
+    badCount = widget.review.badCount;
+    _fetchGoodNBad();
+  }
+
+  // 좋아요 싫어요 조회
+  Future<void> _fetchGoodNBad() async {
+    List<bool> result = await ReviewService.fetchReactionReview(
+        widget.review.reviewId, widget.userId);
+    setState(() {
+      isGood = result[0];
+      isBad = result[1];
+    });
+  }
+
+  // 좋아요 토글
+  Future<void> _toggleGood() async {
+    int result = await ReviewService.toggleGoodReview(
+        widget.review.reviewId, widget.userId);
+    setState(() {
+      if (result == 1) {
+        isGood = true;
+        goodCount++;
+      } else if (result == 0) {
+        isGood = false;
+        goodCount--;
+      } else if (result == 2) {
+        customShowToast('이미 Bad로 표시된 리뷰입니다', context);
+      }
+    });
+  }
+
+  // 싫어요 토글
+  Future<void> _toggleBad() async {
+    int result = await ReviewService.toggleBadReview(
+        widget.review.reviewId, widget.userId);
+    setState(() {
+      if (result == 1) {
+        isBad = true;
+        badCount++;
+      } else if (result == 0) {
+        isBad = false;
+        badCount--;
+      } else if (result == 2) {
+        customShowToast('이미 Good으로 표시된 리뷰입니다', context);
+      }
+    });
   }
 
   @override
@@ -169,7 +220,7 @@ class _MyReviewState extends State<MyReview> {
                     const Text(
                       'Helpful ?',
                       style: TextStyle(
-                        color: Colors.black38,
+                        color: Colors.deepPurple,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -177,25 +228,23 @@ class _MyReviewState extends State<MyReview> {
                       width: 10.0,
                     ),
                     TextButton(
-                      onPressed: () {
-                        setState(() {
-                          widget.review.goodCount;
-                        });
+                      onPressed: () async {
+                        await _toggleGood();
                       },
-                      style: TextButton.styleFrom(foregroundColor: Colors.blue),
+                      style: TextButton.styleFrom(
+                          foregroundColor: isGood ? Colors.blue : Colors.grey),
                       child: Text(
-                        'Good (${widget.review.goodCount})',
+                        'Good ($goodCount)',
                       ),
                     ),
                     TextButton(
-                      onPressed: () {
-                        setState(() {
-                          widget.review.badCount;
-                        });
+                      onPressed: () async {
+                        await _toggleBad();
                       },
-                      style: TextButton.styleFrom(foregroundColor: Colors.red),
+                      style: TextButton.styleFrom(
+                          foregroundColor: isBad ? Colors.red : Colors.grey),
                       child: Text(
-                        'Bad (${widget.review.badCount})',
+                        'Bad ($badCount)',
                       ),
                     ),
                   ],
