@@ -1,4 +1,7 @@
+import 'package:allcon/pages/mypage/controller/profile_controller.dart';
+import 'package:allcon/widget/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:allcon/utils/validator_util.dart';
 import 'package:allcon/service/account/registService.dart';
@@ -20,15 +23,6 @@ class _EditUserNameState extends State<EditUserName> {
   void initState() {
     super.initState();
     _textEditingController.text = widget.text ?? '';
-    _textEditingController.addListener(() {
-      final String text = _textEditingController.text.toLowerCase();
-      _textEditingController.value = _textEditingController.value.copyWith(
-        text: text,
-        selection:
-            TextSelection(baseOffset: text.length, extentOffset: text.length),
-        composing: TextRange.empty,
-      );
-    });
   }
 
   @override
@@ -63,7 +57,7 @@ class _EditUserNameState extends State<EditUserName> {
         child: Column(
           children: [
             const Text(
-              '수정할 닉네임을 입력해주세요.',
+              '🎨 수정할 닉네임을 입력해주세요.',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -77,6 +71,9 @@ class _EditUserNameState extends State<EditUserName> {
                 maxLength: 8,
                 textAlign: TextAlign.center,
                 validator: validateEditNick,
+                onTap: () {
+                  _textEditingController.clear();
+                },
                 decoration: const InputDecoration(
                   hintText: "닉네임",
                   hintStyle: TextStyle(
