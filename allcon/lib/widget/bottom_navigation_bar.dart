@@ -49,7 +49,7 @@ class MyBottomNavigationBar extends StatelessWidget {
           label: '검색',
         ),
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.captions_bubble_fill),
+          icon: Icon(CupertinoIcons.quote_bubble_fill),
           label: '커뮤니티',
         ),
       ],

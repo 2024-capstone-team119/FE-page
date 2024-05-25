@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String text;
@@ -33,7 +34,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       leading: onLeadingPressed != null
           ? IconButton(
-              icon: const Icon(Icons.arrow_back),
+              icon: const Icon(CupertinoIcons.arrow_left),
               onPressed: onLeadingPressed,
             )
           : null,
