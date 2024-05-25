@@ -1,5 +1,5 @@
 import 'package:allcon/model/review_model.dart';
-import 'package:allcon/pages/review/ReviewTab.dart';
+import 'package:allcon/pages/review/sub/ReviewTab.dart';
 import 'package:allcon/pages/review/controller/hall_controller.dart';
 import 'package:allcon/pages/review/controller/review_controller.dart';
 import 'package:allcon/service/review/hallService.dart';

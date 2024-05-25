@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:allcon/utils/Colors.dart';
-import 'controller/selecetedDay_controller.dart';
+import '../controller/selecetedDay_controller.dart';
 
 class SelectConcertList extends StatefulWidget {
   const SelectConcertList({super.key});

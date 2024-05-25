@@ -4,6 +4,7 @@ import 'package:allcon/model/review_model.dart';
 import 'package:allcon/service/review/reviewService.dart';
 import 'package:allcon/widget/review/custom_show_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:intl/intl.dart';
 
 class ReviewList extends StatefulWidget {
@@ -56,7 +57,7 @@ class _ReviewListState extends State<ReviewList> {
         isGood = false;
         goodCount--;
       } else if (result == 2) {
-        customShowToast('이미 Bad로 표시된 리뷰입니다', context);
+        customShowToast('이미 싫어요한 리뷰입니다', context);
       }
     });
   }
@@ -73,7 +74,7 @@ class _ReviewListState extends State<ReviewList> {
         isBad = false;
         badCount--;
       } else if (result == 2) {
-        customShowToast('이미 Good으로 표시된 리뷰입니다', context);
+        customShowToast('이미 좋아요한 리뷰입니다', context);
       }
     });
   }
@@ -114,13 +115,15 @@ class _ReviewListState extends State<ReviewList> {
               child: Text(widget.review.text),
             ),
             if (imageBytes != null)
-              ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.memory(
-                  imageBytes,
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
+              InstaImageViewer(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.memory(
+                    imageBytes,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             Row(
@@ -143,7 +146,7 @@ class _ReviewListState extends State<ReviewList> {
                       style: TextButton.styleFrom(
                           foregroundColor: isGood ? Colors.blue : Colors.grey),
                       child: Text(
-                        'Good ($goodCount)',
+                        'GOOD ($goodCount)',
                       ),
                     ),
                     TextButton(
@@ -153,7 +156,7 @@ class _ReviewListState extends State<ReviewList> {
                       style: TextButton.styleFrom(
                           foregroundColor: isBad ? Colors.red : Colors.grey),
                       child: Text(
-                        'Bad ($badCount)',
+                        'BAD ($badCount)',
                       ),
                     ),
                   ],

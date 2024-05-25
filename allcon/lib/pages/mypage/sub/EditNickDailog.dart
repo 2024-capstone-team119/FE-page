@@ -1,7 +1,4 @@
-import 'package:allcon/pages/mypage/controller/profile_controller.dart';
-import 'package:allcon/widget/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:allcon/utils/validator_util.dart';
 import 'package:allcon/service/account/registService.dart';
@@ -42,7 +39,7 @@ class _EditUserNameState extends State<EditUserName> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             editTextField(),
-            const SizedBox(height: 18),
+            const SizedBox(height: 10),
             Buttons(),
           ],
         ),
@@ -57,35 +54,47 @@ class _EditUserNameState extends State<EditUserName> {
         child: Column(
           children: [
             const Text(
-              '🎨 수정할 닉네임을 입력해주세요.',
+              '🎨 수정할 닉네임을 입력해주세요 🎨',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 16),
-            Form(
-              key: _userNickFormKey,
-              child: TextFormField(
-                controller: _textEditingController,
-                maxLength: 8,
-                textAlign: TextAlign.center,
-                validator: validateEditNick,
-                onTap: () {
-                  _textEditingController.clear();
-                },
-                decoration: const InputDecoration(
-                  hintText: "닉네임",
-                  hintStyle: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black54,
-                  ),
-                  counterStyle: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black54,
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Form(
+                key: _userNickFormKey,
+                child: TextFormField(
+                  controller: _textEditingController,
+                  maxLength: 8,
+                  textAlign: TextAlign.center,
+                  validator: validateEditNick,
+                  onTap: () {
+                    _textEditingController.clear();
+                  },
+                  decoration: const InputDecoration(
+                    hintText: "닉네임",
+                    hintStyle: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black54,
+                    ),
+                    counterStyle: TextStyle(
+                      fontSize: 12,
+                      color: Colors.black54,
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.deepPurple),
+                    ),
+                    errorBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                    ),
+                    focusedErrorBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                    ),
                   ),
                 ),
               ),
@@ -107,7 +116,7 @@ class _EditUserNameState extends State<EditUserName> {
             },
             child: const Text('취소'),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 16),
           ElevatedButton(
             onPressed: () async {
               if (_userNickFormKey.currentState!.validate()) {

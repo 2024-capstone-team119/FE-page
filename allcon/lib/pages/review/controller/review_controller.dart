@@ -1,11 +1,10 @@
 import 'package:allcon/model/review_model.dart';
-import 'package:allcon/pages/review/ReviewUpdate.dart';
-import 'package:allcon/pages/review/ReviewWrite.dart';
+import 'package:allcon/pages/review/sub/ReviewUpdate.dart';
+import 'package:allcon/pages/review/sub/ReviewWrite.dart';
 import 'package:allcon/service/review/myReviewService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 
 class ReviewController extends GetxController {
   RxList<Review> reviews = <Review>[].obs;

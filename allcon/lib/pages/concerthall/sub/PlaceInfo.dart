@@ -1,7 +1,7 @@
 import 'package:allcon/model/place_model.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:allcon/pages/concerthall/HallMap.dart';
+import 'package:allcon/pages/concerthall/sub/HallMap.dart';
 
 class PlaceInfo extends StatefulWidget {
   final Place placeDetail;
