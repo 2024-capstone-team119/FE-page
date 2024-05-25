@@ -234,11 +234,14 @@ Widget EditNameInfo(String value, VoidCallback onTap) {
   return GestureDetector(
     onTap: onTap,
     child: Stack(children: [
-      Container(
-        height: 56,
-        decoration: const BoxDecoration(
-          border: Border(
-            bottom: BorderSide(width: 1, color: Colors.black12),
+      Center(
+        child: Container(
+          height: 56,
+          width: 200,
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(width: 0.4, color: Colors.black26),
+            ),
           ),
         ),
       ),
@@ -255,10 +258,10 @@ Widget EditNameInfo(String value, VoidCallback onTap) {
         ),
       ),
       const Positioned(
-        right: 2,
-        bottom: 16,
+        right: 52,
+        bottom: 24,
         child: Icon(
-          CupertinoIcons.pencil,
+          CupertinoIcons.wand_stars_inverse,
           color: Colors.black,
           size: 18,
         ),
