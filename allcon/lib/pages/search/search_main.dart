@@ -195,8 +195,31 @@ class _SearchPageState extends State<Search> {
               },
             ),
           )
-        : const Expanded(
-            child: Preparing(text: '검색 결과가 없습니다🔍'),
+        : Flexible(
+            child: SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.62,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 100,
+                        child: Image.asset('assets/img/allcon.png'),
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        '검색결과가 없습니다!',
+                        style: const TextStyle(
+                          fontSize: 20.0,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
           );
   }
 }

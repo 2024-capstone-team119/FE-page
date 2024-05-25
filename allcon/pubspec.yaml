@@ -98,6 +98,7 @@ flutter:
     - assets/img/splash-icon.gif
     - assets/img/allcon_icon.png
     - assets/img/lucky.png
+    - assets/img/allcon.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
