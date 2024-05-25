@@ -74,13 +74,13 @@ class ProfileController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userId = prefs.getString('userId');
 
-    if (userId != null) {
+    if (userId != null &&
+        myProfile.value.nickname != originMyProfile.value.nickname) {
       bool success =
           await ProfileService.updateNickname(userId, myProfile.value.nickname);
       if (success) {
         await prefs.setString('userNickname', myProfile.value.nickname);
         originMyProfile.value.nickname = myProfile.value.nickname;
-        toggleEditBtn();
         print(myProfile.value.nickname);
       } else {
         // 닉네임 변경 실패 처리
@@ -93,14 +93,14 @@ class ProfileController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userId = prefs.getString('userId');
 
-    if (userId != null && myProfile.value.profileImage != null) {
+    if (userId != null &&
+        myProfile.value.profileImage != originMyProfile.value.profileImage) {
       bool success = await ProfileService.uploadProfileImage(
           userId, File(myProfile.value.profileImage!));
       if (success) {
         originMyProfile.value.profileImage = myProfile.value.profileImage;
         profileImageBase64.value =
             base64Encode(File(myProfile.value.profileImage!).readAsBytesSync());
-        toggleEditBtn();
         print('Profile image updated');
       } else {
         print('Failed to update profile image');

@@ -62,10 +62,20 @@ class _MyProfileState extends State<MyProfile> {
                             ),
                           ),
                           onPressed: () async {
-                            await _pcon.updateProfile();
-                            await _pcon.updateProfileImage();
-                            _pcon
-                                .toggleEditBtn(); // Ensure this is called to return to view mode
+                            bool isNicknameChanged =
+                                _pcon.myProfile.value.nickname !=
+                                    _pcon.originMyProfile.value.nickname;
+                            bool isProfileImageChanged =
+                                _pcon.myProfile.value.profileImage !=
+                                    _pcon.originMyProfile.value.profileImage;
+
+                            if (isNicknameChanged || isProfileImageChanged) {
+                              await _pcon.updateProfile();
+                              await _pcon.updateProfileImage();
+                              _pcon.toggleEditBtn();
+                            } else {
+                              _pcon.rollback();
+                            }
                           },
                         ),
                       ],
