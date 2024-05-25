@@ -10,22 +10,29 @@ void customShowToast(String alert, BuildContext context) {
     padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(25.0),
-      color: Colors.deepPurpleAccent,
+      color: Colors.amber,
     ),
     child: Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         const Icon(
           size: 20.0,
-          CupertinoIcons.exclamationmark,
+          CupertinoIcons.exclamationmark_shield,
           color: Colors.white,
         ),
+        SizedBox(width: 4),
         Text(
           alert,
           style: const TextStyle(
             color: Colors.white,
             fontSize: 16.0,
           ),
+        ),
+        SizedBox(width: 4),
+        const Icon(
+          size: 20.0,
+          CupertinoIcons.exclamationmark_shield,
+          color: Colors.white,
         ),
       ],
     ),

@@ -56,7 +56,7 @@ class _ReviewListState extends State<ReviewList> {
         isGood = false;
         goodCount--;
       } else if (result == 2) {
-        customShowToast('이미 Bad로 표시된 리뷰입니다', context);
+        customShowToast('이미 싫어요한 리뷰입니다', context);
       }
     });
   }
@@ -73,7 +73,7 @@ class _ReviewListState extends State<ReviewList> {
         isBad = false;
         badCount--;
       } else if (result == 2) {
-        customShowToast('이미 Good으로 표시된 리뷰입니다', context);
+        customShowToast('이미 좋아요한 리뷰입니다', context);
       }
     });
   }
@@ -143,7 +143,7 @@ class _ReviewListState extends State<ReviewList> {
                       style: TextButton.styleFrom(
                           foregroundColor: isGood ? Colors.blue : Colors.grey),
                       child: Text(
-                        'Good ($goodCount)',
+                        'GOOD ($goodCount)',
                       ),
                     ),
                     TextButton(
@@ -153,7 +153,7 @@ class _ReviewListState extends State<ReviewList> {
                       style: TextButton.styleFrom(
                           foregroundColor: isBad ? Colors.red : Colors.grey),
                       child: Text(
-                        'Bad ($badCount)',
+                        'BAD ($badCount)',
                       ),
                     ),
                   ],
