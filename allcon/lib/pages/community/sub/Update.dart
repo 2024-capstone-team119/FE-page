@@ -1,6 +1,7 @@
 import 'package:allcon/model/community_model.dart';
 import 'package:allcon/pages/community/Home.dart';
 import 'package:allcon/service/community/postService.dart';
+import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/utils/validator_util.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
@@ -8,6 +9,7 @@ import 'package:allcon/widget/custom_elevated_btn.dart';
 import 'package:allcon/widget/custom_text_area.dart';
 import 'package:allcon/widget/custom_text_form_field.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math';
@@ -99,21 +101,13 @@ class _ContentUpdateState extends State<MyContentUpdate> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  onPressed: () {
-                    print('사진 첨부 클릭 성공');
-                  },
-                  child: const Text('사진 첨부/교체'),
-                ),
                 const SizedBox(height: 5.0),
                 CustomElevatedBtn(
-                  text: "수정완료",
+                  icon: CupertinoIcons.pencil_ellipsis_rectangle,
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  buttonColor: lightMint,
+                  text: "수정 완료",
                   funPageRoute: () async {
                     if (_formKey.currentState!.validate()) {
                       // 수정된 컨텐트
