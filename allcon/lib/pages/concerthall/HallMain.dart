@@ -1,4 +1,5 @@
-import 'package:allcon/pages/concerthall/PlaceInfo.dart';
+import 'package:allcon/pages/concerthall/sub/PerformanceList.dart';
+import 'package:allcon/pages/concerthall/sub/PlaceInfo.dart';
 import 'package:allcon/pages/review/ReviewMain.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/widget/app_bar.dart';
@@ -10,7 +11,6 @@ import 'package:allcon/service/concertService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:allcon/utils/Loading.dart';
 import 'package:flutter/material.dart';
-import 'PerformanceList.dart';
 
 class HallMain extends StatefulWidget {
   final String title;

@@ -20,7 +20,7 @@ void customShowToast(String alert, BuildContext context) {
           CupertinoIcons.exclamationmark_shield,
           color: Colors.white,
         ),
-        SizedBox(width: 4),
+        const SizedBox(width: 4),
         Text(
           alert,
           style: const TextStyle(
@@ -28,7 +28,7 @@ void customShowToast(String alert, BuildContext context) {
             fontSize: 16.0,
           ),
         ),
-        SizedBox(width: 4),
+        const SizedBox(width: 4),
         const Icon(
           size: 20.0,
           CupertinoIcons.exclamationmark_shield,

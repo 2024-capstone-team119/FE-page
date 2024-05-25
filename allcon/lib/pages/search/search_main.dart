@@ -1,7 +1,6 @@
 import 'package:allcon/model/performance_model.dart';
 import 'package:allcon/pages/concert/PerformaceDetail.dart';
 import 'package:allcon/utils/Loading.dart';
-import 'package:allcon/utils/Preparing.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
@@ -126,7 +125,7 @@ class _SearchPageState extends State<Search> {
                                       color: Colors.black.withOpacity(0.2),
                                       spreadRadius: 1,
                                       blurRadius: 5,
-                                      offset: Offset(0, 3),
+                                      offset: const Offset(0, 3),
                                     ),
                                   ],
                                 ),
@@ -139,7 +138,7 @@ class _SearchPageState extends State<Search> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 20),
+                            const SizedBox(width: 20),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,7 +196,7 @@ class _SearchPageState extends State<Search> {
           )
         : Flexible(
             child: SingleChildScrollView(
-              child: Container(
+              child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.62,
                 child: Center(
                   child: Column(
@@ -208,10 +207,10 @@ class _SearchPageState extends State<Search> {
                         height: 100,
                         child: Image.asset('assets/img/allcon.png'),
                       ),
-                      SizedBox(height: 20),
-                      Text(
+                      const SizedBox(height: 20),
+                      const Text(
                         '검색결과가 없습니다!',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20.0,
                         ),
                       )

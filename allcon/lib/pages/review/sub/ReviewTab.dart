@@ -1,6 +1,6 @@
 import 'package:allcon/model/review_model.dart';
-import 'package:allcon/pages/review/MyReview.dart';
-import 'package:allcon/pages/review/ReviewList.dart';
+import 'package:allcon/pages/review/sub/MyReview.dart';
+import 'package:allcon/pages/review/sub/ReviewList.dart';
 import 'package:allcon/pages/review/controller/review_controller.dart';
 import 'package:allcon/service/review/reviewService.dart';
 import 'package:allcon/service/review/zoneService.dart';

@@ -24,15 +24,14 @@ Future<void> showDeleteDialog(
         ),
         actions: <Widget>[
           CupertinoDialogAction(
-            child: const Text('취소'),
-            textStyle: TextStyle(color: CupertinoColors.destructiveRed),
+            textStyle: const TextStyle(color: CupertinoColors.destructiveRed),
             onPressed: () {
               Navigator.of(context).pop();
             },
+            child: const Text('취소'),
           ),
           CupertinoDialogAction(
-            child: const Text('확인'),
-            textStyle: TextStyle(color: CupertinoColors.activeBlue),
+            textStyle: const TextStyle(color: CupertinoColors.activeBlue),
             onPressed: () async {
               if (loginUserId != null) {
                 bool isDeleted =
@@ -49,6 +48,7 @@ Future<void> showDeleteDialog(
                 print('User ID is null. Cannot proceed with user deletion.');
               }
             },
+            child: const Text('확인'),
           ),
         ],
       );

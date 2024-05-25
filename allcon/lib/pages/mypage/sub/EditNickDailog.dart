@@ -1,7 +1,4 @@
-import 'package:allcon/pages/mypage/controller/profile_controller.dart';
-import 'package:allcon/widget/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:allcon/utils/validator_util.dart';
 import 'package:allcon/service/account/registService.dart';
@@ -82,20 +79,20 @@ class _EditUserNameState extends State<EditUserName> {
                       fontSize: 18,
                       color: Colors.black54,
                     ),
-                    counterStyle: const TextStyle(
+                    counterStyle: TextStyle(
                       fontSize: 12,
                       color: Colors.black54,
                     ),
-                    enabledBorder: const UnderlineInputBorder(
+                    enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                     ),
-                    focusedBorder: const UnderlineInputBorder(
+                    focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.deepPurple),
                     ),
-                    errorBorder: const UnderlineInputBorder(
+                    errorBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.red),
                     ),
-                    focusedErrorBorder: const UnderlineInputBorder(
+                    focusedErrorBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.red),
                     ),
                   ),
