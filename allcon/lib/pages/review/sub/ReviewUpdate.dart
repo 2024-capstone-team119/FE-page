@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:allcon/model/review_model.dart';
 import 'package:allcon/service/review/myReviewService.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
@@ -42,14 +40,14 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
   late TextEditingController _textController;
 
   final picker = ImagePicker();
-  List<File> multiImage = []; // 갤러리에서 여러 장의 사진을 선택
-  List<File> images = []; // 가져온 사진들을 보여주기 위한 변수
+  List<String> multiImage = []; // 갤러리에서 여러 장의 사진을 선택
+  List<String> images = []; // 가져온 사진들을 보여주기 위한 변수
 
   Future<void> _pickImage() async {
     final List<XFile> pickedFiles = await picker.pickMultiImage();
     if (pickedFiles.isNotEmpty) {
       setState(() {
-        multiImage = pickedFiles.map((file) => File(file.path)).toList();
+        multiImage = pickedFiles.map((file) => file.path).toList();
         images.addAll(multiImage);
       });
     } else {

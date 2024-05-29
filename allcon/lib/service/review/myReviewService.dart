@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:allcon/model/review_model.dart';
 import 'package:allcon/service/baseUrl.dart';
@@ -26,7 +25,7 @@ class MyReviewService {
       String userNickname,
       String reviewToUpdate,
       String zoneId,
-      List<File> imageFiles,
+      List<String> imageFiles,
       int ratingToUpdate) async {
     var url = Uri.parse('${BaseUrl.baseUrl}modify_review_with_image/$reviewId');
     var request = http.MultipartRequest('POST', url);
@@ -38,7 +37,7 @@ class MyReviewService {
     request.fields['zoneId'] = zoneId;
 
     for (var file in imageFiles) {
-      request.files.add(await http.MultipartFile.fromPath('review', file.path));
+      request.files.add(await http.MultipartFile.fromPath('review', file));
     }
 
     var res = await request.send();

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:allcon/model/review_model.dart';
 import 'package:allcon/service/review/reviewService.dart';
 import 'package:allcon/widget/review/custom_show_toast.dart';
@@ -117,17 +116,16 @@ class _ReviewListState extends State<ReviewList> {
                 ),
                 itemCount: widget.review.image.length,
                 itemBuilder: (context, index) {
-                  return widget.review.image.isEmpty
+                  return widget.review.image.isNotEmpty
                       ? Container(
                           width: 100,
                           height: 100,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image:
-                                  FileImage(File(widget.review.image[index])),
-                            ),
+                          ),
+                          child: Image.network(
+                            widget.review.image[index],
+                            fit: BoxFit.cover,
                           ),
                         )
                       : const SizedBox.shrink();

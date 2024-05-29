@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:allcon/model/review_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:allcon/service/baseUrl.dart';
@@ -12,7 +11,7 @@ class ReviewService {
       String reviewText,
       int rating,
       String zoneId,
-      List<dynamic> imageFiles) async {
+      List<String> imageFiles) async {
     try {
       print("imageFiles type: ${imageFiles.runtimeType}"); // 타입 출력
 
@@ -30,12 +29,7 @@ class ReviewService {
 
       // Add image files
       for (var file in imageFiles) {
-        if (file is File) {
-          request.files
-              .add(await http.MultipartFile.fromPath('review', file.path));
-        } else if (file is String) {
-          // 문자열인 경우 처리
-        }
+        request.files.add(await http.MultipartFile.fromPath('review', file));
       }
 
       var response = await request.send();
@@ -81,7 +75,7 @@ class ReviewService {
         print('Rating: ${review.rating}');
         print('---');
       }
-
+      print('리뷰: $reviews');
       return reviews;
     } else {
       throw Exception('Failed to load reviews');
