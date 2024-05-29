@@ -205,9 +205,12 @@ Widget EditUserInfo(
                     child: Container(
                       alignment: Alignment.bottomRight,
                       child: Container(
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: lavenderColor,
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.deepPurple.withOpacity(0.4),
+                          ),
                         ),
                         padding: const EdgeInsets.all(8.0),
                         child: const Icon(
