@@ -8,6 +8,7 @@ import 'package:allcon/widget/app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PerformanceDetail extends StatefulWidget {
   final Performance performance;
@@ -28,6 +29,14 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
   void initState() {
     super.initState();
     _loadUserInfo();
+  }
+
+  Future<void> launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   void _loadUserInfo() async {
@@ -78,33 +87,32 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
           ),
         ),
       ),
-      floatingActionButton: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.9,
-        height: 50,
-        child: FloatingActionButton(
-          onPressed: () {
-            // 예매처 이동
-            Get.snackbar(
-              '예매처 이동 서비스',
-              '해당 서비스는 준비중입니다. 조금만 기다려주세요! 😊',
-            );
-          },
-          backgroundColor: Mint,
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                '예매하기',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w500,
+      floatingActionButton: widget.performance.relates != null &&
+              widget.performance.relates!.isNotEmpty
+          ? SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: 50,
+              child: FloatingActionButton(
+                onPressed: () {
+                  launchURL(widget.performance.relates!.first.url);
+                },
+                backgroundColor: Mint,
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      '예매하기',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            )
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: const MyBottomNavigationBar(
         currentIndex: 1,
