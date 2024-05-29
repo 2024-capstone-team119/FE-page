@@ -93,11 +93,11 @@ class ProfileController extends GetxController {
 
     if (userId != null &&
         myProfile.value.profileImage != originMyProfile.value.profileImage) {
-      String? imageUrl = await ProfileService.uploadProfileImage(
+      bool success = await ProfileService.uploadProfileImage(
           userId, File(myProfile.value.profileImage!));
-      if (imageUrl != null) {
+      if (success) {
         originMyProfile.value.profileImage = myProfile.value.profileImage;
-        profileImage.value = imageUrl;
+        profileImage.value = myProfile.value.profileImage!;
         print('Profile image updated');
       } else {
         print('Failed to update profile image');

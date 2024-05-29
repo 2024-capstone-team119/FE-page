@@ -33,7 +33,7 @@ class ProfileService {
   }
 
   // 2. 수정된 프로필 이미지 전송 API
-  static Future<String?> uploadProfileImage(String userId, File image) async {
+  static Future<bool> uploadProfileImage(String userId, File image) async {
     try {
       var url = Uri.parse("${BaseUrl.baseUrl}modify_profile_image");
 
@@ -47,14 +47,14 @@ class ProfileService {
       if (response.statusCode == 200) {
         var responseData = await response.stream.bytesToString();
         print("success to upload profile image");
-        return responseData;
+        return true;
       } else {
         print("Failed to upload profile image: ${response.statusCode}");
-        return null;
+        return false;
       }
     } catch (e) {
       print("Error occurred while uploading profile image: $e");
-      return null;
+      return false;
     }
   }
 
