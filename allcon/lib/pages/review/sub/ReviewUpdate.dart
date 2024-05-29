@@ -1,6 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
+
 import 'package:allcon/model/review_model.dart';
 import 'package:allcon/service/review/myReviewService.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
@@ -13,15 +12,19 @@ import 'package:image_picker/image_picker.dart';
 
 class ReviewUpdate extends StatefulWidget {
   final String userId;
+  final String userNickname;
   final Review review;
   final List<Zone> zones;
+  final List<String> imageUrls;
   final VoidCallback reloadCallback;
 
   const ReviewUpdate({
     super.key,
     required this.userId,
+    required this.userNickname,
     required this.review,
     required this.zones,
+    required this.imageUrls,
     required this.reloadCallback,
   });
 
@@ -39,22 +42,18 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
   late TextEditingController _textController;
 
   final picker = ImagePicker();
-  Uint8List? _imageBytes;
-
-  Future<void> _fetchImage() async {
-    if (widget.review.image != null && widget.review.image!.isNotEmpty) {
-      setState(() {
-        _imageBytes = base64Decode(widget.review.image!);
-      });
-    }
-  }
+  List<File> multiImage = []; // 갤러리에서 여러 장의 사진을 선택
+  List<File> images = []; // 가져온 사진들을 보여주기 위한 변수
 
   Future<void> _pickImage() async {
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
+    final List<XFile> pickedFiles = await picker.pickMultiImage();
+    if (pickedFiles.isNotEmpty) {
       setState(() {
-        _imageBytes = File(image.path).readAsBytesSync();
+        multiImage = pickedFiles.map((file) => File(file.path)).toList();
+        images.addAll(multiImage);
       });
+    } else {
+      print('No images selected.');
     }
   }
 
@@ -65,7 +64,6 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
     selectedZoneId = widget.review.zoneId;
     selectedStar = widget.review.rating;
     _textController = TextEditingController(text: widget.review.text);
-    _fetchImage();
   }
 
   @override
@@ -174,8 +172,7 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
                     height: 3.0,
                   ),
                   ReviewUploadPhoto(
-                    imageBytes: _imageBytes,
-                    isUpdate: true,
+                    images: images,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -189,10 +186,14 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
                         onPressed: isButtonEnabled
                             ? () async {
                                 await MyReviewService.updateReview(
-                                    widget.review.reviewId,
-                                    widget.userId,
-                                    _textController.text,
-                                    selectedStar);
+                                  widget.review.reviewId,
+                                  widget.userId,
+                                  widget.userNickname,
+                                  _textController.text,
+                                  selectedZoneId ?? widget.review.zoneId,
+                                  images,
+                                  selectedStar,
+                                );
                                 Navigator.pop(context);
                                 widget.reloadCallback();
                               }

@@ -50,7 +50,7 @@ class Review {
   final String userId;
   final String nickname;
   final String text;
-  final String? image; // null을 허용하도록 수정
+  final List<String> image; // null을 허용하도록 수정
   final DateTime createdAt;
   final DateTime updatedAt;
   final int goodCount;
@@ -63,7 +63,7 @@ class Review {
     required this.userId,
     required this.nickname,
     required this.text,
-    this.image, // null을 허용하도록 수정
+    required this.image, // null을 허용하도록 수정
     required this.createdAt,
     required this.updatedAt,
     required this.goodCount,

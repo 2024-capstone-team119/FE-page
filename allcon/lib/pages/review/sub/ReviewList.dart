@@ -1,10 +1,8 @@
-import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:io';
 import 'package:allcon/model/review_model.dart';
 import 'package:allcon/service/review/reviewService.dart';
 import 'package:allcon/widget/review/custom_show_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:intl/intl.dart';
 
 class ReviewList extends StatefulWidget {
@@ -81,11 +79,6 @@ class _ReviewListState extends State<ReviewList> {
 
   @override
   Widget build(BuildContext context) {
-    Uint8List? imageBytes;
-    if (widget.review.image != null && widget.review.image!.isNotEmpty) {
-      imageBytes = base64Decode(widget.review.image!);
-    }
-
     return Padding(
       padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 8.0),
       child: Container(
@@ -114,18 +107,31 @@ class _ReviewListState extends State<ReviewList> {
               padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
               child: Text(widget.review.text),
             ),
-            if (imageBytes != null)
-              InstaImageViewer(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.memory(
-                    imageBytes,
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
+            GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
                 ),
-              ),
+                itemCount: widget.review.image.length,
+                itemBuilder: (context, index) {
+                  return widget.review.image.isEmpty
+                      ? Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image:
+                                  FileImage(File(widget.review.image[index])),
+                            ),
+                          ),
+                        )
+                      : const SizedBox.shrink();
+                }),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
