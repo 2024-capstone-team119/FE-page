@@ -35,26 +35,18 @@ class ProfileService {
   // 2. 수정된 프로필 이미지 전송 API
   static Future<bool> uploadProfileImage(String userId, File image) async {
     try {
-      final bytes = await image.readAsBytes();
-      final base64Image = base64Encode(bytes);
+      var url = Uri.parse("${BaseUrl.baseUrl}modify_profile_image");
 
-      print("$userId / $image");
+      var request = http.MultipartRequest('POST', url);
+      request.fields['userId'] = userId;
+      request.files
+          .add(await http.MultipartFile.fromPath('profile', image.path));
 
-      var url = Uri.parse("${BaseUrl.baseUrl}update_profile_image");
-
-      final response = await http.post(
-        url,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode({
-          'userId': userId,
-          'userImage': base64Image,
-        }),
-      );
+      var response = await request.send();
 
       if (response.statusCode == 200) {
-        print(jsonDecode(response.body));
+        var responseData = await response.stream.bytesToString();
+        print("success to upload profile image");
         return true;
       } else {
         print("Failed to upload profile image: ${response.statusCode}");
