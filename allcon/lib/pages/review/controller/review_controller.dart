@@ -86,8 +86,10 @@ class ReviewController extends GetxController {
   void showUpdateModalSheet(
     BuildContext context,
     String userId,
+    String userNickname,
     Review review,
     List<Zone> zones,
+    List<String> imageUrls,
     VoidCallback reloadCallback,
   ) {
     showModalBottomSheet(
@@ -96,8 +98,10 @@ class ReviewController extends GetxController {
       builder: (BuildContext context) {
         return ReviewUpdate(
           userId: userId,
+          userNickname: userNickname,
           review: review,
           zones: zones,
+          imageUrls: imageUrls,
           reloadCallback: reloadCallback,
         );
       },

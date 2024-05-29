@@ -1,5 +1,4 @@
-import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:io';
 import 'package:allcon/model/review_model.dart';
 import 'package:allcon/pages/review/ReviewMain.dart';
 import 'package:allcon/pages/review/controller/review_controller.dart';
@@ -16,6 +15,7 @@ class MyReview extends StatefulWidget {
   final String placeId;
   final Hall hall;
   final String userId;
+  final String userNickname;
   final Review review;
   final List<Zone> zones;
 
@@ -25,6 +25,7 @@ class MyReview extends StatefulWidget {
     required this.placeId,
     required this.hall,
     required this.userId,
+    required this.userNickname,
     required this.review,
     required this.zones,
   });
@@ -104,11 +105,6 @@ class _MyReviewState extends State<MyReview> {
 
   @override
   Widget build(BuildContext context) {
-    Uint8List? imageBytes;
-    if (widget.review.image != null && widget.review.image!.isNotEmpty) {
-      imageBytes = base64Decode(widget.review.image!);
-    }
-
     zoneName = widget.zones
         .firstWhere((zone) => zone.zoneId == widget.review.zoneId)
         .zoneName;
@@ -129,8 +125,10 @@ class _MyReviewState extends State<MyReview> {
                       _reviewController.showUpdateModalSheet(
                         context,
                         widget.userId,
+                        widget.userNickname,
                         widget.review,
                         widget.zones,
+                        widget.review.image,
                         _reloadMyReview,
                       );
                     });
@@ -199,19 +197,31 @@ class _MyReviewState extends State<MyReview> {
               padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
               child: Text(widget.review.text),
             ),
-            Container(
-              child: imageBytes != null
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: Image.memory(
-                        imageBytes,
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                  : const SizedBox.shrink(),
-            ),
+            GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                ),
+                itemCount: widget.review.image.length,
+                itemBuilder: (context, index) {
+                  return widget.review.image.isEmpty
+                      ? Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image:
+                                  FileImage(File(widget.review.image[index])),
+                            ),
+                          ),
+                        )
+                      : const SizedBox.shrink();
+                }),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
