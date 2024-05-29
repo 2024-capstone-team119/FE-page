@@ -28,7 +28,7 @@ class MyReviewService {
       List<String> imageFiles,
       int ratingToUpdate) async {
     var url = Uri.parse('${BaseUrl.baseUrl}modify_review_with_image/$reviewId');
-    var request = http.MultipartRequest('POST', url);
+    var request = http.MultipartRequest('PUT', url);
 
     request.fields['userId'] = userId;
     request.fields['userNickname'] = userNickname;
@@ -36,8 +36,10 @@ class MyReviewService {
     request.fields['rating'] = ratingToUpdate.toString();
     request.fields['zoneId'] = zoneId;
 
-    for (var file in imageFiles) {
-      request.files.add(await http.MultipartFile.fromPath('review', file));
+    // 이미지 파일들을 배열로 묶어서 보냄
+    for (int i = 0; i < imageFiles.length; i++) {
+      request.files
+          .add(http.MultipartFile.fromString('review[$i]', imageFiles[i]));
     }
 
     var res = await request.send();
