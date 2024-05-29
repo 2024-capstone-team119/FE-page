@@ -39,7 +39,7 @@ class ReviewController extends GetxController {
 
         myReviews.assignAll(fetchedReviews);
       } catch (error) {
-        print('Error fetching reviews: $error');
+        print('Error fetching my reviews: $error');
       }
     } else {
       print('Loading');

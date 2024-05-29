@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:allcon/service/review/reviewService.dart';
 import 'package:allcon/widget/review/custom_show_toast.dart';
 import 'package:allcon/widget/review/review_upload_button.dart';
@@ -32,8 +30,8 @@ class _ReviewWriteState extends State<ReviewWrite> {
   late int _rating = 3;
 
   final picker = ImagePicker();
-  List<File> multiImage = []; // 갤러리에서 여러 장의 사진을 선택해서 저장할 변수
-  List<File> images = []; // 가져온 사진들을 보여주기 위한 변수
+  List<String> multiImage = []; // 갤러리에서 여러 장의 사진을 선택해서 저장할 변수
+  List<String> images = []; // 가져온 사진들을 보여주기 위한 변수
 
   @override
   void initState() {
@@ -44,7 +42,7 @@ class _ReviewWriteState extends State<ReviewWrite> {
     final List<XFile> pickedFiles = await picker.pickMultiImage();
     if (pickedFiles.isNotEmpty) {
       setState(() {
-        multiImage = pickedFiles.map((file) => File(file.path)).toList();
+        multiImage = pickedFiles.map((file) => file.path).toList();
         images.addAll(multiImage);
       });
     } else {
