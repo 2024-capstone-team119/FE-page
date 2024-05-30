@@ -27,12 +27,4 @@ class AccountController extends GetxController {
     }
     return isDelete;
   }
-
-  loadInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? loginUserId = prefs.getString('userId');
-    String? loginUserNickname = prefs.getString('userNickname');
-
-    return [loginUserId, loginUserNickname];
-  }
 }

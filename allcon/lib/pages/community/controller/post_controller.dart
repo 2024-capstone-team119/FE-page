@@ -22,10 +22,14 @@ class PostController extends GetxController {
     }
   }
 
-  int fetchTabIndex(String category) {
-    List<String> categoryList = ['자유게시판', '후기', '카풀'];
-
-    int tabIndex = categoryList.indexOf(category);
-    return tabIndex;
+  void fetchLike(String postId, String userId) async {
+    try {
+      final fetchedLike = await LikesService.isPostLiked(postId, userId);
+      print('컨트롤러: $fetchedLike');
+      isLike.value = fetchedLike;
+      print('컨트롤러 값: ${isLike.value}');
+    } catch (e) {
+      print('PostController 에러');
+    }
   }
 }

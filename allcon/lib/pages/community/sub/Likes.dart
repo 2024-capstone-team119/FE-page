@@ -1,13 +1,11 @@
 import 'package:allcon/pages/community/Home.dart';
 import 'package:allcon/pages/community/sub/GetPost.dart';
 import 'package:allcon/service/community/likesService.dart';
-import 'package:allcon/utils/Loading.dart';
 import 'package:allcon/utils/Preparing.dart';
 import 'package:allcon/widget/app_bar.dart';
 import 'package:allcon/widget/custom_dropdown_button.dart';
 import 'package:allcon/model/community_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -77,7 +75,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
       future: _likedListFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: Loading());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (snapshot.hasData) {
@@ -101,19 +99,12 @@ class _MyContentLikesState extends State<MyContentLikes> {
               text: "좋아요 목록이 비었습니다!\n 채워주세요💖",
             );
           }
-          return RefreshIndicator(
-            onRefresh: () async {
-              setState(() {
-                _likedListFuture = LikesService.getLikedPosts(widget.userId);
-              });
+          return ListView.builder(
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              return _buildContentItem(posts[index]);
             },
-            child: ListView.builder(
-              itemCount: posts.length,
-              itemBuilder: (context, index) {
-                return _buildContentItem(posts[index]);
-              },
-              scrollDirection: Axis.vertical,
-            ),
+            scrollDirection: Axis.vertical,
           );
         } else {
           return const Center(child: Text('No posts found'));
@@ -128,7 +119,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
       future: LikesService.isPostLiked(widget.userId, post.postId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: Container());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (snapshot.hasData) {
@@ -141,7 +132,6 @@ class _MyContentLikesState extends State<MyContentLikes> {
                     userId: widget.userId,
                     nickname: widget.nickname,
                     anonymous: anonymous,
-                    route: 2,
                   ));
             },
             child: Column(

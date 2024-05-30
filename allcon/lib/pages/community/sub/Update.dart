@@ -1,9 +1,5 @@
 import 'package:allcon/model/community_model.dart';
 import 'package:allcon/pages/community/Home.dart';
-import 'package:allcon/pages/community/controller/post_controller.dart';
-import 'package:allcon/pages/community/sub/Likes.dart';
-import 'package:allcon/pages/community/sub/MyContent.dart';
-import 'package:allcon/pages/login/controller/account_controller.dart';
 import 'package:allcon/service/community/postService.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:allcon/utils/validator_util.dart';
@@ -23,8 +19,8 @@ class MyContentUpdate extends StatefulWidget {
   final String? category;
   final String? title;
   final String? text;
+
   final Post originPost;
-  final int route;
 
   const MyContentUpdate({
     super.key,
@@ -33,7 +29,6 @@ class MyContentUpdate extends StatefulWidget {
     this.title,
     this.text,
     required this.originPost,
-    required this.route,
   });
 
   @override
@@ -42,30 +37,17 @@ class MyContentUpdate extends StatefulWidget {
 
 class _ContentUpdateState extends State<MyContentUpdate> {
   final _formKey = GlobalKey<FormState>();
-  final PostController _postController = Get.put(PostController());
-  final AccountController _accountController = Get.put(AccountController());
-
   late TextEditingController _titleController;
   late TextEditingController _contentController;
 
   late String? _selectedCategory = widget.category;
   late int _selectedCategoryIndex = widget.initialCategory;
 
-  late String? userId;
-  late String? userNickname;
-
-  Future<void> fetchAccountInfo() async {
-    var accountList = await _accountController.loadInfo();
-    userId = accountList[0];
-    userNickname = accountList[1];
-  }
-
   @override
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.title);
     _contentController = TextEditingController(text: widget.text);
-    fetchAccountInfo();
   }
 
   @override
@@ -88,8 +70,8 @@ class _ContentUpdateState extends State<MyContentUpdate> {
                   setState(() {
                     _selectedCategory = value.toString();
                     // 선택된 카테고리의 인덱스 찾기
-                    _selectedCategoryIndex =
-                        _postController.fetchTabIndex(_selectedCategory!);
+                    _selectedCategoryIndex = ['자유게시판', '후기', '카풀']
+                        .indexWhere((category) => category == value);
                   });
                 },
               ),
@@ -138,23 +120,10 @@ class _ContentUpdateState extends State<MyContentUpdate> {
                       await PostService.updatePost(
                           widget.originPost.postId, updatedPost);
 
-                      // 커뮤니티 홈으로 이동
-                      if (widget.route == 0) {
-                        Get.to(() => MyCommunity(
-                            initialTabIndex: _selectedCategoryIndex));
-                      }
-                      // 내 게시글로 이동
-                      else if (widget.route == 1) {
-                        Get.to(() => const MyContent());
-                      }
-                      // 좋아요 목록으로 이동
-                      else {
-                        Get.to(() => MyContentLikes(
-                            initialCategory: _selectedCategory!,
-                            tabIdx: _selectedCategoryIndex,
-                            userId: userId ?? '',
-                            nickname: userNickname ?? ''));
-                      }
+                      // 수정된 내용을 반영한 MyCommunity 페이지로 이동합니다.
+                      Get.to(() => MyCommunity(
+                            initialTabIndex: _selectedCategoryIndex,
+                          ));
                     }
                   },
                 ),

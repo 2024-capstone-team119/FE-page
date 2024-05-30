@@ -2,7 +2,6 @@ import 'package:allcon/model/review_model.dart';
 import 'package:allcon/service/review/reviewService.dart';
 import 'package:allcon/widget/review/custom_show_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:intl/intl.dart';
 
 class ReviewList extends StatefulWidget {
@@ -118,17 +117,15 @@ class _ReviewListState extends State<ReviewList> {
                 itemCount: widget.review.image.length,
                 itemBuilder: (context, index) {
                   return widget.review.image.isNotEmpty
-                      ? InstaImageViewer(
-                          child: Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Image.network(
-                              widget.review.image[index],
-                              fit: BoxFit.cover,
-                            ),
+                      ? Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Image.network(
+                            widget.review.image[index],
+                            fit: BoxFit.cover,
                           ),
                         )
                       : const SizedBox.shrink();
