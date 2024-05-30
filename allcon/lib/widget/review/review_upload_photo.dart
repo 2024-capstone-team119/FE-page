@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 class ReviewUploadPhoto extends StatefulWidget {
   final List<String>? images;
   final Function(List<String>)? onDelete;
-  final bool isUpdate;
 
   const ReviewUploadPhoto({
     super.key,
     this.images,
     this.onDelete,
-    required this.isUpdate,
   });
 
   @override
@@ -45,6 +43,8 @@ class _ReviewUploadPhotoState extends State<ReviewUploadPhoto> {
               ),
               itemCount: widget.images!.length,
               itemBuilder: (context, index) {
+                String imageUrl = widget.images![index];
+                bool isLocal = !imageUrl.startsWith('http'); // 로컬 이미지 체크
                 return Stack(
                   alignment: Alignment.topRight,
                   children: [
@@ -54,14 +54,13 @@ class _ReviewUploadPhotoState extends State<ReviewUploadPhoto> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: widget.isUpdate
-                            ? Image.network(
-                                widget.images![index],
+                        child: isLocal
+                            ? Image.file(
+                                File(imageUrl),
                                 fit: BoxFit.cover,
                               )
-                            : Image.file(
-                                File(
-                                    widget.images![index]), // 파일 시스템에서 이미지 불러오기
+                            : Image.network(
+                                imageUrl,
                                 fit: BoxFit.cover,
                               )),
                     Container(

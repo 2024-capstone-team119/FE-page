@@ -40,7 +40,13 @@ class MyReviewService {
 
     // 이미지 파일들을 배열로 묶어서 보냄
     for (var file in imageFiles) {
-      request.files.add(await http.MultipartFile.fromPath('review', file));
+      if (file.startsWith('http://') || file.startsWith('https://')) {
+        // 웹 URL인 경우 필드로 직접 추가
+        request.fields['image'] = file; // 이 방식이 허용된다면 여러 이미지를 처리하는 방식 변경 필요
+      } else {
+        // 로컬 파일인 경우 파일로 추가
+        request.files.add(await http.MultipartFile.fromPath('image', file));
+      }
     }
 
     var res = await request.send();

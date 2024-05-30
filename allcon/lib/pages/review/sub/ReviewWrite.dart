@@ -164,7 +164,6 @@ class _ReviewWriteState extends State<ReviewWrite> {
                     ),
                     ReviewUploadPhoto(
                       images: images,
-                      isUpdate: false,
                     ),
                     const SizedBox(
                       height: 10.0,

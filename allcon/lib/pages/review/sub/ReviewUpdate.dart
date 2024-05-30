@@ -173,7 +173,6 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
                         images = deletedImages; // 삭제된 이미지 목록 업데이트
                       });
                     },
-                    isUpdate: false,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
