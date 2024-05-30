@@ -16,6 +16,7 @@ class MyContentDetail extends StatefulWidget {
   final String userId;
   final String nickname;
   final bool? anonymous;
+  final int route;
 
   const MyContentDetail({
     super.key,
@@ -24,7 +25,8 @@ class MyContentDetail extends StatefulWidget {
     required this.post,
     required this.userId,
     required this.nickname,
-    this.anonymous,
+    required this.anonymous,
+    required this.route,
   });
 
   @override
@@ -94,6 +96,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                                         originPost: widget.post,
                                         title: widget.post.title,
                                         text: widget.post.text,
+                                        route: widget.route,
                                       ));
                                     },
                                   ),

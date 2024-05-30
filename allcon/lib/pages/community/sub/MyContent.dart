@@ -1,3 +1,5 @@
+import 'package:allcon/pages/community/Home.dart';
+import 'package:allcon/pages/community/controller/post_controller.dart';
 import 'package:allcon/pages/community/sub/GetPost.dart';
 import 'package:allcon/service/community/myContentService.dart';
 import 'package:allcon/utils/Loading.dart';
@@ -18,6 +20,8 @@ class MyContent extends StatefulWidget {
 }
 
 class _MyContentState extends State<MyContent> {
+  final PostController _postController = Get.put(PostController());
+
   String? loginUserId;
   String? userNickname;
   Future<List<Post>>? futurePosts;
@@ -44,8 +48,11 @@ class _MyContentState extends State<MyContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(
+      appBar: MyAppBar(
         text: '내 게시글',
+        onLeadingPressed: () {
+          Get.to(() => const MyCommunity(initialTabIndex: 0));
+        },
       ),
       backgroundColor: Colors.white,
       body: futurePosts == null
@@ -63,13 +70,20 @@ class _MyContentState extends State<MyContent> {
                   );
                 } else {
                   List<Post> posts = snapshot.data!;
-                  return ListView.builder(
-                    itemCount: posts.length,
-                    itemBuilder: (context, index) {
-                      int revserIndex = posts.length - 1 - index;
-                      Post post = posts[revserIndex];
-                      return _buildContentItem(post);
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      setState(() {
+                        futurePosts = MyContentService.getMyPost(loginUserId!);
+                      });
                     },
+                    child: ListView.builder(
+                      itemCount: posts.length,
+                      itemBuilder: (context, index) {
+                        int revserIndex = posts.length - 1 - index;
+                        Post post = posts[revserIndex];
+                        return _buildContentItem(post);
+                      },
+                    ),
                   );
                 }
               },
@@ -80,6 +94,7 @@ class _MyContentState extends State<MyContent> {
   Widget _buildContentItem(Post post) {
     DateTime dateTime = post.createdAt;
     late bool isAnonymous;
+    int tabIndex = _postController.fetchTabIndex(post.category);
 
     if (post.category == '카풀') {
       isAnonymous = false;
@@ -92,10 +107,11 @@ class _MyContentState extends State<MyContent> {
         Get.to(() => MyContentDetail(
               post: post,
               userId: loginUserId!,
-              category: '',
+              category: post.category,
               nickname: userNickname!,
-              tabIdx: 0,
+              tabIdx: tabIndex,
               anonymous: isAnonymous,
+              route: 1,
             ));
       },
       child: Column(

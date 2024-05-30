@@ -1,3 +1,24 @@
+class Relate {
+  final String name;
+  final String url;
+
+  Relate({required this.name, required this.url});
+
+  factory Relate.fromJson(Map<String, dynamic> json) {
+    return Relate(
+      name: json['name'],
+      url: json['url'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'url': url,
+    };
+  }
+}
+
 class Performance {
   final String? mid;
   final String? id;
@@ -17,6 +38,7 @@ class Performance {
   final String? poster;
   final List<String>? imgs;
   final String? update;
+  final List<Relate>? relates;
 
   Performance({
     required this.mid,
@@ -37,6 +59,7 @@ class Performance {
     required this.poster,
     required this.imgs,
     required this.update,
+    this.relates,
   });
 
   factory Performance.fromJson(Map<String, dynamic> json) {
@@ -59,6 +82,11 @@ class Performance {
       poster: json['poster'],
       imgs: List<String>.from(json['imgs']),
       update: json['update'],
+      relates: json['relates'] != null
+          ? (json['relates'] as List)
+              .map((relateJson) => Relate.fromJson(relateJson))
+              .toList()
+          : null,
     );
   }
 
@@ -82,6 +110,7 @@ class Performance {
       'poster': poster,
       'imgs': imgs,
       'update': update,
+      'relates': relates,
     };
   }
 }
