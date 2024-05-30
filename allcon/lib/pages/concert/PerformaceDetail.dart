@@ -315,7 +315,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
           ),
         ),
         const SizedBox(height: 15.0),
-        if (imgUrls.isEmpty)
+        if (imgUrls!.isEmpty)
           Padding(
             padding: const EdgeInsets.all(15),
             child: Image.network(
