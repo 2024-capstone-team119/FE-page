@@ -39,11 +39,18 @@ class _ReviewWriteState extends State<ReviewWrite> {
   }
 
   Future<void> _pickImage() async {
+    if (images.length >= 5) {
+      customShowToast('사진은 최대 5장까지 첨부할 수 있습니다.', context);
+      return;
+    }
     final List<XFile> pickedFiles = await picker.pickMultiImage();
     if (pickedFiles.isNotEmpty) {
       setState(() {
         multiImage = pickedFiles.map((file) => file.path).toList();
         images.addAll(multiImage);
+        if (images.length > 5) {
+          images = images.sublist(0, 5);
+        }
       });
     } else {
       print('No images selected.');
@@ -199,58 +206,4 @@ class _ReviewWriteState extends State<ReviewWrite> {
       ),
     );
   }
-
-  // Widget uploadPhoto() {
-  //   return Container(
-  //     margin: const EdgeInsets.all(10),
-  //     child: GridView.builder(
-  //       padding: const EdgeInsets.all(0),
-  //       shrinkWrap: true,
-  //       itemCount: images.length, // 보여줄 item 개수. images 리스트 변수에 담겨있는 사진 수 만큼.
-  //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-  //         crossAxisCount: 5, // 한 행에 보여줄 사진 개수
-  //         childAspectRatio: 1 / 1, // 사진의 가로 세로 비율
-  //         mainAxisSpacing: 10, // 수평 Padding
-  //         crossAxisSpacing: 10, // 수직 Padding
-  //       ),
-  //       itemBuilder: (BuildContext context, int index) {
-  //         // 사진 삭제 버튼을 표시하기 위해 Stack을 사용함
-  //         return Stack(
-  //           alignment: Alignment.topRight,
-  //           children: [
-  //             Container(
-  //               decoration: BoxDecoration(
-  //                 borderRadius: BorderRadius.circular(5),
-  //                 image: DecorationImage(
-  //                   fit: BoxFit.cover,
-  //                   image: FileImage(
-  //                     File(images[index]!
-  //                             .path // images 리스트 변수 안에 있는 사진들을 순서대로 표시함
-  //                         ),
-  //                   ),
-  //                 ),
-  //               ),
-  //             ),
-  //             Container(
-  //               decoration: BoxDecoration(
-  //                 color: Colors.black,
-  //                 borderRadius: BorderRadius.circular(5),
-  //               ),
-  //               child: IconButton(
-  //                 padding: EdgeInsets.zero,
-  //                 constraints: const BoxConstraints(),
-  //                 icon: const Icon(Icons.close, color: Colors.white, size: 15),
-  //                 onPressed: () {
-  //                   setState(() {
-  //                     images.remove(images[index]);
-  //                   });
-  //                 },
-  //               ), //삭제 버튼
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
 }

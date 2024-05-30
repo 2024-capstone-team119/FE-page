@@ -80,6 +80,7 @@ class _ListBoxState extends State<ListBox> {
               nickname: widget.userNickname,
               likeCount: likesCount,
               anonymous: anonymous,
+              route: 0,
             ));
       },
       child: Column(

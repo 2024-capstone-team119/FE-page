@@ -44,11 +44,18 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
   List<String> images = []; // 가져온 사진들을 보여주기 위한 변수
 
   Future<void> _pickImage() async {
+    if (images.length >= 5) {
+      customShowToast('사진은 최대 5장까지 첨부할 수 있습니다.', context);
+      return;
+    }
     final List<XFile> pickedFiles = await picker.pickMultiImage();
     if (pickedFiles.isNotEmpty) {
       setState(() {
         multiImage = pickedFiles.map((file) => file.path).toList();
         images.addAll(multiImage);
+        if (images.length > 5) {
+          images = images.sublist(0, 5);
+        }
       });
     } else {
       print('No images selected.');
