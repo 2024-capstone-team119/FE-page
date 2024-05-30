@@ -129,8 +129,6 @@ class _MyContentListViewState extends State<MyContentListView> {
     DateTime dateTime =
         DateFormat('yyyy-MM-dd').parse(post.createdAt.toString());
 
-    _postController.fetchLike(post.postId, loginUserId!);
-
     // 카풀 카테고리 익명 처리
     if (widget.category == '카풀') {
       anonymous = false;
@@ -238,8 +236,6 @@ class _MyContentListViewState extends State<MyContentListView> {
                             : Colors.grey,
                       ),
                       onPressed: () async {
-                        print('패치: ${_postController.isLike.value}');
-                        _postController.fetchLike(post.postId, loginUserId!);
                         setState(() {});
                       },
                     ),
