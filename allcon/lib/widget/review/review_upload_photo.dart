@@ -1,8 +1,7 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ReviewUploadPhoto extends StatefulWidget {
-  List<File>? images;
+  List<String>? images;
 
   ReviewUploadPhoto({super.key, this.images});
 
@@ -35,10 +34,10 @@ class _ReviewUploadPhotoState extends State<ReviewUploadPhoto> {
                       height: 100,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: FileImage(File(widget.images![index].path)),
-                        ),
+                      ),
+                      child: Image.network(
+                        widget.images![index],
+                        fit: BoxFit.cover,
                       ),
                     ),
                     Container(
