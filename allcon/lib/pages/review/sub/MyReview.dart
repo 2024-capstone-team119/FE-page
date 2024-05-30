@@ -117,28 +117,6 @@ class _MyReviewState extends State<MyReview> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                // 수정 버튼
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _reviewController.showUpdateModalSheet(
-                        context,
-                        widget.userId,
-                        widget.userNickname,
-                        widget.review,
-                        widget.zones,
-                        widget.review.image,
-                        _reloadMyReview,
-                      );
-                    });
-                  },
-                  child: const Icon(
-                    Icons.edit,
-                    size: 20,
-                    color: Colors.black54,
-                  ),
-                ),
-                const SizedBox(width: 10),
                 // 삭제 버튼
                 GestureDetector(
                   onTap: () {
@@ -169,11 +147,12 @@ class _MyReviewState extends State<MyReview> {
                     );
                   },
                   child: const Icon(
-                    Icons.delete,
+                    CupertinoIcons.delete_solid,
                     size: 20,
                     color: Colors.black54,
                   ),
                 ),
+                const SizedBox(height: 10.0),
               ],
             ),
             const SizedBox(height: 10.0),
