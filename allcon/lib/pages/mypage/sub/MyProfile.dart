@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:allcon/pages/mypage/controller/profile_controller.dart';
 import 'package:allcon/pages/mypage/sub/EditNickDailog.dart';
 import 'package:allcon/pages/mypage/controller/img_crop_controller.dart';
-import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

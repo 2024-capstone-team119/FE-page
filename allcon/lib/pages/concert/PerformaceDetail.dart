@@ -2,8 +2,6 @@ import 'dart:ui';
 import 'package:allcon/pages/concerthall/HallMain.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 import 'package:allcon/service/concertLikesService.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:allcon/widget/app_bar.dart';
@@ -12,7 +10,6 @@ import 'package:allcon/model/performance_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:allcon/pages/concert/PerformaceDetail.dart';
 
 class PerformanceDetail extends StatefulWidget {
   final Performance performance;

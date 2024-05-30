@@ -131,7 +131,7 @@ class _MyReviewState extends State<MyReview> {
                       children:
                           _reviewController.starCounts(widget.review.rating),
                     ),
-                    SizedBox(width: 8.0),
+                    const SizedBox(width: 8.0),
                     GestureDetector(
                       onTap: () {
                         showCupertinoModalPopup(
