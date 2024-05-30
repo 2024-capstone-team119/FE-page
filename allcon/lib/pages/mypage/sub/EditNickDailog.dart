@@ -56,7 +56,7 @@ class _EditUserNameState extends State<EditUserName> {
             const Text(
               '🎨 수정할 닉네임을 입력해주세요 🎨',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
             ),

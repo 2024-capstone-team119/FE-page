@@ -258,7 +258,7 @@ Widget EditNameInfo(String value, VoidCallback onTap) {
       Center(
         child: Container(
           height: 56,
-          width: 200,
+          width: 260,
           decoration: const BoxDecoration(
             border: Border(
               bottom: BorderSide(width: 0.4, color: Colors.black26),
