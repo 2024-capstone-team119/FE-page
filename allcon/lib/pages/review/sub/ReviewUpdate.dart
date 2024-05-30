@@ -13,7 +13,6 @@ class ReviewUpdate extends StatefulWidget {
   final String userNickname;
   final Review review;
   final List<Zone> zones;
-  final List<String> imageUrls;
   final VoidCallback reloadCallback;
 
   const ReviewUpdate({
@@ -22,7 +21,6 @@ class ReviewUpdate extends StatefulWidget {
     required this.userNickname,
     required this.review,
     required this.zones,
-    required this.imageUrls,
     required this.reloadCallback,
   });
 
@@ -47,8 +45,7 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
     final List<XFile> pickedFiles = await picker.pickMultiImage();
     if (pickedFiles.isNotEmpty) {
       setState(() {
-        multiImage = pickedFiles.map((file) => file.path).toList();
-        images.addAll(multiImage);
+        images.addAll(pickedFiles.map((file) => file.path).toList());
       });
     } else {
       print('No images selected.');
@@ -62,12 +59,13 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
     selectedZoneId = widget.review.zoneId;
     selectedStar = widget.review.rating;
     _textController = TextEditingController(text: widget.review.text);
+    // images = List.from(widget.review.image);
+    images = [];
   }
 
   @override
   Widget build(BuildContext context) {
-    bool isButtonEnabled =
-        selectedStar > 0 && _textController.text.length >= 10;
+    bool isButtonEnabled = _textController.text.length >= 10;
 
     List<String> zoneNames =
         widget.zones.map((zone) => zone.zoneName!).toList();
@@ -171,6 +169,11 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
                   ),
                   ReviewUploadPhoto(
                     images: images,
+                    onDelete: (deletedImages) {
+                      setState(() {
+                        images = deletedImages; // 삭제된 이미지 목록 업데이트
+                      });
+                    },
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -197,12 +200,8 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
                               }
                             : () {
                                 FocusScope.of(context).unfocus(); // 키보드 숨기기
-                                if (selectedStar == 0) {
-                                  customShowToast('별점을 남겨주세요 ', context);
-                                } else {
-                                  customShowToast(
-                                      '10글자 이상의 리뷰를 작성해주세요', context);
-                                }
+
+                                customShowToast('10글자 이상의 리뷰를 작성해주세요', context);
                               }, // 버튼 비활성화
                         icon: CupertinoIcons.pen,
                         label: '리뷰 수정하기',

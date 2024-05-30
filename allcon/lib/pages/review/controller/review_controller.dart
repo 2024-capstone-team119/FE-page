@@ -89,7 +89,6 @@ class ReviewController extends GetxController {
     String userNickname,
     Review review,
     List<Zone> zones,
-    List<String> imageUrls,
     VoidCallback reloadCallback,
   ) {
     showModalBottomSheet(
@@ -101,7 +100,6 @@ class ReviewController extends GetxController {
           userNickname: userNickname,
           review: review,
           zones: zones,
-          imageUrls: imageUrls,
           reloadCallback: reloadCallback,
         );
       },

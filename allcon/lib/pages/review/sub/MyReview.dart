@@ -127,7 +127,6 @@ class _MyReviewState extends State<MyReview> {
                         widget.userNickname,
                         widget.review,
                         widget.zones,
-                        widget.review.image,
                         _reloadMyReview,
                       );
                     });
