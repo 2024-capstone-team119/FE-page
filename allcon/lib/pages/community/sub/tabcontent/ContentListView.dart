@@ -1,8 +1,6 @@
 import 'package:allcon/pages/community/controller/post_controller.dart';
 import 'package:allcon/pages/community/sub/GetPost.dart';
 import 'package:allcon/model/community_model.dart';
-import 'package:allcon/pages/community/sub/LikeButton.dart';
-import 'package:allcon/service/community/likesService.dart';
 import 'package:allcon/service/community/postService.dart';
 import 'package:allcon/utils/Loading.dart';
 import 'package:allcon/utils/Preparing.dart';
@@ -76,15 +74,22 @@ class _MyContentListViewState extends State<MyContentListView> {
             if (searchPosts.isNotEmpty) {
               return Scaffold(
                 backgroundColor: Colors.white,
-                body: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: ListView.builder(
-                    itemCount: searchPosts.length,
-                    itemBuilder: (context, index) {
-                      final reversedIndex = searchPosts.length - index - 1;
-                      return createBox(context, searchPosts[reversedIndex]);
-                    },
+                body: RefreshIndicator(
+                  onRefresh: () async {
+                    setState(() {
+                      fetchFuturePosts();
+                    });
+                  },
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: ListView.builder(
+                      itemCount: searchPosts.length,
+                      itemBuilder: (context, index) {
+                        final reversedIndex = searchPosts.length - index - 1;
+                        return createBox(context, searchPosts[reversedIndex]);
+                      },
+                    ),
                   ),
                 ),
               );
