@@ -59,7 +59,8 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
     selectedZoneId = widget.review.zoneId;
     selectedStar = widget.review.rating;
     _textController = TextEditingController(text: widget.review.text);
-    images = List.from(widget.review.image);
+    // images = List.from(widget.review.image);
+    images = [];
   }
 
   @override
