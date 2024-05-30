@@ -278,15 +278,6 @@ Widget EditNameInfo(String value, VoidCallback onTap) {
           ),
         ),
       ),
-      const Positioned(
-        right: 52,
-        bottom: 24,
-        child: Icon(
-          CupertinoIcons.wand_stars_inverse,
-          color: Colors.black,
-          size: 18,
-        ),
-      ),
     ]),
   );
 }
