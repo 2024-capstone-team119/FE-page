@@ -60,7 +60,7 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
     selectedZoneId = widget.review.zoneId;
     selectedStar = widget.review.rating;
     _textController = TextEditingController(text: widget.review.text);
-    images = widget.review.image;
+    images = List.from(widget.review.image);
   }
 
   @override
@@ -168,13 +168,13 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
                     height: 3.0,
                   ),
                   ReviewUploadPhoto(
-                    images: widget.review.image,
+                    images: images,
                     onDelete: (deletedImages) {
                       setState(() {
                         images = deletedImages; // 삭제된 이미지 목록 업데이트
                       });
                     },
-                    isUpdate: true,
+                    isUpdate: false,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
