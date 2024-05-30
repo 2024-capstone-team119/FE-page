@@ -3,6 +3,7 @@ import 'package:allcon/service/review/reviewService.dart';
 import 'package:allcon/widget/review/custom_show_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:insta_image_viewer/insta_image_viewer.dart';
 
 class ReviewList extends StatefulWidget {
   final Review review;
@@ -106,30 +107,33 @@ class _ReviewListState extends State<ReviewList> {
               padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
               child: Text(widget.review.text),
             ),
-            GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                itemCount: widget.review.image.length,
-                itemBuilder: (context, index) {
-                  return widget.review.image.isNotEmpty
-                      ? Container(
-                          width: 100,
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  for (var imageUrl in widget.review.image)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: InstaImageViewer(
+                        child: Container(
                           height: 100,
+                          width: 100,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Image.network(
-                            widget.review.image[index],
-                            fit: BoxFit.cover,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(
+                              imageUrl,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        )
-                      : const SizedBox.shrink();
-                }),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -148,9 +152,10 @@ class _ReviewListState extends State<ReviewList> {
                         await _toggleGood();
                       },
                       style: TextButton.styleFrom(
-                          foregroundColor: isGood ? Colors.blue : Colors.grey),
+                          foregroundColor:
+                              isGood ? Colors.blueAccent : Colors.grey),
                       child: Text(
-                        'GOOD ($goodCount)',
+                        'GOOD($goodCount)',
                       ),
                     ),
                     TextButton(
@@ -158,9 +163,10 @@ class _ReviewListState extends State<ReviewList> {
                         await _toggleBad();
                       },
                       style: TextButton.styleFrom(
-                          foregroundColor: isBad ? Colors.red : Colors.grey),
+                          foregroundColor:
+                              isBad ? Colors.red[300] : Colors.grey),
                       child: Text(
-                        'BAD ($badCount)',
+                        'BAD($badCount)',
                       ),
                     ),
                   ],

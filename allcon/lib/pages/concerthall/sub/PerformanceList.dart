@@ -152,7 +152,7 @@ class PerformanceList extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             child: SizedBox(
-              height: 135,
+              height: 140,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -183,8 +183,8 @@ class PerformanceList extends StatelessWidget {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                           const SizedBox(height: 3.0),
