@@ -45,8 +45,7 @@ class _ReviewUpdateState extends State<ReviewUpdate> {
     final List<XFile> pickedFiles = await picker.pickMultiImage();
     if (pickedFiles.isNotEmpty) {
       setState(() {
-        multiImage = pickedFiles.map((file) => file.path).toList();
-        images.addAll(multiImage);
+        images.addAll(pickedFiles.map((file) => file.path).toList());
       });
     } else {
       print('No images selected.');
