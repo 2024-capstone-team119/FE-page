@@ -95,6 +95,7 @@ class _MyContentState extends State<MyContent> {
               category: '',
               nickname: userNickname!,
               tabIdx: 0,
+              likeCount: post.likesCount,
               anonymous: isAnonymous,
             ));
       },
