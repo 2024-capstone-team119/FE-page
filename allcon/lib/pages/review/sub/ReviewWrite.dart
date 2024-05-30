@@ -160,12 +160,9 @@ class _ReviewWriteState extends State<ReviewWrite> {
                       },
                     ),
                     const SizedBox(
-                      height: 15.0,
+                      height: 5.0,
                     ),
                     ReviewUploadPhoto(images: images),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

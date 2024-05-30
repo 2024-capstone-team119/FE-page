@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ReviewUploadPhoto extends StatefulWidget {
@@ -20,9 +21,10 @@ class _ReviewUploadPhotoState extends State<ReviewUploadPhoto> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
+                crossAxisCount: 5, // 한 행에 보여줄 사진 개수
+                childAspectRatio: 1 / 1, // 사진의 가로 세로 비율
+                mainAxisSpacing: 10, // 수평 Padding
+                crossAxisSpacing: 10, // 수직 Padding
               ),
               itemCount: widget.images!.length,
               itemBuilder: (context, index) {
@@ -30,16 +32,15 @@ class _ReviewUploadPhotoState extends State<ReviewUploadPhoto> {
                   alignment: Alignment.topRight,
                   children: [
                     Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Image.network(
-                        widget.images![index],
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Image.file(
+                          File(widget.images![index]),
+                          fit: BoxFit.cover,
+                        )),
                     Container(
                       width: 20,
                       height: 20,
