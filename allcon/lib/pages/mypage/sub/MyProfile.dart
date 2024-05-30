@@ -1,7 +1,7 @@
-import 'dart:convert';
+import 'dart:io';
+import 'package:allcon/pages/mypage/controller/profile_controller.dart';
 import 'package:allcon/pages/mypage/sub/EditNickDailog.dart';
 import 'package:allcon/pages/mypage/controller/img_crop_controller.dart';
-import 'package:allcon/pages/mypage/controller/profile_controller.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class MyProfile extends StatefulWidget {
 }
 
 class _MyProfileState extends State<MyProfile> {
-  final ProfileController _pcon = Get.put(ProfileController());
+  final ProfileController _pcon = Get.put((ProfileController()));
   final ImgController _icon = Get.put(ImgController());
 
   @override
@@ -68,14 +68,19 @@ class _MyProfileState extends State<MyProfile> {
                             bool isProfileImageChanged =
                                 _pcon.myProfile.value.profileImage !=
                                     _pcon.originMyProfile.value.profileImage;
+                            if (isNicknameChanged) {
+                              await _pcon.updateProfile();
+                            }
+
+                            if (isProfileImageChanged) {
+                              await _pcon.updateProfileImage();
+                            }
 
                             if (isNicknameChanged || isProfileImageChanged) {
-                              await _pcon.updateProfile();
-                              await _pcon.updateProfileImage();
-                              _pcon.toggleEditBtn();
-                            } else {
-                              _pcon.rollback();
+                              await _pcon.loadUserData();
                             }
+
+                            _pcon.toggleEditBtn();
                           },
                         ),
                       ],
@@ -106,18 +111,21 @@ Widget userInfo(BuildContext context, ProfileController pcon) {
         width: 120,
         height: 120,
         child: ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Obx(() {
-              return pcon.profileImageBase64.value.isNotEmpty
-                  ? Image.memory(
-                      base64Decode(pcon.profileImageBase64.value),
-                      fit: BoxFit.cover,
-                    )
-                  : Image.asset(
-                      'assets/img/avatar.png',
-                      fit: BoxFit.cover,
-                    );
-            })),
+          borderRadius: BorderRadius.circular(50),
+          child: Obx(() {
+            if (pcon.profileImage.value.isEmpty) {
+              return Image.asset(
+                'assets/img/avatar.png',
+                fit: BoxFit.cover,
+              );
+            } else {
+              return Image.network(
+                pcon.profileImage.value,
+                fit: BoxFit.cover,
+              );
+            }
+          }),
+        ),
       ),
       const SizedBox(height: 8.0),
       Padding(
@@ -165,19 +173,29 @@ Widget EditUserInfo(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(40),
                 child: SizedBox(
-                    width: 100,
-                    height: 100,
-                    child: Obx(() {
-                      return pcon.profileImageBase64.value.isEmpty
-                          ? Image.asset(
-                              'assets/img/avatar.png',
-                              fit: BoxFit.cover,
-                            )
-                          : Image.memory(
-                              base64Decode(pcon.profileImageBase64.value),
-                              fit: BoxFit.cover,
-                            );
-                    })),
+                  width: 100,
+                  height: 100,
+                  child: Obx(() {
+                    if (pcon.profileImage.value.isEmpty) {
+                      return Image.asset(
+                        'assets/img/avatar.png',
+                        fit: BoxFit.cover,
+                      );
+                    } else {
+                      if (pcon.profileImage.value.startsWith('http')) {
+                        return Image.network(
+                          pcon.profileImage.value,
+                          fit: BoxFit.cover,
+                        );
+                      } else {
+                        return Image.file(
+                          File(pcon.profileImage.value),
+                          fit: BoxFit.cover,
+                        );
+                      }
+                    }
+                  }),
+                ),
               ),
             ),
             pcon.isEditMyProfile.value
@@ -187,9 +205,12 @@ Widget EditUserInfo(
                     child: Container(
                       alignment: Alignment.bottomRight,
                       child: Container(
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: lavenderColor,
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.deepPurple.withOpacity(0.4),
+                          ),
                         ),
                         padding: const EdgeInsets.all(8.0),
                         child: const Icon(

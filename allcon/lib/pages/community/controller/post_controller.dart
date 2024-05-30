@@ -1,9 +1,11 @@
 import 'package:allcon/model/community_model.dart';
 import 'package:allcon/service/community/postService.dart';
+import 'package:allcon/service/community/likesService.dart';
 import 'package:get/get.dart';
 
 class PostController extends GetxController {
   RxList<Post> posts = <Post>[].obs;
+  RxBool isLike = false.obs;
 
   PostController._internal();
 

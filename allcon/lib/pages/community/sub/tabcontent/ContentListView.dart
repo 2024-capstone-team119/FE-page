@@ -2,6 +2,7 @@ import 'package:allcon/pages/community/controller/post_controller.dart';
 import 'package:allcon/pages/community/sub/GetPost.dart';
 import 'package:allcon/model/community_model.dart';
 import 'package:allcon/pages/community/sub/LikeButton.dart';
+import 'package:allcon/service/community/likesService.dart';
 import 'package:allcon/service/community/postService.dart';
 import 'package:allcon/utils/Loading.dart';
 import 'package:allcon/utils/Preparing.dart';
@@ -96,15 +97,22 @@ class _MyContentListViewState extends State<MyContentListView> {
           } else {
             return Scaffold(
               backgroundColor: Colors.white,
-              body: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: ListView.builder(
-                  itemCount: posts.length,
-                  itemBuilder: (context, index) {
-                    final reversedIndex = posts.length - index - 1;
-                    return createBox(context, posts[reversedIndex]);
-                  },
+              body: RefreshIndicator(
+                onRefresh: () async {
+                  setState(() {
+                    fetchFuturePosts();
+                  });
+                },
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: ListView.builder(
+                    itemCount: posts.length,
+                    itemBuilder: (context, index) {
+                      final reversedIndex = posts.length - index - 1;
+                      return createBox(context, posts[reversedIndex]);
+                    },
+                  ),
                 ),
               ),
             );
@@ -120,6 +128,8 @@ class _MyContentListViewState extends State<MyContentListView> {
   ) {
     DateTime dateTime =
         DateFormat('yyyy-MM-dd').parse(post.createdAt.toString());
+
+    _postController.fetchLike(post.postId, loginUserId!);
 
     // 카풀 카테고리 익명 처리
     if (widget.category == '카풀') {
@@ -216,7 +226,24 @@ class _MyContentListViewState extends State<MyContentListView> {
                       ],
                     ),
                   ),
-                  LikeButton(userId: loginUserId!, postId: post.postId),
+                  Obx(
+                    () => IconButton(
+                      iconSize: 30.0,
+                      icon: Icon(
+                        _postController.isLike.value
+                            ? CupertinoIcons.heart_fill
+                            : CupertinoIcons.heart,
+                        color: _postController.isLike.value
+                            ? Colors.redAccent
+                            : Colors.grey,
+                      ),
+                      onPressed: () async {
+                        print('패치: ${_postController.isLike.value}');
+                        _postController.fetchLike(post.postId, loginUserId!);
+                        setState(() {});
+                      },
+                    ),
+                  ),
                   const SizedBox(width: 16.0),
                 ],
               ),

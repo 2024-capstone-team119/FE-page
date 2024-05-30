@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:allcon/model/user_model.dart';
 import 'package:allcon/pages/mypage/controller/img_crop_controller.dart';
 import 'package:allcon/service/account/profileService.dart';
@@ -10,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ProfileController extends GetxController {
   RxBool isEditMyProfile = false.obs;
 
-  RxString profileImageBase64 = ''.obs;
+  RxString profileImage = ''.obs;
 
   Rx<User> originMyProfile = User(
     id: '',
@@ -33,26 +31,26 @@ class ProfileController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _loadUserData();
+    loadUserData();
   }
 
   // 유저 데이터 불러옴 조회
-  Future<void> _loadUserData() async {
+  Future<void> loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userId = prefs.getString('userId');
     String? userEmail = prefs.getString('loginUserEmail');
     String? userNickname = prefs.getString('userNickname');
 
     if (userId != null && userNickname != null) {
-      String? imageBase64 = await ProfileService.getProfileImage(userId);
-      profileImageBase64.value = imageBase64 ?? '';
+      String? image = await ProfileService.getProfileImage(userId);
+      profileImage.value = image ?? '';
 
       originMyProfile.value = User(
         id: userId,
         email: userEmail ?? '',
         password: '',
         nickname: userNickname,
-        profileImage: imageBase64,
+        profileImage: image,
         deleted: false,
       );
       myProfile.value = User.clone(originMyProfile.value);
@@ -99,8 +97,7 @@ class ProfileController extends GetxController {
           userId, File(myProfile.value.profileImage!));
       if (success) {
         originMyProfile.value.profileImage = myProfile.value.profileImage;
-        profileImageBase64.value =
-            base64Encode(File(myProfile.value.profileImage!).readAsBytesSync());
+        profileImage.value = myProfile.value.profileImage!;
         print('Profile image updated');
       } else {
         print('Failed to update profile image');
@@ -128,7 +125,7 @@ class ProfileController extends GetxController {
       File? file = await ImgController.to.selectImg();
       if (file != null) {
         myProfile.update((my) => my?.profileImage = file.path);
-        profileImageBase64.value = base64Encode(file.readAsBytesSync());
+        profileImage.value = file.path;
       }
     }
   }

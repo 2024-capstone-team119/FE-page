@@ -30,9 +30,8 @@ class _ReviewWriteState extends State<ReviewWrite> {
   late int _rating = 3;
 
   final picker = ImagePicker();
-  List<XFile?> multiImage = []; // 갤러리에서 여러 장의 사진을 선택해서 저장할 변수
-  List<XFile?> images = []; // 가져온 사진들을 보여주기 위한 변수
-  XFile? _imageFile;
+  List<String> multiImage = []; // 갤러리에서 여러 장의 사진을 선택해서 저장할 변수
+  List<String> images = []; // 가져온 사진들을 보여주기 위한 변수
 
   @override
   void initState() {
@@ -40,15 +39,15 @@ class _ReviewWriteState extends State<ReviewWrite> {
   }
 
   Future<void> _pickImage() async {
-    // multiImage = await picker.pickMultiImage();
-    // setState(() {
-    //   //multiImage를 통해 갤러리에서 가지고 온 사진들은 리스트 변수에 저장되므로 addAll()을 사용해서 images와 multiImage 리스트를 합쳐줍니다.
-    //   images.addAll(multiImage);
-    // });
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _imageFile = image;
-    });
+    final List<XFile> pickedFiles = await picker.pickMultiImage();
+    if (pickedFiles.isNotEmpty) {
+      setState(() {
+        multiImage = pickedFiles.map((file) => file.path).toList();
+        images.addAll(multiImage);
+      });
+    } else {
+      print('No images selected.');
+    }
   }
 
   Future<void> _submitReview() async {
@@ -65,7 +64,7 @@ class _ReviewWriteState extends State<ReviewWrite> {
       }
 
       bool success = await ReviewService.addReview(widget.userId,
-          widget.userNickname, reviewText, rating, zoneId, _imageFile);
+          widget.userNickname, reviewText, rating, zoneId, images);
       if (success) {
         Navigator.pop(context);
       } else {
@@ -163,10 +162,7 @@ class _ReviewWriteState extends State<ReviewWrite> {
                     const SizedBox(
                       height: 15.0,
                     ),
-                    ReviewUploadPhoto(
-                      imageFile: _imageFile,
-                      isUpdate: false,
-                    ),
+                    ReviewUploadPhoto(images: images),
                     const SizedBox(
                       height: 10.0,
                     ),

@@ -39,7 +39,7 @@ class ReviewController extends GetxController {
 
         myReviews.assignAll(fetchedReviews);
       } catch (error) {
-        print('Error fetching reviews: $error');
+        print('Error fetching my reviews: $error');
       }
     } else {
       print('Loading');
@@ -86,8 +86,10 @@ class ReviewController extends GetxController {
   void showUpdateModalSheet(
     BuildContext context,
     String userId,
+    String userNickname,
     Review review,
     List<Zone> zones,
+    List<String> imageUrls,
     VoidCallback reloadCallback,
   ) {
     showModalBottomSheet(
@@ -96,8 +98,10 @@ class ReviewController extends GetxController {
       builder: (BuildContext context) {
         return ReviewUpdate(
           userId: userId,
+          userNickname: userNickname,
           review: review,
           zones: zones,
+          imageUrls: imageUrls,
           reloadCallback: reloadCallback,
         );
       },

@@ -19,25 +19,33 @@ class MyReviewService {
   }
 
   // 리뷰 수정
-  static Future<void> updateReview(String reviewId, String userId,
-      String reviewToUpdate, int ratingToUpdate) async {
-    var url = Uri.parse('${BaseUrl.baseUrl}modify_review/$reviewId');
-    var headers = {
-      'Content-Type': 'application/json',
-    };
-    var body = jsonEncode({
-      'userId': userId,
-      'reviewText': reviewToUpdate,
-      'rating': ratingToUpdate,
-    }); // 본문 데이터를 JSON 문자열로 인코딩
+  static Future<void> updateReview(
+      String reviewId,
+      String userId,
+      String userNickname,
+      String reviewToUpdate,
+      String zoneId,
+      List<String> imageFiles,
+      int ratingToUpdate) async {
+    var url = Uri.parse('${BaseUrl.baseUrl}modify_review_with_image/$reviewId');
+    var request = http.MultipartRequest('POST', url);
 
-    final res = await http.put(url,
-        headers: headers, body: body); // headers와 body를 put 요청에 추가
+    request.fields['userId'] = userId;
+    request.fields['userNickname'] = userNickname;
+    request.fields['reviewText'] = reviewToUpdate;
+    request.fields['rating'] = ratingToUpdate.toString();
+    request.fields['zoneId'] = zoneId;
+
+    for (var file in imageFiles) {
+      request.files.add(await http.MultipartFile.fromPath('review', file));
+    }
+
+    var res = await request.send();
 
     if (res.statusCode == 200) {
-      print(jsonDecode(res.body));
+      print(await res.stream.bytesToString());
     } else {
-      print("Failed to update comment: ${res.body}");
+      print("Failed to submit review: ${res.statusCode}");
     }
   }
 

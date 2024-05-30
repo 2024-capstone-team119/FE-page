@@ -50,7 +50,7 @@ class Review {
   final String userId;
   final String nickname;
   final String text;
-  final String? image; // null을 허용하도록 수정
+  final List<String> image; // null을 허용하도록 수정
   final DateTime createdAt;
   final DateTime updatedAt;
   final int goodCount;
@@ -63,7 +63,7 @@ class Review {
     required this.userId,
     required this.nickname,
     required this.text,
-    this.image, // null을 허용하도록 수정
+    required this.image, // null을 허용하도록 수정
     required this.createdAt,
     required this.updatedAt,
     required this.goodCount,
@@ -74,13 +74,14 @@ class Review {
   factory Review.fromJson(Map<String, dynamic> json) {
     tz.initializeTimeZones(); // 시간대 데이터 초기화
     var seoul = tz.getLocation('Asia/Seoul'); // 'Asia/Seoul' 위치 객체 가져오기
+    List<String> imageList = List<String>.from(json['image']);
     return Review(
       reviewId: json['_id'], // MongoDB의 _id 필드를 reviewId로 사용
       zoneId: json['zoneId'],
       userId: json['userId'],
       nickname: json['userNickname'],
       text: json['reviewText'],
-      image: json['image'], // null을 허용하도록 수정
+      image: imageList, // null을 허용하도록 수정
       createdAt: tz.TZDateTime.from(DateTime.parse(json['createdAt']), seoul),
       updatedAt: tz.TZDateTime.from(DateTime.parse(json['updatedAt']), seoul),
       goodCount: json['goodCount'],

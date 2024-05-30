@@ -2,38 +2,40 @@ import 'dart:convert';
 import 'package:allcon/model/review_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:allcon/service/baseUrl.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ReviewService {
   // 리뷰 작성 API
-  static Future<bool> addReview(String userId, String userNickname,
-      String reviewText, int rating, String zoneId, XFile? imageFile) async {
+  static Future<bool> addReview(
+      String userId,
+      String userNickname,
+      String reviewText,
+      int rating,
+      String zoneId,
+      List<String> imageFiles) async {
     try {
-      String? base64Image;
-      if (imageFile != null) {
-        final bytes = await imageFile.readAsBytes();
-        base64Image = base64Encode(bytes);
+      print("imageFiles type: ${imageFiles.runtimeType}"); // 타입 출력
+
+      var url = Uri.parse("${BaseUrl.baseUrl}upload_review");
+      var request = http.MultipartRequest('POST', url);
+
+      // Add text data
+      request.fields.addAll({
+        'userId': userId,
+        'userNickname': userNickname,
+        'reviewText': reviewText,
+        'rating': rating.toString(),
+        'zoneId': zoneId,
+      });
+
+      // Add image files
+      for (var file in imageFiles) {
+        request.files.add(await http.MultipartFile.fromPath('review', file));
       }
 
-      var url = Uri.parse("${BaseUrl.baseUrl}add_review");
+      var response = await request.send();
 
-      final response = await http.post(
-        url,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode({
-          'userId': userId,
-          'userNickname': userNickname,
-          'reviewText': reviewText,
-          'rating': rating,
-          'zoneId': zoneId,
-          'image': base64Image,
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        print(jsonDecode(response.body));
+      if (response.statusCode == 201) {
+        print(await response.stream.bytesToString());
         return true;
       } else {
         print("Failed to submit review: ${response.statusCode}");
@@ -73,7 +75,7 @@ class ReviewService {
         print('Rating: ${review.rating}');
         print('---');
       }
-
+      print('리뷰: $reviews');
       return reviews;
     } else {
       throw Exception('Failed to load reviews');
