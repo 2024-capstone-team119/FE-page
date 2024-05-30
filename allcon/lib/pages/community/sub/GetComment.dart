@@ -10,6 +10,7 @@ class GetComment extends StatefulWidget {
   final Post post;
   final String userId;
   final String nickname;
+  final int likeCount;
   final bool anonymous;
 
   const GetComment({
@@ -17,6 +18,7 @@ class GetComment extends StatefulWidget {
     required this.post,
     required this.userId,
     required this.nickname,
+    required this.likeCount,
     required this.anonymous,
   });
 
@@ -29,7 +31,7 @@ class _GetCommentState extends State<GetComment> {
   final FocusNode _commentFocusNode = FocusNode();
 
   Comment? editingComment;
-  late int likeCounts = widget.post.likesCount;
+  late int likeCounts;
 
   late bool likeFuture;
   late List<Comment> commentsFuture;
@@ -44,7 +46,7 @@ class _GetCommentState extends State<GetComment> {
   @override
   void initState() {
     super.initState();
-
+    likeCounts = widget.likeCount;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       showBottomSheet(
         context: context,

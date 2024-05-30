@@ -15,6 +15,7 @@ class MyContentDetail extends StatefulWidget {
   final Post post;
   final String userId;
   final String nickname;
+  final int likeCount;
   final bool? anonymous;
 
   const MyContentDetail({
@@ -24,6 +25,7 @@ class MyContentDetail extends StatefulWidget {
     required this.post,
     required this.userId,
     required this.nickname,
+    required this.likeCount,
     this.anonymous,
   });
 
@@ -151,6 +153,7 @@ class _ContentDetailState extends State<MyContentDetail> {
                     post: widget.post,
                     userId: widget.userId,
                     nickname: widget.nickname,
+                    likeCount: widget.likeCount,
                     anonymous: widget.anonymous!,
                   ),
                   const SizedBox(height: 65),

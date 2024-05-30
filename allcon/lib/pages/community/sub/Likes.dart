@@ -131,6 +131,7 @@ class _MyContentLikesState extends State<MyContentLikes> {
                     post: post,
                     userId: widget.userId,
                     nickname: widget.nickname,
+                    likeCount: post.likesCount,
                     anonymous: anonymous,
                   ));
             },

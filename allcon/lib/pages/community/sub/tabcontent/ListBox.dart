@@ -78,6 +78,7 @@ class _ListBoxState extends State<ListBox> {
               post: widget.post,
               userId: widget.userId,
               nickname: widget.userNickname,
+              likeCount: likesCount,
               anonymous: anonymous,
             ));
       },
