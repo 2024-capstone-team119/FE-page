@@ -174,9 +174,7 @@ class _ReviewWriteState extends State<ReviewWrite> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ReviewUploadButton(
-                          onPressed: images.length < 5
-                              ? () async => await _pickImage()
-                              : () {},
+                          onPressed: _pickImage,
                           icon: Icons.add_photo_alternate,
                           label: '사진 첨부하기',
                         ),
