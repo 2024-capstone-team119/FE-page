@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:allcon/pages/concerthall/HallMain.dart';
 import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:allcon/service/concertLikesService.dart';
 import 'package:allcon/widget/bottom_navigation_bar.dart';
 import 'package:allcon/widget/app_bar.dart';
@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:allcon/model/performance_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 
 class PerformanceDetail extends StatefulWidget {
   final Performance performance;
@@ -237,21 +238,36 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
                   ],
                 ),
               const SizedBox(height: 3),
-              Row(
-                children: [
-                  const Icon(CupertinoIcons.placemark, size: 18),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      widget.performance.place ?? 'Unknown',
-                      style: const TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.black,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HallMain(
+                        title: widget.performance.place ?? 'Unknown',
+                        id: widget.performance.placeId ?? 'Unknown',
                       ),
-                      softWrap: true,
                     ),
-                  ),
-                ],
+                  );
+                },
+                child: Row(
+                  children: [
+                    const Icon(CupertinoIcons.placemark, size: 18),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        widget.performance.place ?? 'Unknown',
+                        style: const TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.deepPurple,
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors.deepPurple,
+                        ),
+                        softWrap: true,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 3),
               Row(
@@ -315,7 +331,7 @@ class _PerformanceDetailState extends State<PerformanceDetail> {
           ),
         ),
         const SizedBox(height: 15.0),
-        if (imgUrls!.isEmpty)
+        if (imgUrls == null || imgUrls.isEmpty)
           Padding(
             padding: const EdgeInsets.all(15),
             child: Image.network(

@@ -114,69 +114,7 @@ class _MyReviewState extends State<MyReview> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                // 수정 버튼
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _reviewController.showUpdateModalSheet(
-                        context,
-                        widget.userId,
-                        widget.userNickname,
-                        widget.review,
-                        widget.zones,
-                        widget.review.image,
-                        _reloadMyReview,
-                      );
-                    });
-                  },
-                  child: const Icon(
-                    Icons.edit,
-                    size: 20,
-                    color: Colors.black54,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                // 삭제 버튼
-                GestureDetector(
-                  onTap: () {
-                    showCupertinoModalPopup(
-                      context: context,
-                      builder: (BuildContext sheetContext) =>
-                          CupertinoActionSheet(
-                        title: const Text('옵션'),
-                        actions: <Widget>[
-                          CupertinoActionSheetAction(
-                            child: const Text('리뷰 삭제'),
-                            onPressed: () {
-                              MyReviewService.deleteReview(
-                                  widget.review.reviewId, widget.review.zoneId);
-                              Get.back();
-                              _reloadMyReview();
-                            },
-                          ),
-                        ],
-                        cancelButton: CupertinoActionSheetAction(
-                          isDefaultAction: true,
-                          onPressed: () {
-                            Navigator.pop(context, '취소');
-                          },
-                          child: const Text('취소'),
-                        ),
-                      ),
-                    );
-                  },
-                  child: const Icon(
-                    Icons.delete,
-                    size: 20,
-                    color: Colors.black54,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10.0),
+            const SizedBox(height: 5.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -188,7 +126,48 @@ class _MyReviewState extends State<MyReview> {
                   ),
                 ),
                 Row(
-                  children: _reviewController.starCounts(widget.review.rating),
+                  children: [
+                    Row(
+                      children:
+                          _reviewController.starCounts(widget.review.rating),
+                    ),
+                    const SizedBox(width: 8.0),
+                    GestureDetector(
+                      onTap: () {
+                        showCupertinoModalPopup(
+                          context: context,
+                          builder: (BuildContext sheetContext) =>
+                              CupertinoActionSheet(
+                            title: const Text('옵션'),
+                            actions: <Widget>[
+                              CupertinoActionSheetAction(
+                                child: const Text('리뷰 삭제'),
+                                onPressed: () {
+                                  MyReviewService.deleteReview(
+                                      widget.review.reviewId,
+                                      widget.review.zoneId);
+                                  Get.back();
+                                  _reloadMyReview();
+                                },
+                              ),
+                            ],
+                            cancelButton: CupertinoActionSheetAction(
+                              isDefaultAction: true,
+                              onPressed: () {
+                                Navigator.pop(context, '취소');
+                              },
+                              child: const Text('취소'),
+                            ),
+                          ),
+                        );
+                      },
+                      child: const Icon(
+                        CupertinoIcons.delete_solid,
+                        size: 20,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -196,37 +175,38 @@ class _MyReviewState extends State<MyReview> {
               padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
               child: Text(widget.review.text),
             ),
-            GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                itemCount: widget.review.image.length,
-                itemBuilder: (context, index) {
-                  return widget.review.image.isNotEmpty
-                      ? Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  for (var imageUrl in widget.review.image)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: Container(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
                           child: Image.network(
-                            widget.review.image[index],
+                            imageUrl,
                             fit: BoxFit.cover,
                           ),
-                        )
-                      : const SizedBox.shrink();
-                }),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
                     const Text(
-                      'Helpful ?',
+                      'Helpful?',
                       style: TextStyle(
                         color: Colors.deepPurple,
                         fontWeight: FontWeight.bold,
@@ -240,9 +220,10 @@ class _MyReviewState extends State<MyReview> {
                         await _toggleGood();
                       },
                       style: TextButton.styleFrom(
-                          foregroundColor: isGood ? Colors.blue : Colors.grey),
+                          foregroundColor:
+                              isGood ? Colors.blueAccent : Colors.grey),
                       child: Text(
-                        'Good ($goodCount)',
+                        'Good($goodCount)',
                       ),
                     ),
                     TextButton(
@@ -250,9 +231,10 @@ class _MyReviewState extends State<MyReview> {
                         await _toggleBad();
                       },
                       style: TextButton.styleFrom(
-                          foregroundColor: isBad ? Colors.red : Colors.grey),
+                          foregroundColor:
+                              isBad ? Colors.red[300] : Colors.grey),
                       child: Text(
-                        'Bad ($badCount)',
+                        'Bad($badCount)',
                       ),
                     ),
                   ],

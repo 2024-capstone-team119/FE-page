@@ -75,7 +75,7 @@ class _ReviewMainState extends State<ReviewMain> {
                   centerTitle: true,
                 ),
                 backgroundColor: const Color(0xFFF6F4F5),
-                body: const Preparing(text: '이미지 준비중입니다 :)'),
+                body: const Preparing(text: '해당 공연장은 준비중입니다!\n조금만 기다려주세요~'),
               );
             } else {
               return GetBuilder<ReviewController>(

@@ -165,7 +165,6 @@ class _ReiviewTabState extends State<ReiviewTab> {
                           ),
                         ],
                       ),
-                    const SizedBox(height: 10.0),
                     widget.mine
                         ? Obx(() {
                             List<Widget> myReviewWidgets = List.generate(

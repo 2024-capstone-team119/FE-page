@@ -53,8 +53,8 @@ class _CalendarDateState extends State<CalendarDate> {
               CupertinoIcons.chevron_right,
               size: 20.0,
             ),
-            leftChevronMargin: const EdgeInsets.only(left: 90.0),
-            rightChevronMargin: const EdgeInsets.only(right: 90.0),
+            leftChevronMargin: const EdgeInsets.only(left: 56.0),
+            rightChevronMargin: const EdgeInsets.only(right: 56.0),
           ),
           calendarBuilders: CalendarBuilders(
             dowBuilder: (context, date) {

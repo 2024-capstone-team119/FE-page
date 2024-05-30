@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:allcon/pages/mypage/controller/profile_controller.dart';
 import 'package:allcon/pages/mypage/sub/EditNickDailog.dart';
 import 'package:allcon/pages/mypage/controller/img_crop_controller.dart';
-import 'package:allcon/utils/Colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -258,7 +257,7 @@ Widget EditNameInfo(String value, VoidCallback onTap) {
       Center(
         child: Container(
           height: 56,
-          width: 200,
+          width: 260,
           decoration: const BoxDecoration(
             border: Border(
               bottom: BorderSide(width: 0.4, color: Colors.black26),
@@ -276,15 +275,6 @@ Widget EditNameInfo(String value, VoidCallback onTap) {
               fontWeight: FontWeight.w600,
             ),
           ),
-        ),
-      ),
-      const Positioned(
-        right: 52,
-        bottom: 24,
-        child: Icon(
-          CupertinoIcons.wand_stars_inverse,
-          color: Colors.black,
-          size: 18,
         ),
       ),
     ]),

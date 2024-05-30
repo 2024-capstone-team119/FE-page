@@ -4,7 +4,6 @@ import 'package:allcon/pages/community/sub/tabcontent/ListBox.dart';
 import 'package:allcon/service/community/postService.dart';
 import 'package:allcon/utils/Loading.dart';
 import 'package:allcon/utils/Preparing.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
